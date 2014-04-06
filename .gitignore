@@ -8,5 +8,18 @@
 *.war
 *.ear
 
+/cpw
+/net
+/assets
+/ibxm
+/paulscode
+deobfuscation_data-1.6.4.lzma
+*.cfg
+fmlversion.properties
+forge_logo.png
+mcp.png
+mcpmod.info
+Start.java
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
