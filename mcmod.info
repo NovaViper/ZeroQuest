@@ -1,0 +1,21 @@
+[
+{
+  "modid": "Zero_Quest",
+  "name": "Zero Quest",
+  "description": "More Mobs, Blocks, Items and Dimensions!",
+  "version": "Pre-Alpha v0.001",
+  "mcversion": "1.6.4",
+  "logoFile": "/assets/zero_quest/logo/logo1.png",
+  "url": "http://www.minecraftforum.net/topic/2193307-/",
+  "updateUrl": "",
+  "authors": ["QueenViper21", "NViper21"],
+  "credits": "Made by QueenViper",
+  "parent":"",
+  "screenshots": [],
+  "dependencies": [
+     "mod_MinecraftForge"
+  ]
+
+
+}
+]
