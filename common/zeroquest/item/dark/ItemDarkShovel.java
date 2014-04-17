@@ -1,4 +1,4 @@
-package common.zeroquest.item;
+package common.zeroquest.item.dark;
 
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ZeroQuest;

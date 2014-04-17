@@ -8,11 +8,13 @@ import common.zeroquest.spawn.CustomEntityList;
 import net.minecraft.client.renderer.texture.IconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.EntityLivingData;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
@@ -54,9 +56,7 @@ public class ItemCage extends Item{
 
 
 	@Override
-	public boolean onItemUse(ItemStack par1ItemStack,
-			EntityPlayer par2EntityPlayer, World par3World, int par4, int par5,
-			int par6, int par7, float par8, float par9, float par10) {
+	public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10) {
 
 
 		if(par1ItemStack.getTagCompound() != null && 
@@ -80,8 +80,11 @@ public class ItemCage extends Item{
 
 						storedAnimal.readEntityFromNBT(par1ItemStack.getTagCompound());
 
-
-						storedAnimal.setLocationAndAngles(par4, par5+1, par6, 0, 0);
+	                    storedAnimal.setLocationAndAngles(par4-.5, par5+1, par6-.5, MathHelper.wrapAngleTo180_float(par3World.rand.nextFloat() * 360.0F), 0.0F);
+	                    storedAnimal.rotationYawHead = storedAnimal.rotationYaw;
+	                    storedAnimal.renderYawOffset = storedAnimal.rotationYaw;
+	                    storedAnimal.onSpawnWithEgg((EntityLivingData)null);
+	                    storedAnimal.playLivingSound();
 						if(!par2EntityPlayer.worldObj.isRemote)
 							par3World.spawnEntityInWorld(entity);
 						par1ItemStack.getTagCompound().setString(ModEntities.tag, "none");

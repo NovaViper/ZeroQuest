@@ -1,5 +1,6 @@
 package common.zeroquest;
 
+
 import common.zeroquest.block.BlockDrestroFlower;
 import common.zeroquest.block.BlockNileB2Flower;
 import common.zeroquest.block.BlockNileBFlower;
@@ -16,7 +17,6 @@ import common.zeroquest.block.BlockNileTable;
 import common.zeroquest.block.BlockNillaxStone;
 import common.zeroquest.block.BlockTeleporter;
 import common.zeroquest.block.BlockVitoid;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -29,8 +29,8 @@ public class ModBlocks {
 	public static Block nileCoalOre;
 	public static Block nileGrainOre;
 	public static Block nileBlueFlower;
-	public static Block nileBlackFlower;
 	public static Block nilePinkFlower;
+	public static Block nileBlackFlower;
 	public static Block destroFlower;
 	
 	public static Block nileWorktable;
@@ -39,6 +39,9 @@ public class ModBlocks {
 	public static Block nillaxStone;
 	public static Block blockTeleporter;
 	public static Block nileFire;
+	public static Block darlaxStone;
+	public static Block blockTeleporter2;
+	public static Block darlaxFire;
 	
 	public static Block nileLeaf;
 	public static Block nileLog;
@@ -91,6 +94,16 @@ public class ModBlocks {
 	    	GameRegistry.registerBlock(nileGrainOre, ZeroQuest.modid +"." + nileGrainOre.getUnlocalizedName().substring(5)); 
 	   }
 	   
+	   public static void loadDarkBlocks(){
+		   
+		    /*darlaxStone = new BlockDarlaxStone(600,Material.rock).setUnlocalizedName("darlaxStone").setTextureName(ZeroQuest.modid + ":" + "darlaxStone");
+	    	GameRegistry.registerBlock(darlaxStone, ZeroQuest.modid + "." + darlaxStone.getUnlocalizedName().substring(5));
+	    	blockTeleporter2 = new BlockTeleporter(601).setUnlocalizedName("blockTeleporter2");
+	    	GameRegistry.registerBlock(blockTeleporter2, ZeroQuest.modid + "." + blockTeleporter2.getUnlocalizedName().substring(5));
+	    	darlaxFire = new BlockDarkFire(602).setUnlocalizedName("darlaxFire").setTextureName(ZeroQuest.modid + ":" + "darlaxFire");
+	    	GameRegistry.registerBlock(darlaxFire, ZeroQuest.modid + "." + darlaxFire.getUnlocalizedName().substring(5));*/
+	   }
+	   
 		public static void addNames() {
 
 			LanguageRegistry.addName(nileStone, "Nile Stone");
@@ -100,11 +113,14 @@ public class ModBlocks {
 			//LanguageRegistry.addName(nileLeaf, "Nile Leaves");
 			//LanguageRegistry.addName(nileSapling, "Nile Sapling");
 			LanguageRegistry.addName(nileWorktable, "Nile Crafting Table");
+			LanguageRegistry.addName(nileBlackFlower, "Nile Black Flower");
 			LanguageRegistry.addName(nillaxStone, "Nillax Stone");
 			LanguageRegistry.addName(blockTeleporter, "Nillax Teleporter Block");
 			LanguageRegistry.addName(nileFire, "Nile Fire");
+			/*LanguageRegistry.addName(darlaxStone, "Darlax Stone");
+			LanguageRegistry.addName(blockTeleporter2, "Darlax Teleporter Block");
+			LanguageRegistry.addName(darlaxFire, "Darlax Fire");*/
 			LanguageRegistry.addName(nileBlueFlower, "Nile Blue Flower");
-			LanguageRegistry.addName(nileBlackFlower, "Nile Black Flower");
 			LanguageRegistry.addName(destroFlower, "Destro Flower");
 			LanguageRegistry.addName(nilePinkFlower, "Nile Pink Flower");
 			LanguageRegistry.addName(nileCoalOre, "Nile Coal Ore");

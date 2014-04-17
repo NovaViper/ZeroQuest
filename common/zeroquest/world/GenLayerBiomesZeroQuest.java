@@ -10,7 +10,7 @@ import net.minecraft.world.gen.layer.IntCache;
 public class GenLayerBiomesZeroQuest extends GenLayer {
 
 
-	protected BiomeGenBase[] allowedBiomes = {ModBiomes.bioZone, ModBiomes.blueNile, ModBiomes.darkWasteland, ModBiomes.redSeed, ModBiomes.pinkZone, ModBiomes.destroZone};
+	protected BiomeGenBase[] allowedBiomes = {ModBiomes.bioZone, ModBiomes.blueNile, ModBiomes.redSeed, ModBiomes.pinkZone, ModBiomes.destroZone};
 
 
 	public GenLayerBiomesZeroQuest(long seed, GenLayer genlayer) {

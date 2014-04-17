@@ -1,8 +1,8 @@
-package common.zeroquest.item;
+package common.zeroquest.item.dark;
 
 import com.google.common.collect.Multimap;
-import common.zeroquest.ZeroQuest;
 
+import common.zeroquest.ZeroQuest;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;

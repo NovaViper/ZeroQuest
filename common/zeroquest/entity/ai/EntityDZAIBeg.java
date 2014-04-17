@@ -73,6 +73,6 @@ public class EntityDZAIBeg extends EntityAIBase
     private boolean hasPlayerGotBoneInHand(EntityPlayer par1EntityPlayer)
     {
         ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
-        return itemstack == null ? false : (!this.theWolf.isTamed() && itemstack.itemID == ModItems.darkNileBone.itemID  || itemstack.itemID == ModItems.dogTreat.itemID ? true : this.theWolf.isBreedingItem(itemstack));
+       return itemstack == null ? false : (!this.theWolf.isTamed() && itemstack.itemID == ModItems.darkNileBone.itemID  || itemstack.itemID == ModItems.dogTreat.itemID ? true : this.theWolf.isBreedingItem(itemstack));
     }
 }

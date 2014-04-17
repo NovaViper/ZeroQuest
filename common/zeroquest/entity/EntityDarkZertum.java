@@ -2,19 +2,6 @@ package common.zeroquest.entity;
 
 import java.util.List;
 
-import common.zeroquest.ModAchievements;
-import common.zeroquest.ModItems;
-import common.zeroquest.ZeroQuest;
-import common.zeroquest.entity.ai.EntityAITamed;
-import common.zeroquest.entity.ai.EntityCustomAIFollowOwner;
-import common.zeroquest.entity.ai.EntityCustomAIOwnerHurtByTarget;
-import common.zeroquest.entity.ai.EntityCustomAIOwnerHurtTarget;
-import common.zeroquest.entity.ai.EntityCustomAISit;
-import common.zeroquest.entity.ai.EntityCustomAITargetNonTamed;
-import common.zeroquest.entity.ai.EntityDZAIBeg;
-import common.zeroquest.inventory.InventoryDarkPack;
-import common.zeroquest.particle.ParticleEffects;
-import common.zeroquest.proxy.CommonProxy;
 import net.minecraft.block.BlockColored;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
@@ -32,6 +19,7 @@ import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
@@ -45,6 +33,19 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+import common.zeroquest.ModAchievements;
+import common.zeroquest.ModItems;
+import common.zeroquest.ZeroQuest;
+import common.zeroquest.entity.ai.EntityAITamed;
+import common.zeroquest.entity.ai.EntityCustomAIFollowOwner;
+import common.zeroquest.entity.ai.EntityCustomAIOwnerHurtByTarget;
+import common.zeroquest.entity.ai.EntityCustomAIOwnerHurtTarget;
+import common.zeroquest.entity.ai.EntityCustomAISit;
+import common.zeroquest.entity.ai.EntityCustomAITargetNonTamed;
+import common.zeroquest.entity.ai.EntityDZAIBeg;
+import common.zeroquest.inventory.InventoryDarkPack;
+import common.zeroquest.particle.ParticleEffects;
+import common.zeroquest.proxy.CommonProxy;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -312,7 +313,7 @@ public class EntityDarkZertum extends EntityCustomTameable
      * Called to update the entity's position/logic.
      */
     public void onUpdate()
-    { 	
+    {
         super.onUpdate();
         
         //if(this.isTamed()){//TODO
@@ -379,11 +380,6 @@ public class EntityDarkZertum extends EntityCustomTameable
                 }
             }else{
            		this.addPotionEffect(new PotionEffect(12, 20));
-           		this.addPotionEffect(new PotionEffect(6, 100));
-                float f = (float)this.boundingBox.minY;
-                float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                ParticleEffects.spawnParticle("lavaSplash", this.posX + (double)f1, (double)(f + 0.8F), this.posZ + (double)f2, this.motionX, this.motionY, this.motionZ);
             }
         }
     }
@@ -755,33 +751,19 @@ public class EntityDarkZertum extends EntityCustomTameable
   /**
    * This function is used when two same-species animals in 'love mode' breed to generate the new baby animal.
    */
-	 public EntityCustomTameable spawnBabyAnimal(EntityAgeable par1EntityAgeable)
-	 {
-		 double chance = Math.random();
+	    public EntityCustomTameable spawnBabyAnimal(EntityAgeable par1EntityAgeable)
+	    {
+	        EntityDarkZertum entitydarkzertum = new EntityDarkZertum(this.worldObj);
+	        String s = this.getOwnerName();
 
+	        if (s != null && s.trim().length() > 0)
+	        {
+	        	entitydarkzertum.setOwner(s);
+	        	entitydarkzertum.setTamed(true);
+	        }
 
-		 if (chance < 0.5){
-			 EntityDarkZertum var3 = new EntityDarkZertum(this.worldObj);
-			 var3.setOwner(this.getOwnerName());
-			 var3.setTamed(true);
-			 return var3;
-		 }else if (chance < 0.7){
-			 EntityRedZertum var4 = new EntityRedZertum(this.worldObj);
-			 var4.setOwner(this.getOwnerName());
-			 var4.setTamed(true);
-			 return var4;
-		 }else if (chance < 0.9){
-			 EntityDestroZertum var5 = new EntityDestroZertum(this.worldObj);
-			 var5.setOwner(this.getOwnerName());
-			 var5.setTamed(true);
-			 return var5;
-		 }else{
-			 EntityZertum var2 = new EntityZertum(this.worldObj);
-			 var2.setOwner(this.getOwnerName());
-			 var2.setTamed(true);
-			 return var2;
-		 }
-	 }
+	        return entitydarkzertum;
+	    }
 
 
 	 /**

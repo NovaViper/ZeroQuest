@@ -24,11 +24,13 @@ public class ModEntities {
 	       	EntityRegistry.addSpawn(EntityZertum.class, 10, 2, 5, EnumCreatureType.creature);
 	       	registerEntity(EntityRedZertum.class, "RedZertum", 2);
 	       	EntityRegistry.addSpawn(EntityRedZertum.class, 10, 3, 6, EnumCreatureType.creature);
-	       	registerEntity(EntityDarkZertum.class, "DarkZertum", 3);
-	       	EntityRegistry.addSpawn(EntityDarkZertum.class, 10, 3, 6, EnumCreatureType.creature);
-	       	registerEntity(EntityDestroZertum.class, "DestroZertum", 4);
+	       	registerEntity(EntityDestroZertum.class, "DestroZertum", 3);
 	       	EntityRegistry.addSpawn(EntityDestroZertum.class, 10, 3, 6, EnumCreatureType.creature);
 	}
+	   public static void loadDarkCreatures(){
+	       	registerEntity(EntityDarkZertum.class, "DarkZertum", 10);
+	       	EntityRegistry.addSpawn(EntityDarkZertum.class, 10, 3, 6, EnumCreatureType.creature);
+	   }
 	   
 	   public static void loadTileEntities() {
 			GameRegistry.registerTileEntity(TileEntityNileTable.class, "Nile Worktable");

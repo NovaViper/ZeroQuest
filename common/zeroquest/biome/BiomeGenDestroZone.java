@@ -5,7 +5,6 @@ import static net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.Ev
 import java.util.Random;
 
 import common.zeroquest.ModBlocks;
-import common.zeroquest.entity.EntityDarkZertum;
 import common.zeroquest.entity.EntityDestroZertum;
 import net.minecraft.block.Block;
 import net.minecraft.entity.passive.EntityBat;

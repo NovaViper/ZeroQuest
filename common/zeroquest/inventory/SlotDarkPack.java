@@ -1,10 +1,10 @@
 package common.zeroquest.inventory;
 
-import common.zeroquest.entity.EntityDarkZertum;
 
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
+import common.zeroquest.entity.EntityDarkZertum;
 
 public class SlotDarkPack extends Slot {
 	   

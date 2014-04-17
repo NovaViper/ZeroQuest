@@ -14,7 +14,7 @@ import common.zeroquest.inventory.ContainerDarkPack;
 
 public class GuiDarkPack extends GuiContainer
 {
-    private float xSize_wolf;
+	private float xSize_wolf;
     private float ySize_wolf;
     private EntityDarkZertum dog;
     private boolean mouseWasDown;

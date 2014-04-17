@@ -744,15 +744,10 @@ public class EntityRedZertum extends EntityCustomTameable
 			 var3.setTamed(true);
 			 return var3;
 		 }else if (chance < 0.7){
-			 EntityDarkZertum var4 = new EntityDarkZertum(this.worldObj);
+			 EntityDestroZertum var4 = new EntityDestroZertum(this.worldObj);
 			 var4.setOwner(this.getOwnerName());
 			 var4.setTamed(true);
 			 return var4;
-		 }else if (chance < 0.9){
-			 EntityDestroZertum var5 = new EntityDestroZertum(this.worldObj);
-			 var5.setOwner(this.getOwnerName());
-			 var5.setTamed(true);
-			 return var5;
 		 }else{
 			 EntityZertum var2 = new EntityZertum(this.worldObj);
 			 var2.setOwner(this.getOwnerName());

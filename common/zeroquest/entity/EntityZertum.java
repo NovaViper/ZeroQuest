@@ -91,7 +91,8 @@ public class EntityZertum extends EntityCustomTameable
         this.targetTasks.addTask(1, new EntityCustomAIOwnerHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityCustomAIOwnerHurtTarget(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(4, new EntityCustomAITargetNonTamed(this, EntitySheep.class, 200, false));
+        //this.targetTasks.addTask(4, new EntityAIModeAttackTarget(this));
+        this.targetTasks.addTask(5, new EntityCustomAITargetNonTamed(this, EntitySheep.class, 200, false));
         this.setTamed(false);
         this.inventory = new InventoryPack(this);
     }
@@ -380,11 +381,6 @@ public class EntityZertum extends EntityCustomTameable
                 }
             }else{
            		this.addPotionEffect(new PotionEffect(12, 20));
-           		this.addPotionEffect(new PotionEffect(6, 100));
-                float f = (float)this.boundingBox.minY;
-                float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                ParticleEffects.spawnParticle("lavaSplash", this.posX + (double)f1, (double)(f + 0.8F), this.posZ + (double)f2, this.motionX, this.motionY, this.motionZ);
             }
         }
     }
@@ -771,16 +767,11 @@ public class EntityZertum extends EntityCustomTameable
 			 var4.setOwner(this.getOwnerName());
 			 var4.setTamed(true);
 			 return var4;
-		 }else if (chance < 0.9){
+		 }else{
 			 EntityDestroZertum var5 = new EntityDestroZertum(this.worldObj);
 			 var5.setOwner(this.getOwnerName());
 			 var5.setTamed(true);
 			 return var5;
-		 }else{
-			 EntityDarkZertum var2 = new EntityDarkZertum(this.worldObj);
-			 var2.setOwner(this.getOwnerName());
-			 var2.setTamed(true);
-			 return var2;
 		 }
 	 }
 

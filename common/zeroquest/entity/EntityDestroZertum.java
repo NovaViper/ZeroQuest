@@ -165,7 +165,6 @@ public class EntityDestroZertum extends EntityCustomTameable
         this.dataWatcher.addObject(18, new Float(this.getHealth()));
         this.dataWatcher.addObject(19, new Byte((byte)0));
         this.dataWatcher.addObject(20, new Byte((byte)BlockColored.getBlockFromDye(1)));
-        //this.dataWatcher.addObject(WatchableDataLib.ID_WOLF_TUMMY, new Integer(60));
     }
 
     /**
@@ -380,11 +379,6 @@ public class EntityDestroZertum extends EntityCustomTameable
                 }
             }else{
            		this.addPotionEffect(new PotionEffect(12, 20));
-           		this.addPotionEffect(new PotionEffect(6, 100));
-                float f = (float)this.boundingBox.minY;
-                float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-                ParticleEffects.spawnParticle("lavaSplash", this.posX + (double)f1, (double)(f + 0.8F), this.posZ + (double)f2, this.motionX, this.motionY, this.motionZ);
             }
         }
     }
@@ -771,16 +765,11 @@ public class EntityDestroZertum extends EntityCustomTameable
 			 var4.setOwner(this.getOwnerName());
 			 var4.setTamed(true);
 			 return var4;
-		 }else if (chance < 0.9){
+		 }else{
 			 EntityZertum var5 = new EntityZertum(this.worldObj);
 			 var5.setOwner(this.getOwnerName());
 			 var5.setTamed(true);
 			 return var5;
-		 }else{
-			 EntityDarkZertum var2 = new EntityDarkZertum(this.worldObj);
-			 var2.setOwner(this.getOwnerName());
-			 var2.setTamed(true);
-			 return var2;
 		 }
 	 }
 

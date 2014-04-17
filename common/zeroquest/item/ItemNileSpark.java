@@ -2,53 +2,73 @@ package common.zeroquest.item;
 
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ZeroQuest;
-
+import net.minecraft.block.Block;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 
-public class ItemNileSpark extends Item{
+public class ItemNileSpark extends Item
+{
+    public ItemNileSpark(int par1)
+    {
+        super(par1);
+        this.maxStackSize = 1;
+        this.setMaxDamage(64);
+        this.setCreativeTab(ZeroQuest.ZeroTab);
+    }
 
-	public ItemNileSpark(int par1) {
-		super(par1);
-		this.maxStackSize = 1;
-		this.setMaxDamage(25);
-		this.setCreativeTab(ZeroQuest.ZeroTab);
-	}
-	
-	public boolean onItemUse(ItemStack itemstack, EntityPlayer player, World world, int x, int y, int z, int side, float par8, float par9, float par10){
-		if(side == 0){
-			y--;
-		}
-		if(side == 1){
-			y++;
-		}
-		if(side == 2){
-			z--;
-		}
-		if(side == 3){
-			z++;
-		}
-		if(side == 4){
-			x--;
-		}
-		if(side == 5){
-			x++;
-		}
-		
-		
-		if(!player.canPlayerEdit(x, y, z, side, itemstack)){
-			return false;
-		}else{
-			if(world.isAirBlock(x, y, z)){
-				world.playSoundEffect((double)x + 0.5D, (double)y + 0.5D, (double)z + 0.5D, "fire.ignite", 1F, itemRand.nextFloat()*0.4F + 0.8F);
-				world.setBlock(x, y, z, ModBlocks.nileFire.blockID);
-			}
-			
-			itemstack.damageItem(1, player);
-			return true;
-		}
-	}
-	
+    /**
+     * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
+     * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
+     */
+    public boolean onItemUse(ItemStack par1ItemStack, EntityPlayer par2EntityPlayer, World par3World, int par4, int par5, int par6, int par7, float par8, float par9, float par10)
+    {
+        if (par7 == 0)
+        {
+            --par5;
+        }
+
+        if (par7 == 1)
+        {
+            ++par5;
+        }
+
+        if (par7 == 2)
+        {
+            --par6;
+        }
+
+        if (par7 == 3)
+        {
+            ++par6;
+        }
+
+        if (par7 == 4)
+        {
+            --par4;
+        }
+
+        if (par7 == 5)
+        {
+            ++par4;
+        }
+
+        if (!par2EntityPlayer.canPlayerEdit(par4, par5, par6, par7, par1ItemStack))
+        {
+            return false;
+        }
+        else
+        {
+            if (par3World.isAirBlock(par4, par5, par6))
+            {
+                par3World.playSoundEffect((double)par4 + 0.5D, (double)par5 + 0.5D, (double)par6 + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
+                par3World.setBlock(par4, par5, par6, ModBlocks.nileFire.blockID);
+            }
+
+            par1ItemStack.damageItem(1, par2EntityPlayer);
+            return true;
+        }
+    }
 }

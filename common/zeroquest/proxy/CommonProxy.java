@@ -59,7 +59,7 @@ public class CommonProxy implements IGuiHandler{
             EntityRedZertum dog = (EntityRedZertum)target;
             ContainerRedPack packPuppyContainer = new ContainerRedPack(player.inventory, dog);
 			return packPuppyContainer;
-		}  
+		}
 		 else if(ID == DarkZertumPack) {
 			Entity target = player.worldObj.getEntityByID(x);
             if(!(target instanceof EntityDarkZertum)) {
@@ -111,13 +111,13 @@ public class CommonProxy implements IGuiHandler{
 			GuiRedPack packGui = new GuiRedPack(player.inventory, dog);
 			return packGui;
 	 	}	
-		 else if(ID == DarkZertumPack) {
+		else if(ID == DarkZertumPack) {
 			Entity target = player.worldObj.getEntityByID(x);
-           if(!(target instanceof EntityDarkZertum)) {
-           	return null;
-           }
-           EntityDarkZertum dog = (EntityDarkZertum)target;
-           GuiDarkPack packGui = new GuiDarkPack(player.inventory, dog);
+         if(!(target instanceof EntityDarkZertum)) {
+         	return null;
+         }
+         EntityDarkZertum dog = (EntityDarkZertum)target;
+         GuiDarkPack packGui = new GuiDarkPack(player.inventory, dog);
 			return packGui;
 		} 
 		 else if(ID == DestroZertumPack) {

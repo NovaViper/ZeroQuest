@@ -1,7 +1,6 @@
 package common.zeroquest.inventory;
 
 import common.zeroquest.entity.EntityDarkZertum;
-
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;

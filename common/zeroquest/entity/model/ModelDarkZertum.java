@@ -3,8 +3,6 @@ package common.zeroquest.entity.model;
 import org.lwjgl.opengl.GL11;
 
 import common.zeroquest.entity.EntityDarkZertum;
-import common.zeroquest.entity.EntityRedZertum;
-
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;

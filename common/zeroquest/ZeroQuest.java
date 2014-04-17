@@ -5,9 +5,11 @@ import java.util.logging.Level;
 
 import common.zeroquest.creativetab.ZeroQuestTab;
 import common.zeroquest.events.ZeroQuestEvents;
+import common.zeroquest.handlers.ConfigurationHandler;
 import common.zeroquest.handlers.CraftingHandler;
 import common.zeroquest.handlers.FuelHandler;
 import common.zeroquest.handlers.PickupHandler;
+import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.LocalizationHandler;
 import common.zeroquest.lib.LogHelper;
 import common.zeroquest.lib.OreDic;
@@ -22,6 +24,7 @@ import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.BiomeDictionary;
+import net.minecraftforge.common.Configuration;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
@@ -37,14 +40,14 @@ import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
-@Mod(modid = ZeroQuest.modid, name = "--Zero Quest--", version = ZeroQuest.version)
+@Mod(modid = ZeroQuest.modid, name = "Zero Quest", version = ZeroQuest.version, dependencies = "required-after:Forge@[9.11.1.965,)")
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class ZeroQuest 
 {
 	@Instance("Zero_Quest")
 	public static ZeroQuest instance;
 	public static final String modid = "Zero_Quest";
-	public static final String version = "Pre-Alpha v0.001";
+	public static final String version = "0.0.1";
 	
 	@SidedProxy(clientSide = "common.zeroquest.proxy.ClientProxy", serverSide = "common.zeroquest.proxy.CommonProxy")
 	public static CommonProxy proxy;
@@ -72,12 +75,13 @@ public class ZeroQuest
 	
 
     @EventHandler
-    public void preInit(FMLPreInitializationEvent e)throws IOException{
-		LogHelper.init();
-		//GameRegistry.registerPlayerTracker(new OnPlayerLogin(version, "Zero Quest"));
+    public void preInit(FMLPreInitializationEvent event){
+		//LogHelper.init();
 		
 		LogHelper.log(Level.INFO, "-----PRE-CONTENT LOAD INITATING-----");
 		LogHelper.log(Level.INFO, "Loading Main Stuff...");
+	   	ConfigurationHandler.loadConfig(new Configuration(event.getSuggestedConfigurationFile()));
+		//GameRegistry.registerPlayerTracker(new OnPlayerLogin(version, "Zero Quest"));
    		this.ZeroTab = new ZeroQuestTab(CreativeTabs.getNextID()); 
     	LocalizationHandler.loadLanguages();
 		LogHelper.log(Level.INFO, "Load Stuff Loaded Successfully!");
@@ -86,10 +90,10 @@ public class ZeroQuest
     	}
 	
 	@EventHandler
-    public void load(FMLInitializationEvent e)
+    public void load(FMLInitializationEvent event)
 	{			
 		LogHelper.log(Level.INFO, "-----CONTENT LOAD INITATING-----");
-    	nileEssenceMaterial = EnumHelper.addToolMaterial("NileEssenceMaterial", 3, 2000, 10.0F, 3.5F, 30);
+    	nileEssenceMaterial = EnumHelper.addToolMaterial("NileEssenceMaterial", 3, 2000, 10.0F, 4.0F, 30);
     	darkEssenceMaterial = EnumHelper.addToolMaterial("DarkEssenceMaterial", 4, 4000, 20.0F, 5.0F, 40);
     	
     	nileEssenceMaterial2 = EnumHelper.addArmorMaterial("NileEssenceAMaterial", 40, new int[]{4, 9, 7, 4}, 25);  
@@ -119,6 +123,16 @@ public class ZeroQuest
     	ModBiomes.loadBiomes();
 		LogHelper.log(Level.INFO, "Biomes Loaded Successfully!");
 		
+    	if(!Constants.DarkLoadOff){
+		LogHelper.log(Level.INFO, "Loading Dark Elements");
+        	ModItems.loadDarkItems();
+        	ModBlocks.loadDarkBlocks();
+      		ZeroQuestCrafting.loadDarkRecipes();
+    		ModEntities.loadDarkCreatures();
+    		ModBiomes.loadDarkBiomes();
+    		LogHelper.log(Level.INFO, "Dark Elements Loaded Successfully!");
+    	}
+		
 		
 		LogHelper.log(Level.INFO, "Loading Crucial Stuff...");
        	proxy.registerRenderThings();
@@ -139,7 +153,7 @@ public class ZeroQuest
 	}
 	
 	/*@EventHandler
-    public void postInit(FMLPostInitializationEvent e){
+    public void postInit(FMLPostInitializationEvent event){
     ModBiomes.loadBiomeDictionary();
 	BiomeDictionary.registerAllBiomes();
 	}

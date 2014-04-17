@@ -9,7 +9,6 @@ import common.zeroquest.entity.EntityDarkZertum;
 import common.zeroquest.entity.EntityDestroZertum;
 import common.zeroquest.entity.EntityRedZertum;
 import common.zeroquest.entity.EntityZertum;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityEggInfo;
 import net.minecraft.entity.EntityLiving;
@@ -215,8 +214,8 @@ public class CustomEntityList
         addMapping(EntityMob.class, "Monster", 49);
         addMapping(EntityZertum.class, "Zertum", 301, 0xCCCCCC, 0x33FFFF);
         addMapping(EntityRedZertum.class, "RedZertum", 302, 0xCCCCCC, 0xFF0000);
-        addMapping(EntityDarkZertum.class, "DarkZertum", 303, 0xCCCCCC, 0x470047);
         addMapping(EntityDestroZertum.class, "DestroZertum", 304, 0xCCCCCC, 0xE6CC80);
+        addMapping(EntityDarkZertum.class, "DarkZertum", 310, 0xCCCCCC, 0x470047);
 
     }
 }
