@@ -20,11 +20,11 @@ public class ModEntities {
 	//Put Renderers in ClientProxy//
 	//Put Guis in CommonProxy//
 	   public static void loadCreatures() {
-	       	registerEntity(EntityZertum.class, "Zertum", 1);
+	       	registerEntity(EntityZertum.class, "Zertum", 0);
 	       	EntityRegistry.addSpawn(EntityZertum.class, 10, 2, 5, EnumCreatureType.creature);
-	       	registerEntity(EntityRedZertum.class, "RedZertum", 2);
+	       	registerEntity(EntityRedZertum.class, "RedZertum", 1);
 	       	EntityRegistry.addSpawn(EntityRedZertum.class, 10, 3, 6, EnumCreatureType.creature);
-	       	registerEntity(EntityDestroZertum.class, "DestroZertum", 3);
+	       	registerEntity(EntityDestroZertum.class, "DestroZertum", 2);
 	       	EntityRegistry.addSpawn(EntityDestroZertum.class, 10, 3, 6, EnumCreatureType.creature);
 	}
 	   public static void loadDarkCreatures(){

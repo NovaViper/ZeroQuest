@@ -247,7 +247,7 @@ public class EntityRedZertum extends EntityCustomTameable
                 {
                     this.dropItem(ModItems.zertumMeatRaw.itemID, 1);
                 }
-                if(rare <= 6)
+                if(rare <= 6 && !this.isTamed())
                 {
                 	this.dropItem(ModItems.nileGrain.itemID, 1);
                 }
@@ -279,7 +279,7 @@ public class EntityRedZertum extends EntityCustomTameable
             this.worldObj.setEntityState(this, (byte)8);
         }
         
-        if(this.getHealth() <10 && this.isTamed())
+        if(this.getHealth() <=10 && this.isTamed())
         {
        		this.addPotionEffect(new PotionEffect(10, 200));
         }
@@ -288,7 +288,7 @@ public class EntityRedZertum extends EntityCustomTameable
             List list1 = worldObj.getEntitiesWithinAABB(EntityCreeper.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(sniffRange(), 4D, sniffRange()));
 
 
-            if (!list1.isEmpty() && !isSitting() && this.getHealth() > 1) {
+            if (!list1.isEmpty() && !isSitting() && this.getHealth() > 1 && !this.isChild()) {
                 canSeeCreeper = true;
             }
             else {
@@ -548,7 +548,7 @@ public class EntityRedZertum extends EntityCustomTameable
                         return true;
                     }
                 }
-                else if(itemstack.itemID == Item.stick.itemID && canInteract(par1EntityPlayer))//TODO Inventory
+                else if(itemstack.itemID == Item.stick.itemID && canInteract(par1EntityPlayer) && !this.isChild())//TODO Inventory
                 {
                    	par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.RedZertumPack, this.worldObj, this.entityId, MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
                 	return true;

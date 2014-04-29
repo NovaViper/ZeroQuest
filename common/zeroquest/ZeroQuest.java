@@ -123,14 +123,19 @@ public class ZeroQuest
     	ModBiomes.loadBiomes();
 		LogHelper.log(Level.INFO, "Biomes Loaded Successfully!");
 		
-    	if(!Constants.DarkLoadOff){
-		LogHelper.log(Level.INFO, "Loading Dark Elements");
+    	if(Constants.DarkLoadOn == true){
+    	LogHelper.log(Level.INFO, "Dark Elemental Load is ENABLED!");	
+    	LogHelper.log(Level.INFO, "Initating Dark Elemental Load!");
         	ModItems.loadDarkItems();
         	ModBlocks.loadDarkBlocks();
       		ZeroQuestCrafting.loadDarkRecipes();
     		ModEntities.loadDarkCreatures();
     		ModBiomes.loadDarkBiomes();
     		LogHelper.log(Level.INFO, "Dark Elements Loaded Successfully!");
+    	}else{
+    	LogHelper.log(Level.WARNING, "Dark Elemental Load is not ENABLED! Change configurations to enable!");
+    	LogHelper.log(Level.INFO, "Skipping Dark Load");
+
     	}
 		
 		

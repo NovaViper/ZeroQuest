@@ -163,8 +163,8 @@ public class ModItems {
 		LanguageRegistry.addName(nileChest, "Nile Chestplate");
 		LanguageRegistry.addName(nileLegs, "Nile Leggings");
 		LanguageRegistry.addName(nileBoots, "Nile Boots");*/
-		LanguageRegistry.addName(zertumMeatRaw, "Raw Zert Meat");
-		LanguageRegistry.addName(zertumMeatCooked, "Cooked Zert Meat");
+		LanguageRegistry.addName(zertumMeatRaw, "Raw Zertum Meat");
+		LanguageRegistry.addName(zertumMeatCooked, "Cooked Zertum Meat");
 		LanguageRegistry.addName(entityEgg, "Spawn");
 		
 	}

@@ -43,7 +43,7 @@ public class ModBiomes
 	}
 	
 	public static void loadDarkBiomes(){
-	       darkWasteland = new BiomeGenDarkLand(160).setBiomeName("Dark Wasteland").setMinMaxHeight(0.2F, 0.4F).setTemperatureRainfall(0.8F, 0.7F);
+	       darkWasteland = new BiomeGenDarkLand(160).setBiomeName("Dark Wasteland").setMinMaxHeight(0.1F, 0.4F).setTemperatureRainfall(0.8F, 0.7F);
 	       GameRegistry.addBiome(darkWasteland);
 	}
 	

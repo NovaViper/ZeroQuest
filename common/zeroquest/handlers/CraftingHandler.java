@@ -4,7 +4,7 @@ import common.zeroquest.ModAchievements;
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
-
+import common.zeroquest.lib.Constants;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
@@ -35,21 +35,24 @@ public class CraftingHandler implements ICraftingHandler {
 		{
 			player.addStat(ModAchievements.buildBone, 1);
 		}
-		if (item.itemID == ModItems.darkEssence.itemID)
-		{
-			player.addStat(ModAchievements.ZQuestStart, 1);
-		}
-		if (item.itemID == ModItems.darkDust.itemID)
-		{
-			player.addStat(ModAchievements.ZQuestStart, 1);
-		}
-		if (item.itemID == ModItems.darkSword.itemID)
-		{
-			player.addStat(ModAchievements.buildNileSword, 1);
-		}
-		if (item.itemID == ModItems.darkNileBone.itemID)
-		{
-			player.addStat(ModAchievements.buildBone, 1);
+		
+		if(Constants.DarkLoadOn == true){
+			if (item.itemID == ModItems.darkEssence.itemID)
+			{
+				player.addStat(ModAchievements.ZQuestStart, 1);
+			}
+			if (item.itemID == ModItems.darkDust.itemID)
+			{
+				player.addStat(ModAchievements.ZQuestStart, 1);
+			}
+			if (item.itemID == ModItems.darkSword.itemID)
+			{
+				player.addStat(ModAchievements.buildNileSword, 1);
+			}
+			if (item.itemID == ModItems.darkNileBone.itemID)
+			{
+				player.addStat(ModAchievements.buildBone, 1);
+			}
 		}
 	}
 

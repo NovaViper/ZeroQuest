@@ -41,10 +41,17 @@ public class ClientProxy extends CommonProxy{
 	   	LanguageRegistry.instance().addStringLocalization(ZeroQuest.ZeroTab.getTranslatedTabLabel(), "Zero Quest Tab");
 	   	
 	   	//Entities//
+	   	LanguageRegistry.instance().addStringLocalization("entity.Zero_Quest.Zertum.name", "Zertum");
+	   	LanguageRegistry.instance().addStringLocalization("entity.Zero_Quest.RedZertum.name", "Red Zertum");
+	   	LanguageRegistry.instance().addStringLocalization("entity.Zero_Quest.DarkZertum.name", "Dark Zertum");
+	   	LanguageRegistry.instance().addStringLocalization("entity.Zero_Quest.DestroZertum.name", "Destro Zertum");
+	   	
+	   	//EntityEggs//
 	   	LanguageRegistry.instance().addStringLocalization("entity.Zertum.name", "Zertum");
 	   	LanguageRegistry.instance().addStringLocalization("entity.RedZertum.name", "Red Zertum");
 	   	LanguageRegistry.instance().addStringLocalization("entity.DarkZertum.name", "Dark Zertum");
 	   	LanguageRegistry.instance().addStringLocalization("entity.DestroZertum.name", "Destro Zertum");
+	   	
 	   	//Achievements
 	   	LanguageRegistry.instance().addStringLocalization(ModAchievements.ZQuestStart.getName(), "Start Zero Quest");
 	   	LanguageRegistry.instance().addStringLocalization(ModAchievements.ZQuestStart.getDescription(), "Gather Grains, Dust, or Essence");

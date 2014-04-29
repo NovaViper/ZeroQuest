@@ -1,7 +1,7 @@
 package common.zeroquest.entity;
 
 import common.zeroquest.entity.ai.EntityCustomAISit;
-
+import common.zeroquest.particle.ParticleEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.EntityOwnable;
@@ -76,7 +76,7 @@ public abstract class EntityCustomTameable extends EntityAnimal implements Entit
 
         if (!par1)
         {
-            s = "smoke";
+            s = "bluedust";
         }
 
         for (int i = 0; i < 7; ++i)
@@ -84,7 +84,7 @@ public abstract class EntityCustomTameable extends EntityAnimal implements Entit
             double d0 = this.rand.nextGaussian() * 0.02D;
             double d1 = this.rand.nextGaussian() * 0.02D;
             double d2 = this.rand.nextGaussian() * 0.02D;
-            this.worldObj.spawnParticle(s, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
+            ParticleEffects.spawnParticle(s, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
         }
     }
 

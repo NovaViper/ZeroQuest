@@ -1,7 +1,7 @@
 package common.zeroquest.world;
 
 import common.zeroquest.ModBiomes;
-
+import common.zeroquest.lib.Constants;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
@@ -11,6 +11,7 @@ public class GenLayerBiomesZeroQuest extends GenLayer {
 
 
 	protected BiomeGenBase[] allowedBiomes = {ModBiomes.bioZone, ModBiomes.blueNile, ModBiomes.redSeed, ModBiomes.pinkZone, ModBiomes.destroZone};
+	protected BiomeGenBase[] allowedDarkBiomes = {ModBiomes.darkWasteland};
 
 
 	public GenLayerBiomesZeroQuest(long seed, GenLayer genlayer) {
@@ -36,6 +37,10 @@ public class GenLayerBiomesZeroQuest extends GenLayer {
 			{
 				this.initChunkSeed(dx+x, dz+z);
 				dest[(dx+dz*width)] = this.allowedBiomes[nextInt(this.allowedBiomes.length)].biomeID;
+				
+				if(Constants.DarkLoadOn == true){
+				dest[(dx+dz*width)] = this.allowedDarkBiomes[nextInt(this.allowedDarkBiomes.length)].biomeID;	
+				}
 			}
 		}
 		return dest;

@@ -13,8 +13,8 @@ public class ConfigurationHandler {
 		config.load();
 		configuration = config;
 		config.addCustomCategoryComment("LoadSettings", "Here you can change what the mod loads.");
-		Constants.DarkLoadOff = config.get("LoadSettings", "DarkLoad", false, "Toggles Dark Elemental Load").getBoolean(false);
-
+		Constants.DarkLoadOn = config.get("LoadSettings", "DarkLoad", true, "Toggles Dark Elemental Load").getBoolean(true);
+		Constants.DarkParticlesLoadOn = config.get("LoadSettings", "DarkParticlesLoad", true, "Toggles Dark Particles").getBoolean(true);
 		config.save();
 	 }
 }
