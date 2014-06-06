@@ -53,6 +53,12 @@ public class ZeroQuestCrafting
 			"X  ",
 			'X', new ItemStack(ModItems.nileGrain) });
 		
+		GameRegistry.addRecipe(new ItemStack(ModItems.nileBone), new Object[]{
+			"  X",
+			" Z ",
+			"X  ",
+			'X', new ItemStack(ModItems.nileDust), 'Z', Item.bone });
+		
 		//Armor//
 		/*GameRegistry.addRecipe(new ItemStack(ModItems.nileHelmet), new Object[]{
 			"   ",

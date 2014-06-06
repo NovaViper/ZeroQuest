@@ -10,6 +10,7 @@ import common.zeroquest.entity.ai.EntityCustomAIOwnerHurtByTarget;
 import common.zeroquest.entity.ai.EntityCustomAIOwnerHurtTarget;
 import common.zeroquest.entity.ai.EntityCustomAITargetNonTamed;
 import common.zeroquest.entity.ai.EntityRZAIBeg;
+import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.inventory.InventoryRedPack;
 import common.zeroquest.particle.ParticleEffects;
 import common.zeroquest.proxy.CommonProxy;
@@ -500,19 +501,30 @@ public class EntityRedZertum extends EntityCustomTameable
             EntityPlayer entityplayer = (EntityPlayer)par1DamageSource.getEntity();
             {
                 entityplayer.triggerAchievement(ModAchievements.ZertKill);
+                this.dropChestItems();
+                
             }
         }
     }
-
-    public void setTamed(boolean par1)
+    
+    public void dropChestItems()
     {
-        super.setTamed(par1);
-
-        if (par1)
+        this.dropItemsInChest(this, this.inventory);
+    }
+    
+    private void dropItemsInChest(Entity par1Entity, InventoryRedPack par2AnimalChest)
+    {
+        if (par2AnimalChest != null && !this.worldObj.isRemote)
         {
-            this.experienceValue = 0;
-            this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(maxHealthTamed);
-            this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(attackDamageTamed);
+            for (int i = 0; i < par2AnimalChest.getSizeInventory(); ++i)
+            {
+                ItemStack itemstack = par2AnimalChest.getStackInSlot(i);
+
+                if (itemstack != null)
+                {
+                    this.entityDropItem(itemstack, 0.0F);
+                }
+            }
         }
     }
 

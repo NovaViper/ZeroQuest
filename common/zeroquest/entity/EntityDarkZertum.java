@@ -44,6 +44,7 @@ import common.zeroquest.entity.ai.EntityCustomAISit;
 import common.zeroquest.entity.ai.EntityCustomAITargetNonTamed;
 import common.zeroquest.entity.ai.EntityDZAIBeg;
 import common.zeroquest.inventory.InventoryDarkPack;
+import common.zeroquest.inventory.InventoryRedPack;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.particle.ParticleEffects;
 import common.zeroquest.proxy.CommonProxy;
@@ -517,6 +518,29 @@ public class EntityDarkZertum extends EntityCustomTameable
             EntityPlayer entityplayer = (EntityPlayer)par1DamageSource.getEntity();
             {
                 entityplayer.triggerAchievement(ModAchievements.ZertKill);
+                this.dropChestItems();
+                
+            }
+        }
+    }
+    
+    public void dropChestItems()
+    {
+        this.dropItemsInChest(this, this.inventory);
+    }
+    
+    private void dropItemsInChest(Entity par1Entity, InventoryDarkPack par2AnimalChest)
+    {
+        if (par2AnimalChest != null && !this.worldObj.isRemote)
+        {
+            for (int i = 0; i < par2AnimalChest.getSizeInventory(); ++i)
+            {
+                ItemStack itemstack = par2AnimalChest.getStackInSlot(i);
+
+                if (itemstack != null)
+                {
+                    this.entityDropItem(itemstack, 0.0F);
+                }
             }
         }
     }

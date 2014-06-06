@@ -80,7 +80,7 @@ public class ItemCage extends Item{
 
 						storedAnimal.readEntityFromNBT(par1ItemStack.getTagCompound());
 
-	                    storedAnimal.setLocationAndAngles(par4-.5, par5+1, par6-.5, MathHelper.wrapAngleTo180_float(par3World.rand.nextFloat() * 360.0F), 0.0F);
+	                    storedAnimal.setLocationAndAngles(par4, par5, par6, MathHelper.wrapAngleTo180_float(par3World.rand.nextFloat() * 360.0F), 0.0F);
 	                    storedAnimal.rotationYawHead = storedAnimal.rotationYaw;
 	                    storedAnimal.renderYawOffset = storedAnimal.rotationYaw;
 	                    storedAnimal.onSpawnWithEgg((EntityLivingData)null);

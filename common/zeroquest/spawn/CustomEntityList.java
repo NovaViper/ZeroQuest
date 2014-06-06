@@ -7,6 +7,8 @@ import java.util.logging.Level;
 
 import common.zeroquest.entity.EntityDarkZertum;
 import common.zeroquest.entity.EntityDestroZertum;
+import common.zeroquest.entity.EntityJakan;
+import common.zeroquest.entity.EntityJakanPrime;
 import common.zeroquest.entity.EntityRedZertum;
 import common.zeroquest.entity.EntityZertum;
 import common.zeroquest.lib.Constants;
@@ -216,9 +218,11 @@ public class CustomEntityList
         addMapping(EntityZertum.class, "Zertum", 300, 0xCCCCCC, 0x33FFFF);
         addMapping(EntityRedZertum.class, "RedZertum", 301, 0xCCCCCC, 0xFF0000);
         addMapping(EntityDestroZertum.class, "DestroZertum", 302, 0xCCCCCC, 0xE6CC80);
+        addMapping(EntityJakan.class, "Jakan", 303, 0x0033CC, 0x00CCFF);
+        addMapping(EntityJakanPrime.class, "JakanPrime", 304, 0x0033CC, 0x00000);
     	
         if(Constants.DarkLoadOn == true){
-        addMapping(EntityDarkZertum.class, "DarkZertum", 310, 0xCCCCCC, 0x470047);
+        addMapping(EntityDarkZertum.class, "DarkZertum", 330, 0xCCCCCC, 0x470047);
     	}
     }
 }

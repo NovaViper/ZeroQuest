@@ -35,10 +35,7 @@ public class BiomeGenDestroZone extends BiomeGenBase
         //this.theBiomeDecorator.generateLakes = true;
         this.spawnableMonsterList.clear();
         this.spawnableCreatureList.add(new SpawnListEntry(EntityDestroZertum.class, 100, 4, 4));
-        this.spawnableCreatureList.add(new SpawnListEntry(EntityBat.class, 5, 1, 5));
-        this.spawnableCreatureList.add(new SpawnListEntry(EntityChicken.class, 5, 1, 5));
-        this.spawnableCreatureList.add(new SpawnListEntry(EntityCow.class, 5, 1, 5));
-        this.spawnableCreatureList.add(new SpawnListEntry(EntityPig.class, 5, 1, 5)); 
+
     }
     
     @SideOnly(Side.CLIENT)

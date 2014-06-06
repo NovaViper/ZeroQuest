@@ -16,8 +16,24 @@ public class PickupHandler implements IPickupNotifier {
 			{
 			player.addStat(ModAchievements.ZQuestStart, 1);
 			}
+			if(item.getEntityItem().itemID == ModItems.nileDust.itemID)
+			{
+			player.addStat(ModAchievements.ZQuestStart, 1);
+			}
+			if(item.getEntityItem().itemID == ModItems.nileEssence.itemID)
+			{
+			player.addStat(ModAchievements.ZQuestStart, 1);
+			}
 			if(Constants.DarkLoadOn == true){
 				if(item.getEntityItem().itemID == ModItems.darkGrain.itemID)
+				{
+					player.addStat(ModAchievements.ZQuestStart, 1);
+				}
+				if(item.getEntityItem().itemID == ModItems.darkDust.itemID)
+				{
+					player.addStat(ModAchievements.ZQuestStart, 1);
+				}
+				if(item.getEntityItem().itemID == ModItems.darkEssence.itemID)
 				{
 					player.addStat(ModAchievements.ZQuestStart, 1);
 				}

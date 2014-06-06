@@ -6,7 +6,9 @@ import common.zeroquest.biome.BiomeGenDarkLand;
 import common.zeroquest.biome.BiomeGenDestroZone;
 import common.zeroquest.biome.BiomeGenPinkZone;
 import common.zeroquest.biome.BiomeGenRedSeed;
+import common.zeroquest.biome.BiomeGenWalSkyland;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenEnd;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.BiomeManager;
@@ -22,6 +24,7 @@ public class ModBiomes
 	public static BiomeGenBase pinkZone;
 	public static BiomeGenBase destroZone;
 	public static BiomeGenBase darkWasteland;
+	public static BiomeGenBase walSkyland;
 	
 	public static void loadBiomes() {
 		//But Biomes in GenLayerBiomesZeroQuest
@@ -38,6 +41,9 @@ public class ModBiomes
 	       GameRegistry.addBiome(pinkZone);
 	       
 	       destroZone = new BiomeGenDestroZone(144).setBiomeName("Destro Zone").setMinMaxHeight(0.1F, 0.2F).setDisableRain().setTemperatureRainfall(2.0F, 0.0F);
+	       GameRegistry.addBiome(destroZone);
+	       
+	       walSkyland = new BiomeGenWalSkyland(145).setBiomeName("Wal Skylands").setDisableRain();
 	       GameRegistry.addBiome(destroZone);
 
 	}

@@ -1,6 +1,7 @@
 package common.zeroquest;
 
 import common.zeroquest.item.CustomEntityEgg;
+import common.zeroquest.item.ItemCSaddle;
 import common.zeroquest.item.ItemCage;
 import common.zeroquest.item.ItemDogTreat;
 import common.zeroquest.item.ItemDust;
@@ -58,6 +59,8 @@ public class ModItems {
 	public static Item animalCage;
 	public static Item nileSpark;
 	public static Item nileBone;
+	public static Item nileSaddle;
+	
 	//DARK ELEMENT//
 	public static Item darkSword;
 	public static Item darkAxe;
@@ -93,7 +96,8 @@ public class ModItems {
     	dogTreat = new ItemDogTreat(5104).setUnlocalizedName("dogTreat").setTextureName(ZeroQuest.modid + ":" + "dogTreat");
     	nileBone = new ItemNileBone(5105).setUnlocalizedName("nileBone").setTextureName(ZeroQuest.modid + ":" + "nileBone");
     	animalCage = new ItemCage(5106).setUnlocalizedName("animalCage").setTextureName(ZeroQuest.modid + ":" + "animalCage");
-
+    	//nileSaddle = new ItemCSaddle(5107).setUnlocalizedName("nileSaddle").setTextureName(ZeroQuest.modid + ":" + "nileSaddle");
+    	
     	//Portal Sparks//
     	nileSpark = new ItemNileSpark(5140).setUnlocalizedName("nileSpark").setTextureName(ZeroQuest.modid + ":" + "nileSpark");
     	
@@ -158,14 +162,16 @@ public class ModItems {
 		LanguageRegistry.addName(nileBone, "Nile Bone");
 		LanguageRegistry.addName(animalCage, "Animal Cage");
 		LanguageRegistry.addName(nileSpark, "Nile Spark");
+		//LanguageRegistry.addName(nileSaddle, "Nile Saddle");
+		LanguageRegistry.addName(zertumMeatRaw, "Raw Zertum Meat");
+		LanguageRegistry.addName(zertumMeatCooked, "Cooked Zertum Meat");
+		LanguageRegistry.addName(entityEgg, "Spawn");
+		
 		//LanguageRegistry.addName(nileGun, "Nile Gun");
 		/*LanguageRegistry.addName(nileHelmet, "Nile Helmet");
 		LanguageRegistry.addName(nileChest, "Nile Chestplate");
 		LanguageRegistry.addName(nileLegs, "Nile Leggings");
 		LanguageRegistry.addName(nileBoots, "Nile Boots");*/
-		LanguageRegistry.addName(zertumMeatRaw, "Raw Zertum Meat");
-		LanguageRegistry.addName(zertumMeatCooked, "Cooked Zertum Meat");
-		LanguageRegistry.addName(entityEgg, "Spawn");
 		
 	}
 

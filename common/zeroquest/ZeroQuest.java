@@ -73,6 +73,8 @@ public class ZeroQuest
 	
 	public static CreativeTabs ZeroTab;
 	
+    public static String configPath;
+	
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event){
@@ -82,7 +84,9 @@ public class ZeroQuest
 		LogHelper.log(Level.INFO, "Loading Main Stuff...");
 	   	ConfigurationHandler.loadConfig(new Configuration(event.getSuggestedConfigurationFile()));
 		//GameRegistry.registerPlayerTracker(new OnPlayerLogin(version, "Zero Quest"));
-   		this.ZeroTab = new ZeroQuestTab(CreativeTabs.getNextID()); 
+	   	proxy.registerSound();
+   		this.ZeroTab = new ZeroQuestTab(CreativeTabs.getNextID());
+		NetworkRegistry.instance().registerGuiHandler(ZeroQuest.modid, proxy);
     	LocalizationHandler.loadLanguages();
 		LogHelper.log(Level.INFO, "Load Stuff Loaded Successfully!");
 		
@@ -93,8 +97,8 @@ public class ZeroQuest
     public void load(FMLInitializationEvent event)
 	{			
 		LogHelper.log(Level.INFO, "-----CONTENT LOAD INITATING-----");
-    	nileEssenceMaterial = EnumHelper.addToolMaterial("NileEssenceMaterial", 3, 2000, 10.0F, 4.0F, 30);
-    	darkEssenceMaterial = EnumHelper.addToolMaterial("DarkEssenceMaterial", 4, 4000, 20.0F, 5.0F, 40);
+    	nileEssenceMaterial = EnumHelper.addToolMaterial("NileEssenceMaterial", 4, 4000, 20.0F, 4.0F, 30);
+    	darkEssenceMaterial = EnumHelper.addToolMaterial("DarkEssenceMaterial", 4, 4000, 21.0F, 5.0F, 40);
     	
     	nileEssenceMaterial2 = EnumHelper.addArmorMaterial("NileEssenceAMaterial", 40, new int[]{4, 9, 7, 4}, 25);  
     	
@@ -142,7 +146,6 @@ public class ZeroQuest
 		LogHelper.log(Level.INFO, "Loading Crucial Stuff...");
        	proxy.registerRenderThings();
        	proxy.reigsterClientLangugaes();
-		NetworkRegistry.instance().registerGuiHandler(ZeroQuest.modid, proxy);
     	GameRegistry.registerFuelHandler(new FuelHandler());
    		GameRegistry.registerCraftingHandler(new CraftingHandler());
    		GameRegistry.registerPickupHandler(new PickupHandler());

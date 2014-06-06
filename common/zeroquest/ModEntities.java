@@ -2,6 +2,8 @@ package common.zeroquest;
 
 import common.zeroquest.entity.EntityDarkZertum;
 import common.zeroquest.entity.EntityDestroZertum;
+import common.zeroquest.entity.EntityJakan;
+import common.zeroquest.entity.EntityJakanPrime;
 import common.zeroquest.entity.EntityRedZertum;
 import common.zeroquest.entity.EntityZertum;
 import common.zeroquest.tileentity.TileEntityNileTable;
@@ -26,9 +28,13 @@ public class ModEntities {
 	       	EntityRegistry.addSpawn(EntityRedZertum.class, 10, 3, 6, EnumCreatureType.creature);
 	       	registerEntity(EntityDestroZertum.class, "DestroZertum", 2);
 	       	EntityRegistry.addSpawn(EntityDestroZertum.class, 10, 3, 6, EnumCreatureType.creature);
+	       	registerEntity(EntityJakan.class, "Jakan", 3);
+	       	EntityRegistry.addSpawn(EntityJakan.class, 10, 3, 6, EnumCreatureType.creature);
+	       	registerEntity(EntityJakanPrime.class, "JakanPrime", 4);
+	       	EntityRegistry.addSpawn(EntityJakanPrime.class, 10, 3, 6, EnumCreatureType.creature);
 	}
 	   public static void loadDarkCreatures(){
-	       	registerEntity(EntityDarkZertum.class, "DarkZertum", 10);
+	       	registerEntity(EntityDarkZertum.class, "DarkZertum", 30);
 	       	EntityRegistry.addSpawn(EntityDarkZertum.class, 10, 3, 6, EnumCreatureType.creature);
 	   }
 	   

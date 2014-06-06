@@ -1,5 +1,6 @@
 package common.zeroquest.proxy;
 
+import common.zeroquest.SoundManagerZQuest;
 import common.zeroquest.entity.EntityDarkZertum;
 import common.zeroquest.entity.EntityDestroZertum;
 import common.zeroquest.entity.EntityRedZertum;
@@ -19,6 +20,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
+import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.network.IGuiHandler;
 
 public class CommonProxy implements IGuiHandler{
@@ -138,6 +140,10 @@ public class CommonProxy implements IGuiHandler{
 	}
 
 	public void reigsterClientLangugaes() {
+		
+	}
+	
+	public void registerSound(){
 		
 	}
 }
