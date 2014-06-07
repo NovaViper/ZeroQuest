@@ -1,4 +1,4 @@
-package common.zeroquest.block;
+package common.zeroquest.block.portal;
 
 import java.util.List;
 import java.util.Random;
@@ -16,10 +16,10 @@ import net.minecraft.world.World;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
-public class BlockNillaxStone extends Block
+public class BlockDarlaxStone extends Block
 {
 
-	public BlockNillaxStone(int id, Material material) 
+	public BlockDarlaxStone(int id, Material material) 
 	{
 		super(id, material);
 		this.setCreativeTab(ZeroQuest.ZeroTab);

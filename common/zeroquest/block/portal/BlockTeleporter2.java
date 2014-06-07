@@ -1,4 +1,4 @@
-package common.zeroquest.block;
+package common.zeroquest.block.portal;
 
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ZeroQuest;
