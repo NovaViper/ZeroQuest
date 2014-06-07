@@ -13,7 +13,9 @@ tilte.nilePinkFlower.name=Nile Pink Flower
 tilte.nileDestroFlower.name=Destro Flower
 tile.nileCoalOre.name=Nile Coal Ore
 tile.nileGrainOre.name=Nile Grain Ore
+tile.darkGrainOre.name=Nile Grain Ore
 tile.nillaxStone.name=Nillax Stone
+tile.looseBedrock.name=Loose Bedrock
 tile.blockTeleporter.name=Nillax Teleporter Block
 tile.nileWorktable.name=Nile Crafting Table
 tile.nileFire.name=Nile Fire
@@ -37,6 +39,7 @@ item.animalCage.name=Animal Cage
 item.nileSpark.name=Nile Spark
 item.nileBone.name=Nile Bone
 item.nileDarkBone.name=Dark Nile Bone
+item.nileSaddle.name=Nile Saddle
 
 item.nileHelmet.name=Nile Helmet
 item.nileChest.name=Nile Chestplate
@@ -67,6 +70,8 @@ entity.Zertum.name=Zertum
 entity.RedZertum.name=Red Zertum
 entity.DarkZertum.name=Dark Zertum
 entity.DestroZertum.name=Destro Zertum
+entity.Jakan.name=Jakan
+entity.JakanP.name=Jakan Prime
 
 
 achievement.ZQuestStart=Start Zero Quest!
@@ -81,8 +86,8 @@ achievement.buildBone=Nile Taming
 achievement.buildBone.desc=Craft a Nile Bone for Taming
 achievement.ZertTame=Zertum, My Pet!
 achievement.ZertTame.desc=Tame a Zertum
-achievement.TeamKill=Team Kill!
-achievement.TeamKill.desc=Kill a Dark Zertum with you Tamed Zertum
+achievement.MountUp = Mount up, Ladies!
+achievement.MountUp.desc=Mount on a Jakan or Jakan Prime
 
 
 
