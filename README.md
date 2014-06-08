@@ -1,4 +1,4 @@
-ZeroQuest
+[ZeroQuest](http://zeroquest.wikia.com)
 =========
 
 Minecraft Forge Mod Source Code
