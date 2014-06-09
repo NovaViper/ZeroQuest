@@ -9,6 +9,7 @@ import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.enchantment.EnchantmentThorns;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
+import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
@@ -36,6 +37,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
@@ -44,16 +46,11 @@ import common.zeroquest.entity.ai.EntityCustomAIOwnerHurtByTarget;
 import common.zeroquest.entity.ai.EntityCustomAIOwnerHurtTarget;
 import common.zeroquest.entity.ai.EntityCustomAISit;
 import common.zeroquest.particle.ParticleEffects;
+import common.zeroquest.spawn.CustomEntityList;
 import cpw.mods.fml.common.FMLLog;
 
 public class EntityJakanPrime extends EntityCustomTameable
-{
-    /**
-     * randomly selected ChunkCoordinates in a 7x6x7 box around the bat (y offset -2 to 4) towards which it will fly.
-     * upon getting close a new target will be selected
-     */
-    private ChunkCoordinates currentFlightTarget;
-	
+{	
     private boolean canSeeCreeper;
     public int rare;
 
@@ -152,7 +149,6 @@ public class EntityJakanPrime extends EntityCustomTameable
         this.dataWatcher.addObject(21, Byte.valueOf((byte)0));
         this.dataWatcher.addObject(19, new Byte((byte)0));
         this.dataWatcher.addObject(20, new Byte((byte)BlockColored.getBlockFromDye(1)));
-        //this.dataWatcher.addObject(WatchableDataLib.ID_WOLF_TUMMY, new Integer(60));
     }
 	
     /**
@@ -223,6 +219,18 @@ public class EntityJakanPrime extends EntityCustomTameable
     {
         return 1.0F;
     }
+    
+    @Override
+    public String getEntityName() {
+        // return custom name if set
+        if (hasCustomNameTag()) {
+            return getCustomNameTag();
+        }
+        
+        // return default breed name otherwise
+        String entName = CustomEntityList.getEntityString(this);
+        return StatCollector.translateToLocal("entity." + entName + ".name");
+    }
 	
     protected void dropFewItems(boolean par1, int par2)
     {
@@ -230,11 +238,11 @@ public class EntityJakanPrime extends EntityCustomTameable
             {
                 if (this.isBurning())
                 {
-                    this.dropItem(ModItems.zertumMeatCooked.itemID, 1);
+                    this.dropItem(ModItems.jakanMeatCooked.itemID, 1);
                 }
                 else if (rare <= 12)
                 {
-                    this.dropItem(ModItems.zertumMeatRaw.itemID, 1);
+                    this.dropItem(ModItems.jakanMeatRaw.itemID, 1);
                 }
                 if(rare <= 6 && !this.isTamed())
                 {
@@ -254,7 +262,7 @@ public class EntityJakanPrime extends EntityCustomTameable
     public void onLivingUpdate()
     {
         super.onLivingUpdate();
-        if (!this.worldObj.isRemote && !this.hasPath() && this.onGround)
+        if (isServer() && !this.hasPath() && this.onGround)
         {
             this.worldObj.setEntityState(this, (byte)8);
         }
@@ -283,7 +291,6 @@ public class EntityJakanPrime extends EntityCustomTameable
     public void onUpdate()
     {
         super.onUpdate();
-        this.motionY *= 0.6000000238418579D;
         
         if(this.isSitting()){ //TODO
         	double d0 = this.rand.nextGaussian() * 0.04D;
@@ -291,54 +298,6 @@ public class EntityJakanPrime extends EntityCustomTameable
         	double d2 = this.rand.nextGaussian() * 0.04D;
         	worldObj.spawnParticle("smoke", this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
         }
-    }
-    
-    protected void updateAITasks()
-    {
-        super.updateAITasks();
-            if (this.currentFlightTarget != null && (!this.worldObj.isAirBlock(this.currentFlightTarget.posX, this.currentFlightTarget.posY, this.currentFlightTarget.posZ) || this.currentFlightTarget.posY < 1))
-            {
-                this.currentFlightTarget = null;
-            }
-
-            if (this.currentFlightTarget == null || this.rand.nextInt(30) == 0 || this.currentFlightTarget.getDistanceSquared((int)this.posX, (int)this.posY, (int)this.posZ) < 4.0F)
-            {
-                this.currentFlightTarget = new ChunkCoordinates((int)this.posX + this.rand.nextInt(7) - this.rand.nextInt(7), (int)this.posY + this.rand.nextInt(6) - 2, (int)this.posZ + this.rand.nextInt(7) - this.rand.nextInt(7));
-            }
-
-            double d0 = (double)this.currentFlightTarget.posX + 0.5D - this.posX;
-            double d1 = (double)this.currentFlightTarget.posY + 0.1D - this.posY;
-            double d2 = (double)this.currentFlightTarget.posZ + 0.5D - this.posZ;
-            this.motionX += (Math.signum(d0) * 0.5D - this.motionX) * 0.10000000149011612D;
-            this.motionY += (Math.signum(d1) * 0.699999988079071D - this.motionY) * 0.10000000149011612D;
-            this.motionZ += (Math.signum(d2) * 0.5D - this.motionZ) * 0.10000000149011612D;
-            float f = (float)(Math.atan2(this.motionZ, this.motionX) * 180.0D / Math.PI) - 90.0F;
-            float f1 = MathHelper.wrapAngleTo180_float(f - this.rotationYaw);
-            this.moveForward = 0.5F;
-            this.rotationYaw += f1;
-    		}
-    
-    /**
-     * returns if this entity triggers Block.onEntityWalking on the blocks they walk on. used for spiders and wolves to
-     * prevent them from trampling crops
-     */
-    protected boolean canTriggerWalking()
-    {
-        return true;
-    }
-
-    /**
-     * Takes in the distance the entity has fallen this tick and whether its on the ground to update the fall distance
-     * and deal fall damage if landing on the ground.  Args: distanceFallenThisTick, onGround
-     */
-    protected void updateFallState(double par1, boolean par3) {}
-
-    /**
-     * Return whether this entity should NOT trigger a pressure plate or a tripwire.
-     */
-    public boolean doesEntityNotTriggerPressurePlate()
-    {
-        return false;
     }
     
     @Override
@@ -511,7 +470,7 @@ public class EntityJakanPrime extends EntityCustomTameable
                     }
                 }
                 
-                if (this.riddenByEntity == null && !this.isChild() && itemstack.itemID != ModItems.vitoidFruit.itemID)
+                if (isServer() && this.riddenByEntity == null && !this.isChild() && itemstack.itemID != ModItems.vitoidFruit.itemID)
                 {
                     if (itemstack != null && itemstack.itemID == Item.stick.itemID)
                     {
@@ -543,7 +502,7 @@ public class EntityJakanPrime extends EntityCustomTameable
                 }
             }
 
-            if (par1EntityPlayer.getCommandSenderName().equalsIgnoreCase(this.getOwnerName()) && !this.worldObj.isRemote && !this.isBreedingItem(itemstack))
+            if (par1EntityPlayer.getCommandSenderName().equalsIgnoreCase(this.getOwnerName()) && isServer() && !this.isBreedingItem(itemstack))
             {
                 this.isJumping = false;
                 this.aiCSit.setSitting(!this.isSitting());
@@ -551,7 +510,8 @@ public class EntityJakanPrime extends EntityCustomTameable
                 this.setTarget((Entity)null);
                 this.setAttackTarget((EntityLivingBase)null);
             }
-        }                
+        }
+        
         else if (itemstack != null && itemstack.itemID == ModItems.nileBone.itemID)
         {
             if (!par1EntityPlayer.capabilities.isCreativeMode)
@@ -564,7 +524,7 @@ public class EntityJakanPrime extends EntityCustomTameable
                 par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
             }
 
-            if (!this.worldObj.isRemote)
+            if (isServer())
             {
                 if (this.rand.nextInt(3) == 0)
                 {
@@ -658,7 +618,7 @@ public class EntityJakanPrime extends EntityCustomTameable
             this.stepHeight = 1.0F;
             this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 
-            if (!this.worldObj.isRemote)
+            if (isServer())
             {
                 this.setAIMoveSpeed((float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
                 super.moveEntityWithHeading(par1, par2);

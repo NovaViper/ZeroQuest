@@ -217,11 +217,11 @@ public class EntityJakan extends EntityCustomTameable
             {
                 if (this.isBurning())
                 {
-                    this.dropItem(ModItems.zertumMeatCooked.itemID, 1);
+                    this.dropItem(ModItems.jakanMeatCooked.itemID, 1);
                 }
                 else if (rare <= 12)
                 {
-                    this.dropItem(ModItems.zertumMeatRaw.itemID, 1);
+                    this.dropItem(ModItems.jakanMeatRaw.itemID, 1);
                 }
                 if(rare <= 6 && !this.isTamed())
                 {

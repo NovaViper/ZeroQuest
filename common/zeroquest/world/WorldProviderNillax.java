@@ -61,13 +61,6 @@ public class WorldProviderNillax extends WorldProvider
     	return "Building the Nillax Dimension";
 	}
 
-	/** Determines the dimension the player will be respawned in **/
-	/*public int getRespawnDimension(EntityPlayerMP player)
-	{
-		return 0;
-	}*/
-
-
 	/** Dimension Movement speed **/
 	public double getMovementFactor()
 	{

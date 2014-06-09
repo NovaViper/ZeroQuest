@@ -4,7 +4,7 @@ import java.util.Random;
 
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ZeroQuest;
-
+import common.zeroquest.lib.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
@@ -46,8 +46,12 @@ public class WorldGenZQuest implements IWorldGenerator {
 	}
 	
 	private void generateNillaxDimension(World world, Random random, int x, int y) {
+		
 		this.addOreSpawn(ModBlocks.nileGrainOre, world, random, x, y, 20, 20, 3+random.nextInt(5), 80, 3, 90);
 		this.addOreSpawn(ModBlocks.nileCoalOre, world, random, x, y, 16, 16, 4+random.nextInt(5), 100, 0, 97);
+		if(Constants.DarkLoadOn == true){
+			this.addOreSpawn(ModBlocks.darkGrainOre, world, random, x, y, 16, 16, 2+random.nextInt(3), 60, 6, 75);
+		}
 		/*for (int i = 0; i < 50; i++)
 		{
 			int xCoord = x + random.nextInt(16);

@@ -22,6 +22,7 @@ public class BiomeGenWalSkyland extends BiomeGenBase
         this.spawnableCreatureList.add(new SpawnListEntry(EntityJakanPrime.class, 100, 2, 2));
         this.topBlock = (byte)ModBlocks.looseBedrock.blockID;
         this.fillerBlock = (byte)Block.coalBlock.blockID;
+        this.canSpawnLightningBolt();
     }
 
 

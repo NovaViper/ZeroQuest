@@ -166,7 +166,7 @@ public class ZeroQuest
 	BiomeDictionary.registerAllBiomes();
 	}
 	
-    /*@EventHandler TODO
+    /*@EventHandler //TODO
     public void serverStart(FMLServerStartingEvent event)        
     {   
         	LogHelper.log(Level.INFO, "-----COMMAND CONTENT LOAD INITATING-----");

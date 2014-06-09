@@ -213,4 +213,24 @@ public abstract class EntityCustomTameable extends EntityAnimal implements Entit
         super.applyEntityAttributes();
         this.getAttributeMap().func_111150_b(SharedMonsterAttributes.attackDamage);
     }
+    
+    /**
+     * Checks if this entity is running on a client.
+     * 
+     * Required since MCP's isClientWorld returns the exact opposite...
+     * 
+     * @return true if the entity runs on a client or false if it runs on a server
+     */
+    public boolean isClient() {
+        return worldObj.isRemote;
+    }
+    
+    /**
+     * Checks if this entity is running on a server.
+     * 
+     * @return true if the entity runs on a server or false if it runs on a client
+     */
+    public boolean isServer() {
+        return !worldObj.isRemote;
+    }
 }

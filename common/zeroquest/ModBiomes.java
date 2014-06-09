@@ -44,7 +44,7 @@ public class ModBiomes
 	       GameRegistry.addBiome(destroZone);
 	       
 	       walSkyland = new BiomeGenWalSkyland(145).setBiomeName("Wal Skylands").setDisableRain();
-	       GameRegistry.addBiome(destroZone);
+	       GameRegistry.addBiome(walSkyland);
 
 	}
 	

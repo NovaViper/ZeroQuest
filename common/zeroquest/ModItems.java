@@ -47,6 +47,8 @@ public class ModItems {
 	
 	public static Item zertumMeatRaw;
 	public static Item zertumMeatCooked;
+	public static Item jakanMeatRaw;
+	public static Item jakanMeatCooked;
 	public static Item vitoidSeed;
 	public static Item vitoidFruit;
 	
@@ -112,7 +114,9 @@ public class ModItems {
     	zertumMeatCooked = new ZeroQuestFood(5301, 8, 2.5F, true).setUnlocalizedName("zertumMeatCooked").setTextureName(ZeroQuest.modid + ":" + "zertumMeat_cooked");
     	vitoidSeed = new ItemNileSeed(5302, 4, 0.5F, ModBlocks.vitoidPlant.blockID, Block.tilledField.blockID).setUnlocalizedName("vitoidSeed").setTextureName(ZeroQuest.modid + ":" + "vitoidSeed");
     	vitoidFruit = new ZeroQuestFood(5303, 4, 0.5F, false).setUnlocalizedName("vitoidFruit").setTextureName(ZeroQuest.modid + ":" + "vitoidFruit");
-    	
+    	jakanMeatRaw = new ZeroQuestFood(5304, 7, 1.7F, true).setUnlocalizedName("jakanMeatRaw").setTextureName(ZeroQuest.modid + ":" + "jakanMeat_raw");
+    	jakanMeatCooked = new ZeroQuestFood(5305, 9, 2.7F, true).setUnlocalizedName("jakanMeatCooked").setTextureName(ZeroQuest.modid + ":" + "jakanMeat_cooked");
+    
     	//Entity Eggs//
     	entityEgg = new CustomEntityEgg(5360).setUnlocalizedName("entityEgg").setTextureName(ZeroQuest.modid + ":" + "entityEgg");
 	}
@@ -165,6 +169,8 @@ public class ModItems {
 		//LanguageRegistry.addName(nileSaddle, "Nile Saddle");
 		LanguageRegistry.addName(zertumMeatRaw, "Raw Zertum Meat");
 		LanguageRegistry.addName(zertumMeatCooked, "Cooked Zertum Meat");
+		LanguageRegistry.addName(jakanMeatRaw, "Raw Jakan Meat");
+		LanguageRegistry.addName(jakanMeatCooked, "Cooked Jakan Meat");		
 		LanguageRegistry.addName(entityEgg, "Spawn");
 		
 		//LanguageRegistry.addName(nileGun, "Nile Gun");
