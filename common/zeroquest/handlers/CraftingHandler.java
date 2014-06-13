@@ -36,7 +36,7 @@ public class CraftingHandler implements ICraftingHandler {
 			player.addStat(ModAchievements.buildBone, 1);
 		}
 		
-		if(Constants.DarkLoadOn == true){
+		if(Constants.DEF_DARKLOAD == true){
 			if (item.itemID == ModItems.darkEssence.itemID)
 			{
 				player.addStat(ModAchievements.ZQuestStart, 1);

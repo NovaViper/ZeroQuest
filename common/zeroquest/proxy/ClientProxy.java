@@ -2,6 +2,7 @@ package common.zeroquest.proxy;
 
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModBlocks;
+import common.zeroquest.ModItems;
 import common.zeroquest.SoundManagerZQuest;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.entity.EntityDarkZertum;
@@ -22,14 +23,25 @@ import common.zeroquest.entity.render.RenderJakan;
 import common.zeroquest.entity.render.RenderJakanPrime;
 import common.zeroquest.entity.render.RenderRedZertum;
 import common.zeroquest.entity.render.RenderZertum;
+import common.zeroquest.handlers.JakanKeyHandler;
+import common.zeroquest.handlers.JakanTickHandler;
+import common.zeroquest.handlers.RemoteKeyPacketHandler;
 import common.zeroquest.renderer.ItemRendererNileTable;
 import common.zeroquest.renderer.RendererNileTable;
 import common.zeroquest.tileentity.TileEntityNileTable;
+import net.minecraft.block.Block;
+import net.minecraft.item.ItemStack;
+import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraftforge.client.MinecraftForgeClient;
+import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.KeyBindingRegistry;
 import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 public class ClientProxy extends CommonProxy{
 
@@ -45,6 +57,14 @@ public class ClientProxy extends CommonProxy{
 	   	ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNileTable.class, new RendererNileTable());
 	   	MinecraftForgeClient.registerItemRenderer(ModBlocks.nileWorktable.blockID, new ItemRendererNileTable());
 }
+	
+	public void registerAdvanced(){
+        NetworkRegistry.instance().registerChannel(RemoteKeyPacketHandler.getInstance(), RemoteKeyPacketHandler.CHANNEL, Side.SERVER);
+        
+        KeyBindingRegistry.registerKeyBinding(new JakanKeyHandler());
+        TickRegistry.registerTickHandler(new JakanTickHandler(), Side.CLIENT);
+	}
+    
 	public void reigsterClientLangugaes(){
 		//Creative Tabs//
 	   	LanguageRegistry.instance().addStringLocalization(ZeroQuest.ZeroTab.getTranslatedTabLabel(), "Zero Quest Tab");
@@ -86,5 +106,26 @@ public class ClientProxy extends CommonProxy{
 		
 		MinecraftForge.EVENT_BUS.register(new SoundManagerZQuest());
 	}
+	
+    public void registerChestItems() {
+        ChestGenHooks chestGenHooksDungeon = ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST);
+        chestGenHooksDungeon.addItem(new WeightedRandomChestContent(new ItemStack(ModItems.nileEssence), 1, 1, 70));
+        // chance < saddle (1/16, ca. 6%, in max 8 slots -> 40% at least 1 egg, 0.48 eggs per chest): I think that's okay
+
+        ChestGenHooks chestGenHooksMineshaft = ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR);
+        chestGenHooksMineshaft.addItem(new WeightedRandomChestContent(new ItemStack(ModItems.nileEssence), 1, 1, 5));
+        // chance == gold ingot (1/18, ca. 6%, in 3-6 slots -> 23% at least 1 egg, 0.27 eggs per chest):
+        // exploring a random mine shaft in creative mode yielded 2 eggs out of about 10 chests in 1 hour
+
+        ChestGenHooks chestGenHooksJungleChest = ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST);
+        chestGenHooksJungleChest.addItem(new WeightedRandomChestContent(new ItemStack(ModItems.nileEssence), 1, 1, 15));
+        // chance == gold ingot (15/81, ca. 18%, in 2-5 slots -> 51% at least 1 egg, 0.65 eggs per chest, 1.3 eggs per temple):
+        // jungle temples are so rare, it should be rewarded
+
+        ChestGenHooks chestGenHooksDesertChest = ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST);
+        chestGenHooksDesertChest.addItem(new WeightedRandomChestContent(new ItemStack(ModItems.nileEssence), 1, 1, 10));
+        // chance == iron ingot (10/76, ca. 13%, in 2-5 slots -> 39% at least 1 egg, 0.46 eggs per chest, 1.8 eggs per temple):
+        // desert temples are so rare, it should be rewarded
+    }
 
 }

@@ -10,6 +10,7 @@ import common.zeroquest.gui.GuiDestroPack;
 import common.zeroquest.gui.GuiPack;
 import common.zeroquest.gui.GuiRedPack;
 import common.zeroquest.gui.NileTableGui;
+import common.zeroquest.handlers.RemoteKeyPacketHandler;
 import common.zeroquest.inventory.ContainerDarkPack;
 import common.zeroquest.inventory.ContainerDestroPack;
 import common.zeroquest.inventory.ContainerNileTable;
@@ -22,6 +23,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.World;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.common.network.IGuiHandler;
+import cpw.mods.fml.common.network.NetworkRegistry;
+import cpw.mods.fml.relauncher.Side;
 
 public class CommonProxy implements IGuiHandler{
 	
@@ -146,4 +149,12 @@ public class CommonProxy implements IGuiHandler{
 	public void registerSound(){
 		
 	}
+	
+    public void registerAdvanced() {
+    	
+    }
+    
+    public void registerChestItems() {
+    	
+    }
 }

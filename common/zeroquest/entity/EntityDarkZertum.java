@@ -318,7 +318,7 @@ public class EntityDarkZertum extends EntityCustomTameable
     {
         super.onUpdate();
         
-        if(Constants.DarkParticlesLoadOn == true){ //TODO
+        if(Constants.DEF_DPARTICLESLOAD == true){ //TODO
         	double d0 = this.rand.nextGaussian() * 0.04D;
         	double d1 = this.rand.nextGaussian() * 0.04D;
         	double d2 = this.rand.nextGaussian() * 0.04D;

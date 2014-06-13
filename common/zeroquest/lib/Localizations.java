@@ -1,13 +1,21 @@
 package common.zeroquest.lib;
 
-import common.zeroquest.ZeroQuest;
+/**
+* @author ProPercivalalb
+*/
+public enum Localizations {
 
+		EN_US("en_US.lang");
+    
+		String fileName;
 
+		Localizations(String file) {
+				this.fileName = file;
+		}
 
-public class Localizations {
-	private static final String LANG_RESOURCE_LOCATION = ZeroQuest.modid + ":" + "assets/zero_quest/lang/";
+		public String getFile() {
+			return this.fileName;
+		}
 
-
-	public static String[] localeFiles = {LANG_RESOURCE_LOCATION + "en_US.lang"};
+    public static final String LANG_RESOURCE_LOCATION = "/assets/zero_quest/lang/";
 }
-

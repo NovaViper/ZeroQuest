@@ -18,13 +18,19 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
+import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
+import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.item.Item;
@@ -41,15 +47,26 @@ import net.minecraft.util.StatCollector;
 import net.minecraft.world.World;
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
+import common.zeroquest.entity.ai.EntityAIHunt;
 import common.zeroquest.entity.ai.EntityCustomAIFollowOwner;
 import common.zeroquest.entity.ai.EntityCustomAIOwnerHurtByTarget;
 import common.zeroquest.entity.ai.EntityCustomAIOwnerHurtTarget;
 import common.zeroquest.entity.ai.EntityCustomAISit;
+import common.zeroquest.entity.ai.flight.EntityAICatchOwnerAir;
+import common.zeroquest.entity.ai.flight.EntityAILand;
+import common.zeroquest.entity.ai.flight.EntityAIRideAir;
+import common.zeroquest.entity.ai.ground.EntityAICatchOwnerGround;
+import common.zeroquest.entity.ai.ground.EntityAIFollowOwner;
+import common.zeroquest.entity.ai.ground.EntityAIPanicChild;
+import common.zeroquest.entity.ai.ground.EntityAIRideGround;
+import common.zeroquest.entity.ai.ground.EntityAIWatchIdle;
+import common.zeroquest.entity.ai.ground.EntityAIWatchLiving;
 import common.zeroquest.particle.ParticleEffects;
 import common.zeroquest.spawn.CustomEntityList;
+import common.zeroquest.util.ItemUtils;
 import cpw.mods.fml.common.FMLLog;
 
-public class EntityJakanPrime extends EntityCustomTameable
+public class EntityJakanPrime extends EntityFlyingCustomTameable
 {	
     private boolean canSeeCreeper;
     public int rare;
@@ -65,31 +82,57 @@ public class EntityJakanPrime extends EntityCustomTameable
     public static final double maxHealth = 30;
     public static final double attackDamage = 6;
     public static final double speed = 0.30000001192092896;
+    public static final double speedAir = 1.5;
     public static final double maxHealthTamed = 40;
     public static final float maxHealthTamedFloat = 40;
     public static final double attackDamageTamed = 8;
     public static final double maxHealthBaby = 10;
     public static final double attackDamageBaby = 2;
+    public static final int HOME_RADIUS = 256;
+    
+    // data value IDs
+    public static final int INDEX_BREED = 20;
+    public static final int INDEX_COLLAR_COLOR = 21;
+    public static final int INDEX_SADDLE = 22;
     
 	
 	public EntityJakanPrime(World par1World) {
 		super(par1World);
 		this.setSize(2.5F, 2.5F);
-        this.getNavigator().setAvoidsWater(true);
-        this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, this.aiCSit);
-        this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
-        this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, true));
-        this.tasks.addTask(5, new EntityCustomAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
+        // enables walking over blocks
+        stepHeight = 1;
+        
+        // mutex 1: movement
+        // mutex 2: looking
+        // mutex 4: special state
+        tasks.addTask(0, new EntityAICatchOwnerGround(this)); // mutex all
+        tasks.addTask(1, new EntityAIRideGround(this, 1)); // mutex all
+        tasks.addTask(2, new EntityAISwimming(this)); // mutex 4
+        tasks.addTask(3, aiCSit); // mutex 4+1
         this.tasks.addTask(6, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(9, new EntityAILookIdle(this));
-        this.tasks.addTask(10, new EntityCustomAIFollowOwner(this, 1, 12, 128));
-        this.targetTasks.addTask(1, new EntityCustomAIOwnerHurtByTarget(this));
-        this.targetTasks.addTask(2, new EntityCustomAIOwnerHurtTarget(this));
-        this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
-	}
+        tasks.addTask(5, new EntityAITempt(this, 0.75, ModItems.vitoidFruit.itemID, false)); // mutex 2+1
+        tasks.addTask(6, new EntityAIAttackOnCollide(this, 1, true)); // mutex 2+1
+        tasks.addTask(7, new EntityAIFollowParent(this, 0.8)); // mutex 2+1
+        tasks.addTask(8, new EntityAIFollowOwner(this, 1, 12, 128)); // mutex 2+1
+        tasks.addTask(8, new EntityAIPanicChild(this, 1)); // mutex 1
+        tasks.addTask(9, new EntityAIWander(this, 1)); // mutex 1
+        tasks.addTask(10, new EntityAIWatchIdle(this)); // mutex 2
+        tasks.addTask(10, new EntityAIWatchLiving(this, 16, 0.05f)); // mutex 2
+        
+        // mutex 1: waypointing
+        // mutex 2: continuous waypointing
+        airTasks.addTask(0, new EntityAIRideAir(this)); // mutex all
+        airTasks.addTask(0, new EntityAILand(this)); // mutex 0
+        airTasks.addTask(0, new EntityAICatchOwnerAir(this)); // mutex all
+
+        // mutex 1: generic targeting
+        targetTasks.addTask(1, new EntityCustomAIOwnerHurtByTarget(this)); // mutex 1
+        targetTasks.addTask(2, new EntityCustomAIOwnerHurtTarget(this)); // mutex 1
+        targetTasks.addTask(3, new EntityAIHurtByTarget(this, false)); // mutex 1
+        targetTasks.addTask(4, new EntityAIHunt(this, EntitySheep.class, 200, false)); // mutex 1
+        targetTasks.addTask(4, new EntityAIHunt(this, EntityPig.class, 200, false)); // mutex 1
+        targetTasks.addTask(4, new EntityAIHunt(this, EntityChicken.class, 200, false)); // mutex 1
+    }
 	
 	@Override
     protected void applyEntityAttributes()
@@ -99,6 +142,7 @@ public class EntityJakanPrime extends EntityCustomTameable
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setAttribute(maxHealth);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setAttribute(attackDamage);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setAttribute(speed);
+        this.getEntityAttribute(MOVE_SPEED_AIR).setAttribute(speedAir);
 
         if (this.isTamed())
         {
@@ -146,9 +190,9 @@ public class EntityJakanPrime extends EntityCustomTameable
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(21, Byte.valueOf((byte)0));
-        this.dataWatcher.addObject(19, new Byte((byte)0));
-        this.dataWatcher.addObject(20, new Byte((byte)BlockColored.getBlockFromDye(1)));
+        this.dataWatcher.addObject(INDEX_BREED, new Byte((byte)0));
+        this.dataWatcher.addObject(INDEX_COLLAR_COLOR, new Byte((byte)BlockColored.getBlockFromDye(1)));
+        this.dataWatcher.addObject(INDEX_SADDLE, Byte.valueOf((byte)0));
     }
 	
     /**
@@ -193,11 +237,15 @@ public class EntityJakanPrime extends EntityCustomTameable
 	
     protected String getLivingSound()
     {
+        if (isFlying()) {
+            return null;
+        }else{
         return this.canSeeCreeper ? "zero_quest:jakan.growl" : 
         	(this.rand.nextInt(3) == 0 ? 
         			(this.getHealth() <=10 ? "zero_quest:jakan.whine"
         					: "zero_quest:jakan.breathe")
         					: "zero_quest:jakan.roar");
+        }
     }
 	
 	protected String getDeathSound()
@@ -271,9 +319,16 @@ public class EntityJakanPrime extends EntityCustomTameable
         	this.entityToAttack = null;
         }
         
+        if (isTamed()) {
+            Entity owner = getOwner();
+            if (owner != null) {
+                setHomeArea((int) owner.posX, (int) owner.posY, (int) owner.posZ, HOME_RADIUS);
+            }
+        }
+        
         if(this.getHealth() <=10 && this.isTamed() && !this.isChild())
         {
-       		this.addPotionEffect(new PotionEffect(10, 200));//TODO
+       		this.addPotionEffect(new PotionEffect(10, 200)); //TODO
         }
         if (this.getAttackTarget() == null && isTamed() && 15 > 0) {
             List list1 = worldObj.getEntitiesWithinAABB(EntityCreeper.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(sniffRange(), 4D, sniffRange()));
@@ -430,7 +485,10 @@ public class EntityJakanPrime extends EntityCustomTameable
     public boolean interact(EntityPlayer par1EntityPlayer)
     {
         ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
-
+        if (itemstack != null && itemstack.itemID == Item.monsterPlacer.itemID) {
+            return super.interact(par1EntityPlayer);
+        }
+        
         if (this.isTamed())
         {
             if (itemstack != null)
@@ -470,19 +528,11 @@ public class EntityJakanPrime extends EntityCustomTameable
                     }
                 }
                 
-                if (isServer() && this.riddenByEntity == null && !this.isChild() && itemstack.itemID != ModItems.vitoidFruit.itemID)
-                {
-                    if (itemstack != null && itemstack.itemID == Item.stick.itemID)
-                    {
-                        return true;
+                if (!isOwner(par1EntityPlayer)) {
+                    if (isServer()) {
+                        // that's not your dragon!
+                        par1EntityPlayer.addChatMessage("YOU DO NOT OWN THIS DRAGON!");
                     }
-                    else
-                    {
-                        this.setRidingPlayer(par1EntityPlayer);
-                    	par1EntityPlayer.triggerAchievement(ModAchievements.MountUp);
-                        return true;
-                    }
-                }
 
                 else if (itemstack.itemID == Item.dyePowder.itemID)
                 {
@@ -500,7 +550,14 @@ public class EntityJakanPrime extends EntityCustomTameable
                         return true;
                     }
                 }
-            }
+            }                
+            else if (ItemUtils.hasEquipped(par1EntityPlayer, Item.bone)) {
+                    if (isServer()) {
+                        // toggle sitting state with the bone item
+                        aiCSit.setSitting(!isSitting());
+                        isJumping = false;
+                        setPathToEntity(null);
+                    }
 
             if (par1EntityPlayer.getCommandSenderName().equalsIgnoreCase(this.getOwnerName()) && isServer() && !this.isBreedingItem(itemstack))
             {
@@ -510,47 +567,37 @@ public class EntityJakanPrime extends EntityCustomTameable
                 this.setTarget((Entity)null);
                 this.setAttackTarget((EntityLivingBase)null);
             }
-        }
-        
-        else if (itemstack != null && itemstack.itemID == ModItems.nileBone.itemID)
-        {
-            if (!par1EntityPlayer.capabilities.isCreativeMode)
-            {
-                --itemstack.stackSize;
-            }
-
-            if (itemstack.stackSize <= 0)
-            {
-                par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
-            }
-
-            if (isServer())
-            {
-                if (this.rand.nextInt(3) == 0)
-                {
-                    this.setTamed(true);
-                    this.setSaddled(true);
-                    this.setPathToEntity((PathEntity)null);
-                    this.setAttackTarget((EntityLivingBase)null);
-                    this.aiCSit.setSitting(false);
-                    this.setHealth(maxHealthTamedFloat);
-                    this.setOwner(par1EntityPlayer.getCommandSenderName());
-                    this.playTameEffect(true);
-                    this.worldObj.setEntityState(this, (byte)7);
-                }
-                else
-                {
-                    this.playTameEffect(false);
-                    this.worldObj.setEntityState(this, (byte)6);
+            
+            if (getSaddled() && !ItemUtils.hasEquippedUsable(par1EntityPlayer)) {
+                if (isServer()) {
+                    setRidingPlayer(par1EntityPlayer);
+                	par1EntityPlayer.triggerAchievement(ModAchievements.MountUp);
+                	}   
                 }
             }
-
-            return true;
         }
+    } else {
+        if (isServer()) {
+            if (ItemUtils.consumeEquipped(par1EntityPlayer, ModItems.nileBone)) {
 
-        return super.interact(par1EntityPlayer);
-    }
-    
+                if (rand.nextInt(3) == 0) {
+                    setTamed(true);
+                    setSaddled(true);
+                    setPathToEntity(null);
+                    setAttackTarget(null);
+                    setOwner(par1EntityPlayer.getCommandSenderName());
+                    playTameEffect(true);
+                    worldObj.setEntityState(this, (byte) 7);
+                } else {
+                    playTameEffect(false);
+                    worldObj.setEntityState(this, (byte) 6);
+                }
+            }
+        }   
+        return true;
+    }   
+    return false;
+}   
     
     
     /**
@@ -558,7 +605,7 @@ public class EntityJakanPrime extends EntityCustomTameable
      */
     public boolean getSaddled()
     {
-        return (this.dataWatcher.getWatchableObjectByte(21) & 1) != 0;
+        return (this.dataWatcher.getWatchableObjectByte(INDEX_SADDLE) & 1) != 0;
     }
 
     /**
@@ -568,11 +615,11 @@ public class EntityJakanPrime extends EntityCustomTameable
     {
         if (par1)
         {
-            this.dataWatcher.updateObject(21, Byte.valueOf((byte)1));
+            this.dataWatcher.updateObject(INDEX_SADDLE, Byte.valueOf((byte)1));
         }
         else
         {
-            this.dataWatcher.updateObject(21, Byte.valueOf((byte)0));
+            this.dataWatcher.updateObject(INDEX_SADDLE, Byte.valueOf((byte)0));
         }
     }
     
@@ -582,67 +629,12 @@ public class EntityJakanPrime extends EntityCustomTameable
 		return true;
     }
     
-    public boolean canBeSteered()
-    {
-             return true;
-    }
-    
     /**
      * Returns true if this entity should push and be pushed by other entities when colliding.
      */
     public boolean canBePushed() //TODO
     {
         return true;
-    }
-
-    
-    /**
-     * Moves the entity based on the specified heading.  Args: strafe, forward
-     */
-    public void moveEntityWithHeading(float par1, float par2)
-    {
-        if (this.riddenByEntity != null && this.getSaddled())
-        {
-            this.prevRotationYaw = this.rotationYaw = this.riddenByEntity.rotationYaw;
-            this.rotationPitch = this.riddenByEntity.rotationPitch * 0.5F;
-            this.setRotation(this.rotationYaw, this.rotationPitch);
-            this.rotationYawHead = this.renderYawOffset = this.rotationYaw;
-            par1 = ((EntityLivingBase)this.riddenByEntity).moveStrafing * 0.5F;
-            par2 = ((EntityLivingBase)this.riddenByEntity).moveForward;
-
-            if (par2 <= 0.0F)
-            {
-                par2 *= 0.25F;
-            }
-
-            this.stepHeight = 1.0F;
-            this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
-
-            if (isServer())
-            {
-                this.setAIMoveSpeed((float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
-                super.moveEntityWithHeading(par1, par2);
-            }
-
-            this.prevLimbSwingAmount = this.limbSwingAmount;
-            double d0 = this.posX - this.prevPosX;
-            double d1 = this.posZ - this.prevPosZ;
-            float f4 = MathHelper.sqrt_double(d0 * d0 + d1 * d1) * 4.0F;
-
-            if (f4 > 1.0F)
-            {
-                f4 = 1.0F;
-            }
-
-            this.limbSwingAmount += (f4 - this.limbSwingAmount) * 0.4F;
-            this.limbSwing += this.limbSwingAmount;
-        }
-        else
-        {
-            this.stepHeight = 1.0F;
-            this.jumpMovementFactor = 0.02F;
-            super.moveEntityWithHeading(par1, par2);
-        }
     }
     
     /**
@@ -667,7 +659,7 @@ public class EntityJakanPrime extends EntityCustomTameable
      */
     public int getCollarColor()
     {
-        return this.dataWatcher.getWatchableObjectByte(20) & 15;
+        return this.dataWatcher.getWatchableObjectByte(INDEX_COLLAR_COLOR) & 15;
     }
 
     /**
@@ -675,7 +667,7 @@ public class EntityJakanPrime extends EntityCustomTameable
      */
     public void setCollarColor(int par1)
     {
-        this.dataWatcher.updateObject(20, Byte.valueOf((byte)(par1 & 15)));
+        this.dataWatcher.updateObject(INDEX_COLLAR_COLOR, Byte.valueOf((byte)(par1 & 15)));
     }
     
     public double sniffRange(){//TODO
@@ -720,16 +712,16 @@ public class EntityJakanPrime extends EntityCustomTameable
 	
 	 public void func_70918_i(boolean par1) //TODO Breeding stuff
 	 {
-		 byte var2 = this.dataWatcher.getWatchableObjectByte(19);
+		 byte var2 = this.dataWatcher.getWatchableObjectByte(INDEX_BREED);
 
 
 		 if (par1)
 		 {
-			 this.dataWatcher.updateObject(19, Byte.valueOf((byte)1));
+			 this.dataWatcher.updateObject(INDEX_BREED, Byte.valueOf((byte)1));
 		 }
 		 else
 		 {
-			 this.dataWatcher.updateObject(19, Byte.valueOf((byte)0));
+			 this.dataWatcher.updateObject(INDEX_BREED, Byte.valueOf((byte)0));
 		 }
 	 }
 	

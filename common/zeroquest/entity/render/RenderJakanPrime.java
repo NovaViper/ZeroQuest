@@ -50,21 +50,6 @@ public class RenderJakanPrime extends RenderLiving
     {
         return par1EntityJakan.isTamed() ? jakanPrimeTextureTamed : jakanPrimeTexture;
     }
-    
-    protected float getWingRotation(EntityJakanPrime par1EntityJakanPrime, float par2)
-    {
-        float f1 = par1EntityJakanPrime.field_70888_h + (par1EntityJakanPrime.field_70886_e - par1EntityJakanPrime.field_70888_h) * par2;
-        float f2 = par1EntityJakanPrime.field_70884_g + (par1EntityJakanPrime.destPos - par1EntityJakanPrime.field_70884_g) * par2;
-        return (MathHelper.sin(f1) + 0.5F) * f2;
-    }
-    
-    /**
-     * Defines what float the third param in setRotationAngles of ModelBase is
-     */
-    protected float handleRotationFloat(EntityLivingBase par1EntityLivingBase, float par2)
-    {
-        return this.getWingRotation((EntityJakanPrime)par1EntityLivingBase, par2);
-    }
 
     /**
      * Queries whether should render the specified pass or not.

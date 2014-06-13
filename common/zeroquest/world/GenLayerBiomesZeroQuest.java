@@ -38,7 +38,7 @@ public class GenLayerBiomesZeroQuest extends GenLayer {
 				this.initChunkSeed(dx+x, dz+z);
 				dest[(dx+dz*width)] = this.allowedBiomes[nextInt(this.allowedBiomes.length)].biomeID;
 				
-				if(Constants.DarkLoadOn == true){
+				if(Constants.DEF_DARKLOAD == true){
 				dest[(dx+dz*width)] = this.allowedDarkBiomes[nextInt(this.allowedDarkBiomes.length)].biomeID;	
 				}
 			}

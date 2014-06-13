@@ -24,7 +24,7 @@ public class PickupHandler implements IPickupNotifier {
 			{
 			player.addStat(ModAchievements.ZQuestStart, 1);
 			}
-			if(Constants.DarkLoadOn == true){
+			if(Constants.DEF_DARKLOAD == true){
 				if(item.getEntityItem().itemID == ModItems.darkGrain.itemID)
 				{
 					player.addStat(ModAchievements.ZQuestStart, 1);

@@ -221,7 +221,7 @@ public class CustomEntityList
         addMapping(EntityJakan.class, "Jakan", 303, 0x0033CC, 0x00CCFF);
         addMapping(EntityJakanPrime.class, "JakanPrime", 304, 0x0033CC, 0x00000);
     	
-        if(Constants.DarkLoadOn == true){
+        if(Constants.DEF_DARKLOAD == true){
         addMapping(EntityDarkZertum.class, "DarkZertum", 330, 0xCCCCCC, 0x470047);
     	}
     }

@@ -2,23 +2,17 @@ package common.zeroquest;
 
 import java.io.IOException;
 import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import common.zeroquest.creativetab.ZeroQuestTab;
-import common.zeroquest.events.ZeroQuestEvents;
-import common.zeroquest.handlers.ConfigurationHandler;
-import common.zeroquest.handlers.CraftingHandler;
-import common.zeroquest.handlers.FuelHandler;
-import common.zeroquest.handlers.PickupHandler;
-import common.zeroquest.lib.Constants;
-import common.zeroquest.lib.LocalizationHandler;
-import common.zeroquest.lib.LogHelper;
-import common.zeroquest.lib.OreDic;
-import common.zeroquest.proxy.CommonProxy;
-import common.zeroquest.renderer.ItemRendererNileTable;
-import common.zeroquest.renderer.RendererNileTable;
-import common.zeroquest.tileentity.TileEntityNileTable;
-import common.zeroquest.world.WorldProviderNillax;
-import common.zeroquest.world.gen.WorldGenZQuest;
+import common.zeroquest.*;
+import common.zeroquest.handlers.*;
+import common.zeroquest.proxy.*;
+import common.zeroquest.lib.*;
+import common.zeroquest.proxy.*;
+import common.zeroquest.creativetab.*;
+import common.zeroquest.events.*;
+import common.zeroquest.world.*;
+import common.zeroquest.world.gen.*;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
@@ -29,6 +23,9 @@ import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.EnumHelper;
 import net.minecraftforge.common.MinecraftForge;
 import cpw.mods.fml.client.registry.ClientRegistry;
+import cpw.mods.fml.client.registry.KeyBindingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
+import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.Mod.Instance;
@@ -39,8 +36,10 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.TickRegistry;
+import cpw.mods.fml.relauncher.Side;
 
-@Mod(modid = ZeroQuest.modid, name = "Zero Quest", version = ZeroQuest.version, dependencies = "required-after:Forge@[9.11.1.965,)")
+@Mod(modid = ZeroQuest.modid, name = "Zero Quest", version = ZeroQuest.version, useMetadata = true)
 @NetworkMod(clientSideRequired = true, serverSideRequired = false)
 public class ZeroQuest 
 {
@@ -48,6 +47,7 @@ public class ZeroQuest
 	public static ZeroQuest instance;
 	public static final String modid = "Zero_Quest";
 	public static final String version = "0.0.1";
+    public static final Logger L = Logger.getLogger("Zero_Quest");
 	
 	@SidedProxy(clientSide = "common.zeroquest.proxy.ClientProxy", serverSide = "common.zeroquest.proxy.CommonProxy")
 	public static CommonProxy proxy;
@@ -73,7 +73,7 @@ public class ZeroQuest
 	
 	public static CreativeTabs ZeroTab;
 	
-    public static String configPath;
+    private ConfigurationHandler config;
 	
 
     @EventHandler
@@ -82,7 +82,7 @@ public class ZeroQuest
 		
 		LogHelper.log(Level.INFO, "-----PRE-CONTENT LOAD INITATING-----");
 		LogHelper.log(Level.INFO, "Loading Main Stuff...");
-	   	ConfigurationHandler.loadConfig(new Configuration(event.getSuggestedConfigurationFile()));
+        config = new ConfigurationHandler(event.getSuggestedConfigurationFile());   
 		//GameRegistry.registerPlayerTracker(new OnPlayerLogin(version, "Zero Quest"));
 	   	proxy.registerSound();
    		this.ZeroTab = new ZeroQuestTab(CreativeTabs.getNextID());
@@ -97,9 +97,8 @@ public class ZeroQuest
     public void load(FMLInitializationEvent event)
 	{			
 		LogHelper.log(Level.INFO, "-----CONTENT LOAD INITATING-----");
+	   	proxy.registerAdvanced();
     	nileEssenceMaterial = EnumHelper.addToolMaterial("NileEssenceMaterial", 4, 4000, 20.0F, 4.0F, 30);
-    	darkEssenceMaterial = EnumHelper.addToolMaterial("DarkEssenceMaterial", 4, 4000, 21.0F, 5.0F, 40);
-    	
     	nileEssenceMaterial2 = EnumHelper.addArmorMaterial("NileEssenceAMaterial", 40, new int[]{4, 9, 7, 4}, 25);  
     	
 		LogHelper.log(Level.INFO, "Loading Block and Items...");
@@ -127,9 +126,10 @@ public class ZeroQuest
     	ModBiomes.loadBiomes();
 		LogHelper.log(Level.INFO, "Biomes Loaded Successfully!");
 		
-    	if(Constants.DarkLoadOn == true){
+    	if(Constants.DEF_DARKLOAD == true){
     	LogHelper.log(Level.INFO, "Dark Elemental Load is ENABLED!");	
     	LogHelper.log(Level.INFO, "Initating Dark Elemental Load!");
+    	darkEssenceMaterial = EnumHelper.addToolMaterial("DarkEssenceMaterial", 4, 4000, 21.0F, 5.0F, 40);
         	ModItems.loadDarkItems();
         	ModBlocks.loadDarkBlocks();
       		ZeroQuestCrafting.loadDarkRecipes();
@@ -146,6 +146,7 @@ public class ZeroQuest
 		LogHelper.log(Level.INFO, "Loading Crucial Stuff...");
        	proxy.registerRenderThings();
        	proxy.reigsterClientLangugaes();
+       	proxy.registerChestItems();
     	GameRegistry.registerFuelHandler(new FuelHandler());
    		GameRegistry.registerCraftingHandler(new CraftingHandler());
    		GameRegistry.registerPickupHandler(new PickupHandler());
@@ -158,12 +159,6 @@ public class ZeroQuest
         DimensionManager.registerDimension(NillaxID, NillaxID);
 		LogHelper.log(Level.INFO, "Dimensions Loaded Successfully!");
     	LogHelper.log(Level.INFO, "-----CONTENT LOAD FINSHED-----");
-	}
-	
-	/*@EventHandler
-    public void postInit(FMLPostInitializationEvent event){
-    ModBiomes.loadBiomeDictionary();
-	BiomeDictionary.registerAllBiomes();
 	}
 	
     /*@EventHandler //TODO
