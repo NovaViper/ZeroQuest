@@ -360,7 +360,7 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
     {
         String s = "heart";
 
-        if (!par1)
+        if (!par1 && isClient())
         {
         	s = "bluedust";
         }
@@ -485,10 +485,6 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
     public boolean interact(EntityPlayer par1EntityPlayer)
     {
         ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
-        if (itemstack != null && itemstack.itemID == Item.monsterPlacer.itemID) {
-            return super.interact(par1EntityPlayer);
-        }
-        
         if (this.isTamed())
         {
             if (itemstack != null)
@@ -530,8 +526,7 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
                 
                 if (!isOwner(par1EntityPlayer)) {
                     if (isServer()) {
-                        // that's not your dragon!
-                        par1EntityPlayer.addChatMessage("YOU DO NOT OWN THIS DRAGON!");
+                        par1EntityPlayer.addChatMessage("YOU DO NOT OWN THIS JAKAN!");
                     }
 
                 else if (itemstack.itemID == Item.dyePowder.itemID)
@@ -550,53 +545,44 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
                         return true;
                     }
                 }
-            }                
-            else if (ItemUtils.hasEquipped(par1EntityPlayer, Item.bone)) {
-                    if (isServer()) {
-                        // toggle sitting state with the bone item
-                        aiCSit.setSitting(!isSitting());
-                        isJumping = false;
-                        setPathToEntity(null);
-                    }
-
-            if (par1EntityPlayer.getCommandSenderName().equalsIgnoreCase(this.getOwnerName()) && isServer() && !this.isBreedingItem(itemstack))
+            }                            
+            else if (this.riddenByEntity == null && !this.isChild() && itemstack.itemID != ModItems.vitoidFruit.itemID)
             {
-                this.isJumping = false;
-                this.aiCSit.setSitting(!this.isSitting());
-                this.setPathToEntity((PathEntity)null);
-                this.setTarget((Entity)null);
-                this.setAttackTarget((EntityLivingBase)null);
-            }
-            
-            if (getSaddled() && !ItemUtils.hasEquippedUsable(par1EntityPlayer)) {
-                if (isServer()) {
-                    setRidingPlayer(par1EntityPlayer);
+            	if (itemstack != null && itemstack.itemID == Item.stick.itemID)
+                {
+            		return true;
+                }
+                else
+                {
+                	this.setRidingPlayer(par1EntityPlayer);
                 	par1EntityPlayer.triggerAchievement(ModAchievements.MountUp);
-                	}   
+                	return true;
                 }
             }
-        }
+        }              
     } else {
         if (isServer()) {
             if (ItemUtils.consumeEquipped(par1EntityPlayer, ModItems.nileBone)) {
 
                 if (rand.nextInt(3) == 0) {
-                    setTamed(true);
-                    setSaddled(true);
-                    setPathToEntity(null);
-                    setAttackTarget(null);
-                    setOwner(par1EntityPlayer.getCommandSenderName());
-                    playTameEffect(true);
-                    worldObj.setEntityState(this, (byte) 7);
+                    this.setTamed(true);
+                    this.setSaddled(true);
+                    this.setPathToEntity((PathEntity)null);
+                    this.setAttackTarget((EntityLivingBase)null);
+                    this.aiCSit.setSitting(true);
+                    this.setHealth(maxHealthTamedFloat);
+                    this.setOwner(par1EntityPlayer.getCommandSenderName());
+                    this.playTameEffect(true);
+                    this.worldObj.setEntityState(this, (byte)7);
                 } else {
-                    playTameEffect(false);
-                    worldObj.setEntityState(this, (byte) 6);
+                	this.playTameEffect(false);
+                	this.worldObj.setEntityState(this, (byte) 6);
                 }
             }
         }   
         return true;
     }   
-    return false;
+        return super.interact(par1EntityPlayer);
 }   
     
     
@@ -636,6 +622,11 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
     {
         return true;
     }
+    
+/*    public boolean canBeSteered() //TODO
+    {
+        return true;
+    }*/
     
     /**
      * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on

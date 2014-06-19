@@ -540,7 +540,7 @@ public class ModelJakanPrime extends ModelBase
       this.Neck1.rotateAngleY = par4 / (180F / (float)Math.PI);
       this.Neck2.rotateAngleY = par4 / (180F / (float)Math.PI);
       
-      this.RWPart1.rotateAngleZ = par3;
+      /*this.RWPart1.rotateAngleZ = par3;
       this.RWPart2.rotateAngleZ = par3;
       this.RWPart3.rotateAngleZ = par3;
       this.RWPart4.rotateAngleZ = par3;
@@ -565,7 +565,7 @@ public class ModelJakanPrime extends ModelBase
       this.LWWeb3.rotateAngleZ = -par3;
       this.LWWeb4.rotateAngleZ = -par3;
       this.LWWeb5.rotateAngleZ = -par3;
-      this.LWWeb6.rotateAngleZ = -par3;
+      this.LWWeb6.rotateAngleZ = -par3;*/
   }
   
 
