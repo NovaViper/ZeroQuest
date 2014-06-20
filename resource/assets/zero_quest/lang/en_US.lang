@@ -72,7 +72,7 @@ key.dragon.flyUp=Fly Down
 dragon.owned=This dragon doesn't follow your commands.
 dragon.mountNotice=Press %s and %s to fly up and down
 
-attribute.name.generic.movementSpeedAir=Flight Speed
+attribute.name.generic.movementSpeedAir=Flying Speed
 
 entity.Zertum.name=Zertum
 entity.RedZertum.name=Red Zertum
