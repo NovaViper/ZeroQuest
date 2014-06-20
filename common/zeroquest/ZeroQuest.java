@@ -97,6 +97,7 @@ public class ZeroQuest
     public void load(FMLInitializationEvent event)
 	{			
 		LogHelper.log(Level.INFO, "-----CONTENT LOAD INITATING-----");
+        proxy.registerChannels();
 	   	proxy.registerAdvanced();
     	nileEssenceMaterial = EnumHelper.addToolMaterial("NileEssenceMaterial", 4, 4000, 20.0F, 4.0F, 30);
     	nileEssenceMaterial2 = EnumHelper.addArmorMaterial("NileEssenceAMaterial", 40, new int[]{4, 9, 7, 4}, 25);  

@@ -13,7 +13,7 @@ tilte.nilePinkFlower.name=Nile Pink Flower
 tilte.nileDestroFlower.name=Destro Flower
 tile.nileCoalOre.name=Nile Coal Ore
 tile.nileGrainOre.name=Nile Grain Ore
-tile.darkGrainOre.name=Nile Grain Ore
+tile.darkGrainOre.name=Dark Grain Ore
 tile.nillaxStone.name=Nillax Stone
 tile.looseBedrock.name=Loose Bedrock
 tile.blockTeleporter.name=Nillax Teleporter Block
@@ -67,6 +67,12 @@ item.entityEgg.name=Spawn
 item.vitoidSeed.name=Vitoid Seed
 item.vitoidFruit.name=Vitoid Fruit
 
+key.dragon.flyDown=Fly Up
+key.dragon.flyUp=Fly Down
+dragon.owned=This dragon doesn't follow your commands.
+dragon.mountNotice=Press %s and %s to fly up and down
+
+attribute.name.generic.movementSpeedAir=Flight Speed
 
 entity.Zertum.name=Zertum
 entity.RedZertum.name=Red Zertum

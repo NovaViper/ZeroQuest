@@ -481,6 +481,8 @@ public class ModelJakanPrime extends ModelBase
   	    Tail3.renderWithRotation(par7);
   	    Tail4.renderWithRotation(par7);
   	    Tail5.renderWithRotation(par7);
+  	    THorn1.renderWithRotation(par7);
+  	    THorn2.renderWithRotation(par7);
           GL11.glPopMatrix();
       }
   }

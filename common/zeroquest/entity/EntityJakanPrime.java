@@ -1,6 +1,7 @@
 package common.zeroquest.entity;
 
 import java.util.List;
+import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
@@ -70,14 +71,6 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
 {	
     private boolean canSeeCreeper;
     public int rare;
-
-    public int field_110278_bp;
-    public int field_110279_bq;
-    public float field_70886_e;
-    public float destPos;
-    public float field_70884_g;
-    public float field_70888_h;
-    public float field_70889_i = 1.0F;
     
     public static final double maxHealth = 30;
     public static final double attackDamage = 6;
@@ -109,8 +102,8 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
         tasks.addTask(1, new EntityAIRideGround(this, 1)); // mutex all
         tasks.addTask(2, new EntityAISwimming(this)); // mutex 4
         tasks.addTask(3, aiCSit); // mutex 4+1
-        this.tasks.addTask(6, new EntityAIMate(this, 1.0D));
-        tasks.addTask(5, new EntityAITempt(this, 0.75, ModItems.vitoidFruit.itemID, false)); // mutex 2+1
+        tasks.addTask(6, new EntityAIMate(this, 1.0D));
+        //tasks.addTask(5, new EntityAITempt(this, 0.75, ModItems.vitoidFruit.itemID, false)); // mutex 2+1
         tasks.addTask(6, new EntityAIAttackOnCollide(this, 1, true)); // mutex 2+1
         tasks.addTask(7, new EntityAIFollowParent(this, 0.8)); // mutex 2+1
         tasks.addTask(8, new EntityAIFollowOwner(this, 1, 12, 128)); // mutex 2+1
@@ -166,9 +159,14 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
         return true;
     }
     
+    protected boolean isGroundAIEnabled() {
+        return super.isGroundAIEnabled();
+    }
+    
     public EntityCustomAISit getSitAI() {
     	return this.aiCSit;
-    } 
+    }
+    
     
     /**
      * Sets the active target the Task system uses for tracking
@@ -202,7 +200,7 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
     {
         super.writeEntityToNBT(par1NBTTagCompound);
         par1NBTTagCompound.setByte("CollarColor", (byte)this.getCollarColor());
-        par1NBTTagCompound.setBoolean("Saddle", this.getSaddled());
+        par1NBTTagCompound.setBoolean("Saddle", this.isSaddled());
     }
 
     /**
@@ -247,6 +245,25 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
         					: "zero_quest:jakan.roar");
         }
     }
+    
+    @Override
+    public void playLivingSound() {
+        String sound = getLivingSound();
+        if (sound == null) {
+            return;
+        }
+        
+        if (!this.isChild()) {
+        	float volume = getSoundVolume() * 1.0f;
+        	float pitch =  getSoundPitch();
+            this.playSound(sound, volume, pitch);	
+        }else{
+        	
+            float volume = getSoundVolume() * 1.0f;
+            float pitch =  getSoundPitch() * 2;
+            this.playSound(sound, volume, pitch);	
+        }
+    }
 	
 	protected String getDeathSound()
 	{
@@ -256,8 +273,13 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
     /**
      * Get number of ticks, at least during which the living entity will be silent.
      */
+	@Override
     public int getTalkInterval() {
-        return 240;
+    	if(this.canSeeCreeper){
+    		return 40;
+    	}else{
+    		return 240;
+    	}
     }
 	
     /**
@@ -266,18 +288,6 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
     protected float getSoundVolume()
     {
         return 1.0F;
-    }
-    
-    @Override
-    public String getEntityName() {
-        // return custom name if set
-        if (hasCustomNameTag()) {
-            return getCustomNameTag();
-        }
-        
-        // return default breed name otherwise
-        String entName = CustomEntityList.getEntityString(this);
-        return StatCollector.translateToLocal("entity." + entName + ".name");
     }
 	
     protected void dropFewItems(boolean par1, int par2)
@@ -310,26 +320,13 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
     public void onLivingUpdate()
     {
         super.onLivingUpdate();
-        if (isServer() && !this.hasPath() && this.onGround)
-        {
-            this.worldObj.setEntityState(this, (byte)8);
-        }
-        
-        if(this.entityToAttack != null && this.entityToAttack.isDead) {
-        	this.entityToAttack = null;
-        }
-        
-        if (isTamed()) {
-            Entity owner = getOwner();
-            if (owner != null) {
-                setHomeArea((int) owner.posX, (int) owner.posY, (int) owner.posZ, HOME_RADIUS);
-            }
-        }
-        
+    	
+        //Heal
         if(this.getHealth() <=10 && this.isTamed() && !this.isChild())
         {
        		this.addPotionEffect(new PotionEffect(10, 200)); //TODO
         }
+        //See Creeper
         if (this.getAttackTarget() == null && isTamed() && 15 > 0) {
             List list1 = worldObj.getEntitiesWithinAABB(EntityCreeper.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(sniffRange(), 4D, sniffRange()));
 
@@ -347,7 +344,7 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
     {
         super.onUpdate();
         
-        if(this.isSitting()){ //TODO
+        if(this.isSitting() && isClient()){ //TODO
         	double d0 = this.rand.nextGaussian() * 0.04D;
         	double d1 = this.rand.nextGaussian() * 0.04D;
         	double d2 = this.rand.nextGaussian() * 0.04D;
@@ -360,43 +357,25 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
     {
         String s = "heart";
 
-        if (!par1 && isClient())
+        if (!par1)
         {
         	s = "bluedust";
         }
 
         for (int i = 0; i < 7; ++i)
         {
+        	if(isClient()){
             double d0 = this.rand.nextGaussian() * 0.02D;
             double d1 = this.rand.nextGaussian() * 0.02D;
             double d2 = this.rand.nextGaussian() * 0.02D;
             ParticleEffects.spawnParticle(s, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
+        	}
         }
     }
 
 	/**
      * Called when the entity is attacked.
      */
-    public boolean attackEntityFrom(DamageSource par1DamageSource, float par2)
-    {
-        if (this.isEntityInvulnerable())
-        {
-            return false;
-        }
-        else
-        {
-            Entity entity = par1DamageSource.getEntity();
-            this.aiCSit.setSitting(false);
-
-            if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow))
-            {
-                par2 = (par2 + 1.0F) / 2.0F;
-            }
-
-            return super.attackEntityFrom(par1DamageSource, par2);
-        }
-    }
-    
     public boolean attackEntityAsMob(Entity victim) {
         float attackDamage = (float) getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
         int knockback = 0;
@@ -448,10 +427,15 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
         return attacked;
     }
     
-    /**
-     * Called when the mob is falling. Calculates and applies fall damage.
-     */
-    protected void fall(float par1) {}
+    public boolean attackEntityFrom(DamageSource src, float par2) {
+        if (this.isEntityInvulnerable()) {
+            return false;
+        }
+
+        aiCSit.setSitting(false);
+        
+        return super.attackEntityFrom(src, par2);
+    }
 
     
     /**
@@ -526,7 +510,7 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
                 
                 if (!isOwner(par1EntityPlayer)) {
                     if (isServer()) {
-                        par1EntityPlayer.addChatMessage("YOU DO NOT OWN THIS JAKAN!");
+                        par1EntityPlayer.addChatMessage("dragon.owned");
                     }
 
                 else if (itemstack.itemID == Item.dyePowder.itemID)
@@ -545,8 +529,17 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
                         return true;
                     }
                 }
-            }                            
-            else if (this.riddenByEntity == null && !this.isChild() && itemstack.itemID != ModItems.vitoidFruit.itemID)
+            }     
+             if (par1EntityPlayer.getCommandSenderName().equalsIgnoreCase(this.getOwnerName()) && isServer() && !this.isBreedingItem(itemstack))
+             {
+            	 this.isJumping = false;
+            	 this.aiCSit.setSitting(!this.isSitting());
+            	 this.setPathToEntity((PathEntity)null);
+            	 this.setTarget((Entity)null);
+            	 this.setAttackTarget((EntityLivingBase)null);
+             } 
+             
+            if (this.riddenByEntity == null && !this.isChild() && itemstack.itemID != ModItems.vitoidFruit.itemID)
             {
             	if (itemstack != null && itemstack.itemID == Item.stick.itemID)
                 {
@@ -554,7 +547,7 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
                 }
                 else
                 {
-                	this.setRidingPlayer(par1EntityPlayer);
+                	setRidingPlayer(par1EntityPlayer);
                 	par1EntityPlayer.triggerAchievement(ModAchievements.MountUp);
                 	return true;
                 }
@@ -589,7 +582,7 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
     /**
      * Returns true if the pig is saddled.
      */
-    public boolean getSaddled()
+    public boolean isSaddled()
     {
         return (this.dataWatcher.getWatchableObjectByte(INDEX_SADDLE) & 1) != 0;
     }
@@ -623,10 +616,10 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
         return true;
     }
     
-/*    public boolean canBeSteered() //TODO
-    {
-        return true;
-    }*/
+    public boolean isOnLadder() {
+        // this better doesn't happen...
+        return false;
+    }
     
     /**
      * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
@@ -700,7 +693,7 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
             worldObj.playSound(posX, posY, posZ, "mob.enderdragon.wings", volume, pitch, false);
         }
     }
-	
+    
 	 public void func_70918_i(boolean par1) //TODO Breeding stuff
 	 {
 		 byte var2 = this.dataWatcher.getWatchableObjectByte(INDEX_BREED);
@@ -716,22 +709,22 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
 		 }
 	 }
 	
-   /**
-    * This function is used when two same-species animals in 'love mode' breed to generate the new baby animal.
-    */
+    /**
+     * This function is used when two same-species animals in 'love mode' breed to generate the new baby animal.
+     */
 	 public EntityCustomTameable spawnBabyAnimal(EntityAgeable par1EntityAgeable)
 	 {
 		 double chance = Math.random();
 
 
 		 if (chance < 0.5){
-			 EntityJakan var3 = new EntityJakan(this.worldObj);
+			 EntityJakanPrime var3 = new EntityJakanPrime(this.worldObj);
 			 var3.setOwner(this.getOwnerName());
 			 var3.setTamed(true);
 			 var3.setSaddled(true);
 			 return var3;
 		 }else{
-			 EntityJakanPrime var4 = new EntityJakanPrime(this.worldObj);
+			 EntityJakan var4 = new EntityJakan(this.worldObj);
 			 var4.setOwner(this.getOwnerName());
 			 var4.setTamed(true);
 			 this.setSaddled(true);
@@ -754,13 +747,13 @@ public class EntityJakanPrime extends EntityFlyingCustomTameable
 		 {
 			 return false;
 		 }
-		 else if (!(par1EntityAnimal instanceof EntityJakan))
+		 else if (!(par1EntityAnimal instanceof EntityJakanPrime))
 		 {
 			 return false;
 		 }
 		 else
 		 {
-			 EntityJakan var2 = (EntityJakan)par1EntityAnimal;
+			 EntityJakanPrime var2 = (EntityJakanPrime)par1EntityAnimal;
 			 return !var2.isTamed() ? false : (var2.isSitting() ? false : this.isInLove() && var2.isInLove());
 		 }
 		 

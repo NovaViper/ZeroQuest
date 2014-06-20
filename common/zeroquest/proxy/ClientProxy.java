@@ -45,6 +45,9 @@ import cpw.mods.fml.relauncher.Side;
 
 public class ClientProxy extends CommonProxy{
 
+	public void registerChannels(){
+        NetworkRegistry.instance().registerChannel(RemoteKeyPacketHandler.getInstance(), RemoteKeyPacketHandler.CHANNEL, Side.SERVER);
+	}
 	
 	public void registerRenderThings() {
 	   	RenderingRegistry.registerEntityRenderingHandler(EntityZertum.class, new RenderZertum(new ModelZertum(), 0.5F));
@@ -59,8 +62,6 @@ public class ClientProxy extends CommonProxy{
 }
 	
 	public void registerAdvanced(){
-        NetworkRegistry.instance().registerChannel(RemoteKeyPacketHandler.getInstance(), RemoteKeyPacketHandler.CHANNEL, Side.SERVER);
-        
         KeyBindingRegistry.registerKeyBinding(new JakanKeyHandler());
         TickRegistry.registerTickHandler(new JakanTickHandler(), Side.CLIENT);
 	}

@@ -34,6 +34,7 @@ public class CommonProxy implements IGuiHandler{
 	public static final int RedZertumPack = 2;
 	public static final int DarkZertumPack = 3;
 	public static final int DestroZertumPack = 4;
+	public static final int JakanPack = 5;
 
 
 	@Override
@@ -148,6 +149,10 @@ public class CommonProxy implements IGuiHandler{
 	
 	public void registerSound(){
 		
+	}
+	
+	public void registerChannels(){
+
 	}
 	
     public void registerAdvanced() {
