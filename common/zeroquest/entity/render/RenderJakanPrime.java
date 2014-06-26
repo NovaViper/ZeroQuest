@@ -22,10 +22,14 @@ public class RenderJakanPrime extends RenderLiving
     private static final ResourceLocation jakanPrimeTextureTamed = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/jakan/jakanprime_tamed.png");
     private static final ResourceLocation saddledJakanPrimeTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/jakan/jakan_saddle.png");
     
-    public RenderJakanPrime(ModelJakanPrime par1ModelJakanPrime, float par3)
+    /** An instance of the dragon model in RenderDragon */
+    protected ModelJakanPrime modelDragon;
+
+    public RenderJakanPrime()
     {
-        super(par1ModelJakanPrime, par3);
-        this.setRenderPassModel(par1ModelJakanPrime);
+        super(new ModelJakanPrime(0.0F), 0.5F);
+        this.modelDragon = (ModelJakanPrime)this.mainModel;
+        this.setRenderPassModel(this.mainModel);
     }
     
     protected int func_82447_a(EntityJakanPrime par1EntityJakanPrime, int par2, float par3)

@@ -1,18 +1,23 @@
 package common.zeroquest.entity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
-import common.zeroquest.entity.ai.EntityCustomAIFollowOwner;
-import common.zeroquest.entity.ai.EntityCustomAIOwnerHurtByTarget;
-import common.zeroquest.entity.ai.EntityCustomAIOwnerHurtTarget;
-import common.zeroquest.entity.ai.EntityCustomAISit;
-import common.zeroquest.entity.ai.EntityCustomAITargetNonTamed;
-import common.zeroquest.entity.ai.EntityDAIBeg;
+import common.zeroquest.entity.ai.tameable.EntityCustomAIFollowOwner;
+import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtByTarget;
+import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtTarget;
+import common.zeroquest.entity.ai.tameable.EntityCustomAISit;
+import common.zeroquest.entity.ai.tameable.EntityCustomAITargetNonTamed;
+import common.zeroquest.entity.ai.tameable.EntityDAIBeg;
+import common.zeroquest.entity.helper.CustomTameableHacks;
+import common.zeroquest.entity.helper.CustomTameableHelper;
 import common.zeroquest.inventory.InventoryDestroPack;
 import common.zeroquest.inventory.InventoryRedPack;
+import common.zeroquest.lib.Constants;
 import common.zeroquest.particle.ParticleEffects;
 import common.zeroquest.proxy.CommonProxy;
 import net.minecraft.block.BlockColored;
@@ -73,6 +78,9 @@ public class EntityDestroZertum extends EntityCustomTameable
     public static final double attackDamageTamed = 8;
     public static final double maxHealthBaby = 10;
     public static final double attackDamageBaby = 3;
+    
+    // server/client delegates
+    private Map<Class, CustomTameableHelper> helpers;
     
     public EntityDestroZertum(World par1World)
     {
@@ -166,6 +174,7 @@ public class EntityDestroZertum extends EntityCustomTameable
         this.dataWatcher.addObject(18, new Float(this.getHealth()));
         this.dataWatcher.addObject(19, new Byte((byte)0));
         this.dataWatcher.addObject(20, new Byte((byte)BlockColored.getBlockFromDye(1)));
+        addHelper(new CustomTameableHacks(this));
     }
 
     /**
@@ -185,6 +194,10 @@ public class EntityDestroZertum extends EntityCustomTameable
         par1NBTTagCompound.setBoolean("Angry", this.isAngry());
         par1NBTTagCompound.setByte("CollarColor", (byte)this.getCollarColor());
         this.inventory.writeToNBT(par1NBTTagCompound);
+        
+        for (CustomTameableHelper helper : helpers.values()) {
+            helper.writeToNBT(par1NBTTagCompound);
+        }
     }
 
     /**
@@ -199,6 +212,10 @@ public class EntityDestroZertum extends EntityCustomTameable
         if (par1NBTTagCompound.hasKey("CollarColor"))
         {
             this.setCollarColor(par1NBTTagCompound.getByte("CollarColor"));
+        }
+        
+        for (CustomTameableHelper helper : helpers.values()) {
+            helper.readFromNBT(par1NBTTagCompound);
         }
     }
 
@@ -290,6 +307,10 @@ public class EntityDestroZertum extends EntityCustomTameable
      */
     public void onLivingUpdate()
     {
+        for (CustomTameableHelper helper : helpers.values()) {
+            helper.onLivingUpdate();
+        }
+    	
         super.onLivingUpdate();
 
         if (!this.worldObj.isRemote && this.isShaking && !this.field_70928_h && !this.hasPath() && this.onGround)
@@ -300,7 +321,7 @@ public class EntityDestroZertum extends EntityCustomTameable
             this.worldObj.setEntityState(this, (byte)8);
         }
         
-        if(this.getHealth() <=10 && this.isTamed())
+        if(Constants.DEF_HEALING == true && !this.isChild() && this.getHealth() <=10 && this.isTamed())
         {
        		this.addPotionEffect(new PotionEffect(10, 200));//TODO
         }
@@ -372,14 +393,11 @@ public class EntityDestroZertum extends EntityCustomTameable
                 float f = (float)this.boundingBox.minY;
                 int i = (int)(MathHelper.sin((this.timeWolfIsShaking - 0.4F) * (float)Math.PI) * 7.0F);
 
-                for (int j = 0; j < i; ++j)
-                	if(!this.isBurning()) {
+                for (int j = 0; j < i; ++j){
                     float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
                     float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
                     this.worldObj.spawnParticle("splash", this.posX + (double)f1, (double)(f + 0.8F), this.posZ + (double)f2, this.motionX, this.motionY, this.motionZ);
                 }
-            }else{
-           		this.addPotionEffect(new PotionEffect(12, 20));
             }
         }
     }
@@ -396,11 +414,24 @@ public class EntityDestroZertum extends EntityCustomTameable
 
         for (int i = 0; i < 7; ++i)
         {
+        	if (isClient()){
             double d0 = this.rand.nextGaussian() * 0.02D;
             double d1 = this.rand.nextGaussian() * 0.02D;
             double d2 = this.rand.nextGaussian() * 0.02D;
             ParticleEffects.spawnParticle(s, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
+        	}
         }
+    }
+    
+    private void addHelper(CustomTameableHelper jakanHacks) {
+        if (helpers == null) {
+            helpers = new HashMap<Class, CustomTameableHelper>();
+        }
+        helpers.put(jakanHacks.getClass(), jakanHacks);
+    }
+    
+    public <T extends CustomTameableHelper> T getHelper(Class<T> clazz) {
+        return (T) helpers.get(clazz);
     }
     
     @SideOnly(Side.CLIENT)

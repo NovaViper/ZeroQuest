@@ -6,6 +6,7 @@ import common.zeroquest.entity.EntityJakan;
 import common.zeroquest.entity.EntityJakanPrime;
 import common.zeroquest.entity.EntityRedZertum;
 import common.zeroquest.entity.EntityZertum;
+import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
 import common.zeroquest.tileentity.TileEntityNileTable;
 import net.minecraft.entity.EntityList;
 import net.minecraft.entity.EnumCreatureType;
@@ -18,7 +19,7 @@ public class ModEntities {
 	public static int startEntityId = 300;
 	public static final String tag = "EntityName";
 	
-	//Put Entities in CustomEntityList//
+	//Put Creature Entities in CustomEntityList//
 	//Put Renderers in ClientProxy//
 	//Put Guis in CommonProxy//
 	   public static void loadCreatures() {
@@ -42,8 +43,18 @@ public class ModEntities {
 			GameRegistry.registerTileEntity(TileEntityNileTable.class, "Nile Worktable");
 	   }
 	   
+	   public static void loadProjectiles() {
+		   registerProjectileEntity(EntityFlamingPoisonball.class, "FPoisonball", 400);
+		   //EntityRegistry.registerGlobalEntityID(EntityFlamingPoisonball.class, "FPoisonball", EntityRegistry.findGlobalUniqueEntityId());
+		   
+	   }
+	   
 		public static void registerEntity(Class entityClass, String saveName, int id) {
 		    EntityRegistry.registerModEntity(entityClass, saveName, id, ZeroQuest.instance, 80, 3, false);
+		}
+		
+		public static void registerProjectileEntity(Class entityClass, String saveName, int id) {
+		    EntityRegistry.registerModEntity(entityClass, saveName, id, ZeroQuest.instance, 128, 1, true);
 		}
 
 	

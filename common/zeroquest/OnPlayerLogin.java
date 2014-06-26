@@ -7,6 +7,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumChatFormatting;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.common.IPlayerTracker;
 
@@ -37,7 +38,7 @@ public class OnPlayerLogin implements IPlayerTracker{
 
 	private void verifyModVersion(EntityPlayer player){
 		try {
-			URL url = new URL("http://www.dnstechpack.com/user/subaraki/updates.txt");
+			URL url = new URL("https://raw.githubusercontent.com/NViper21/ZeroQuest/master/updates.txt");
 			BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
 			String str;
 			while ((str = in.readLine()) != null) {
@@ -46,10 +47,11 @@ public class OnPlayerLogin implements IPlayerTracker{
 				String[] pairedString = str.split(":");
 				if(pairedString[0].equals(name)){
 					if(pairedString[1].equals(version)){
-//						player.addChatMessage(pairedString[0] + " is up to date");
+						player.addChatMessage(EnumChatFormatting.GREEN + pairedString[0] +  EnumChatFormatting.RESET + " is up to date");
 						break;
 					}else{
-						player.addChatMessage("a new update is available for " + pairedString[0] + "("+pairedString[1]+")");
+						player.addChatMessage("A new update is available for " + EnumChatFormatting.GREEN  + pairedString[0] + EnumChatFormatting.RESET + "("+pairedString[1]+")");
+						player.addChatMessage("Download newest update from " + EnumChatFormatting.DARK_AQUA + "http://minecraft.curseforge.com/mc-mods/221194-forge-zero-quest/files");
 						break;
 					}
 				}

@@ -15,8 +15,8 @@ import cpw.mods.fml.common.network.Player;
 import java.util.HashMap;
 import java.util.Map;
 
+import common.zeroquest.ZeroQuest;
 import common.zeroquest.key.RemoteKey;
-
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.network.INetworkManager;
 import net.minecraft.network.packet.Packet250CustomPayload;
@@ -28,7 +28,7 @@ import net.minecraft.network.packet.Packet250CustomPayload;
  */
 public class RemoteKeyPacketHandler implements IPacketHandler {
     
-    public static final String CHANNEL = "ZeroQuest";
+    public static final String CHANNEL = ZeroQuest.modid;
     
     private static RemoteKeyPacketHandler instance;
 

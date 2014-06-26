@@ -1,15 +1,20 @@
 package common.zeroquest.entity;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
-import common.zeroquest.entity.ai.EntityCustomAIFollowOwner;
-import common.zeroquest.entity.ai.EntityCustomAIOwnerHurtByTarget;
-import common.zeroquest.entity.ai.EntityCustomAIOwnerHurtTarget;
-import common.zeroquest.entity.ai.EntityCustomAISit;
-import common.zeroquest.entity.ai.EntityCustomAITargetNonTamed;
+import common.zeroquest.entity.ai.tameable.EntityCustomAIFollowOwner;
+import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtByTarget;
+import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtTarget;
+import common.zeroquest.entity.ai.tameable.EntityCustomAISit;
+import common.zeroquest.entity.ai.tameable.EntityCustomAITargetNonTamed;
+import common.zeroquest.entity.helper.CustomTameableHacks;
+import common.zeroquest.entity.helper.CustomTameableHelper;
+import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.particle.ParticleEffects;
 import common.zeroquest.proxy.CommonProxy;
@@ -22,7 +27,9 @@ import net.minecraft.enchantment.EnchantmentThorns;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAIArrowAttack;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIBeg;
 import net.minecraft.entity.ai.EntityAIControlledByPlayer;
@@ -44,6 +51,8 @@ import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.entity.projectile.EntitySmallFireball;
+import net.minecraft.entity.projectile.EntityWitherSkull;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
@@ -76,20 +85,23 @@ public class EntityJakan extends EntityCustomTameable
     public static final double maxHealthBaby = 10;
     public static final double attackDamageBaby = 2;
     
+    // server/client delegates
+    private Map<Class, CustomTameableHelper> helpers;
+    
 	
 	public EntityJakan(World par1World) {
 		super(par1World);
 		this.setSize(2.5F, 2.5F);
+		this.isImmuneToFire = true;
         this.getNavigator().setAvoidsWater(true);
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiCSit);
-        this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
-        this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, true));
-        this.tasks.addTask(5, new EntityCustomAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-        this.tasks.addTask(6, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(9, new EntityAILookIdle(this));
+        this.tasks.addTask(3, new EntityAIAttackOnCollide(this, 1.0D, true));
+        this.tasks.addTask(4, new EntityCustomAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
+        this.tasks.addTask(5, new EntityAIMate(this, 1.0D));
+        this.tasks.addTask(6, new EntityAIWander(this, 1.0D));
+        this.tasks.addTask(7, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(7, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityCustomAIOwnerHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityCustomAIOwnerHurtTarget(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
@@ -154,6 +166,7 @@ public class EntityJakan extends EntityCustomTameable
         this.dataWatcher.addObject(21, Byte.valueOf((byte)0));
         this.dataWatcher.addObject(19, new Byte((byte)0));
         this.dataWatcher.addObject(20, new Byte((byte)BlockColored.getBlockFromDye(1)));
+        addHelper(new CustomTameableHacks(this));
     }
 	
     /**
@@ -164,6 +177,10 @@ public class EntityJakan extends EntityCustomTameable
         super.writeEntityToNBT(par1NBTTagCompound);
         par1NBTTagCompound.setByte("CollarColor", (byte)this.getCollarColor());
         par1NBTTagCompound.setBoolean("Saddle", this.getSaddled());
+        
+        for (CustomTameableHelper helper : helpers.values()) {
+            helper.writeToNBT(par1NBTTagCompound);
+        }
     }
 
     /**
@@ -177,11 +194,22 @@ public class EntityJakan extends EntityCustomTameable
         {
             this.setCollarColor(par1NBTTagCompound.getByte("CollarColor"));
         }
+        
+        for (CustomTameableHelper helper : helpers.values()) {
+            helper.readFromNBT(par1NBTTagCompound);
+        }
     }
     
-    protected void playStepSound(int par1, int par2, int par3, int par4)
-    {
-        this.playSound("zero_quest:jakan.step", 0.15F, 1.0F);
+    protected void playStepSound(int x, int y, int z, int blockId) {
+        if (inWater) {
+            // no sounds for underwater action
+        } else if (this.isChild()) {
+            // play default step sound for babies
+            super.playStepSound(x, y, z, blockId);
+        } else {
+            // play stomping for bigger dragons
+            worldObj.playSoundAtEntity(this, "zero_quest:jakan.step", 0.15F, 1.0F);
+        }
     }
 	
 	protected String getHurtSound()
@@ -192,10 +220,29 @@ public class EntityJakan extends EntityCustomTameable
     protected String getLivingSound()
     {
         return this.canSeeCreeper ? "zero_quest:jakan.growl" : 
+        	 this.getHealth() <=10 ? "zero_quest:jakan.whine" :
         	(this.rand.nextInt(3) == 0 ? 
-        			(this.getHealth() <=10 ? "zero_quest:jakan.whine"
-        					: "zero_quest:jakan.breathe")
+        			( "zero_quest:jakan.breathe")
         					: "zero_quest:jakan.roar");
+        }
+    
+    @Override
+    public void playLivingSound() {
+        String sound = getLivingSound();
+        if (sound == null) {
+            return;
+        }
+        
+        if (!this.isChild()) {
+        	float volume = getSoundVolume() * 1.0f;
+        	float pitch =  getSoundPitch();
+            this.playSound(sound, volume, pitch);	
+        }else{
+        	
+            float volume = getSoundVolume() * 1.0f;
+            float pitch =  getSoundPitch() * 2;
+            this.playSound(sound, volume, pitch);	
+        }
     }
 	
 	protected String getDeathSound()
@@ -204,11 +251,17 @@ public class EntityJakan extends EntityCustomTameable
 	}
 	
     /**
-     * Returns the volume for the sounds this mob makes.
+     * Get number of ticks, at least during which the living entity will be silent.
      */
-    protected float getSoundVolume()
-    {
-        return 1.0F;
+	@Override
+    public int getTalkInterval() {
+    	if(this.canSeeCreeper){
+    		return 40;
+    	}else if(this.getHealth() <=10){
+    		return 20;
+    	}else{
+    		return 200;
+    	}
     }
 	
     protected void dropFewItems(boolean par1, int par2)
@@ -240,9 +293,13 @@ public class EntityJakan extends EntityCustomTameable
 
     public void onLivingUpdate()
     {
+        for (CustomTameableHelper helper : helpers.values()) {
+            helper.onLivingUpdate();
+        }
+    	
         super.onLivingUpdate();
         
-        if (!this.worldObj.isRemote && !this.hasPath() && this.onGround)
+        if (isServer() && !this.hasPath() && this.onGround)
         {
             this.worldObj.setEntityState(this, (byte)8);
         }
@@ -251,9 +308,16 @@ public class EntityJakan extends EntityCustomTameable
         	this.entityToAttack = null;
         }
         
-        if(this.getHealth() <=10 && this.isTamed() && !this.isChild())
+        if(Constants.DEF_HEALING == true && !this.isChild() && this.getHealth() <=10 && this.isTamed())
         {
        		this.addPotionEffect(new PotionEffect(10, 200));//TODO
+        }
+        //Dying
+        if(this.getHealth() <=10 && this.isTamed()){
+        	double d0 = this.rand.nextGaussian() * 0.04D;
+        	double d1 = this.rand.nextGaussian() * 0.04D;
+        	double d2 = this.rand.nextGaussian() * 0.04D;
+        	worldObj.spawnParticle("witchMagic", this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
         }
         if (this.getAttackTarget() == null && isTamed() && 15 > 0) {
             List list1 = worldObj.getEntitiesWithinAABB(EntityCreeper.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(sniffRange(), 4D, sniffRange()));
@@ -299,13 +363,15 @@ public class EntityJakan extends EntityCustomTameable
 
         for (int i = 0; i < 7; ++i)
         {
+        	if(isClient()){
             double d0 = this.rand.nextGaussian() * 0.02D;
             double d1 = this.rand.nextGaussian() * 0.02D;
             double d2 = this.rand.nextGaussian() * 0.02D;
             ParticleEffects.spawnParticle(s, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
-        }
+        	}
+    	}
     }
-
+    
 	/**
      * Called when the entity is attacked.
      */
@@ -483,12 +549,12 @@ public class EntityJakan extends EntityCustomTameable
                 {
                     if (itemstack != null && itemstack.itemID == Item.stick.itemID)
                     {
-                        return true;
+                        return false;
                     }
                     else
                     {
                         par1EntityPlayer.mountEntity(this);
-                    	par1EntityPlayer.triggerAchievement(ModAchievements.MountUp);
+                    	par1EntityPlayer.triggerAchievement(ModAchievements.MountUp);//TODO
                         return true;
                     }
                 }
@@ -511,7 +577,7 @@ public class EntityJakan extends EntityCustomTameable
                 }
             }
 
-            if (par1EntityPlayer.getCommandSenderName().equalsIgnoreCase(this.getOwnerName()) && !this.worldObj.isRemote && !this.isBreedingItem(itemstack))
+            if (canInteract(par1EntityPlayer) && isServer() && !this.isBreedingItem(itemstack))
             {
                 this.isJumping = false;
                 this.aiCSit.setSitting(!this.isSitting());
@@ -540,7 +606,7 @@ public class EntityJakan extends EntityCustomTameable
                     this.setSaddled(true);
                     this.setPathToEntity((PathEntity)null);
                     this.setAttackTarget((EntityLivingBase)null);
-                    this.aiCSit.setSitting(false);
+                    this.aiCSit.setSitting(true);
                     this.setHealth(maxHealthTamedFloat);
                     this.setOwner(par1EntityPlayer.getCommandSenderName());
                     this.playTameEffect(true);
@@ -559,7 +625,16 @@ public class EntityJakan extends EntityCustomTameable
         return super.interact(par1EntityPlayer);
     }
     
+    private void addHelper(CustomTameableHelper jakanHacks) {
+        if (helpers == null) {
+            helpers = new HashMap<Class, CustomTameableHelper>();
+        }
+        helpers.put(jakanHacks.getClass(), jakanHacks);
+    }
     
+    public <T extends CustomTameableHelper> T getHelper(Class<T> clazz) {
+        return (T) helpers.get(clazz);
+    }
     
     /**
      * Returns true if the pig is saddled.

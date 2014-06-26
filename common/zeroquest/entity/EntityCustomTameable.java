@@ -1,6 +1,6 @@
 package common.zeroquest.entity;
 
-import common.zeroquest.entity.ai.EntityCustomAISit;
+import common.zeroquest.entity.ai.tameable.EntityCustomAISit;
 import common.zeroquest.particle.ParticleEffects;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

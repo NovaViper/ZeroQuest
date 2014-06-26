@@ -6,6 +6,7 @@ import common.zeroquest.item.ItemCage;
 import common.zeroquest.item.ItemDogTreat;
 import common.zeroquest.item.ItemDust;
 import common.zeroquest.item.ItemEssence;
+import common.zeroquest.item.ItemFPoisonball;
 import common.zeroquest.item.ItemGrain;
 import common.zeroquest.item.ItemNileArmor;
 import common.zeroquest.item.ItemNileAxe;
@@ -63,6 +64,8 @@ public class ModItems {
 	public static Item nileBone;
 	public static Item nileSaddle;
 	
+	public static Item FPoisonball;
+	
 	//DARK ELEMENT//
 	public static Item darkSword;
 	public static Item darkAxe;
@@ -102,6 +105,9 @@ public class ModItems {
     	
     	//Portal Sparks//
     	nileSpark = new ItemNileSpark(5140).setUnlocalizedName("nileSpark").setTextureName(ZeroQuest.modid + ":" + "nileSpark");
+    	
+    	//Projectiles//
+    	FPoisonball = new ItemFPoisonball(5200).setUnlocalizedName("FPoisonball").setTextureName(ZeroQuest.modid + ":" + "FPoisonball");
     	
     	//Armor//
     	/*nileHelmet = new ItemNileArmor(5200, ZeroQuest.nileEssenceMaterial2, 0, 0, "Nile").setUnlocalizedName("nileHelmet");
@@ -172,6 +178,7 @@ public class ModItems {
 		LanguageRegistry.addName(jakanMeatRaw, "Raw Jakan Meat");
 		LanguageRegistry.addName(jakanMeatCooked, "Cooked Jakan Meat");		
 		LanguageRegistry.addName(entityEgg, "Spawn");
+		LanguageRegistry.addName(FPoisonball, "Flaming Poisonball");
 		
 		//LanguageRegistry.addName(nileGun, "Nile Gun");
 		/*LanguageRegistry.addName(nileHelmet, "Nile Helmet");

@@ -17,14 +17,16 @@ import common.zeroquest.entity.model.ModelJakan;
 import common.zeroquest.entity.model.ModelJakanPrime;
 import common.zeroquest.entity.model.ModelRedZertum;
 import common.zeroquest.entity.model.ModelZertum;
+import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
 import common.zeroquest.entity.render.RenderDarkZertum;
 import common.zeroquest.entity.render.RenderDestroZertum;
+import common.zeroquest.entity.render.RenderFPoisonball;
 import common.zeroquest.entity.render.RenderJakan;
 import common.zeroquest.entity.render.RenderJakanPrime;
 import common.zeroquest.entity.render.RenderRedZertum;
 import common.zeroquest.entity.render.RenderZertum;
-import common.zeroquest.handlers.JakanKeyHandler;
-import common.zeroquest.handlers.JakanTickHandler;
+import common.zeroquest.handlers.DragonKeyHandler;
+import common.zeroquest.handlers.DragonTickHandler;
 import common.zeroquest.handlers.RemoteKeyPacketHandler;
 import common.zeroquest.renderer.ItemRendererNileTable;
 import common.zeroquest.renderer.RendererNileTable;
@@ -45,9 +47,6 @@ import cpw.mods.fml.relauncher.Side;
 
 public class ClientProxy extends CommonProxy{
 
-	public void registerChannels(){
-        NetworkRegistry.instance().registerChannel(RemoteKeyPacketHandler.getInstance(), RemoteKeyPacketHandler.CHANNEL, Side.SERVER);
-	}
 	
 	public void registerRenderThings() {
 	   	RenderingRegistry.registerEntityRenderingHandler(EntityZertum.class, new RenderZertum(new ModelZertum(), 0.5F));
@@ -55,15 +54,16 @@ public class ClientProxy extends CommonProxy{
 	   	RenderingRegistry.registerEntityRenderingHandler(EntityDarkZertum.class, new RenderDarkZertum(new ModelDarkZertum(), 0.5F));
 	   	RenderingRegistry.registerEntityRenderingHandler(EntityDestroZertum.class, new RenderDestroZertum(new ModelDestroZertum(), 0.5F));
 	   	RenderingRegistry.registerEntityRenderingHandler(EntityJakan.class, new RenderJakan(new ModelJakan(), 1.0F));
-	   	RenderingRegistry.registerEntityRenderingHandler(EntityJakanPrime.class, new RenderJakanPrime(new ModelJakanPrime(), 1.0F));
+	   	RenderingRegistry.registerEntityRenderingHandler(EntityJakanPrime.class, new RenderJakanPrime());
 	   	
+	   	RenderingRegistry.registerEntityRenderingHandler(EntityFlamingPoisonball.class, new RenderFPoisonball(1));
 	   	ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNileTable.class, new RendererNileTable());
 	   	MinecraftForgeClient.registerItemRenderer(ModBlocks.nileWorktable.blockID, new ItemRendererNileTable());
 }
 	
 	public void registerAdvanced(){
-        KeyBindingRegistry.registerKeyBinding(new JakanKeyHandler());
-        TickRegistry.registerTickHandler(new JakanTickHandler(), Side.CLIENT);
+        KeyBindingRegistry.registerKeyBinding(new DragonKeyHandler());
+        TickRegistry.registerTickHandler(new DragonTickHandler(), Side.CLIENT);
 	}
     
 	public void reigsterClientLangugaes(){
@@ -86,6 +86,9 @@ public class ClientProxy extends CommonProxy{
 	   	LanguageRegistry.instance().addStringLocalization("entity.Jakan.name", "Jakan");
 	   	LanguageRegistry.instance().addStringLocalization("entity.JakanPrime.name", "Jakan Prime");
 	   	
+	   	//Projectiles//
+	   	LanguageRegistry.instance().addStringLocalization("entity.Zero_Quest.FPoisonball.name", "Flaming Poisonball");
+	   	
 	   	//Achievements
 	   	LanguageRegistry.instance().addStringLocalization(ModAchievements.ZQuestStart.getName(), "Start Zero Quest");
 	   	LanguageRegistry.instance().addStringLocalization(ModAchievements.ZQuestStart.getDescription(), "Gather Grains, Dust, or Essence");
@@ -107,26 +110,4 @@ public class ClientProxy extends CommonProxy{
 		
 		MinecraftForge.EVENT_BUS.register(new SoundManagerZQuest());
 	}
-	
-    public void registerChestItems() {
-        ChestGenHooks chestGenHooksDungeon = ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST);
-        chestGenHooksDungeon.addItem(new WeightedRandomChestContent(new ItemStack(ModItems.nileEssence), 1, 1, 70));
-        // chance < saddle (1/16, ca. 6%, in max 8 slots -> 40% at least 1 egg, 0.48 eggs per chest): I think that's okay
-
-        ChestGenHooks chestGenHooksMineshaft = ChestGenHooks.getInfo(ChestGenHooks.MINESHAFT_CORRIDOR);
-        chestGenHooksMineshaft.addItem(new WeightedRandomChestContent(new ItemStack(ModItems.nileEssence), 1, 1, 5));
-        // chance == gold ingot (1/18, ca. 6%, in 3-6 slots -> 23% at least 1 egg, 0.27 eggs per chest):
-        // exploring a random mine shaft in creative mode yielded 2 eggs out of about 10 chests in 1 hour
-
-        ChestGenHooks chestGenHooksJungleChest = ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_JUNGLE_CHEST);
-        chestGenHooksJungleChest.addItem(new WeightedRandomChestContent(new ItemStack(ModItems.nileEssence), 1, 1, 15));
-        // chance == gold ingot (15/81, ca. 18%, in 2-5 slots -> 51% at least 1 egg, 0.65 eggs per chest, 1.3 eggs per temple):
-        // jungle temples are so rare, it should be rewarded
-
-        ChestGenHooks chestGenHooksDesertChest = ChestGenHooks.getInfo(ChestGenHooks.PYRAMID_DESERT_CHEST);
-        chestGenHooksDesertChest.addItem(new WeightedRandomChestContent(new ItemStack(ModItems.nileEssence), 1, 1, 10));
-        // chance == iron ingot (10/76, ca. 13%, in 2-5 slots -> 39% at least 1 egg, 0.46 eggs per chest, 1.8 eggs per temple):
-        // desert temples are so rare, it should be rewarded
-    }
-
 }

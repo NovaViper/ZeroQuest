@@ -20,61 +20,28 @@ public class ConfigurationHandler {
    
    private static final Logger L = ZeroQuest.L;
    
-   private File configFile;
    private Configuration config;
    
-   // config properties
-   private Property DarkElementLoad;
-   private Property DarkParticlesLoad;
-   
-   public ConfigurationHandler(File configFile) {
-       this.configFile = configFile;
-       load();
-       save();
-   }
-   
-   public void load() {
-       try {
-           if (config == null) {
-               config = new Configuration(configFile);
-           } else {
-               config.load();
-           }
-       } catch (Exception ex) {
-           L.log(Level.WARNING, "Can't load config file" , ex);
+   public ConfigurationHandler(File file) {
+       this.config = new Configuration(file);
+
+       try{
+    	   config.load();
+    	   
+   		   config.addCustomCategoryComment("ModSettings", "Here you can change what the mod loads");
+   		   
+   		   Constants.DEF_DARKLOAD = config.get("ModSettings", "DarkElements", false, "Toggles the Dark Elemental Load").getBoolean(false);
+   		   Constants.DEF_DPARTICLESLOAD = config.get("ModSettings", "DarkParticles", true, "Toggles the Dark Particles Load").getBoolean(true);
+   		   Constants.DEF_HEALING = config.get("ModSettings", "Healing", false, "Toggles the Healing ability of ALL Zero Quest tameable creatures").getBoolean(false);
+    	   
+       }
+       catch(Exception e){
+    	   L.log(Level.SEVERE, "Zero Quest encounted a problem while loading the config file: ", e);
+       }
+       finally{
+    	   config.save();
        }
        
-       try {
-    	   DarkElementLoad = config.get("server", "DarkElements", Constants.DEF_DARKLOAD, "Toggles the Dark Elemental Load");
-    	   DarkParticlesLoad = config.get("server", "DarkParticles", Constants.DEF_DPARTICLESLOAD, "Toggles the Dark Particles Load");
-       } catch (Exception ex) {
-           L.log(Level.WARNING, "Can't load config file", ex);
-       }
    }
-   
-   public void save() {
-       try {
-           if (config.hasChanged()) {
-               config.save();
-           }
-       } catch (Exception ex) {
-           L.log(Level.WARNING, "Can't save config file", ex);
-       }
-   }
-   
-   public boolean canLoadDarkElements() {
-       return DarkElementLoad.getBoolean(Constants.DEF_DARKLOAD);
-   }
-   
-   public void setLoadDarkElementsOn(boolean enabled) {
-	   DarkElementLoad.set(enabled);
-   }
-   
-   public boolean canLoadDarkParticles() {
-       return DarkParticlesLoad.getBoolean(Constants.DEF_DPARTICLESLOAD);
-   }
-   
-   public void setLoadDarkParticlesOn(boolean enabled) {
-	   DarkElementLoad.set(enabled);
-   }
+
 }

@@ -53,7 +53,7 @@ public class RenderDestroZertum extends RenderLiving
             GL11.glColor3f(f1 * EntitySheep.fleeceColorTable[j][0], f1 * EntitySheep.fleeceColorTable[j][1], f1 * EntitySheep.fleeceColorTable[j][2]);
             return 1;
         }
-        else if (par2 == 2 && par1EntityZertum.getHealth() <=10 &&  par1EntityZertum.isTamed())
+        else if (par2 == 0 && par1EntityZertum.getHealth() <=10 &&  par1EntityZertum.isTamed())
         {
             this.bindTexture(zwolfDyingTextures);
             return 1;

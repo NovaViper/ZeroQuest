@@ -10,6 +10,7 @@
 package common.zeroquest.entity.ai;
 
 import common.zeroquest.entity.EntityJakanPrime;
+import common.zeroquest.entity.ai.tameable.EntityCustomAITargetNonTamed;
 
 /**
  *

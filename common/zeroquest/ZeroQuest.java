@@ -1,5 +1,6 @@
 package common.zeroquest;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -9,13 +10,17 @@ import common.zeroquest.handlers.*;
 import common.zeroquest.proxy.*;
 import common.zeroquest.lib.*;
 import common.zeroquest.proxy.*;
+import common.zeroquest.command.CommandZeroQuest;
 import common.zeroquest.creativetab.*;
 import common.zeroquest.events.*;
 import common.zeroquest.world.*;
 import common.zeroquest.world.gen.*;
+import net.minecraft.command.ICommandManager;
+import net.minecraft.command.ServerCommandManager;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.item.EnumArmorMaterial;
 import net.minecraft.item.EnumToolMaterial;
+import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.BiomeDictionary;
 import net.minecraftforge.common.Configuration;
@@ -33,6 +38,7 @@ import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.event.FMLServerStartingEvent;
 import cpw.mods.fml.common.network.NetworkMod;
 import cpw.mods.fml.common.network.NetworkRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -40,14 +46,15 @@ import cpw.mods.fml.common.registry.TickRegistry;
 import cpw.mods.fml.relauncher.Side;
 
 @Mod(modid = ZeroQuest.modid, name = "Zero Quest", version = ZeroQuest.version, useMetadata = true)
-@NetworkMod(clientSideRequired = true, serverSideRequired = false)
+@NetworkMod(channels = ZeroQuest.channel, clientSideRequired = true, serverSideRequired = false)
 public class ZeroQuest 
 {
 	@Instance("Zero_Quest")
 	public static ZeroQuest instance;
 	public static final String modid = "Zero_Quest";
-	public static final String version = "0.0.1";
+	public static final String version = "v0.0.1";
     public static final Logger L = Logger.getLogger("Zero_Quest");
+    public static final String channel = modid;
 	
 	@SidedProxy(clientSide = "common.zeroquest.proxy.ClientProxy", serverSide = "common.zeroquest.proxy.CommonProxy")
 	public static CommonProxy proxy;
@@ -82,8 +89,8 @@ public class ZeroQuest
 		
 		LogHelper.log(Level.INFO, "-----PRE-CONTENT LOAD INITATING-----");
 		LogHelper.log(Level.INFO, "Loading Main Stuff...");
-        config = new ConfigurationHandler(event.getSuggestedConfigurationFile());   
-		//GameRegistry.registerPlayerTracker(new OnPlayerLogin(version, "Zero Quest"));
+        config = new ConfigurationHandler(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + channel + File.separator + modid.toLowerCase() + ".cfg"));   
+		GameRegistry.registerPlayerTracker(new OnPlayerLogin(version, "ZeroQuest"));
 	   	proxy.registerSound();
    		this.ZeroTab = new ZeroQuestTab(CreativeTabs.getNextID());
 		NetworkRegistry.instance().registerGuiHandler(ZeroQuest.modid, proxy);
@@ -116,6 +123,7 @@ public class ZeroQuest
 		LogHelper.log(Level.INFO, "Loading Entities and Ore Dictionary...");
     	ModEntities.loadCreatures();
     	ModEntities.loadTileEntities();
+    	ModEntities.loadProjectiles();
    		OreDic.load();
 		LogHelper.log(Level.INFO, "Entities and Ore Dictionary Loaded Successfully!");
 		
@@ -170,7 +178,7 @@ public class ZeroQuest
     	MinecraftServer server = MinecraftServer.getServer();
     	ICommandManager command = server.getCommandManager();
     	ServerCommandManager manager = (ServerCommandManager) command;
-    	manager.registerCommand(new SpawnPet());
+    	manager.registerCommand(new CommandZeroQuest());
     	LogHelper.log(Level.INFO, "Commands Loaded Successfully!");  
     	LogHelper.log(Level.INFO, "-----COMMAND CONTENT LOAD FINSHED-----");
     	

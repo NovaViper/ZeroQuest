@@ -11,8 +11,8 @@ package common.zeroquest.entity.ai.flight;
 
 import common.zeroquest.entity.EntityJakanPrime;
 import common.zeroquest.entity.ai.EntityAICatchOwner;
-import common.zeroquest.entity.ai.JakanFlightWaypoint;
-import common.zeroquest.util.MathX;
+import common.zeroquest.entity.ai.DragonFlightWaypoint;
+import common.zeroquest.util.math.MathX;
 
 /**
  *
@@ -26,7 +26,7 @@ public class EntityAICatchOwnerAir extends EntityAICatchOwner {
 
     @Override
     public void updateTask() {
-        JakanFlightWaypoint wp = dragon.getWaypoint();
+    	DragonFlightWaypoint wp = dragon.getWaypoint();
         wp.setEntity(owner);
         
         double dist = wp.getDistance();

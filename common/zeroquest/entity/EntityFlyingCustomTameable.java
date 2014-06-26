@@ -13,8 +13,8 @@ import cpw.mods.fml.relauncher.ReflectionHelper;
 
 import java.util.List;
 
-import common.zeroquest.entity.ai.JakanFlightWaypoint;
-import common.zeroquest.util.MathX;
+import common.zeroquest.entity.ai.DragonFlightWaypoint;
+import common.zeroquest.util.math.MathX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.ai.EntityAITasks;
 import net.minecraft.entity.ai.attributes.Attribute;
@@ -43,7 +43,7 @@ public abstract class EntityFlyingCustomTameable extends EntityCustomTameable {
        
     public EntityAITasks airTasks;
     
-    private JakanFlightWaypoint waypoint;
+    private DragonFlightWaypoint waypoint;
     private double airSpeedHorizonal = 1.5;
     private double airSpeedVertical = 0;
     private float yawAdd;
@@ -52,7 +52,7 @@ public abstract class EntityFlyingCustomTameable extends EntityCustomTameable {
    
     public EntityFlyingCustomTameable(World world) {
         super(world);
-        waypoint = new JakanFlightWaypoint(this);
+        waypoint = new DragonFlightWaypoint(this);
         airTasks = new EntityAITasks(world != null ? world.theProfiler : null);
     }
     
@@ -313,7 +313,7 @@ public abstract class EntityFlyingCustomTameable extends EntityCustomTameable {
         return posY - worldObj.getHeightValue(blockX, blockZ);
     }
     
-    public JakanFlightWaypoint getWaypoint() {
+    public DragonFlightWaypoint getWaypoint() {
         return waypoint;
     }
     

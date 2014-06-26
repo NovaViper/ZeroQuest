@@ -24,7 +24,10 @@ public class BlockNileFire extends BlockFire
 	{
 		super(par1);
 		setTickRandomly(true);
-		this.setLightValue(1.0F);
+        this.setHardness(0.0F);
+        this.setLightValue(1.0F);
+        this.setStepSound(soundWoodFootstep);
+        this.disableStats();
 	}
 
 

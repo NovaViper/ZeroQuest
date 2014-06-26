@@ -37,7 +37,7 @@ public class SoundManagerZQuest {
             }
             // If we cannot add the custom sound file to the pool, log the exception
             catch (Exception e) {
-                FMLCommonHandler.instance().getFMLLogger().log(Level.WARNING, "Zero Quest Failed loading sound file: " + soundFile);
+                FMLCommonHandler.instance().getFMLLogger().log(Level.WARNING, "Zero Quest failed loading sound file: " + soundFile);
             }
         }
 	}
