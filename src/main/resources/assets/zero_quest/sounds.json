@@ -1,0 +1,26 @@
+{
+"action.land": {"category": "ambient", "sounds": ["action/land"]},
+"jakan.breathe": {"category": "neutral", "sounds": ["jakan/breathe1", "jakan/breathe2"]},
+"jakan.death": {"category": "neutral", "sounds": ["jakan/death"]},
+"jakan.growl": {"category": "neutral", "sounds": ["jakan/growl1", "jakan/growl2"]},
+"jakan.snarl": {"category": "neutral", "sounds": ["jakan/snarl1", "jakan/snarl2", "jakan/snarl3"]},
+"jakan.roar": {"category": "neutral", "sounds": ["jakan/roar1", "jakan/roar2", "jakan/roar2"]},
+"jakan.step": {"category": "neutral", "sounds": ["jakan/step1", "jakan/step2", "jakan/step3", "jakan/step4"]},
+"jakan.whine": {"category": "neutral", "sounds": ["jakan/whine"]},
+"kortor.breathe": {"category": "neutral", "sounds": ["kortor/breathe1", "kortor/breathe2"]},
+"kortor.death": {"category": "neutral", "sounds": ["kortor/death"]},
+"kortor.growl": {"category": "neutral", "sounds": ["kortor/growl1", "kortor/growl2"]},
+"kortor.screech": {"category": "neutral", "sounds": ["kortor/screech1", "kortor/screech2"]},
+"kortor.snarl": {"category": "neutral", "sounds": ["kortor/snarl1", "kortor/snarl2"]},
+"kortor.step": {"category": "neutral", "sounds": ["kortor/step1", "kortor/step2", "kortor/step3", "kortor/step4"]},
+"kortor.hit": {"category": "neutral", "sounds": ["kortor/hit1", "kortor/hit2", "kortor/hit3", "kortor/hit4"]},
+"kortor.whine": {"category": "neutral", "sounds": ["kortor/whine"]},
+"kurr.breathe": {"category": "hostile", "sounds": ["kurr/breathe1", "kurr/breathe2"]},
+"kurr.death": {"category": "hostile", "sounds": ["kurr/death"]},
+"kurr.growl": {"category": "hostile", "sounds": ["kurr/growl1", "kurr/growl2", "kurr/growl3", "kurr/growl4"]},
+"kurr.hiss": {"category": "hostile", "sounds": ["kurr/hiss"]},
+"kurr.roar": {"category": "hostile", "sounds": ["kurr/roar"]},
+"kurr.whine": {"category": "hostile", "sounds": ["kurr/whine"]}
+
+
+}
