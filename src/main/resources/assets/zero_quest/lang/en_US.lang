@@ -83,10 +83,10 @@ item.niliBucket.name=Nili Bucket
 
 item.FPoisonball.name=Flaming Poisonball
 
-key.categories.zeroquest=ZeroQuest
+key.categories.zeroquest=Zero Quest
 key.jakan.flyDown=Fly Up
 key.jakan.flyUp=Fly Down
-jakan.owned=This dragon doesn't follow your commands.
+jakan.owned=This Jakan doesn't follow your commands.
 jakan.mountNotice=Press %s and %s to fly up and down
 
 attribute.name.generic.movementSpeedAir=Flying Speed

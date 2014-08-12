@@ -55,7 +55,7 @@ public class ZeroQuest
 	@Instance("zero_quest")
 	public static ZeroQuest instance;
 	public static final String modid = "zero_quest";
-	public static final String version = "v0.0.3";
+	public static final String version = "v1.0.0";
 	public static final Logger Log = LogManager.getFormatterLogger("Zero Quest");
     public static final String channel = modid;
 	
