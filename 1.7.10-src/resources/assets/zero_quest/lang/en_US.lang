@@ -67,6 +67,7 @@ item.darkPickaxe.name=Dark Pickaxe
 item.darkShovel.name=Dark Shovel
 item.darkHoe.name=Dark Hoe
 item.darkSpark.name=Dark Spark
+item.kurrSeeds.name=Kurr Seeds
 item.nileBow.name=Nile Bow
 item.nileGun.name=Nile Gun
 
@@ -86,8 +87,12 @@ item.FPoisonball.name=Flaming Poisonball
 key.categories.zeroquest=Zero Quest
 key.jakan.flyDown=Fly Up
 key.jakan.flyUp=Fly Down
-jakan.owned=This Jakan doesn't follow your commands.
-jakan.mountNotice=Press %s and %s to fly up and down
+
+commands.zeroquest.notameable=There are no nile creatures nearby!
+commands.zeroquest.canttame=You cannot tame these creatures!
+commands.zeroquest.cantfree=You cannot free these creatures!
+Commands.zeroquest.cantheal=You cannot heal these creatures!
+
 
 attribute.name.generic.movementSpeedAir=Flying Speed
 
@@ -127,7 +132,7 @@ achievement.buildBone.desc=Craft a Nile Bone for Taming
 achievement.ZertTame=Zertum, My Pet!
 achievement.ZertTame.desc=Tame a Zertum
 achievement.MountUp= Mount up, Ladies!
-achievement.MountUp.desc=Mount on a Jakan or Jakan Prime
+achievement.MountUp.desc=Mount on a Jakan
 
 achievement.DragonSlayer=The Dragon Slayer
 achievement.DragonSlayer.desc=Kill a Kurr

@@ -6,9 +6,8 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
-
 import common.zeroquest.ZeroQuest;
-import common.zeroquest.particle.ParticleEffects;
+import common.zeroquest.client.particle.ParticleEffects;
 
 public class BlockNilePinkFlower extends BlockBush{
 

@@ -4,14 +4,15 @@ import java.util.Random;
 
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ZeroQuest;
+import common.zeroquest.client.particle.ParticleEffects;
 import common.zeroquest.dimension.TeleporterDarkax;
-import common.zeroquest.particle.ParticleEffects;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.relauncher.Side;
@@ -21,10 +22,14 @@ public class BlockPortalDarkax extends BlockPortal{
 
 	public BlockPortalDarkax() {
 		super();
-        this.setLightLevel(1.0F);
-        //this.setLightOpacity(0);
         this.setStepSound(soundTypeGlass);
 	}
+	
+	 @Override
+	 public int getLightValue(IBlockAccess world, int x, int y, int z)
+	 {
+		 return 14;
+	 }
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){

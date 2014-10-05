@@ -36,7 +36,7 @@ public class WorldGenZQuest implements IWorldGenerator {
 	}
 
 	private void generateSurface(World world, Random random, int x, int y) {
-
+		this.addOreSpawn(ModBlocks.nileGrainOre, world, random, x, y, 20, 20, 3+random.nextInt(5), 80, 3, 90);
 	}
 	
 	private void generateNether(World world, Random random, int x, int y) {

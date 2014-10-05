@@ -1,6 +1,7 @@
 package common.zeroquest;
 
 import common.zeroquest.item.ItemAcidBucket;
+import common.zeroquest.item.ItemCage;
 import common.zeroquest.item.ItemDarkSpark;
 import common.zeroquest.item.ItemDogTreat;
 import common.zeroquest.item.ItemDust;
@@ -21,6 +22,7 @@ import common.zeroquest.item.ItemNileSpark;
 import common.zeroquest.item.ItemNileStoneSlab;
 import common.zeroquest.item.ItemNileSword;
 import common.zeroquest.item.ItemNiliBucket;
+import common.zeroquest.item.KurrSeed;
 import common.zeroquest.item.ZQFood;
 import common.zeroquest.item.VitoidFruit;
 import cpw.mods.fml.common.registry.GameRegistry;
@@ -58,7 +60,7 @@ public class ModItems {
 	public static Item nileDust;
 	public static Item nileGrain;
 	public static Item nileCoal;
-	//public static Item animalCage;
+	public static Item animalCage;
 	public static Item nileSpark;
 	public static Item nileBone;
 	
@@ -70,26 +72,26 @@ public class ModItems {
 	public static Item darkPickaxe;
 	public static Item darkShovel;
 	public static Item darkHoe;
-	//public static Item darkBow;
 	
 	public static Item darkEssence;
 	public static Item darkDust;
 	public static Item darkGrain;
 	public static Item darkNileBone;
+	public static Item kurrSeeds;
 	
 	public static Item darkSpark;
 	
 	public static void load() {    	
     	//Tools/Weapons//
-    	nileSword = new ItemNileSword(ZeroQuest.nileEssenceMaterial).setUnlocalizedName("nileSword").setTextureName(ZeroQuest.modid + ":" + "nileSword").setCreativeTab(ZeroQuest.ZeroTab);
+    	nileSword = new ItemNileSword(ZeroQuest.nileEssence).setUnlocalizedName("nileSword").setTextureName(ZeroQuest.modid + ":" + "nileSword").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nileSword, "nile_sword");
-    	nileAxe = new ItemNileAxe(ZeroQuest.nileEssenceMaterial).setUnlocalizedName("nileAxe").setTextureName(ZeroQuest.modid + ":" + "nileAxe").setCreativeTab(ZeroQuest.ZeroTab);
+    	nileAxe = new ItemNileAxe(ZeroQuest.nileEssence).setUnlocalizedName("nileAxe").setTextureName(ZeroQuest.modid + ":" + "nileAxe").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nileAxe, "nile_axe");
-    	nilePickaxe = new ItemNilePickaxe(ZeroQuest.nileEssenceMaterial).setUnlocalizedName("nilePickaxe").setTextureName(ZeroQuest.modid + ":" + "nilePickaxe").setCreativeTab(ZeroQuest.ZeroTab);
+    	nilePickaxe = new ItemNilePickaxe(ZeroQuest.nileEssence).setUnlocalizedName("nilePickaxe").setTextureName(ZeroQuest.modid + ":" + "nilePickaxe").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nilePickaxe, "nile_pickaxe");
-    	nileShovel = new ItemNileShovel(ZeroQuest.nileEssenceMaterial).setUnlocalizedName("nileShovel").setTextureName(ZeroQuest.modid + ":" + "nileShovel").setCreativeTab(ZeroQuest.ZeroTab);
+    	nileShovel = new ItemNileShovel(ZeroQuest.nileEssence).setUnlocalizedName("nileShovel").setTextureName(ZeroQuest.modid + ":" + "nileShovel").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nileShovel, "nile_shovel");
-    	nileHoe = new ItemNileHoe(ZeroQuest.nileEssenceMaterial).setUnlocalizedName("nileHoe").setTextureName(ZeroQuest.modid + ":" + "nileHoe").setCreativeTab(ZeroQuest.ZeroTab);
+    	nileHoe = new ItemNileHoe(ZeroQuest.nileEssence).setUnlocalizedName("nileHoe").setTextureName(ZeroQuest.modid + ":" + "nileHoe").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nileHoe, "nile_Hoe");
     	nileBow = new ItemNileBow().setUnlocalizedName("nileBow").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nileBow, "nile_Bow");
@@ -111,6 +113,8 @@ public class ModItems {
     	register(dogTreat, "dog_treat");
     	nileBone = new ItemNileBone().setUnlocalizedName("nileBone").setTextureName(ZeroQuest.modid + ":" + "nileBone").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nileBone, "nile_bone");
+    	//animalCage = new ItemCage().setUnlocalizedName("animalCage").setTextureName(ZeroQuest.modid + ":" + "animalCage");
+    	//register(animalCage, "animalCage");
     	
     	//Portal Sparks//
     	nileSpark = new ItemNileSpark().setUnlocalizedName("nileSpark").setTextureName(ZeroQuest.modid + ":" + "nileSpark");
@@ -121,10 +125,14 @@ public class ModItems {
     	register(FPoisonball, "flaming_poisonball");
     	
     	//Armor//
-    	/*nileHelmet = new ItemNileArmor(5240, ZeroQuest.nileEssenceMaterial2, 0, 0, "Nile").setUnlocalizedName("nileHelmet");
-    	nileChest = new ItemNileArmor(5241, ZeroQuest.nileEssenceMaterial2, 0, 1, "Nile").setUnlocalizedName("nileChest");
-    	nileLegs = new ItemNileArmor(5242, ZeroQuest.nileEssenceMaterial2, 0, 2, "Nile").setUnlocalizedName("nileLegs");
-    	nileBoots = new ItemNileArmor(5243, ZeroQuest.nileEssenceMaterial2, 0, 3, "Nile").setUnlocalizedName("nileBoots");*/
+    	/*nileHelmet = new ItemNileArmor(ZeroQuest.nileEssenceArmorMaterial, 0, "nileHelmet");
+    	register(nileHelmet,"nile_helmet");
+    	nileChest = new ItemNileArmor(ZeroQuest.nileEssenceArmorMaterial, 1, "nileChest");
+    	register(nileChest,"nile_chest");
+    	nileLegs = new ItemNileArmor(ZeroQuest.nileEssenceArmorMaterial, 2, "nileLegs");
+    	register(nileLegs,"nile_leggings");
+    	nileBoots = new ItemNileArmor(ZeroQuest.nileEssenceArmorMaterial, 3, "nileBoots");
+    	register(nileBoots,"nile_boots");*/
     	
     	//Food/Crops//
     	zertumMeatRaw = new ZQFood(6, 1.5F, true).setUnlocalizedName("zertumMeatRaw").setTextureName(ZeroQuest.modid + ":" + "zertumMeat_raw");
@@ -139,23 +147,21 @@ public class ModItems {
     	register(jakanMeatRaw, "jakan_meat_raw");
     	jakanMeatCooked = new ZQFood(9, 2.7F, true).setUnlocalizedName("jakanMeatCooked").setTextureName(ZeroQuest.modid + ":" + "jakanMeat_cooked");
     	register(jakanMeatCooked, "jakan_meat_cooked");
-    	
-    	//Entity Eggs//
-    	//entityEgg = new CustomEntityEgg().setUnlocalizedName("entityEgg").setTextureName(ZeroQuest.modid + ":" + "entityEgg");
-    	//register(entityEgg, "Spawn");
+    	kurrSeeds = new KurrSeed(4, 1.2F, false).setUnlocalizedName("kurrSeeds").setTextureName(ZeroQuest.modid + ":" + "kurrSeed");
+    	register(kurrSeeds, "kurr_seeds");
 	}
 	
 	public static void loadDarkItems(){
 		
-		darkSword = new ItemNileSword(ZeroQuest.darkEssenceMaterial).setUnlocalizedName("darkSword").setTextureName(ZeroQuest.modid + ":" + "darkSword").setCreativeTab(ZeroQuest.DarkTab);
+		darkSword = new ItemNileSword(ZeroQuest.darkEssence).setUnlocalizedName("darkSword").setTextureName(ZeroQuest.modid + ":" + "darkSword").setCreativeTab(ZeroQuest.DarkTab);
 		register(darkSword, "dark_sword");
-		darkAxe = new ItemNileAxe(ZeroQuest.darkEssenceMaterial).setUnlocalizedName("darkAxe").setTextureName(ZeroQuest.modid + ":" + "darkAxe").setCreativeTab(ZeroQuest.DarkTab);
+		darkAxe = new ItemNileAxe(ZeroQuest.darkEssence).setUnlocalizedName("darkAxe").setTextureName(ZeroQuest.modid + ":" + "darkAxe").setCreativeTab(ZeroQuest.DarkTab);
 		register(darkAxe, "dark_axe");
-		darkPickaxe = new ItemNilePickaxe(ZeroQuest.darkEssenceMaterial).setUnlocalizedName("darkPickaxe").setTextureName(ZeroQuest.modid + ":" + "darkPickaxe").setCreativeTab(ZeroQuest.DarkTab);
+		darkPickaxe = new ItemNilePickaxe(ZeroQuest.darkEssence).setUnlocalizedName("darkPickaxe").setTextureName(ZeroQuest.modid + ":" + "darkPickaxe").setCreativeTab(ZeroQuest.DarkTab);
 		register(darkPickaxe, "dark_pickaxe");
-		darkShovel = new ItemNileShovel(ZeroQuest.darkEssenceMaterial).setUnlocalizedName("darkShovel").setTextureName(ZeroQuest.modid + ":" + "darkShovel").setCreativeTab(ZeroQuest.DarkTab);
+		darkShovel = new ItemNileShovel(ZeroQuest.darkEssence).setUnlocalizedName("darkShovel").setTextureName(ZeroQuest.modid + ":" + "darkShovel").setCreativeTab(ZeroQuest.DarkTab);
 		register(darkShovel, "dark_shovel");
-		darkHoe = new ItemNileHoe(ZeroQuest.darkEssenceMaterial).setUnlocalizedName("darkHoe").setTextureName(ZeroQuest.modid + ":" + "darkHoe").setCreativeTab(ZeroQuest.DarkTab);
+		darkHoe = new ItemNileHoe(ZeroQuest.darkEssence).setUnlocalizedName("darkHoe").setTextureName(ZeroQuest.modid + ":" + "darkHoe").setCreativeTab(ZeroQuest.DarkTab);
 		register(darkHoe, "dark_hoe");
 		
     	darkSpark = new ItemDarkSpark().setUnlocalizedName("darkSpark").setTextureName(ZeroQuest.modid + ":" + "darkSpark");
@@ -169,8 +175,6 @@ public class ModItems {
        	register(darkGrain, "dark_grain");
        	darkNileBone = new ItemNileBone().setUnlocalizedName("nileDarkBone").setTextureName(ZeroQuest.modid + ":" + "nileDarkBone").setCreativeTab(ZeroQuest.DarkTab);
        	register(darkNileBone, "nile_bone_dark");
-       	//entityDarkEgg = new CustomEntityDarkEgg().setUnlocalizedName("entityDarkEgg").setTextureName(ZeroQuest.modid + ":" + "entityEgg");
-    	//register(entityDarkEgg, "Spawn");
 	}
 	
 	   public static void register(Item item, String name){

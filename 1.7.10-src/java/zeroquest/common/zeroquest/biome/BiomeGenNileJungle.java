@@ -25,6 +25,8 @@ import common.zeroquest.ModBlocks;
 import common.zeroquest.ModLiquids;
 import common.zeroquest.entity.EntityKortor;
 import common.zeroquest.entity.EntityZertum;
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class BiomeGenNileJungle extends BiomeGenBase
 {
@@ -68,6 +70,10 @@ public class BiomeGenNileJungle extends BiomeGenBase
     {
         return (WorldGenAbstractTree)(p_150567_1_.nextInt(10) == 0 ? this.worldGeneratorBigTree : (p_150567_1_.nextInt(2) == 0 ? new WorldGenShrub(3, 0) : (!this.field_150614_aC && p_150567_1_.nextInt(3) == 0 ? new WorldGenMegaJungle(false, 10, 20, 3, 3) : new WorldGenTrees(false, 4 + p_150567_1_.nextInt(7), 3, 3, true))));
     }
+    
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int getBiomeFoliageColor(int par1, int par2, int par3){return 0x99FF99;}
 
     /**
      * Gets a WorldGen appropriate for this biome.

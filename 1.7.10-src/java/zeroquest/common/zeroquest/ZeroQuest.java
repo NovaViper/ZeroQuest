@@ -7,10 +7,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import common.zeroquest.*;
-import common.zeroquest.handlers.*;
-import common.zeroquest.proxy.*;
 import common.zeroquest.lib.*;
-import common.zeroquest.proxy.*;
+import common.zeroquest.core.command.CommandZeroQuest;
+import common.zeroquest.core.handlers.*;
+import common.zeroquest.core.proxy.*;
 import common.zeroquest.creativetab.*;
 import common.zeroquest.events.*;
 import common.zeroquest.world.*;
@@ -55,19 +55,20 @@ public class ZeroQuest
 	@Instance("zero_quest")
 	public static ZeroQuest instance;
 	public static final String modid = "zero_quest";
-	public static final String version = "v1.0.0";
+	public static final String version = "v1.0.5";
 	public static final Logger Log = LogManager.getFormatterLogger("Zero Quest");
     public static final String channel = modid;
 	
-	@SidedProxy(clientSide = "common.zeroquest.proxy.ClientProxy", serverSide = "common.zeroquest.proxy.CommonProxy")
+	@SidedProxy(clientSide = "common.zeroquest.core.proxy.ClientProxy", serverSide = "common.zeroquest.core.proxy.CommonProxy")
 	public static CommonProxy proxy;
 
 	//Put custom particles in ParticleEffects (Get regular particles from RenderGlobal)// //TODO
 	//Put Sounds in sounds.json//
 	
-	public static ToolMaterial nileEssenceMaterial;
-	public static ArmorMaterial nileEssenceMaterial2;
-	public static ToolMaterial darkEssenceMaterial;
+	public static ToolMaterial nileEssence;
+	public static ArmorMaterial nileEssenceArmor;
+	public static ToolMaterial darkEssence;
+	public static ArmorMaterial darkEssenceArmor;
 	
 	public static final int NillaxID = 2;
 	public static final int DarkaxID = 3;
@@ -98,8 +99,8 @@ public class ZeroQuest
     public void load(FMLInitializationEvent event)
 	{			
 		Log.info("-----CONTENT LOAD INITATING-----");
-    	nileEssenceMaterial = EnumHelper.addToolMaterial("NileEssenceMaterial", 4, 4000, 20.0F, 4.0F, 30);
-    	nileEssenceMaterial2 = EnumHelper.addArmorMaterial("NileEssenceAMaterial", 40, new int[]{4, 9, 7, 4}, 25);  
+    	nileEssence = EnumHelper.addToolMaterial("NileEssence", 4, 4000, 20.0F, 4.0F, 30);
+    	nileEssenceArmor = EnumHelper.addArmorMaterial("NileEssenceArmor", 40, new int[]{4, 9, 7, 4}, 25);  
     	
     	Log.info("Loading Block, Recipes and Items...");
     	ModBlocks.load();
@@ -124,7 +125,8 @@ public class ZeroQuest
     	if(Constants.DEF_DARKLOAD == true){
     	Log.warn("Dark Elemental Load is ENABLED!");	
     	Log.info("Initating Dark Elemental Load!");
-    		darkEssenceMaterial = EnumHelper.addToolMaterial("DarkEssenceMaterial", 4, 4000, 21.0F, 5.0F, 40);
+    		darkEssence = EnumHelper.addToolMaterial("DarkEssence", 4, 4000, 21.0F, 5.0F, 40);
+        	darkEssenceArmor = EnumHelper.addArmorMaterial("DarkEssenceArmor", 41, new int[]{5, 10, 8, 1}, 30);  
         	ModItems.loadDarkItems();
         	ModBlocks.loadDarkBlocks();
       		ZeroQuestCrafting.loadDarkRecipes();
@@ -155,7 +157,7 @@ public class ZeroQuest
         Log.info("-----CONTENT LOAD FINSHED-----");
 	}
 	
-    /*@EventHandler //TODO
+    @EventHandler //TODO
     public void serverStart(FMLServerStartingEvent event)        
     {   
     	Log.info("-----SERVER CONTENT LOAD INITATING-----");
@@ -166,5 +168,5 @@ public class ZeroQuest
     	Log.info("Commands Loaded Successfully!");  
     	Log.info("-----SERVER CONTENT LOAD FINSHED-----");
     	
-    }*/
+    }
 }

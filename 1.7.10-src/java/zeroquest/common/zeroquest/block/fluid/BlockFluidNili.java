@@ -6,15 +6,14 @@ import net.minecraft.block.material.Material;
 import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.IIcon;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.BlockFluidClassic;
 import net.minecraftforge.fluids.Fluid;
-
-import common.zeroquest.particle.ParticleEffects;
-
+import common.zeroquest.client.particle.ParticleEffects;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -26,8 +25,9 @@ public class BlockFluidNili extends BlockFluidClassic{
 	private IIcon flowingIcon;
 	public BlockFluidNili(Fluid fluid, Material material) {
 		super(fluid, material);
-        this.blockHardness = 100.0F;
-        this.setLightOpacity(10);
+        this.setBlockUnbreakable();
+        this.setResistance(6000000.0F);
+        this.setLightOpacity(50);
         this.setLightLevel(0F);
 		this.useNeighborBrightness = true;
 		this.disableStats();
@@ -53,13 +53,14 @@ public class BlockFluidNili extends BlockFluidClassic{
     @Override
     public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
     	if(entity instanceof EntityLivingBase){
-    		((EntityLivingBase)entity).addPotionEffect(new PotionEffect(10, 10)); //100 = 5 Seconds , 20 = 1 Second
-    		((EntityLivingBase)entity).addPotionEffect(new PotionEffect(1, 200, 2)); //100 = 5 Seconds , 20 = 1 Second,
-    		((EntityLivingBase)entity).addPotionEffect(new PotionEffect(13, 300, 1)); //100 = 5 Seconds , 20 = 1 Second
+    		((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.heal.id, 10, 0)); //100 = 5 Seconds , 20 = 1 Second
+    		((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.moveSpeed.id, 200, 2)); //100 = 5 Seconds , 20 = 1 Second,
+    		((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.waterBreathing.id, 300, 1)); //100 = 5 Seconds , 20 = 1 Second
     	}	
     }
 
     @SideOnly(Side.CLIENT)
+    @Override
     public void randomDisplayTick(World worldObj, int posX, int posY, int posZ, Random rand)
     {
     	if (this.blockMaterial == Material.water && worldObj.getBlock(posX, posY + 1, posZ).getMaterial() == Material.air && !worldObj.getBlock(posX, posY + 1, posZ).isOpaqueCube())
