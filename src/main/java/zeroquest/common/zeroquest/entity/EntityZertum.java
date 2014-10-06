@@ -38,6 +38,7 @@ import net.minecraft.world.World;
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
+import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIBeg;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIFollowOwner;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtByTarget;
@@ -46,7 +47,6 @@ import common.zeroquest.entity.ai.tameable.EntityCustomAITargetNonTamed;
 import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.inventory.InventoryRedPack;
 import common.zeroquest.lib.Constants;
-import common.zeroquest.proxy.CommonProxy;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -597,24 +597,10 @@ public class EntityZertum extends EntityCustomTameable
                 par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
             }
 
-            if (!this.worldObj.isRemote)
+            if (isServer())
             {
-                if (this.rand.nextInt(3) == 0)
-                {
-                	par1EntityPlayer.triggerAchievement(ModAchievements.ZertTame);
-                    this.setTamed(true);
-                    this.setPathToEntity((PathEntity)null);
-                    this.setAttackTarget((EntityLivingBase)null);
-                    this.aiCSit.setSitting(true);
-                    this.func_152115_b(par1EntityPlayer.getUniqueID().toString());
-                    this.playTameEffect(true);
-                    this.worldObj.setEntityState(this, (byte)7);
-                }
-                else
-                {
-                    this.playTameEffect(false);
-                    this.worldObj.setEntityState(this, (byte)6);
-                }
+                tamedFor(par1EntityPlayer, rand.nextInt(3) == 0);
+            	par1EntityPlayer.triggerAchievement(ModAchievements.ZertTame);
             }
 
             return true;

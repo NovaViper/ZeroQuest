@@ -7,6 +7,8 @@ import java.util.Map;
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
+import common.zeroquest.client.particle.ParticleEffects;
+import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.ai.EntityCustomDarkZAIBeg;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIFollowOwner;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtByTarget;
@@ -20,8 +22,6 @@ import common.zeroquest.inventory.InventoryRedPack;
 import common.zeroquest.item.VitoidFruit;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
-import common.zeroquest.particle.ParticleEffects;
-import common.zeroquest.proxy.CommonProxy;
 import common.zeroquest.util.ItemUtils;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
@@ -287,6 +287,10 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
                 {
                 	this.dropItem(ModItems.nileGrain, 1);
                 }
+                if(this.getSaddled())
+                {
+                	this.dropItem(Items.saddle, 1);
+                }
                 /*if(rare >= 17)
                 {
                 	this.dropItem(ModItems.darkDust.itemID, 1);
@@ -351,12 +355,12 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
     {
         super.onUpdate();
         
-        if(this.isSitting()){ //TODO
+        /*if(this.isSitting()){ //TODO
         	double d0 = this.rand.nextGaussian() * 0.04D;
         	double d1 = this.rand.nextGaussian() * 0.04D;
         	double d2 = this.rand.nextGaussian() * 0.04D;
         	worldObj.spawnParticle("smoke", this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
-        }
+        }*/
         
         if (riddenByEntity != null) //check if there is a rider
         {
@@ -544,10 +548,13 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
                         return true;
                     }
                 }
-                if (this.riddenByEntity == null && !this.isChild() && !ItemUtils.hasEquippedUsable(par1EntityPlayer)  && itemstack.getItem() != Items.spawn_egg && itemstack.getItem() != Items.stick && itemstack.getItem() != Items.dye && !this.isBreedingItem(itemstack))
+                if (!this.isChild() && ItemUtils.hasEquipped(par1EntityPlayer, Items.saddle)) //TODO
+                {
+                	this.setSaddled(true);
+                }
+                else if (this.riddenByEntity == null && this.getSaddled() && !this.isChild() && !ItemUtils.hasEquippedUsable(par1EntityPlayer)  && itemstack.getItem() != Items.spawn_egg && itemstack.getItem() != Items.stick && itemstack.getItem() != Items.dye && !this.isBreedingItem(itemstack))
                 {
                         par1EntityPlayer.mountEntity(this);
-                    	par1EntityPlayer.triggerAchievement(ModAchievements.MountUp);//TODO
                         this.aiCSit.setSitting(false);
                 }
                 else if(itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer)) //TODO
@@ -586,22 +593,7 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
         {
             if (isServer())
             {
-                if (this.rand.nextInt(3) == 0)
-                {
-                    this.setTamed(true);
-                    this.setSaddled(true);
-                    this.setPathToEntity((PathEntity)null);
-                    this.setAttackTarget((EntityLivingBase)null);
-                    this.aiCSit.setSitting(true);
-                    this.func_152115_b(par1EntityPlayer.getUniqueID().toString());
-                    this.playTameEffect(true);
-                    this.worldObj.setEntityState(this, (byte)7);
-                }
-                else
-                {
-                    this.playTameEffect(false);
-                    this.worldObj.setEntityState(this, (byte)6);
-                }
+                tamedFor(par1EntityPlayer, rand.nextInt(3) == 0);
             }
 
             return true;
@@ -817,7 +809,6 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
         {
             entitywolf.func_152115_b(s);
             entitywolf.setTamed(true);
-            entitywolf.setSaddled(true);
         }
 
         return entitywolf;

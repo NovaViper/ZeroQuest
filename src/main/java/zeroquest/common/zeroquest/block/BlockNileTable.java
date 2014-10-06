@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Random;
 
 import common.zeroquest.ZeroQuest;
-import common.zeroquest.proxy.CommonProxy;
+import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.tileentity.TileEntityNileTable;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;

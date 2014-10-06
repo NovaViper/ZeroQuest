@@ -8,6 +8,7 @@ import net.minecraft.block.BlockPortal;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import cpw.mods.fml.common.FMLCommonHandler;
 
@@ -15,7 +16,14 @@ public class BlockPortalNillax extends BlockPortal{
 
 	public BlockPortalNillax() {
 		super();
+        this.setStepSound(soundTypeGlass);
 	}
+	
+	 @Override
+	 public int getLightValue(IBlockAccess world, int x, int y, int z)
+	 {
+		 return 14;
+	 }
 	
 	@Override
 	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){

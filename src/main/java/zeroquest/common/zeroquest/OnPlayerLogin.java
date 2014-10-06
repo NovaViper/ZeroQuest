@@ -6,7 +6,7 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import common.zeroquest.helper.ChatHelper;
+import common.zeroquest.core.helper.ChatHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import cpw.mods.fml.common.FMLLog;
@@ -40,7 +40,7 @@ public class OnPlayerLogin{
 						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + pairedString[0] + " " + version +  EnumChatFormatting.RESET + " is up to date"));
 						break;
 					}else{
-						player.addChatMessage(ChatHelper.getChatComponent("A new update: " + EnumChatFormatting.GREEN  + pairedString[0] + EnumChatFormatting.RESET + "("+pairedString[1]+")" + " is available for Minecraft 1.7.10@"));
+						player.addChatMessage(ChatHelper.getChatComponent("A new update: " + EnumChatFormatting.GREEN  + pairedString[0] + EnumChatFormatting.RESET + "("+pairedString[1]+")" + " is available for Minecraft 1.7.10!"));
 						player.addChatMessage(ChatHelper.getChatComponent("Download newest version at: http://minecraft.curseforge.com/mc-mods/221194-forge-zero-quest"));
 						break;
 					}

@@ -17,6 +17,7 @@ import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIArrowAttack;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
+import net.minecraft.entity.ai.EntityAIBreakDoor;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -44,6 +45,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathEntity;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -53,15 +55,15 @@ import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
+import common.zeroquest.client.particle.ParticleEffects;
+import common.zeroquest.core.helper.ChatHelper;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIFollowOwner;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtByTarget;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtTarget;
 import common.zeroquest.entity.ai.tameable.EntityCustomAITargetNonTamed;
 import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
-import common.zeroquest.helper.ChatHelper;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
-import common.zeroquest.particle.ParticleEffects;
 import common.zeroquest.util.ItemUtils;
 import cpw.mods.fml.common.FMLLog;
 
@@ -70,26 +72,29 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
     public int rare;
     
     private static final UUID field_110189_bq = UUID.fromString("49455A49-7EC5-45BA-B886-3B90B23A1718");
-    private static final AttributeModifier field_110190_br = (new AttributeModifier(field_110189_bq, "Attacking speed boost", 0.45D, 0)).setSaved(false);
-
-    public static final double maxHealth = 60;
-    public static final double attackDamage = 8;
+    private static final AttributeModifier field_110190_br = (new AttributeModifier(field_110189_bq, "Attacking speed boost", 0.5D, 0)).setSaved(false);
+    private final EntityAIBreakDoor field_146075_bs = new EntityAIBreakDoor(this);
+    
+    private boolean field_146076_bu = false;
+    public static final double maxHealth = 80;
+    public static final double attackDamage = 14;
     public static final double speed = 0.30000001192092896;
     public static final double maxHealthBaby = 10;
     public static final double attackDamageBaby = 2;
     
     /** A random delay until this Kurr next makes a sound. */
+    private int randomSoundDelay;
     private Entity field_110191_bu;
-    
-    // data value IDs
-    public static final int INDEX_ANGRY = 16;
+    /** Above zero if this Kurr is Angry. */
+    private int angerLevel;
 	
     public EntityKurr(World p_i1696_1_)
     {
         super(p_i1696_1_);
         this.setSize(2.6F, 2.6F);
         this.isImmuneToFire = true;
-        this.getNavigator().setAvoidsWater(true);
+        this.getNavigator().setBreakDoors(true);
+        this.canBreatheUnderwater();
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, true));
@@ -97,7 +102,7 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
         this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(8, new EntityAILookIdle(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
-        //this.inventory = new InventoryJakanPack(this);
+        this.experienceValue = 50;
     }
 
     protected void applyEntityAttributes()
@@ -106,6 +111,7 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealth);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamage);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speed);
+        this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(20F);
         
         if (this.isChild())
         {
@@ -122,23 +128,31 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
         return true;
     }
 
-    /**
-     * Sets the active target the Task system uses for tracking
-     */
-    public void setAttackTarget(EntityLivingBase p_70624_1_)
+    public boolean func_146072_bX()
     {
-        super.setAttackTarget(p_70624_1_);
+        return this.field_146076_bu;
+    }
 
-        if (p_70624_1_ == null)
+    public void func_146070_a(boolean p_146070_1_)
+    {
+        if (this.field_146076_bu != p_146070_1_)
         {
-            this.setAngry(false);
+            this.field_146076_bu = p_146070_1_;
+
+            if (p_146070_1_)
+            {
+                this.tasks.addTask(1, this.field_146075_bs);
+            }
+            else
+            {
+                this.tasks.removeTask(this.field_146075_bs);
+            }
         }
     }
     
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(INDEX_ANGRY, Byte.valueOf((byte)0));
     }
 
     /**
@@ -147,8 +161,10 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
     public void writeEntityToNBT(NBTTagCompound p_70014_1_)
     {
         super.writeEntityToNBT(p_70014_1_);
-        p_70014_1_.setBoolean("Angry", this.isAngry());
+        p_70014_1_.setShort("Anger", (short)this.angerLevel);
     }
+    
+    
 
     /**
      * (abstract) Protected helper method to read subclass entity data from NBT.
@@ -156,7 +172,16 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
     public void readEntityFromNBT(NBTTagCompound p_70037_1_)
     {
         super.readEntityFromNBT(p_70037_1_);
-        this.setAngry(p_70037_1_.getBoolean("Angry"));
+        this.angerLevel = p_70037_1_.getShort("Anger");
+    }
+    
+    /**
+     * Finds the closest player within 16 blocks to attack, or null if this Entity isn't interested in attacking
+     * (Animals, Spiders at day, peaceful PigZombies).
+     */
+    protected Entity findPlayerToAttack()
+    {
+        return this.angerLevel == 0 ? null : super.findPlayerToAttack();
     }
 
     protected void func_145780_a(int x, int y, int z, Block block) {
@@ -178,8 +203,7 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
 	
     protected String getLivingSound()
     {
-        return this.isAngry() ? Sound.KurrGrowl :
-        	 this.getHealth() <=10 ? Sound.KurrWhine :
+        return this.getHealth() <=10 ? Sound.KurrWhine :
         	(this.rand.nextInt(3) == 0 ? 
         			(Sound.KurrBreathe)
         					: Sound.KurrRoar);
@@ -216,8 +240,6 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
     public int getTalkInterval() {
 		if(this.getHealth() <=10){
     		return 20;
-    	}else if(this.isAngry()){
-    		return 25;
     	}else{
     		return 200;
     	}
@@ -238,14 +260,18 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
                 {
                     this.dropItem(ModItems.jakanMeatRaw, 1);
                 }
+                else if (rare <= 18)
+                {
+                    this.dropItem(ModItems.kurrSeeds, 1);
+                }
                 if(rare <= 6)
                 {
                 	this.dropItem(ModItems.darkGrain, 1);
                 }
-                /*if(rare >= 17)
+                if(rare >= 17)
                 {
-                	this.dropItem(ModItems.darkDust.itemID, 1);
-                }*/
+                	this.dropItem(ModItems.darkEssence, 1);
+                }
                 else
                 {
                 	
@@ -264,28 +290,14 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
         if(this.entityToAttack != null && this.entityToAttack.isDead) {
             this.entityToAttack = null;
         }
-        //Dying
-        if(this.getHealth() <=10){
-        	double d0 = this.rand.nextGaussian() * 0.04D;
-        	double d1 = this.rand.nextGaussian() * 0.04D;
-        	double d2 = this.rand.nextGaussian() * 0.04D;
-        	worldObj.spawnParticle("witchMagic", this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
-        }
-        //Angry
-        if(this.isAngry()){
-        	double d0 = this.rand.nextGaussian() * 0.04D;
-        	double d1 = this.rand.nextGaussian() * 0.04D;
-        	double d2 = this.rand.nextGaussian() * 0.04D;
-        	worldObj.spawnParticle("smoke", this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
-        }
     }
 
     /**
      * Called to update the entity's position/logic.
      */
-    public void onUpdate()
-    {
-        if (this.field_110191_bu != this.entityToAttack && this.isAngry() && isServer())
+    public void onUpdate() //TODO
+    {	
+        if (this.field_110191_bu != this.entityToAttack && this.angerLevel > 0 && isServer())
         {
             IAttributeInstance attributeinstance = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed);
             attributeinstance.removeModifier(field_110190_br);
@@ -293,10 +305,21 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
             if (this.entityToAttack != null)
             {
                 attributeinstance.applyModifier(field_110190_br);
+            	this.addPotionEffect(new PotionEffect(Potion.resistance.id, 9999999, 2));  //100 = 5 Seconds , 20 = 1 Second
             }
+        }
+        
+        if(this.angerLevel < 0 || this.entityToAttack == null){
+        	this.removePotionEffect(Potion.resistance.id);
         }
 
         this.field_110191_bu = this.entityToAttack;
+
+        if (this.randomSoundDelay > 0 && --this.randomSoundDelay == 0)
+        {
+            this.playSound(Sound.KurrGrowl, this.getSoundVolume() * 2.0F, getSoundPitch());
+        }
+        
         super.onUpdate();
     }
 
@@ -318,21 +341,45 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
         {
             Entity entity = p_70097_1_.getEntity();
 
-            if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow))
+            if (entity instanceof EntityPlayer)
             {
-                p_70097_2_ = (p_70097_2_ + 1.0F) / 2.0F;
+                List list = this.worldObj.getEntitiesWithinAABBExcludingEntity(this, this.boundingBox.expand(32.0D, 32.0D, 32.0D));
+
+                for (int i = 0; i < list.size(); ++i)
+                {
+                    Entity entity1 = (Entity)list.get(i);
+
+                    if (entity1 instanceof EntityKurr)
+                    {
+                        EntityKurr entitykurr = (EntityKurr)entity1;
+                        entitykurr.becomeAngryAt(entity);
+                    }
+                }
+
+                this.becomeAngryAt(entity);
             }
 
             return super.attackEntityFrom(p_70097_1_, p_70097_2_);
         }
     }
+    
+    /**
+     * Causes this PigZombie to become angry at the supplied Entity (which will be a player).
+     */
+    private void becomeAngryAt(Entity p_70835_1_)
+    {
+        this.entityToAttack = p_70835_1_;
+        this.angerLevel = 400 + this.rand.nextInt(400);
+        this.randomSoundDelay = this.rand.nextInt(40);
+    }
 
-    public boolean attackEntityAsMob(Entity victim) {
+    public boolean attackEntityAsMob(Entity victim) { //TODO
         float attackDamage = (float) getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
-        int knockback = 0;
+        int knockback = 5;
 
         if (victim instanceof EntityLivingBase) {
             attackDamage += EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLivingBase) victim);
+            ((EntityLivingBase)victim).addPotionEffect(new PotionEffect(Potion.blindness.id, 200));
             knockback += EnchantmentHelper.getKnockbackModifier(this, (EntityLivingBase) victim);
         }
 
@@ -349,7 +396,7 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
                 motionZ *= 0.6;
             }
 
-            int fireAspect = EnchantmentHelper.getFireAspectModifier(this);
+            int fireAspect = 0 + rand.nextInt(3);
 
             if (fireAspect > 0) {
                 victim.setFire(fireAspect * 4);
@@ -370,7 +417,7 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
         }
 
         return attacked;
-    }
+    } 
     
     /**
      * Gets the pitch of living sounds in living entities.
@@ -383,7 +430,7 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
     		}
     	}
     
-    @Override
+    	@Override
         protected void fall(float par1)
         {
 
@@ -429,53 +476,14 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
      */
     public boolean interact(EntityPlayer par1EntityPlayer) //TODO
     {
+    	if(!ItemUtils.hasEquippedUsable(par1EntityPlayer)){
     		float volume = getSoundVolume() * 1.0f;
     		float pitch =  getSoundPitch();
             this.playSound(Sound.KurrHiss, volume, pitch);
-     
+    	}
             return super.interact(par1EntityPlayer);
     }
-    /**
-     * Will return how many at most can spawn in a chunk at once.
-     */
-    public int getMaxSpawnedInChunk()
-    {
-        return 8;
-    }
 
-    /**
-     * Determines whether this wolf is angry or not.
-     */
-    public boolean isAngry()
-    {
-        return (this.dataWatcher.getWatchableObjectByte(INDEX_ANGRY) & 2) != 0;
-    }
-
-    /**
-     * Sets whether this wolf is angry or not.
-     */
-    public void setAngry(boolean p_70916_1_)
-    {
-        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
-
-        if (p_70916_1_)
-        {
-            this.dataWatcher.updateObject(INDEX_ANGRY, Byte.valueOf((byte)(b0 | 2)));
-        }
-        else
-        {
-            this.dataWatcher.updateObject(INDEX_ANGRY, Byte.valueOf((byte)(b0 & -3)));
-        }
-    }
-
-    /**
-     * Determines if an entity can be despawned, used on idle far away entities
-     */
-    protected boolean canDespawn()
-    {
-        return this.ticksExisted > 2400;
-    }
-    
     /**
      * Checks if this entity is running on a client.
      * 

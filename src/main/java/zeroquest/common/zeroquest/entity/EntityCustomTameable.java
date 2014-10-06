@@ -1,22 +1,23 @@
 package common.zeroquest.entity;
 
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-
 import java.util.UUID;
 
-import common.zeroquest.entity.ai.tameable.EntityCustomAISit;
-import common.zeroquest.particle.ParticleEffects;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IEntityOwnable;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAISit;
 import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.management.PreYggdrasilConverter;
 import net.minecraft.world.World;
+
+import common.zeroquest.client.particle.ParticleEffects;
+import common.zeroquest.entity.ai.tameable.EntityCustomAISit;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class EntityCustomTameable extends EntityAnimal implements IEntityOwnable
 {
@@ -102,6 +103,21 @@ public abstract class EntityCustomTameable extends EntityAnimal implements IEnti
             double d2 = this.rand.nextGaussian() * 0.02D;
             ParticleEffects.spawnParticle(s, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
         	}
+        }
+    }
+    
+    public void tamedFor(EntityPlayer player, boolean successful) { //TODO
+        if (successful) {
+            setTamed(true);
+            setPathToEntity((PathEntity)null);
+            setAttackTarget((EntityLivingBase)null);
+            aiCSit.setSitting(true);
+            func_152115_b(player.getUniqueID().toString());
+            playTameEffect(true);
+            worldObj.setEntityState(this, (byte)7);
+        } else {
+            playTameEffect(false);
+            worldObj.setEntityState(this, (byte) 6);
         }
     }
 

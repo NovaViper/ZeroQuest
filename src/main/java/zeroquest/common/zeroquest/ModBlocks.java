@@ -27,7 +27,6 @@ import common.zeroquest.block.BlockSlabNileStone;
 import common.zeroquest.block.BlockVitoid;
 import common.zeroquest.block.fluid.BlockFluidAcid;
 import common.zeroquest.block.fluid.BlockFluidNili;
-import common.zeroquest.block.material.ZMaterial;
 import common.zeroquest.block.portal.BlockDarkaxFire;
 import common.zeroquest.block.portal.BlockNileFire;
 import common.zeroquest.block.portal.BlockNilePortalStone;

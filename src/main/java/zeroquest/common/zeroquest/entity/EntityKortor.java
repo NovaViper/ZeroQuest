@@ -7,6 +7,7 @@ import java.util.UUID;
 
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
+import common.zeroquest.client.particle.ParticleEffects;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIFollowOwner;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtByTarget;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtTarget;
@@ -14,7 +15,6 @@ import common.zeroquest.entity.ai.tameable.EntityCustomAISit;
 import common.zeroquest.entity.ai.tameable.EntityCustomAITargetNonTamed;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
-import common.zeroquest.particle.ParticleEffects;
 import common.zeroquest.util.ItemUtils;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
@@ -58,6 +58,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathEntity;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
@@ -282,6 +283,10 @@ public class EntityKortor extends EntityCustomTameable
                 {
                 	this.dropItem(ModItems.nileGrain, 1);
                 }
+                if(this.getSaddled())
+                {
+                	this.dropItem(Items.saddle, 1);
+                }
                 /*if(rare >= 17)
                 {
                 	this.dropItem(ModItems.darkDust.itemID, 1);
@@ -345,12 +350,12 @@ public class EntityKortor extends EntityCustomTameable
     public void onUpdate()
     {
         super.onUpdate();    
-        if(this.isSitting()){ //TODO
+        /*if(this.isSitting()){ //TODO
         	double d0 = this.rand.nextGaussian() * 0.04D;
         	double d1 = this.rand.nextGaussian() * 0.04D;
         	double d2 = this.rand.nextGaussian() * 0.04D;
         	worldObj.spawnParticle("smoke", this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
-        }
+        }*/
         
         if (isClient() && this.dataWatcher.hasChanges())
         {
@@ -639,17 +644,15 @@ public class EntityKortor extends EntityCustomTameable
                         return true;
                     }
                 }
-                if (this.riddenByEntity == null && !this.isChild() && !ItemUtils.hasEquippedUsable(par1EntityPlayer)  && itemstack.getItem() != Items.spawn_egg && itemstack.getItem() != Items.stick && itemstack.getItem() != Items.dye && !this.isBreedingItem(itemstack))
+                if (!this.isChild() && ItemUtils.hasEquipped(par1EntityPlayer, Items.saddle)) //TODO
+                {
+                	this.setSaddled(true);
+                }
+                else if (this.riddenByEntity == null && this.getSaddled() && !this.isChild() && !ItemUtils.hasEquippedUsable(par1EntityPlayer)  && itemstack.getItem() != Items.spawn_egg && itemstack.getItem() != Items.stick && itemstack.getItem() != Items.dye && !this.isBreedingItem(itemstack))
                 {
                         par1EntityPlayer.mountEntity(this);
-                    	//par1EntityPlayer.triggerAchievement(ModAchievements.MountUp);//TODO
                         this.aiCSit.setSitting(false);
                 }
-                /*else if(itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer)) //TODO
-                {
-                 par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.DarkZertumPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
-                 return true;
-                }*/
                 else if (itemstack.getItem() == Items.dye)
                 {
                     int i = BlockColored.func_150032_b(itemstack.getItemDamage());
@@ -681,22 +684,7 @@ public class EntityKortor extends EntityCustomTameable
         {
             if (isServer())
             {
-                if (this.rand.nextInt(3) == 0)
-                {
-                    this.setTamed(true);
-                    this.setSaddled(true);
-                    this.setPathToEntity((PathEntity)null);
-                    this.setAttackTarget((EntityLivingBase)null);
-                    this.aiCSit.setSitting(true);
-                    this.func_152115_b(par1EntityPlayer.getUniqueID().toString());
-                    this.playTameEffect(true);
-                    this.worldObj.setEntityState(this, (byte)7);
-                }
-                else
-                {
-                    this.playTameEffect(false);
-                    this.worldObj.setEntityState(this, (byte)6);
-                }
+                tamedFor(par1EntityPlayer, rand.nextInt(3) == 0);
             }
 
             return true;
@@ -905,17 +893,16 @@ public class EntityKortor extends EntityCustomTameable
     
     public EntityKortor createChild(EntityAgeable p_90011_1_)
     {
-    	EntityKortor entitywolf = new EntityKortor(this.worldObj);
+    	EntityKortor entitykortor = new EntityKortor(this.worldObj);
         String s = this.func_152113_b();
 
         if (s != null && s.trim().length() > 0)
         {
-            entitywolf.func_152115_b(s);
-            entitywolf.setTamed(true);
-            entitywolf.setSaddled(true);
+        	entitykortor.func_152115_b(s);
+        	entitykortor.setTamed(true);
         }
 
-        return entitywolf;
+        return entitykortor;
     }
 
     public void func_70918_i(boolean p_70918_1_)
