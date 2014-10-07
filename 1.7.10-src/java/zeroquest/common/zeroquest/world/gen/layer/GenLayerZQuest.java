@@ -45,7 +45,7 @@ public abstract class GenLayerZQuest extends GenLayer
     public static GenLayer[] initializeAllBiomeGenerators(long p_75901_0_, WorldType p_75901_2_)
     {
     	GenLayer biomes = new GenLayerBiomesZeroQuest(1L);
-    	/*// more GenLayerZoom = bigger biomes
+    	// more GenLayerZoom = bigger biomes
     	biomes = new GenLayerZoom(1000L, biomes);
     	biomes = new GenLayerZoom(1001L, biomes);
     	biomes = new GenLayerZoom(1002L, biomes);
@@ -55,9 +55,9 @@ public abstract class GenLayerZQuest extends GenLayer
     	GenLayer genlayervoronoizoom = new GenLayerVoronoiZoom(10L, biomes);
     	biomes.initWorldGenSeed(p_75901_0_);
     	genlayervoronoizoom.initWorldGenSeed(p_75901_0_);
-    	return new GenLayer[] {biomes, genlayervoronoizoom};*/
+    	return new GenLayer[] {biomes, genlayervoronoizoom};
     	
-        boolean flag = false;
+        /*boolean flag = false;
         //GenLayerIsland genlayerisland = new GenLayerIsland(1L);
         GenLayerFuzzyZoom genlayerfuzzyzoom = new GenLayerFuzzyZoom(2000L, biomes);
         GenLayerAddIsland genlayeraddisland = new GenLayerAddIsland(1L, genlayerfuzzyzoom);
@@ -122,6 +122,6 @@ public abstract class GenLayerZQuest extends GenLayer
         GenLayerVoronoiZoom genlayervoronoizoom = new GenLayerVoronoiZoom(10L, genlayerrivermix);
         genlayerrivermix.initWorldGenSeed(p_75901_0_);
         genlayervoronoizoom.initWorldGenSeed(p_75901_0_);
-        return new GenLayer[] {genlayerrivermix, genlayervoronoizoom, genlayerrivermix, biomes};
+        return new GenLayer[] {genlayerrivermix, genlayervoronoizoom, genlayerrivermix, biomes};*/
     }
 }
