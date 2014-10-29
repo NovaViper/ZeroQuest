@@ -42,10 +42,7 @@ import cpw.mods.fml.common.registry.LanguageRegistry;
 public class ModBlocks {
 	public static Block nileStone;
 	public static Block nileCobblestone;
-	public static Block nileCobblestoneWall;
 	public static Block looseBedrock;
-	public static Block nileStoneSlab;
-	public static Block nileStoneDoubleSlab;
 	public static Block nileCoalOre;
 	public static Block nileGrainOre;
 	public static Block darkGrainOre;	
@@ -56,6 +53,12 @@ public class ModBlocks {
 	public static Block vitoidPlant;
 	
 	public static Block nileWorktable;
+	
+	//Slabs and Walls
+	public static Block nileStoneSlab;
+	public static Block nileStoneDoubleSlab;
+	public static Block nileCobblestoneWall;
+	
 	//Portal//
 	public static Block nillaxStone;
 	public static Block portalNillax;
@@ -85,7 +88,7 @@ public class ModBlocks {
 		//Basic Blocks//
 		nileWorktable = new BlockNileTable().setBlockName("nileWorktable").setBlockTextureName(ZeroQuest.modid + ":" + "nileWorktable");
 		register(nileWorktable, "crafting_table_nile");
-		nileCobblestoneWall = new BlockNileWall(nileCobblestone);
+		//nileCobblestoneWall = new BlockNileWall(nileCobblestone);
 
 		//Flowers/Plants//
 		nileBlueFlower = new BlockNileBFlower().setBlockName("nileBlueFlower").setBlockTextureName(ZeroQuest.modid + ":" + "nileBlueFlower");

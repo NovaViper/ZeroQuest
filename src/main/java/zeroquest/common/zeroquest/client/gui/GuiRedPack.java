@@ -20,7 +20,7 @@ public class GuiRedPack extends GuiContainer
     private EntityRedZertum dog;
     private boolean mouseWasDown;
     
-    private static final ResourceLocation gui = new ResourceLocation(ZeroQuest.modid + ":" + "textures/gui/petInventory.png");
+    private static final ResourceLocation gui = new ResourceLocation(ZeroQuest.modid + ":" + "textures/gui/petInventoryRed.png");
 
 
     public GuiRedPack(InventoryPlayer inventoryplayer, EntityRedZertum entityzertum) {
@@ -35,8 +35,8 @@ public class GuiRedPack extends GuiContainer
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
     	String s = this.dog.inventory.hasCustomInventoryName() ? this.dog.inventory.getInventoryName() : StatCollector.translateToLocal(this.dog.inventory.getInventoryName());
-        this.fontRendererObj.drawString(s, this.xSize / 2 - 10, 14, 4210752);
-        this.fontRendererObj.drawString(StatCollector.translateToLocal("Inventory"), 8, this.ySize - 155 + 2, 4210752);
+        this.fontRendererObj.drawString(s, this.xSize / 2 - 10, 14, 0x691616);
+        this.fontRendererObj.drawString(StatCollector.translateToLocal("Inventory"), 8, this.ySize - 155 + 2, 0x691616);
     }
 
 
@@ -59,7 +59,7 @@ public class GuiRedPack extends GuiContainer
         
     for (int j1 = 0; j1 < 3; j1++)
     {
-        for (int k1 = 0; k1 < 3; k1++)
+        for (int k1 = 0; k1 < 5; k1++)
         {
             drawTexturedModalRect(l + 78 + 18 * k1, i1 + 9 + 18 * j1 + 15, 197, 2, 18, 18);
         }

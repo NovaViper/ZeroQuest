@@ -59,7 +59,7 @@ public class GuiPack extends GuiContainer
         
     for (int j1 = 0; j1 < 3; j1++)
     {
-        for (int k1 = 0; k1 < 3; k1++)
+        for (int k1 = 0; k1 < 5; k1++)
         {
             drawTexturedModalRect(l + 78 + 18 * k1, i1 + 9 + 18 * j1 + 15, 197, 2, 18, 18);
         }

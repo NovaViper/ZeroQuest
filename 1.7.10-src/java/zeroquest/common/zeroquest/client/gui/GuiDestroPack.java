@@ -35,8 +35,8 @@ public class GuiDestroPack extends GuiContainer
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
         String s = this.dog.inventory.hasCustomInventoryName() ? this.dog.inventory.getInventoryName() : StatCollector.translateToLocal(this.dog.inventory.getInventoryName());
-           this.fontRendererObj.drawString(s, this.xSize / 2 - 10, 14, 4210752);
-           this.fontRendererObj.drawString(StatCollector.translateToLocal("Inventory"), 8, this.ySize - 155 + 2, 0xAA00AA);
+           this.fontRendererObj.drawString(s, this.xSize / 2 - 10, 14, 0xFFFF55);
+           this.fontRendererObj.drawString(StatCollector.translateToLocal("Inventory"), 8, this.ySize - 155 + 2, 0xFFFF55);
        }
 
 
@@ -59,7 +59,7 @@ public class GuiDestroPack extends GuiContainer
         
     for (int j1 = 0; j1 < 3; j1++)
     {
-        for (int k1 = 0; k1 < 3; k1++)
+        for (int k1 = 0; k1 < 5; k1++)
         {
             drawTexturedModalRect(l + 78 + 18 * k1, i1 + 9 + 18 * j1 + 15, 197, 2, 18, 18);
         }

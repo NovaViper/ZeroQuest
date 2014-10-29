@@ -23,6 +23,7 @@ import net.minecraft.world.gen.feature.WorldGenVines;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ModLiquids;
+import common.zeroquest.entity.EntityForisZertum;
 import common.zeroquest.entity.EntityKortor;
 import common.zeroquest.entity.EntityZertum;
 import cpw.mods.fml.relauncher.Side;
@@ -58,11 +59,11 @@ public class BiomeGenNileJungle extends BiomeGenBase
         if (!p_i45379_2_)
         {
             this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityOcelot.class, 2, 1, 1));
-            this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityZertum.class, 100, 3, 4));
+            this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityForisZertum.class, 100, 3, 4));
         }
 
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityChicken.class, 10, 4, 4));
-        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityZertum.class, 100, 4, 5));
+        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityForisZertum.class, 100, 3, 4));
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityKortor.class, 50, 2, 3));
     }
 

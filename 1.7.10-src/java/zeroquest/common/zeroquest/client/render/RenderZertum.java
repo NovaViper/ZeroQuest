@@ -28,11 +28,6 @@ public class RenderZertum extends RenderLiving
         this.setRenderPassModel(par1ModelZertum);
     }
 
-    protected float getTailRotation(EntityZertum par1EntityZertum, float par2)
-    {
-        return par1EntityZertum.getTailRotation();
-    }
-
     protected int func_82447_a(EntityZertum par1EntityZertum, int par2, float par3)
     {
         float f1;
@@ -74,14 +69,6 @@ public class RenderZertum extends RenderLiving
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
         return this.func_82447_a((EntityZertum)par1EntityLivingBase, par2, par3);
-    }
-
-    /**
-     * Defines what float the third param in setRotationAngles of ModelBase is
-     */
-    protected float handleRotationFloat(EntityLivingBase par1EntityLivingBase, float par2)
-    {
-        return this.getTailRotation((EntityZertum)par1EntityLivingBase, par2);
     }
 
     /**

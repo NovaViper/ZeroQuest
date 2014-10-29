@@ -1,7 +1,7 @@
 package common.zeroquest;
 
 import common.zeroquest.biome.BiomeGenBioZone;
-import common.zeroquest.biome.BiomeGenBlueNile;
+import common.zeroquest.biome.BiomeGenBlueTaiga;
 import common.zeroquest.biome.BiomeGenDarkLand;
 import common.zeroquest.biome.BiomeGenDestroZone;
 import common.zeroquest.biome.BiomeGenNileBeach;
@@ -84,12 +84,12 @@ public class ModBiomes
 		//Put biomes in GenLayerBiomesZeroQuest/WorldChunkManager//
 		   bioZone = new BiomeGenBioZone(110).setBiomeName("Bio Zone").setHeight(height_MidHills).setTemperatureRainfall(0.8F, 0.4F);	       
 	       redSeed = new BiomeGenRedSeed(111).setBiomeName("Red Seed").setHeight(height_LowPlains).setTemperatureRainfall(0.8F, 0.4F);	       
-	       blueTaiga = new BiomeGenBlueNile(112, 0).setBiomeName("Blue Taiga").func_76733_a(5159473).setTemperatureRainfall(0.25F, 0.8F).setHeight(height_MidPlains);
-	       blueTaigaHills = new BiomeGenBlueNile(113, 0).setBiomeName("Blue Taiga Hills").func_76733_a(5159473).setTemperatureRainfall(0.25F, 0.8F).setHeight(height_LowHills);
-	       blueColdTaiga = new BiomeGenBlueNile(114, 0).setBiomeName("Cold Blue Taiga").func_76733_a(5159473).setEnableSnow().setTemperatureRainfall(-0.5F, 0.4F).setHeight(height_MidPlains).func_150563_c(16777215);
-	       blueColdTaigaHills = new BiomeGenBlueNile(115, 0).setBiomeName("Cold Blue Taiga Hills").func_76733_a(5159473).setEnableSnow().setTemperatureRainfall(-0.5F, 0.4F).setHeight(height_LowHills).func_150563_c(16777215);
-	       blueMegaTaiga = new BiomeGenBlueNile(116, 1).setBiomeName("Mega Blue Taiga").func_76733_a(5159473).setTemperatureRainfall(0.3F, 0.8F).setHeight(height_MidPlains);
-	       blueMegaTaigaHills = new BiomeGenBlueNile(117, 1).setBiomeName("Mega Blue Taiga Hills").func_76733_a(5159473).setTemperatureRainfall(0.3F, 0.8F).setHeight(height_LowHills);
+	       blueTaiga = new BiomeGenBlueTaiga(112, 0).setBiomeName("Blue Taiga").func_76733_a(5159473).setTemperatureRainfall(0.25F, 0.8F).setHeight(height_MidPlains);
+	       blueTaigaHills = new BiomeGenBlueTaiga(113, 0).setBiomeName("Blue Taiga Hills").func_76733_a(5159473).setTemperatureRainfall(0.25F, 0.8F).setHeight(height_LowHills);
+	       blueColdTaiga = new BiomeGenBlueTaiga(114, 0).setBiomeName("Cold Blue Taiga").func_76733_a(5159473).setEnableSnow().setTemperatureRainfall(-0.5F, 0.4F).setHeight(height_MidPlains).func_150563_c(16777215);
+	       blueColdTaigaHills = new BiomeGenBlueTaiga(115, 0).setBiomeName("Cold Blue Taiga Hills").func_76733_a(5159473).setEnableSnow().setTemperatureRainfall(-0.5F, 0.4F).setHeight(height_LowHills).func_150563_c(16777215);
+	       blueMegaTaiga = new BiomeGenBlueTaiga(116, 1).setBiomeName("Mega Blue Taiga").func_76733_a(5159473).setTemperatureRainfall(0.3F, 0.8F).setHeight(height_MidPlains);
+	       blueMegaTaigaHills = new BiomeGenBlueTaiga(117, 1).setBiomeName("Mega Blue Taiga Hills").func_76733_a(5159473).setTemperatureRainfall(0.3F, 0.8F).setHeight(height_LowHills);
 	       pinkZone = new BiomeGenPinkZone(118).setBiomeName("Pink Zone").setHeight(height_HighDefault2).setTemperatureRainfall(0.8F, 0.4F);
 	       destroZone = new BiomeGenDestroZone(119).setBiomeName("Destro Zone").setDisableRain().setTemperatureRainfall(2.0F, 0.0F);
 	       destroZoneHills = new BiomeGenDestroZone(120).setBiomeName("Destro Zone Hills").setDisableRain().setTemperatureRainfall(2.0F, 0.0F).setHeight(height_LowHills);

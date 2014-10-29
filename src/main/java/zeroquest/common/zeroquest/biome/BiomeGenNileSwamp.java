@@ -13,9 +13,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
+
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ModLiquids;
+import common.zeroquest.entity.EntityForisZertum;
 import common.zeroquest.entity.EntityZertum;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -38,7 +41,8 @@ public class BiomeGenNileSwamp extends BiomeGenBase
         this.theBiomeDecorator.grassPerChunk = 5;
         this.waterColorMultiplier = 14745518;
         this.spawnableMonsterList.clear();
-        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityZertum.class, 20, 3, 4));
+        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityZertum.class, 100, 3, 4));
+        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityForisZertum.class, 20, 3, 4));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySpider.class, 100, 4, 4));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityZombie.class, 100, 4, 4));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySkeleton.class, 100, 4, 4));

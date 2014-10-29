@@ -68,7 +68,14 @@ public class ParticleEffects
                 {
                     var21 = new EntityDarkPortalFX(theWorld, par2, par4, par6, par8, par10, par12);
                 }
-				
+				if (particleName.equals("icedust"))
+				{
+					var21 = new EntityIceDustFX(theWorld, par2, par4, par6, (float)par8, (float)par10, (float)par12);
+				}
+				if (particleName.equals("forisdust"))
+				{
+					var21 = new EntityForisDustFX(theWorld, par2, par4, par6, (float)par8, (float)par10, (float)par12);
+				}
 
 				mc.effectRenderer.addEffect((EntityFX)var21);
 				return (EntityFX)var21;

@@ -81,7 +81,7 @@ this.inventorySlots[par1] = par2ItemStack;
 
 @Override
 public String getInventoryName() {
-return "Jakan Inventory";
+return "Pet Inventory";
 }
 
 @Override

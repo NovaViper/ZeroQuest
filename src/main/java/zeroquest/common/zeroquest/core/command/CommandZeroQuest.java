@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.entity.EntityCustomTameable;
+import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -163,6 +164,7 @@ public class CommandZeroQuest extends CommandBase {
        @Override
        public void modify(EntityCustomTameable entity) {
     	   entity.tamedFor(player, true);
+    	   System.out.println("Tamed!");
        }
    }
    
@@ -176,7 +178,10 @@ public class CommandZeroQuest extends CommandBase {
 
        @Override
        public void modify(EntityCustomTameable entity) {
-    	   	entity.setGrowingAge(age);
+    	   if(entity.isTamed()){
+    	   		entity.setGrowingAge(age);
+    	   }
+	   		System.out.println("Age set!");
        }
    }
    
@@ -186,8 +191,10 @@ public class CommandZeroQuest extends CommandBase {
 
        @Override
        public void modify(EntityCustomTameable entity) {
-    	   	entity.setHealth(entity.getMaxHealth());
-    	   	Log.info("Healed!");
+    	   if(entity.isTamed()){
+    	   		entity.setHealth(entity.getMaxHealth());
+       		}
+    	   System.out.println("Healed!");
        }
    }
 }

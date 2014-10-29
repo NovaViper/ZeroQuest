@@ -30,6 +30,7 @@ public class BlockNileTable extends BlockContainer{
 		super(Material.wood);
 		this.setCreativeTab(ZeroQuest.ZeroTab);
 		this.setHardness(2F);
+		this.setResistance(12.5F);
 		this.setStepSound(soundTypeWood);
 	}
     private Random rand = new Random();

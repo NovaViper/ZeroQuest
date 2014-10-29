@@ -105,7 +105,6 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
     {
         super(p_i1696_1_);
         this.setSize(2.6F, 2.6F);
-        this.isImmuneToFire = true;
         this.getNavigator().setAvoidsWater(true);
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiCSit);
@@ -122,6 +121,10 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
         this.targetTasks.addTask(4, new EntityCustomAITargetNonTamed(this, EntitySheep.class, 200, false));
         this.setTamed(false);
         this.inventory = new InventoryJakanPack(this);
+        
+        addImmunity(DamageSource.lava);
+        addImmunity(DamageSource.inFire);
+        addImmunity(DamageSource.onFire);
     }
 
     protected void applyEntityAttributes()
@@ -210,7 +213,7 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
             super.func_145780_a(x, y, z, block);
         } else {
             // play stomping for bigger dragons
-            worldObj.playSoundAtEntity(this, Sound.JakanStep, 0.15F, 1.0F);
+            worldObj.playSoundAtEntity(this, Sound.Step, 0.15F, 1.0F);
         }
     }
 	
@@ -355,13 +358,6 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
     {
         super.onUpdate();
         
-        /*if(this.isSitting()){ //TODO
-        	double d0 = this.rand.nextGaussian() * 0.04D;
-        	double d1 = this.rand.nextGaussian() * 0.04D;
-        	double d2 = this.rand.nextGaussian() * 0.04D;
-        	worldObj.spawnParticle("smoke", this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
-        }*/
-        
         if (riddenByEntity != null) //check if there is a rider
         {
           //currentTarget = this;
@@ -442,17 +438,6 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
 
         return attacked;
     }
-    
-    /**
-     * Gets the pitch of living sounds in living entities.
-     */
-    protected float getPitch() {
-    	if(!this.isChild())
-    		return super.getSoundPitch() * -2;
-    	else{
-    		return super.getSoundPitch() * 2;
-    		}
-    	}
     
     @Override
         protected void fall(float par1)
@@ -600,15 +585,6 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
         }
 
         return super.interact(par1EntityPlayer);
-    }
-    
-    /**
-     * Returns the entity's health relative to the maximum health.
-     * 
-     * @return health normalized between 0 and 1
-     */
-    public double getHealthRelative() {
-        return getHealth() / (double) getMaxHealth();
     }
     
     /**

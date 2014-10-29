@@ -135,17 +135,17 @@ public class ModItems {
     	register(nileBoots,"nile_boots");*/
     	
     	//Food/Crops//
-    	zertumMeatRaw = new ZQFood(6, 1.5F, true).setUnlocalizedName("zertumMeatRaw").setTextureName(ZeroQuest.modid + ":" + "zertumMeat_raw");
+    	zertumMeatRaw = new ZQFood(3, 1.5F, true).setUnlocalizedName("zertumMeatRaw").setTextureName(ZeroQuest.modid + ":" + "zertumMeat_raw");
     	register(zertumMeatRaw, "zertum_meat_raw");
-    	zertumMeatCooked = new ZQFood(8, 2.5F, true).setUnlocalizedName("zertumMeatCooked").setTextureName(ZeroQuest.modid + ":" + "zertumMeat_cooked");
+    	zertumMeatCooked = new ZQFood(5, 2.5F, true).setUnlocalizedName("zertumMeatCooked").setTextureName(ZeroQuest.modid + ":" + "zertumMeat_cooked");
     	register(zertumMeatCooked, "zertum_meat_cooked");
     	vitoidSeed = new ItemNileSeed(ModBlocks.vitoidPlant, Blocks.farmland).setUnlocalizedName("vitoidSeed").setTextureName(ZeroQuest.modid + ":" + "vitoidSeed");
     	register(vitoidSeed, "vitoid_seed");
     	vitoidFruit = new VitoidFruit(2, 0.5F, false).setUnlocalizedName("vitoidFruit").setTextureName(ZeroQuest.modid + ":" + "vitoidFruit");
     	register(vitoidFruit, "vitoid_fruit");
-    	jakanMeatRaw = new ZQFood(7, 1.7F, true).setUnlocalizedName("jakanMeatRaw").setTextureName(ZeroQuest.modid + ":" + "jakanMeat_raw");
+    	jakanMeatRaw = new ZQFood(4, 1.7F, true).setUnlocalizedName("jakanMeatRaw").setTextureName(ZeroQuest.modid + ":" + "jakanMeat_raw");
     	register(jakanMeatRaw, "jakan_meat_raw");
-    	jakanMeatCooked = new ZQFood(9, 2.7F, true).setUnlocalizedName("jakanMeatCooked").setTextureName(ZeroQuest.modid + ":" + "jakanMeat_cooked");
+    	jakanMeatCooked = new ZQFood(5, 2.7F, true).setUnlocalizedName("jakanMeatCooked").setTextureName(ZeroQuest.modid + ":" + "jakanMeat_cooked");
     	register(jakanMeatCooked, "jakan_meat_cooked");
     	kurrSeeds = new KurrSeed(4, 1.2F, false).setUnlocalizedName("kurrSeeds").setTextureName(ZeroQuest.modid + ":" + "kurrSeed");
     	register(kurrSeeds, "kurr_seeds");

@@ -18,8 +18,11 @@ import common.zeroquest.entity.ai.tameable.EntityCustomAITargetNonTamed;
 import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.inventory.InventoryRedPack;
 import common.zeroquest.lib.Constants;
+import common.zeroquest.lib.Sound;
+import common.zeroquest.util.ItemUtils;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
+import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
@@ -40,6 +43,7 @@ import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
@@ -84,8 +88,7 @@ public class EntityRedZertum extends EntityCustomTameable
     public EntityRedZertum(World p_i1696_1_)
     {
         super(p_i1696_1_);
-        this.setSize(0.6F, 0.8F);
-        this.isImmuneToFire = true;
+        this.setSize(1.5F, 1.5F);
         this.getNavigator().setAvoidsWater(true);
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiCSit);
@@ -103,6 +106,10 @@ public class EntityRedZertum extends EntityCustomTameable
         this.targetTasks.addTask(4, new EntityCustomAITargetNonTamed(this, EntitySheep.class, 200, false));
         this.setTamed(false);
         this.inventory = new InventoryRedPack(this);
+        
+        addImmunity(DamageSource.lava);
+        addImmunity(DamageSource.inFire);
+        addImmunity(DamageSource.onFire);
     }
 
     protected void applyEntityAttributes()
@@ -329,7 +336,7 @@ public class EntityRedZertum extends EntityCustomTameable
     {
         super.onUpdate();
         double a = 0;   //Front and Back //TODO
-        double b = 0.5;  //Up and Down
+        double b = 1;  //Up and Down
         double c = 20;	//Not sure about this
         double x = posX + Math.sin((-renderYawOffset + c)/360*Math.PI*2)*a;
         double y = posY + b;
@@ -529,6 +536,15 @@ public class EntityRedZertum extends EntityCustomTameable
             }
         }
     }
+    
+    @Override
+    protected float getPitch() {
+    	if(!this.isChild())
+    		return super.getSoundPitch();
+    	else{
+    		return super.getSoundPitch() * 1;
+    		}
+    	}
 
     /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
@@ -543,22 +559,19 @@ public class EntityRedZertum extends EntityCustomTameable
             {
                 if (itemstack.getItem() instanceof ItemFood)
                 {
-                    ItemFood itemfood = (ItemFood)itemstack.getItem();
-
-                    if (itemfood.isWolfsFavoriteMeat() && this.dataWatcher.getWatchableObjectFloat(18) < 20.0F)
+                    ItemFood itemfood = null;
+                    if(getHealthRelative() < 1)
                     {
-                        if (!par1EntityPlayer.capabilities.isCreativeMode)
-                        {
-                            --itemstack.stackSize;
+                    	itemfood = (ItemFood) ItemUtils.consumeEquipped(par1EntityPlayer, Items.fish,
+                            Items.porkchop, Items.beef, Items.chicken, Items.cooked_porkchop, Items.cooked_beef,
+                            Items.cooked_chicken, Items.cooked_fished, ModItems.jakanMeatRaw, ModItems.jakanMeatCooked, 
+                            ModItems.zertumMeatRaw, ModItems.zertumMeatCooked);
+                        if (itemfood != null) {
+                        	float volume = getSoundVolume() * 1.0f;
+                        	float pitch =  getPitch();
+                        	worldObj.playSoundAtEntity(this, Sound.Chew, volume, pitch);
+                            this.heal((float)itemfood.func_150905_g(itemstack));
                         }
-
-                        this.heal((float)itemfood.func_150905_g(itemstack));
-
-                        if (itemstack.stackSize <= 0)
-                        {
-                            par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
-                        }
-
                         return true;
                     }
                 }
@@ -638,13 +651,7 @@ public class EntityRedZertum extends EntityCustomTameable
             super.handleHealthUpdate(p_70103_1_);
         }
     }
-
-    @SideOnly(Side.CLIENT)
-    public float getTailRotation()
-    {
-        return this.isAngry() ? 1.5393804F : (this.isTamed() ? (0.55F - (20.0F - this.dataWatcher.getWatchableObjectFloat(18)) * 0.02F) * (float)Math.PI : ((float)Math.PI / 5F));
-    }
-
+    
     /**
      * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
      * the animal type)

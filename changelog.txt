@@ -1,0 +1,54 @@
+ZERO QUEST CHANGE LOG
+
+|===SYMBOL KEY===|
+|+ = Addition    |
+|- = Deletion    |
+|~ = Bug Fix     |
+|* = Enchancement|
+|================|
+
+Alpha 0.0.1
++Initial Alpha Release
+
+Beta 0.0.2
++Initial Beta Release
++Added inventory to Jakan
++Added Kurr - mob
++Added Kortor - tameable creature
+*Altered taming code for passive/tameable Nile creatures
+*Changed Jakan Prime code
+*Altered Darkax Dimension to spawn like Nillax/Overworld
+*Rearranged code
+~Fixed most code and errors
+
+v1.0.0 Release - Offical Release
++Added new Biomes to Nillax Dimension (Nile Mesa, Nile Jungles, Niles Swamplands, Nile Mountains/Extreme Hills)
++Added Nile Grenade
++Added Acid and Nili fluids and buckets!
++Added Nile rivers and oceans (Unused for now)
++Added vanilla mobs to Nillax Dimension!
+*Changed lots of stuff!
+-Removed Jakan Prime
+~Fixed Client console info for mod
+~Fixed "Bound Not Positive" bug!
+
+v1.0.5 (Reuploaded) - TIME FOR THE KURR TO STRIKE!
++Added Kurr seeds
+*Altered Kurr for even HARDER difficulty!
+*Kurrs now drop around 50 EXP
+~Fixed Biome Code Mixup
+
+V1.1.0 - Pet Splash!
++Added Ice Zertum
++Added Foris Zertum
++Added Changelog file
+~Fixed commands healing and changing age of non-tamed nile creatures
+*Changed Ids for Jakan
+*When using heal and aging commands, particles now spawn to indicate the command has been sent
+*Adjusted how much Jakan Meat and Zertum Meat heals
+*Increased Inventory space for All Zertums
+*Added Inventory to Kortor
+*Changed BiomeGenBlueNile file to BiomeGenBlueTaiga
+
+V1.1.5 - Redesigner!
+*Redesigned all Zertums!

@@ -14,7 +14,6 @@ import net.minecraft.world.biome.BiomeGenBase;
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ModLiquids;
 import common.zeroquest.entity.EntityJakan;
-import common.zeroquest.entity.EntityJakanPrime;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -30,7 +29,6 @@ public class BiomeGenWalRockland extends BiomeGenBase
         this.spawnableCaveCreatureList.clear();
        	this.waterColorMultiplier = 0x7A9999;
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityJakan.class, 100, 2, 2));
-        //this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityJakanPrime.class, 100, 2, 2));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySpider.class, 100, 4, 4));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityZombie.class, 100, 4, 4));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySkeleton.class, 100, 4, 4));

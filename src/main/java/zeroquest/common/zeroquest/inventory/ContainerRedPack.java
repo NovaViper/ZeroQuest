@@ -23,7 +23,7 @@ public class ContainerRedPack extends Container {
 
         for (int j = 0; j < 3; j++)
         {
-            for (int i1 = 0; i1 < 3; i1++)
+            for (int i1 = 0; i1 < 5; i1++)
             {
                 this.addSlotToContainer(new SlotRedPack(entitydtdoggy.inventory, i, 79 + 18 * i1, 1 + 18 * j + 24, wolf));
                 i++;

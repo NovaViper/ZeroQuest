@@ -67,7 +67,7 @@ import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
 import cpw.mods.fml.common.FMLLog;
 
-public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
+public class EntityKurr extends EntityCustomMob /*implements IRangedAttackMob*/
 {
     public int rare;
     
@@ -92,7 +92,6 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
     {
         super(p_i1696_1_);
         this.setSize(2.6F, 2.6F);
-        this.isImmuneToFire = true;
         this.getNavigator().setBreakDoors(true);
         this.canBreatheUnderwater();
         this.tasks.addTask(1, new EntityAISwimming(this));
@@ -103,6 +102,17 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
         this.tasks.addTask(8, new EntityAILookIdle(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
         this.experienceValue = 50;
+        
+        addImmunity(DamageSource.magic);
+        addImmunity(DamageSource.lava);
+        addImmunity(DamageSource.inFire);
+        addImmunity(DamageSource.onFire);
+        addImmunity(DamageSource.cactus);
+        addImmunity(DamageSource.drown);
+        addImmunity(DamageSource.fall);
+        addImmunity(DamageSource.inWall);
+        addImmunity(DamageSource.wither);
+        addImmunity(DamageSource.starve);
     }
 
     protected void applyEntityAttributes()
@@ -192,7 +202,7 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
             super.func_145780_a(x, y, z, block);
         } else {
             // play stomping for bigger dragons
-            worldObj.playSoundAtEntity(this, Sound.JakanStep, 0.15F, 1.0F);
+            worldObj.playSoundAtEntity(this, Sound.Step, 0.15F, 1.0F);
         }
     }
 	
@@ -418,18 +428,7 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
 
         return attacked;
     } 
-    
-    /**
-     * Gets the pitch of living sounds in living entities.
-     */
-    protected float getPitch() {
-    	if(!this.isChild())
-    		return super.getSoundPitch() * -2;
-    	else{
-    		return super.getSoundPitch() * 2;
-    		}
-    	}
-    
+
     	@Override
         protected void fall(float par1)
         {
@@ -482,25 +481,5 @@ public class EntityKurr extends EntityMob /*implements IRangedAttackMob*/
             this.playSound(Sound.KurrHiss, volume, pitch);
     	}
             return super.interact(par1EntityPlayer);
-    }
-
-    /**
-     * Checks if this entity is running on a client.
-     * 
-     * Required since MCP's isClientWorld returns the exact opposite...
-     * 
-     * @return true if the entity runs on a client or false if it runs on a server
-     */
-    public boolean isClient() {
-        return worldObj.isRemote;
-    }
-    
-    /**
-     * Checks if this entity is running on a server.
-     * 
-     * @return true if the entity runs on a server or false if it runs on a client
-     */
-    public boolean isServer() {
-        return !worldObj.isRemote;
     }
 }

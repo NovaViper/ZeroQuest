@@ -35,7 +35,7 @@ public class GuiJakanPack extends GuiContainer
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
     	String s = this.dragon.inventory.hasCustomInventoryName() ? this.dragon.inventory.getInventoryName() : StatCollector.translateToLocal(this.dragon.inventory.getInventoryName());
         this.fontRendererObj.drawString(s, this.xSize / 2 - 10, 14, 4210752);
-        this.fontRendererObj.drawString(StatCollector.translateToLocal("Inventory"), 8, this.ySize - 155 + 2, 0xFFFF55);
+        this.fontRendererObj.drawString(StatCollector.translateToLocal("Inventory"), 8, this.ySize - 155 + 2, 4210752);
     }
 
 

@@ -67,7 +67,6 @@ item.darkPickaxe.name=Dark Pickaxe
 item.darkShovel.name=Dark Shovel
 item.darkHoe.name=Dark Hoe
 item.darkSpark.name=Dark Spark
-item.kurrSeeds.name=Kurr Seeds
 item.nileBow.name=Nile Bow
 item.nileGun.name=Nile Gun
 
@@ -75,49 +74,35 @@ item.zertumMeatRaw.name=Raw Zertum Meat
 item.zertumMeatCooked.name=Cooked Zertum Meat
 item.jakanMeatRaw.name=Raw Jakan Meat
 item.jakanMeatCooked.name=Cooked Jakan Meat
-item.entityEgg.name=Spawn
-item.entityDarkEgg.name=Spawn
 item.vitoidSeed.name=Vitoid Seed
 item.vitoidFruit.name=Vitoid Fruit
+item.kurrSeeds.name=Kurr Seeds
 item.acidBucket.name=Acid Bucket
 item.niliBucket.name=Nili Bucket
 
 item.FPoisonball.name=Flaming Poisonball
 
 key.categories.zeroquest=Zero Quest
-key.jakan.flyDown=Fly Up
-key.jakan.flyUp=Fly Down
 
 commands.zeroquest.notameable=There are no nile creatures nearby!
-commands.zeroquest.canttame=You cannot tame these creatures!
-commands.zeroquest.cantfree=You cannot free these creatures!
-Commands.zeroquest.cantheal=You cannot heal these creatures!
+commands.zeroquest.canttame=Consoles cannot tame these creatures!
+Commands.zeroquest.cantheal=Consoles cannot heal these creatures!
 
 
 attribute.name.generic.movementSpeedAir=Flying Speed
-
-entity.Zertum.name=Zertum
-entity.RedZertum.name=Red Zertum
-entity.DarkZertum.name=Dark Zertum
-entity.DestroZertum.name=Destro Zertum
-entity.Jakan.name=Jakan
-entity.JakanPrime.name=Jakan Prime
-entity.Kurr.name=Kurr
-entity.Kortor.name=Kortor
-entity.FPoisonball.name= Flaming Poisonball
-entity.nileGrenade.name=Nile Grenade
-
 
 entity.zero_quest.Zertum.name=Zertum
 entity.zero_quest.RedZertum.name=Red Zertum
 entity.zero_quest.DarkZertum.name=Dark Zertum
 entity.zero_quest.DestroZertum.name=Destro Zertum
+entity.zero_quest.IceZertum.name=Ice Zertum
+entity.zero_quest.ForisZertum.name=Foris Zertum
 entity.zero_quest.Jakan.name=Jakan
-entity.zero_quest.JakanPrime.name=Jakan Prime
 entity.zero_quest.Kurr.name=Kurr
 entity.zero_quest.Kortor.name=Kortor
 entity.zero_quest.FPoisonball.name= Flaming Poisonball
 entity.zero_quest.nileGrenade.name=Nile Grenade
+entity.zero_quest.Iceball.name=Iceball
 
 achievement.ZQuestStart=Start Zero Quest!
 achievement.ZQuestStart.desc=Gather nile grains, dust, or essence

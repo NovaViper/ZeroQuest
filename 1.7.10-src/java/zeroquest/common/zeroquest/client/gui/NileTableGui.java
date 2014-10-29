@@ -37,7 +37,7 @@ public class NileTableGui extends GuiContainer{
 	@Override
 	protected void drawGuiContainerForegroundLayer(int x, int z)	
 	{
-	         this.fontRendererObj.drawString(StatCollector.translateToLocal("\u00a71Nile Table"), 30, 6, 4210752);
+	         this.fontRendererObj.drawString(StatCollector.translateToLocal("Crafting"), 30, 6, 4210752);
 	         this.fontRendererObj.drawString(StatCollector.translateToLocal("Inventory"), 8, this.ySize - 96 + 2, 4210752);
 	}
 	/**

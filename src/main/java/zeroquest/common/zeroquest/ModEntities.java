@@ -1,19 +1,22 @@
 package common.zeroquest;
 
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityList;
+
 import common.zeroquest.entity.EntityDarkZertum;
 import common.zeroquest.entity.EntityDestroZertum;
+import common.zeroquest.entity.EntityForisZertum;
+import common.zeroquest.entity.EntityIceZertum;
 import common.zeroquest.entity.EntityJakan;
-import common.zeroquest.entity.EntityJakanPrime;
 import common.zeroquest.entity.EntityKortor;
 import common.zeroquest.entity.EntityKurr;
 import common.zeroquest.entity.EntityRedZertum;
 import common.zeroquest.entity.EntityZertum;
 import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
 import common.zeroquest.entity.projectile.EntityGrenade;
+import common.zeroquest.entity.projectile.EntityIceball;
 import common.zeroquest.tileentity.TileEntityNileTable;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityList;
-import net.minecraft.entity.EnumCreatureType;
+
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -27,32 +30,33 @@ public class ModEntities {
 	//Put Guis in CommonProxy//
 	//Put Creature SFX in Sound and sounds.json//
 	   public static void loadCreatures() {
-	       	registerEntity(EntityZertum.class, "Zertum", 1);
+	       	registerEntity(EntityZertum.class, "Zertum", 0);
 	       	registerEntityEgg(EntityZertum.class, 0xCCCCCC, 0x33FFFF);
-	       	registerEntity(EntityRedZertum.class, "RedZertum", 2);
+	       	registerEntity(EntityRedZertum.class, "RedZertum", 1);
 	       	registerEntityEgg(EntityRedZertum.class, 0xCCCCCC, 0xFF0000);
-	       	registerEntity(EntityDestroZertum.class, "DestroZertum", 3);
+	       	registerEntity(EntityDestroZertum.class, "DestroZertum", 2);
 	       	registerEntityEgg(EntityDestroZertum.class, 0xCCCCCC, 0xE6CC80);
-	       	registerEntity(EntityJakan.class, "Jakan", 4);
+	       	registerEntity(EntityIceZertum.class, "IceZertum", 3);
+	       	registerEntityEgg(EntityIceZertum.class, 0xCCCCCC, 0x6699FF);
+	       	registerEntity(EntityForisZertum.class, "ForisZertum", 4);
+	       	registerEntityEgg(EntityForisZertum.class, 0xCCCCCC, 0x33CC33);
+	       	registerEntity(EntityJakan.class, "Jakan", 5);
 	       	registerEntityEgg(EntityJakan.class, 0x0033CC, 0x00CCFF);
-	       	/*registerEntity(EntityJakanPrime.class, "JakanPrime", 5);
-	       	registerEntityEgg(EntityJakanPrime.class, 0x0033CC, 0x00000);*/
 	       	registerEntity(EntityKortor.class, "Kortor", 6);
 	       	registerEntityEgg(EntityKortor.class, 0x6699FF, 0xD1E0FF);
 	}
 	   public static void loadDarkCreatures(){
-	       	registerEntity(EntityDarkZertum.class, "DarkZertum", 7);
+	       	registerEntity(EntityDarkZertum.class, "DarkZertum", 20);
 	       	registerEntityEgg(EntityDarkZertum.class, 0xCCCCCC, 0x470047);
-	       	registerEntity(EntityKurr.class, "Kurr", 8);
+	       	registerEntity(EntityKurr.class, "Kurr", 21);
 	       	registerEntityEgg(EntityKurr.class, 0xFF0000, 0x660000);
 	   }
 	   
 	   public static void loadOthers() {
-		   registerProjectileEntity(EntityFlamingPoisonball.class, "FPoisonball", 400);
 		   registerTileEntity(TileEntityNileTable.class, "Nile Worktable");
+		   registerProjectileEntity(EntityFlamingPoisonball.class, "FPoisonball", 400);
 		   EntityRegistry.registerModEntity(EntityGrenade.class, "Grenade", 401, ZeroQuest.instance, 80, 3, true);
-			
-		   //EntityRegistry.registerGlobalEntityID(EntityFlamingPoisonball.class, "FPoisonball", EntityRegistry.findGlobalUniqueEntityId());
+		   registerProjectileEntity(EntityIceball.class, "Iceball", 402);
 	   }
 	   
 		public static void registerEntity(Class entityClass, String saveName, int id) {

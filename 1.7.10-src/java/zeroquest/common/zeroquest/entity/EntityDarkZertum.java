@@ -55,6 +55,8 @@ import common.zeroquest.entity.ai.tameable.EntityCustomAITargetNonTamed;
 import common.zeroquest.inventory.InventoryDarkPack;
 import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.lib.Constants;
+import common.zeroquest.lib.Sound;
+import common.zeroquest.util.ItemUtils;
 import cpw.mods.fml.common.FMLLog;
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
@@ -88,7 +90,7 @@ public class EntityDarkZertum extends EntityCustomTameable
     public EntityDarkZertum(World p_i1696_1_)
     {
         super(p_i1696_1_);
-        this.setSize(0.6F, 0.8F);
+        this.setSize(1.5F, 1.5F);
         this.getNavigator().setAvoidsWater(true);
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiCSit);
@@ -106,6 +108,9 @@ public class EntityDarkZertum extends EntityCustomTameable
         this.targetTasks.addTask(4, new EntityCustomAITargetNonTamed(this, EntitySheep.class, 200, false));
         this.setTamed(false);
         this.inventory = new InventoryDarkPack(this);
+        
+        addImmunity(DamageSource.magic);
+        addImmunity(DamageSource.wither);
     }
 
     protected void applyEntityAttributes()
@@ -532,11 +537,20 @@ public class EntityDarkZertum extends EntityCustomTameable
             }
         }
     }
+    
+    @Override
+    protected float getPitch() {
+    	if(!this.isChild())
+    		return super.getSoundPitch();
+    	else{
+    		return super.getSoundPitch() * 1;
+    		}
+    	}
 
     /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
      */
-    public boolean interact(EntityPlayer par1EntityPlayer)
+    public boolean interact(EntityPlayer par1EntityPlayer) //TODO
     {
         ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
 
@@ -546,22 +560,19 @@ public class EntityDarkZertum extends EntityCustomTameable
             {
                 if (itemstack.getItem() instanceof ItemFood)
                 {
-                    ItemFood itemfood = (ItemFood)itemstack.getItem();
-
-                    if (itemfood.isWolfsFavoriteMeat() && this.dataWatcher.getWatchableObjectFloat(18) < 20.0F)
+                    ItemFood itemfood = null;
+                    if(getHealthRelative() < 1)
                     {
-                        if (!par1EntityPlayer.capabilities.isCreativeMode)
-                        {
-                            --itemstack.stackSize;
+                    	itemfood = (ItemFood) ItemUtils.consumeEquipped(par1EntityPlayer, Items.fish,
+                            Items.porkchop, Items.beef, Items.chicken, Items.cooked_porkchop, Items.cooked_beef,
+                            Items.cooked_chicken, Items.cooked_fished, ModItems.jakanMeatRaw, ModItems.jakanMeatCooked, 
+                            ModItems.zertumMeatRaw, ModItems.zertumMeatCooked, ModItems.kurrSeeds);
+                        if (itemfood != null) {
+                        	float volume = getSoundVolume() * 1.0f;
+                        	float pitch =  getPitch();
+                        	worldObj.playSoundAtEntity(this, Sound.Chew, volume, pitch);
+                            this.heal((float)itemfood.func_150905_g(itemstack));
                         }
-
-                        this.heal((float)itemfood.func_150905_g(itemstack));
-
-                        if (itemstack.stackSize <= 0)
-                        {
-                            par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
-                        }
-
                         return true;
                     }
                 }
@@ -664,12 +675,6 @@ public class EntityDarkZertum extends EntityCustomTameable
         {
             super.handleHealthUpdate(p_70103_1_);
         }
-    }
-
-    @SideOnly(Side.CLIENT)
-    public float getTailRotation()
-    {
-        return this.isAngry() ? 1.5393804F : (this.isTamed() ? (0.55F - (20.0F - this.dataWatcher.getWatchableObjectFloat(18)) * 0.02F) * (float)Math.PI : ((float)Math.PI / 5F));
     }
 
     /**

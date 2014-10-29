@@ -1,5 +1,7 @@
 package common.zeroquest.entity;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 import net.minecraft.entity.EntityLivingBase;
@@ -11,6 +13,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.scoreboard.Team;
 import net.minecraft.server.management.PreYggdrasilConverter;
+import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 
 import common.zeroquest.client.particle.ParticleEffects;
@@ -23,6 +26,9 @@ public abstract class EntityCustomTameable extends EntityAnimal implements IEnti
 {
     protected EntityCustomAISit aiCSit = new EntityCustomAISit(this);
     private static final String __OBFID = "CL_00001561";
+    private static final  int INDEX_TAME = 16;
+    private static final  int INDEX_OWNER = 17;
+    private Set<String> immunities = new HashSet<String>();
 
     public EntityCustomTameable(World p_i1604_1_)
     {
@@ -32,8 +38,8 @@ public abstract class EntityCustomTameable extends EntityAnimal implements IEnti
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(16, Byte.valueOf((byte)0));
-        this.dataWatcher.addObject(17, "");
+        this.dataWatcher.addObject(INDEX_TAME, Byte.valueOf((byte)0));
+        this.dataWatcher.addObject(INDEX_OWNER, "");
     }
 
     /**
@@ -106,6 +112,15 @@ public abstract class EntityCustomTameable extends EntityAnimal implements IEnti
         }
     }
     
+    /**
+     * Returns the entity's health relative to the maximum health.
+     * 
+     * @return health normalized between 0 and 1
+     */
+    public double getHealthRelative() {
+        return getHealth() / (double) getMaxHealth();
+    }
+    
     public void tamedFor(EntityPlayer player, boolean successful) { //TODO
         if (successful) {
             setTamed(true);
@@ -140,53 +155,53 @@ public abstract class EntityCustomTameable extends EntityAnimal implements IEnti
 
     public boolean isTamed()
     {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 4) != 0;
+        return (this.dataWatcher.getWatchableObjectByte(INDEX_TAME) & 4) != 0;
     }
 
     public void setTamed(boolean p_70903_1_)
     {
-        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
+        byte b0 = this.dataWatcher.getWatchableObjectByte(INDEX_TAME);
 
         if (p_70903_1_)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 4)));
+            this.dataWatcher.updateObject(INDEX_TAME, Byte.valueOf((byte)(b0 | 4)));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -5)));
+            this.dataWatcher.updateObject(INDEX_TAME, Byte.valueOf((byte)(b0 & -5)));
         }
     }
 
     public boolean isSitting()
     {
-        return (this.dataWatcher.getWatchableObjectByte(16) & 1) != 0;
+        return (this.dataWatcher.getWatchableObjectByte(INDEX_TAME) & 1) != 0;
     }
 
     public void setSitting(boolean p_70904_1_)
     {
-        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
+        byte b0 = this.dataWatcher.getWatchableObjectByte(INDEX_TAME);
 
         if (p_70904_1_)
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 | 1)));
+            this.dataWatcher.updateObject(INDEX_TAME, Byte.valueOf((byte)(b0 | 1)));
         }
         else
         {
-            this.dataWatcher.updateObject(16, Byte.valueOf((byte)(b0 & -2)));
+            this.dataWatcher.updateObject(INDEX_TAME, Byte.valueOf((byte)(b0 & -2)));
         }
     }
     /**getOwner
      * */
     public String func_152113_b()
     {
-        return this.dataWatcher.getWatchableObjectString(17);
+        return this.dataWatcher.getWatchableObjectString(INDEX_OWNER);
     }
 
     /**setOwner
      * */
     public void func_152115_b(String p_152115_1_)
     {
-        this.dataWatcher.updateObject(17, p_152115_1_);
+        this.dataWatcher.updateObject(INDEX_OWNER, p_152115_1_);
     }
 
     public EntityLivingBase getOwner()
@@ -252,6 +267,16 @@ public abstract class EntityCustomTameable extends EntityAnimal implements IEnti
         return super.isOnSameTeam(p_142014_1_);
     }
     
+    protected void addImmunity(DamageSource dmg) {
+    	immunities.add(dmg.damageType);
+    	}
+    	public boolean isImmuneToDamage(DamageSource dmg) {
+    		if (immunities.isEmpty()) {
+    			return false;
+    		}
+    		return immunities.contains(dmg.damageType);
+    	}
+    
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
@@ -277,4 +302,16 @@ public abstract class EntityCustomTameable extends EntityAnimal implements IEnti
     public boolean isServer() {
         return !worldObj.isRemote;
     }
+    
+    
+    /**
+     * Gets the pitch of living sounds in living entities.
+     */
+    protected float getPitch() {
+    	if(!this.isChild())
+    		return super.getSoundPitch() * -2;
+    	else{
+    		return super.getSoundPitch() * 2;
+    		}
+    	}
 }

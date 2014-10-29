@@ -27,7 +27,6 @@ public class KurrSeed extends ItemFood{
     	par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.poison.id, 250, 2));//Potion Effect, Duration, Amplifier, Ambient
     	par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.hunger.id, 100, 1));//Potion Effect, Duration, Amplifier, Ambient
        	par3EntityPlayer.addPotionEffect(new PotionEffect(Potion.damageBoost.id, 850, 5));//Potion Effect, Duration, Amplifier, Ambient
-    	
     }
     
     @Override

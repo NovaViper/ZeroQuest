@@ -30,7 +30,6 @@ public class ConfigurationHandler {
    		   Constants.DEF_DARKLOAD = config.get("ModSettings", "DarkElements", false, "Toggles the Dark Elemental Load").getBoolean(false);
    		   Constants.DEF_DPARTICLESLOAD = config.get("ModSettings", "DarkParticles", true, "Toggles the Dark Particles Load").getBoolean(true);
    		   Constants.DEF_HEALING = config.get("ModSettings", "Healing", false, "Toggles the Healing ability of ALL Zero Quest tameable creatures").getBoolean(false);
-    	   
        }
        catch(Exception e){
     	   L.log(Level.FATAL, "Zero Quest encounted a problem while loading the config file: ", e);

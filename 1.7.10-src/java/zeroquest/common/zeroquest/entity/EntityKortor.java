@@ -1,69 +1,54 @@
 package common.zeroquest.entity;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.UUID;
 
-import common.zeroquest.ModAchievements;
-import common.zeroquest.ModItems;
-import common.zeroquest.client.particle.ParticleEffects;
-import common.zeroquest.entity.ai.tameable.EntityCustomAIFollowOwner;
-import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtByTarget;
-import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtTarget;
-import common.zeroquest.entity.ai.tameable.EntityCustomAISit;
-import common.zeroquest.entity.ai.tameable.EntityCustomAITargetNonTamed;
-import common.zeroquest.lib.Constants;
-import common.zeroquest.lib.Sound;
-import common.zeroquest.util.ItemUtils;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.material.Material;
 import net.minecraft.enchantment.EnchantmentHelper;
-import net.minecraft.enchantment.EnchantmentThorns;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIBeg;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
-import net.minecraft.entity.ai.EntityAIFollowParent;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
-import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
-import net.minecraft.entity.ai.EntityAIPanic;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITargetNonTamed;
-import net.minecraft.entity.ai.EntityAITempt;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityHorse;
-import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathEntity;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
+import common.zeroquest.ModAchievements;
+import common.zeroquest.ModItems;
+import common.zeroquest.ZeroQuest;
+import common.zeroquest.core.proxy.CommonProxy;
+import common.zeroquest.entity.ai.tameable.EntityCustomAIFollowOwner;
+import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtByTarget;
+import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtTarget;
+import common.zeroquest.inventory.InventoryKortorPack;
+import common.zeroquest.lib.Constants;
+import common.zeroquest.lib.Sound;
+import common.zeroquest.util.ItemUtils;
+
+import cpw.mods.fml.relauncher.Side;
+import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityKortor extends EntityCustomTameable
 {
@@ -77,6 +62,7 @@ public class EntityKortor extends EntityCustomTameable
     public int field_110279_bq;
     private String field_110286_bQ;
     private int openMouthCounter;
+    public InventoryKortorPack inventory;
     
     public static final double maxHealth = 25;
     public static final double attackDamage = 3;
@@ -113,7 +99,7 @@ public class EntityKortor extends EntityCustomTameable
         this.targetTasks.addTask(2, new EntityCustomAIOwnerHurtTarget(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
         this.setTamed(false);
-        //this.inventory = new InventoryJakanPack(this);
+        this.inventory = new InventoryKortorPack(this);
     }
 
     protected void applyEntityAttributes()
@@ -203,7 +189,7 @@ public class EntityKortor extends EntityCustomTameable
             super.func_145780_a(x, y, z, block);
         } else {
             // play stomping for bigger dragons
-            worldObj.playSoundAtEntity(this, Sound.KortorStep, 0.15F, 1.0F);
+            worldObj.playSoundAtEntity(this, Sound.HardStep, 0.15F, 1.0F);
         }
     }
 	
@@ -315,7 +301,7 @@ public class EntityKortor extends EntityCustomTameable
        		this.addPotionEffect(new PotionEffect(10, 200));//TODO
         }
         //Dying
-        if(this.getHealth() <=10 && this.isTamed()){
+        if(this.getHealth() <=10 && this.isTamed()){ //TODO
         	double d0 = this.rand.nextGaussian() * 0.04D;
         	double d1 = this.rand.nextGaussian() * 0.04D;
         	double d2 = this.rand.nextGaussian() * 0.04D;
@@ -350,13 +336,6 @@ public class EntityKortor extends EntityCustomTameable
     public void onUpdate()
     {
         super.onUpdate();    
-        /*if(this.isSitting()){ //TODO
-        	double d0 = this.rand.nextGaussian() * 0.04D;
-        	double d1 = this.rand.nextGaussian() * 0.04D;
-        	double d2 = this.rand.nextGaussian() * 0.04D;
-        	worldObj.spawnParticle("smoke", this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
-        }*/
-        
         if (isClient() && this.dataWatcher.hasChanges())
         {
             this.dataWatcher.func_111144_e();
@@ -537,17 +516,6 @@ public class EntityKortor extends EntityCustomTameable
         return attacked;
     }
     
-    /**
-     * Gets the pitch of living sounds in living entities.
-     */
-    protected float getPitch() {
-    	if(!this.isChild())
-    		return super.getSoundPitch() * -2;
-    	else{
-    		return super.getSoundPitch() * 2;
-    		}
-    	}
-    
     @Override
         protected void fall(float par1)
         {
@@ -576,7 +544,7 @@ public class EntityKortor extends EntityCustomTameable
     /**
      * Called when the mob's health reaches 0.
      */
-    /*public void onDeath(DamageSource par1DamageSource) //TODO
+    public void onDeath(DamageSource par1DamageSource) //TODO
     {
         super.onDeath(par1DamageSource);
 
@@ -585,7 +553,7 @@ public class EntityKortor extends EntityCustomTameable
             EntityPlayer entityplayer = (EntityPlayer)par1DamageSource.getEntity();
             {
                 entityplayer.triggerAchievement(ModAchievements.DragonSlayer);
-                if(isServer(){
+                if(isServer()){
                 this.dropChestItems();
                 }
             }
@@ -597,7 +565,7 @@ public class EntityKortor extends EntityCustomTameable
         this.dropItemsInChest(this, this.inventory);
     }
     
-    private void dropItemsInChest(Entity par1Entity, InventoryJakanPack inventory2)
+    private void dropItemsInChest(Entity par1Entity, InventoryKortorPack inventory2)
     {
         if (inventory2 != null && !this.worldObj.isRemote)
         {
@@ -611,7 +579,7 @@ public class EntityKortor extends EntityCustomTameable
                 }
             }
         }
-    }*/
+    }
 
     /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
@@ -647,6 +615,11 @@ public class EntityKortor extends EntityCustomTameable
                 if (!this.isChild() && ItemUtils.hasEquipped(par1EntityPlayer, Items.saddle)) //TODO
                 {
                 	this.setSaddled(true);
+                }
+                else if(itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer))
+                {
+                 par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.KortorPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+                 return true;
                 }
                 else if (this.riddenByEntity == null && this.getSaddled() && !this.isChild() && !ItemUtils.hasEquippedUsable(par1EntityPlayer)  && itemstack.getItem() != Items.spawn_egg && itemstack.getItem() != Items.stick && itemstack.getItem() != Items.dye && !this.isBreedingItem(itemstack))
                 {
@@ -691,15 +664,6 @@ public class EntityKortor extends EntityCustomTameable
         }
 
         return super.interact(par1EntityPlayer);
-    }
-    
-    /**
-     * Returns the entity's health relative to the maximum health.
-     * 
-     * @return health normalized between 0 and 1
-     */
-    public double getHealthRelative() {
-        return getHealth() / (double) getMaxHealth();
     }
     
     /**

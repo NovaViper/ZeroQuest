@@ -20,18 +20,13 @@ public class RenderDarkZertum extends RenderLiving
     private static final ResourceLocation zwolfTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/dzertum.png");
     private static final ResourceLocation tamedZWolfTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/dzertum_tame.png");
     private static final ResourceLocation anrgyZWolfTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/dzertum_angry.png");
-    private static final ResourceLocation zwolfCollarTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/dzertum_collar.png");
+    private static final ResourceLocation zwolfCollarTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_collar.png");
     private static final ResourceLocation zwolfDyingTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_dying.png");
 
     public RenderDarkZertum(ModelDarkZertum par1ModelZertum, float par3)
     {
         super(par1ModelZertum, par3);
         this.setRenderPassModel(par1ModelZertum);
-    }
-
-    protected float getTailRotation(EntityDarkZertum par1EntityZertum, float par2)
-    {
-        return par1EntityZertum.getTailRotation();
     }
 
     protected int func_82447_a(EntityDarkZertum par1EntityZertum, int par2, float par3)
@@ -75,14 +70,6 @@ public class RenderDarkZertum extends RenderLiving
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
         return this.func_82447_a((EntityDarkZertum)par1EntityLivingBase, par2, par3);
-    }
-
-    /**
-     * Defines what float the third param in setRotationAngles of ModelBase is
-     */
-    protected float handleRotationFloat(EntityLivingBase par1EntityLivingBase, float par2)
-    {
-        return this.getTailRotation((EntityDarkZertum)par1EntityLivingBase, par2);
     }
 
     /**

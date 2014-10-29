@@ -9,177 +9,258 @@ import net.minecraft.util.MathHelper;
 import org.lwjgl.opengl.GL11;
 
 import common.zeroquest.entity.EntityRedZertum;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class ModelRedZertum extends ModelBase
 {
-    /** main box for the wolf head */
-    public ModelRenderer wolfHeadMain;
-
-    /** The wolf's body */
-    public ModelRenderer wolfBody;
-
-    /** Wolf'se first leg */
-    public ModelRenderer wolfLeg1;
-
-    /** Wolf's second leg */
-    public ModelRenderer wolfLeg2;
-
-    /** Wolf's third leg */
-    public ModelRenderer wolfLeg3;
-
-    /** Wolf's fourth leg */
-    public ModelRenderer wolfLeg4;
-
-    /** The wolf's tail */
-    ModelRenderer wolfTail;
-
-    /** The wolf's mane */
-    ModelRenderer wolfMane;
-
-    public ModelRedZertum()
-    {
-        float f = 0.0F;
-        float f1 = 13.5F;
-        this.wolfHeadMain = new ModelRenderer(this, 0, 0);
-        this.wolfHeadMain.addBox(-3.0F, -3.0F, -2.0F, 6, 6, 4, f);
-        this.wolfHeadMain.setRotationPoint(-1.0F, f1, -7.0F);
-        this.wolfBody = new ModelRenderer(this, 18, 14);
-        this.wolfBody.addBox(-4.0F, -2.0F, -3.0F, 6, 9, 6, f);
-        this.wolfBody.setRotationPoint(0.0F, 14.0F, 2.0F);
-        this.wolfMane = new ModelRenderer(this, 21, 0);
-        this.wolfMane.addBox(-4.0F, -3.0F, -3.0F, 8, 6, 7, f);
-        this.wolfMane.setRotationPoint(-1.0F, 14.0F, 2.0F);
-        this.wolfLeg1 = new ModelRenderer(this, 0, 18);
-        this.wolfLeg1.addBox(-1.0F, 0.0F, -1.0F, 2, 8, 2, f);
-        this.wolfLeg1.setRotationPoint(-2.5F, 16.0F, 7.0F);
-        this.wolfLeg2 = new ModelRenderer(this, 0, 18);
-        this.wolfLeg2.setTextureOffset(48, 18).addBox(-1.0F, 0.0F, -1.0F, 2, 8, 2, f);
-        this.wolfLeg2.setRotationPoint(0.5F, 16.0F, 7.0F);
-        this.wolfLeg3 = new ModelRenderer(this, 0, 18);
-        this.wolfLeg3.addBox(-1.0F, 0.0F, -1.0F, 2, 8, 2, f);
-        this.wolfLeg3.setRotationPoint(-2.5F, 16.0F, -4.0F);
-        this.wolfLeg4 = new ModelRenderer(this, 0, 18);
-        this.wolfLeg4.setTextureOffset(48, 18).addBox(-1.0F, 0.0F, -1.0F, 2, 8, 2, f);
-        this.wolfLeg4.setRotationPoint(0.5F, 16.0F, -4.0F);
-        this.wolfTail = new ModelRenderer(this, 9, 18);
-        this.wolfTail.addBox(-1.0F, 0.0F, -1.0F, 2, 8, 2, f);
-        this.wolfTail.setRotationPoint(-1.0F, 12.0F, 8.0F);
-        this.wolfHeadMain.setTextureOffset(16, 14).addBox(-3.0F, -5.0F, 0.0F, 2, 2, 1, f);
-        this.wolfHeadMain.setTextureOffset(16, 14).addBox(1.0F, -5.0F, 0.0F, 2, 2, 1, f);
-        this.wolfHeadMain.setTextureOffset(0, 10).addBox(-1.5F, 0.0F, -5.0F, 3, 3, 4, f);
-    }
-
-    /**
-     * Sets the models various rotation angles then renders the model.
-     */
-    public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
-    {
-        super.render(par1Entity, par2, par3, par4, par5, par6, par7);
-        this.setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
-
-        if (this.isChild)
-        {
-            float f6 = 2.0F;
-            GL11.glPushMatrix();
-            GL11.glTranslatef(0.0F, 5.0F * par7, 2.0F * par7);
-            this.wolfHeadMain.renderWithRotation(par7);
-            GL11.glPopMatrix();
-            GL11.glPushMatrix();
-            GL11.glScalef(1.0F / f6, 1.0F / f6, 1.0F / f6);
-            GL11.glTranslatef(0.0F, 24.0F * par7, 0.0F);
-            this.wolfBody.render(par7);
-            this.wolfLeg1.render(par7);
-            this.wolfLeg2.render(par7);
-            this.wolfLeg3.render(par7);
-            this.wolfLeg4.render(par7);
-            this.wolfTail.renderWithRotation(par7);
-            this.wolfMane.render(par7);
-            GL11.glPopMatrix();
-        }
-        else
-        {
-            this.wolfHeadMain.renderWithRotation(par7);
-            this.wolfBody.render(par7);
-            this.wolfLeg1.render(par7);
-            this.wolfLeg2.render(par7);
-            this.wolfLeg3.render(par7);
-            this.wolfLeg4.render(par7);
-            this.wolfTail.renderWithRotation(par7);
-            this.wolfMane.render(par7);
-        }
-    }
-
-    /**
-     * Used for easily adding entity-dependent animations. The second and third float params here are the same second
-     * and third as in the setRotationAngles method.
-     */
-    public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
-    {
-        EntityRedZertum entityzertum = (EntityRedZertum)par1EntityLivingBase;
-
-        if (entityzertum.isAngry())
-        {
-            this.wolfTail.rotateAngleY = 0.0F;
-        }
-        else
-        {
-            this.wolfTail.rotateAngleY = MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
-        }
-
-        if (entityzertum.isSitting())
-        {
-            this.wolfMane.setRotationPoint(-1.0F, 16.0F, -3.0F);
-            this.wolfMane.rotateAngleX = ((float)Math.PI * 2F / 5F);
-            this.wolfMane.rotateAngleY = 0.0F;
-            this.wolfBody.setRotationPoint(0.0F, 18.0F, 0.0F);
-            this.wolfBody.rotateAngleX = ((float)Math.PI / 4F);
-            this.wolfTail.setRotationPoint(-1.0F, 21.0F, 6.0F);
-            this.wolfLeg1.setRotationPoint(-2.5F, 22.0F, 2.0F);
-            this.wolfLeg1.rotateAngleX = ((float)Math.PI * 3F / 2F);
-            this.wolfLeg2.setRotationPoint(0.5F, 22.0F, 2.0F);
-            this.wolfLeg2.rotateAngleX = ((float)Math.PI * 3F / 2F);
-            this.wolfLeg3.rotateAngleX = 5.811947F;
-            this.wolfLeg3.setRotationPoint(-2.49F, 17.0F, -4.0F);
-            this.wolfLeg4.rotateAngleX = 5.811947F;
-            this.wolfLeg4.setRotationPoint(0.51F, 17.0F, -4.0F);
-        }
-        else
-        {
-            this.wolfBody.setRotationPoint(0.0F, 14.0F, 2.0F);
-            this.wolfBody.rotateAngleX = ((float)Math.PI / 2F);
-            this.wolfMane.setRotationPoint(-1.0F, 14.0F, -3.0F);
-            this.wolfMane.rotateAngleX = this.wolfBody.rotateAngleX;
-            this.wolfTail.setRotationPoint(-1.0F, 12.0F, 8.0F);
-            this.wolfLeg1.setRotationPoint(-2.5F, 16.0F, 7.0F);
-            this.wolfLeg2.setRotationPoint(0.5F, 16.0F, 7.0F);
-            this.wolfLeg3.setRotationPoint(-2.5F, 16.0F, -4.0F);
-            this.wolfLeg4.setRotationPoint(0.5F, 16.0F, -4.0F);
-            this.wolfLeg1.rotateAngleX = MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
-            this.wolfLeg2.rotateAngleX = MathHelper.cos(par2 * 0.6662F + (float)Math.PI) * 1.4F * par3;
-            this.wolfLeg3.rotateAngleX = MathHelper.cos(par2 * 0.6662F + (float)Math.PI) * 1.4F * par3;
-            this.wolfLeg4.rotateAngleX = MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
-        }
-
-        this.wolfHeadMain.rotateAngleZ = entityzertum.getInterestedAngle(par4) + entityzertum.getShakeAngle(par4, 0.0F);
-        this.wolfMane.rotateAngleZ = entityzertum.getShakeAngle(par4, -0.08F);
-        this.wolfBody.rotateAngleZ = entityzertum.getShakeAngle(par4, -0.16F);
-        this.wolfTail.rotateAngleZ = entityzertum.getShakeAngle(par4, -0.2F);
-    }
-
-    /**
-     * Sets the model's various rotation angles. For bipeds, par1 and par2 are used for animating the movement of arms
-     * and legs, where par1 represents the time(so that arms and legs swing back and forth) and par2 represents how
-     * "far" arms and legs can swing at most.
-     */
-    public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
-    {
-        super.setRotationAngles(par1, par2, par3, par4, par5, par6, par7Entity);
-        this.wolfHeadMain.rotateAngleX = par5 / (180F / (float)Math.PI);
-        this.wolfHeadMain.rotateAngleY = par4 / (180F / (float)Math.PI);
-        this.wolfTail.rotateAngleX = par3;
-    }
+  //fields
+    ModelRenderer Nose;
+    ModelRenderer Ear2;
+    ModelRenderer Ear1;
+    ModelRenderer Head;
+    ModelRenderer LeftHindLeg2;
+    ModelRenderer LeftHindLeg1;
+    ModelRenderer RightHindLeg2;
+    ModelRenderer RightHindLeg1;
+    ModelRenderer Mane1;
+    ModelRenderer RightLeg;
+    ModelRenderer LeftLeg;
+    ModelRenderer Tail1;
+    ModelRenderer Mane2;
+    ModelRenderer Torso;
+    ModelRenderer Tail2;
+    ModelRenderer Neck;
+    private float rightLegStartingRotation = -0.2974289F;
+    private float lightLegStartingRotation = -0.2974289F;
+  
+  public ModelRedZertum()
+  {
+    textureWidth = 128;
+    textureHeight = 64;
+    
+    Nose = new ModelRenderer(this, 25, 27);
+    Nose.addBox(-1.5F, 0F, -3F, 3, 3, 4);
+    Nose.setRotationPoint(0F, 2.5F, -15F);
+    Nose.setTextureSize(64, 32);
+    Nose.mirror = true;
+    setRotation(Nose, 0F, 0F, 0F);
+    Ear2 = new ModelRenderer(this, 40, 28);
+    Ear2.addBox(-1F, -3F, 0F, 2, 3, 1);
+    Ear2.setRotationPoint(2F, -0.5F, -10.5F);
+    Ear2.setTextureSize(64, 32);
+    Ear2.mirror = true;
+    setRotation(Ear2, 0F, 0F, 0F);
+    Ear1 = new ModelRenderer(this, 40, 28);
+    Ear1.addBox(-1F, -3F, 0F, 2, 3, 1);
+    Ear1.setRotationPoint(-2F, -0.5F, -10.5F);
+    Ear1.setTextureSize(64, 32);
+    Ear1.mirror = true;
+    setRotation(Ear1, 0F, 0F, 0F);
+    Head = new ModelRenderer(this, 25, 15);
+    Head.addBox(-3F, -0.5F, -14F, 6, 6, 5);
+    Head.setRotationPoint(-0.5F, 6F, -3F);
+    Head.setTextureSize(64, 32);
+    Head.mirror = true;
+    setRotation(Head, 0F, 0F, 0F);
+      LeftHindLeg1 = new ModelRenderer(this, 11, 18);
+      LeftHindLeg1.addBox(-1F, 0F, -1F, 2, 5, 3);
+      LeftHindLeg1.setRotationPoint(1.5F, 13F, 5F);
+      LeftHindLeg1.setTextureSize(128, 64);
+      LeftHindLeg1.mirror = true;
+      setRotation(LeftHindLeg1, -0.2974289F, 0F, 0F);
+      LeftHindLeg2 = new ModelRenderer(this, 9, 44);
+      LeftHindLeg2.addBox(-1F, 0F, -1F, 2, 8, 2);
+      LeftHindLeg2.setRotationPoint(0F, 3F, 0.5F);
+      LeftHindLeg2.setTextureSize(128, 64);
+      LeftHindLeg2.mirror = true;
+      setRotation(LeftHindLeg2, 0.2974289F, 0F, 0F);
+      RightHindLeg1 = new ModelRenderer(this, 11, 31);
+      RightHindLeg1.addBox(-1F, 0F, -1F, 2, 5, 3);
+      RightHindLeg1.setRotationPoint(-2.5F, 13F, 5F);
+      RightHindLeg1.setTextureSize(128, 64);
+      RightHindLeg1.mirror = true;
+      setRotation(RightHindLeg1, -0.2974289F, 0F, 0F);
+      RightHindLeg2 = new ModelRenderer(this, 0, 44);
+      RightHindLeg2.addBox(-1F, 0F, -1F, 2, 8, 2);
+      RightHindLeg2.setRotationPoint(0F, 3F, 0.5F);
+      RightHindLeg2.setTextureSize(128, 64);
+      RightHindLeg2.mirror = true;
+      setRotation(RightHindLeg2, 0.2974289F, 0F, 0F);
+      Mane1 = new ModelRenderer(this, 43, 0);
+      Mane1.addBox(-3F, -3F, -3F, 6, 6, 7);
+      Mane1.setRotationPoint(-0.5F, 14F, -3F);
+      Mane1.setTextureSize(128, 64);
+      Mane1.mirror = true;
+      setRotation(Mane1, 1.496439F, 0F, 0F);
+      Neck = new ModelRenderer(this, 0, 0);
+      Neck.addBox(-2.5F, -12F, -4F, 4, 7, 4);
+      Neck.setRotationPoint(0.5F, 0F, 0F);
+      Neck.setTextureSize(64, 32);
+      Neck.mirror = true;
+      setRotation(Neck, -0.6015813F, 0F, 0F);
+      Mane2 = new ModelRenderer(this, 18, 0);
+      Mane2.addBox(-2.5F, -7F, -3.6F, 5, 6, 7);
+      Mane2.setRotationPoint(0F, 0F, 0F);
+      Mane2.setTextureSize(64, 32);
+      Mane2.mirror = true;
+      setRotation(Mane2, -0.34653F, 0F, 0F);
+      RightLeg = new ModelRenderer(this, 0, 30);
+      RightLeg.addBox(-1F, 0F, -1F, 2, 10, 2);
+      RightLeg.setRotationPoint(-3F, 14F, -4F);
+      RightLeg.setTextureSize(128, 64);
+      RightLeg.mirror = true;
+      setRotation(RightLeg, 0F, 0F, 0F);
+      LeftLeg = new ModelRenderer(this, 0, 16);
+      LeftLeg.addBox(-1F, 0F, -1F, 2, 10, 2);
+      LeftLeg.setRotationPoint(2F, 14F, -4F);
+      LeftLeg.setTextureSize(128, 64);
+      LeftLeg.mirror = true;
+      setRotation(LeftLeg, 0F, 0F, 0F);
+      Tail1 = new ModelRenderer(this, 91, 0);
+      Tail1.addBox(-1.5F, 0F, -1F, 4, 8, 4);
+      Tail1.setRotationPoint(-1F, 14F, 5F);
+      Tail1.setTextureSize(128, 64);
+      Tail1.mirror = true;
+      setRotation(Tail1, 1.315962F, 0F, 0F);
+      Tail2 = new ModelRenderer(this, 110, 0);
+      Tail2.addBox(-1.5F, 0F, -1F, 3, 8, 3);
+      Tail2.setRotationPoint(0.5F, 6F, 0F);
+      Tail2.setTextureSize(64, 32);
+      Tail2.mirror = true;
+      setRotation(Tail2, 0.141605F, 0F, 0F);
+      Torso = new ModelRenderer(this, 69, 0);
+      Torso.addBox(-2.5F, -3F, -3F, 5, 9, 5);
+      Torso.setRotationPoint(-0.5F, 12.5F, 1F);
+      Torso.setTextureSize(128, 64);
+      Torso.mirror = true;
+      setRotation(Torso, 1.496439F, 0F, 0F);
+      Head.addChild(Nose);
+      Head.addChild(Ear1);
+      Head.addChild(Ear2);
+      LeftHindLeg1.addChild(LeftHindLeg2);
+      RightHindLeg1.addChild(RightHindLeg2);
+      Mane1.addChild(Mane2);
+      Mane1.addChild(Neck);
+      Tail1.addChild(Tail2);
+  }
+  
+  public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
+  {
+      super.render(par1Entity, par2, par3, par4, par5, par6, par7);
+      this.setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
+      if (this.isChild)
+      {
+          float f6 = 2.0F;
+          GL11.glPushMatrix();
+          GL11.glTranslatef(0.0F, 5.0F * par7, 6.0F * par7);
+          Head.render(par7);
+          GL11.glPopMatrix();
+          GL11.glPushMatrix();
+          GL11.glScalef(1.0F / f6, 1.0F / f6, 1.0F / f6);
+          GL11.glTranslatef(0.0F, 24.0F * par7, 0.0F);
+          LeftHindLeg1.render(par7);
+          RightHindLeg1.render(par7);
+          Mane1.render(par7);
+          RightLeg.render(par7);
+          LeftLeg.render(par7);
+          Tail1.render(par7);
+          Torso.render(par7);
+          GL11.glPopMatrix();
+      }
+      else
+      {
+          GL11.glPushMatrix();
+          GL11.glScalef(1.5F, 1.5F, 1.5F);
+          GL11.glTranslatef(0.0F, -0.5F, 0.0F);
+          Head.render(par7);
+          LeftHindLeg1.render(par7);
+          RightHindLeg1.render(par7);
+          Mane1.render(par7);
+          RightLeg.render(par7);
+          LeftLeg.render(par7);
+          Tail1.render(par7);
+          Torso.render(par7);
+          GL11.glPopMatrix();
+      }
+  }
+  
+  /**
+   * Used for easily adding entity-dependent animations. The second and third float params here are the same second
+   * and third as in the setRotationAngles method.
+   */
+  public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
+  {
+      EntityRedZertum entityzertum = (EntityRedZertum)par1EntityLivingBase;
+      
+      if (entityzertum.isAngry())
+      {
+          this.Ear1.rotateAngleX = -0.5948578F;
+          this.Ear2.rotateAngleX = -0.5948578F;
+      }else if (entityzertum.getHealth() <=10){
+          this.Ear1.rotateAngleX = -0.9948578F;
+          this.Ear2.rotateAngleX = -0.9948578F;
+      }else{
+          this.Ear1.rotateAngleX = 0.0F;
+          this.Ear2.rotateAngleX = 0.0F;
+      }
+      
+      if (entityzertum.isSitting()) //TODO
+      {
+          LeftHindLeg1.setRotationPoint(1.5F, 18F, 5F);
+          LeftHindLeg1.rotateAngleX = -2.082003F;
+          LeftHindLeg2.setRotationPoint(0F, 3.7F, 0F);//          
+          LeftHindLeg2.rotateAngleX = 2.082003F;
+          RightHindLeg1.setRotationPoint(-2.5F, 18F, 5F);
+          RightHindLeg1.rotateAngleX = -2.082003F;
+          RightHindLeg2.setRotationPoint(0F, 3.7F, 0F);//         
+          RightHindLeg2.rotateAngleX = 2.082003F;
+          Torso.setRotationPoint(-0.5F, 15F, 1F);
+          Torso.rotateAngleX = 0.9759358F;
+          Tail1.setRotationPoint(-1F, 19.5F, 5F);
+          Tail1.rotateAngleX = 1.055712F;
+    	  
+      }
+      else
+      {  
+          LeftHindLeg1.setRotationPoint(1.5F, 13F, 5F);
+          LeftHindLeg1.rotateAngleX = -0.2974289F;
+          LeftHindLeg2.setRotationPoint(0F, 3F, 0.5F);
+          LeftHindLeg2.rotateAngleX = 0.2974289F;
+          RightHindLeg1.setRotationPoint(-2.5F, 13F, 5F);
+          RightHindLeg1.rotateAngleX = -0.2974289F;
+          RightHindLeg2.setRotationPoint(0F, 3F, 0.5F);
+          RightHindLeg2.rotateAngleX = 0.2974289F;
+          Torso.setRotationPoint(-0.5F, 12.5F, 1F);
+          Torso.rotateAngleX = 1.496439F;
+          Tail1.setRotationPoint(-1F, 14F, 5F);
+          Tail1.rotateAngleX = 1.315962F;
+          
+          this.RightHindLeg1.rotateAngleX = rightLegStartingRotation + MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
+          this.LeftHindLeg1.rotateAngleX = lightLegStartingRotation + MathHelper.cos(par2 * 0.6662F + (float)Math.PI) * 1.4F * par3;
+          this.RightLeg.rotateAngleX = MathHelper.cos(par2 * 0.6662F + (float)Math.PI) * 1.4F * par3;
+          this.LeftLeg.rotateAngleX = MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
+      }
+	  
+      this.Head.rotateAngleZ = entityzertum.getInterestedAngle(par4) + entityzertum.getShakeAngle(par4, 0.0F);
+      this.Mane1.rotateAngleZ = entityzertum.getShakeAngle(par4, -0.08F);
+      this.Torso.rotateAngleZ = entityzertum.getShakeAngle(par4, -0.16F);
+      this.Tail1.rotateAngleZ = entityzertum.getShakeAngle(par4, -0.32F);
+  }
+  
+  private void setRotation(ModelRenderer model, float x, float y, float z)
+  {
+    model.rotateAngleX = x;
+    model.rotateAngleY = y;
+    model.rotateAngleZ = z;
+  }
+  
+  public void setRotationAngles(float par1, float par2, float par3, float par4, float par5, float par6, Entity par7Entity)
+  {
+    super.setRotationAngles(par1, par2, par3, par4, par5, par6, par7Entity);
+    this.Head.rotateAngleX = par5 / (280F / (float)Math.PI);
+    this.Head.rotateAngleY = par4 / (180F / (float)Math.PI);
+    this.Mane1.rotateAngleY = par4 / (180F / (float)Math.PI);
+  }
 }
