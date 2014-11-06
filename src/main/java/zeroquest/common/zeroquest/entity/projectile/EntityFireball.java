@@ -1,7 +1,5 @@
 package common.zeroquest.entity.projectile;
 
-import common.zeroquest.client.particle.ParticleEffects;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.projectile.EntityThrowable;
@@ -10,21 +8,23 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
-public class EntityIceball extends EntityThrowable
+import common.zeroquest.client.particle.ParticleEffects;
+
+public class EntityFireball extends EntityThrowable
 {
     private static final String __OBFID = "CL_00001722";
 
-    public EntityIceball(World p_i1773_1_)
+    public EntityFireball(World p_i1773_1_)
     {
         super(p_i1773_1_);
     }
 
-    public EntityIceball(World p_i1774_1_, EntityLivingBase p_i1774_2_)
+    public EntityFireball(World p_i1774_1_, EntityLivingBase p_i1774_2_)
     {
         super(p_i1774_1_, p_i1774_2_);
     }
 
-    public EntityIceball(World p_i1775_1_, double p_i1775_2_, double p_i1775_4_, double p_i1775_6_)
+    public EntityFireball(World p_i1775_1_, double p_i1775_2_, double p_i1775_4_, double p_i1775_6_)
     {
         super(p_i1775_1_, p_i1775_2_, p_i1775_4_, p_i1775_6_);
     }
@@ -32,7 +32,8 @@ public class EntityIceball extends EntityThrowable
     @Override
     public void onUpdate()
     {
-        ParticleEffects.spawnParticle("icedust", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+        worldObj.spawnParticle("smoke", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+        this.setFire(9999);
         
         super.onUpdate();
     }
@@ -42,9 +43,11 @@ public class EntityIceball extends EntityThrowable
      */
     protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
     {   
+        if (!this.worldObj.isRemote)
+        {
         if (par1MovingObjectPosition.entityHit != null)
         {
-            byte b0 = 3;
+            byte b0 = 9;
 
             if (par1MovingObjectPosition.entityHit instanceof EntityBlaze)
             {
@@ -52,6 +55,7 @@ public class EntityIceball extends EntityThrowable
             }
 
             par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), (float)b0);
+            par1MovingObjectPosition.entityHit.setFire(5);
         }
         else
         {
@@ -82,13 +86,13 @@ public class EntityIceball extends EntityThrowable
 
         	if (this.worldObj.isAirBlock(i, j, k))
         	{
-        		this.worldObj.setBlock(i, j, k, Blocks.ice);
+        		this.worldObj.setBlock(i, j, k, Blocks.fire);
         	}
         }
 
         for (int i = 0; i < 8; ++i)
         {
-            this.worldObj.spawnParticle("snowballpoof", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+            this.worldObj.spawnParticle("largesmoke", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
         }
 
         if (!this.worldObj.isRemote)
@@ -96,4 +100,5 @@ public class EntityIceball extends EntityThrowable
             	this.setDead();
         }
     }
+   }
 }

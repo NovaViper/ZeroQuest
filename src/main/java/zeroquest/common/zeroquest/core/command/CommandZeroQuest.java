@@ -1,5 +1,6 @@
 package common.zeroquest.core.command;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -7,6 +8,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import common.zeroquest.ZeroQuest;
+import common.zeroquest.core.helper.ChatHelper;
 import common.zeroquest.entity.EntityCustomTameable;
 import cpw.mods.fml.common.FMLCommonHandler;
 import net.minecraft.command.CommandBase;
@@ -18,6 +20,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.WorldServer;
 
 
@@ -29,11 +32,21 @@ public class CommandZeroQuest extends CommandBase {
    public String getCommandName() {
        return "zquest";
    }
+  
+   @Override
+   public List getCommandAliases()
+   {
+		List list = new ArrayList<String>();
+		list.add("zquest");
+		list.add("zero");
+		list.add("zq");
+		return list;
+   }
+
    
    @Override
    public String getCommandUsage(ICommandSender sender) {
-       String stages = StringUtils.join("baby" + '|' + "adult");
-       return String.format("/zquest <tame|heal|stage <%s> [global]", stages);
+       return String.format("/zquest|/zq|/zero help");
    }
    
    /**
@@ -51,7 +64,7 @@ public class CommandZeroQuest extends CommandBase {
        }
        
        // last parameter, optional
-       boolean global = params[params.length - 1].equalsIgnoreCase("global");
+       boolean global = params[params.length - 1].equalsIgnoreCase("global") || params[params.length - 1].equalsIgnoreCase("g");
 
        String command = params[0];
        if (command.equals("stage")) {
@@ -87,6 +100,54 @@ public class CommandZeroQuest extends CommandBase {
                throw new CommandException("commands.zeroquest.canttame");
            }
        }
+       
+       else if (command.equals("version") | command.equals("v")) {
+           if (sender instanceof EntityPlayerMP) {
+               EntityPlayerMP player = (EntityPlayerMP) sender;
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"---------------------------------------------------"));
+               player.addChatMessage(ChatHelper.getChatComponent("Zero Quest - "+EnumChatFormatting.GREEN+ZeroQuest.version));
+               player.addChatMessage(ChatHelper.getChatComponent("File Type: "+EnumChatFormatting.AQUA+"Release"));
+               player.addChatMessage(ChatHelper.getChatComponent("Minecraft Version: "+EnumChatFormatting.RED+"1.7.10"));
+               player.addChatMessage(ChatHelper.getChatComponent("Java Version: "+EnumChatFormatting.BLUE+"7"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"---------------------------------------------------"));
+           } else {
+               // console can't tame nile entities
+               throw new CommandException("You can't use this command from console!");
+           }
+       }
+       
+       else if (command.equals("help") || command.equals("h")) { //TODO
+           if (sender instanceof EntityPlayerMP) {
+               EntityPlayerMP player = (EntityPlayerMP) sender;
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"----------------- "+EnumChatFormatting.GREEN+"ZeroQuest - " +ZeroQuest.version+EnumChatFormatting.GOLD+" -----------------"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest tame [global|g] - "+EnumChatFormatting.RESET+"Tames a nile tameable creature"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest stage <baby|adult> [global|g] - "+EnumChatFormatting.RESET+"Sets the stage of a tamed nile creature"));     
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest heal [global|g] - "+EnumChatFormatting.RESET+"Heals a tamed nile creature"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest help|h - "+EnumChatFormatting.RESET+"Pulls up help menu"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest version|v - "+EnumChatFormatting.RESET+"displays mod version"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest purge|p <tamed|all> [global|g] - "+EnumChatFormatting.RESET+"Kills off nile creatures, either tamed or ALL nile tameable creatures"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"---------------------------------------------------"));
+           
+           } else {
+               // console can't tame nile entities
+               throw new CommandException("You can't use this command from console!");
+           }
+       }
+       
+       else if (command.equals("purge") || command.equals("p")) { //TODO
+           if (params.length < 2) {
+               throw new WrongUsageException(getCommandUsage(sender));
+           }
+           
+           String parameter = params[1];
+           
+           if (parameter.equals("tamed")) {
+        	   appyModifier(sender, new PurgeModifier(false), global);
+           }
+           else if (parameter.equals("all")) {
+        	   appyModifier(sender, new PurgeModifier(true), true);
+           }
+       }       
        else {
            throw new WrongUsageException(getCommandUsage(sender));
        }
@@ -95,9 +156,12 @@ public class CommandZeroQuest extends CommandBase {
    /**
     * Adds the strings available in this command to the given list of tab completion options.
     */
+   @Override
    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring)
    {
-       return astring.length == 1 ? getListOfStringsMatchingLastWord(astring, new String[] {"tame", "heal", "stage"}): (astring.length == 2 && astring[0].equals("stage") ? getListOfStringsMatchingLastWord(astring, new String[] {"baby", "adult"}): null);
+       return astring.length == 1 ? getListOfStringsMatchingLastWord(astring, new String[] {/*"tame", "heal", "purge", "version", "help", "stage"*/}) : 
+    	   (astring.length == 2 && astring[0].equals("stage") ? getListOfStringsMatchingLastWord(astring, new String[] {"baby", "adult"}) 
+    		   : (astring.length == 2 && astring[0].equals("purge") || astring[0].equals("p") ? getListOfStringsMatchingLastWord(astring, new String[] {"tamed", "all"}): null));
    }
 
    
@@ -149,7 +213,7 @@ public class CommandZeroQuest extends CommandBase {
    }
    
    private interface EntityModifier {
-       public void modify(EntityCustomTameable dragon);
+       public void modify(EntityCustomTameable entity);
    }
    
    
@@ -195,6 +259,27 @@ public class CommandZeroQuest extends CommandBase {
     	   		entity.setHealth(entity.getMaxHealth());
        		}
     	   System.out.println("Healed!");
+       }
+   }
+   
+   private class PurgeModifier implements EntityModifier {
+	   
+	   private boolean killAll;
+	   
+	   PurgeModifier(boolean kill) {
+    	   this.killAll = kill;
+       }
+
+       @Override
+       public void modify(EntityCustomTameable entity) {
+    	   if(killAll == false){
+    		   if(entity.isTamed()){
+    	   			entity.setHealth(0);
+    		   }
+    	   }else{
+	   				entity.setHealth(0);
+    	   }
+	   		System.out.println("Purge Completed!");
        }
    }
 }

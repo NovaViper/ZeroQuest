@@ -68,9 +68,7 @@ import common.zeroquest.util.ItemUtils;
 import cpw.mods.fml.common.FMLLog;
 
 public class EntityKurr extends EntityCustomMob /*implements IRangedAttackMob*/
-{
-    public int rare;
-    
+{    
     private static final UUID field_110189_bq = UUID.fromString("49455A49-7EC5-45BA-B886-3B90B23A1718");
     private static final AttributeModifier field_110190_br = (new AttributeModifier(field_110189_bq, "Attacking speed boost", 0.5D, 0)).setSaved(false);
     private final EntityAIBreakDoor field_146075_bs = new EntityAIBreakDoor(this);
@@ -92,6 +90,7 @@ public class EntityKurr extends EntityCustomMob /*implements IRangedAttackMob*/
     {
         super(p_i1696_1_);
         this.setSize(2.6F, 2.6F);
+        this.stepHeight = 1;
         this.getNavigator().setBreakDoors(true);
         this.canBreatheUnderwater();
         this.tasks.addTask(1, new EntityAISwimming(this));
@@ -102,17 +101,6 @@ public class EntityKurr extends EntityCustomMob /*implements IRangedAttackMob*/
         this.tasks.addTask(8, new EntityAILookIdle(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
         this.experienceValue = 50;
-        
-        addImmunity(DamageSource.magic);
-        addImmunity(DamageSource.lava);
-        addImmunity(DamageSource.inFire);
-        addImmunity(DamageSource.onFire);
-        addImmunity(DamageSource.cactus);
-        addImmunity(DamageSource.drown);
-        addImmunity(DamageSource.fall);
-        addImmunity(DamageSource.inWall);
-        addImmunity(DamageSource.wither);
-        addImmunity(DamageSource.starve);
     }
 
     protected void applyEntityAttributes()

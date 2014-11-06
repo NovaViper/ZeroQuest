@@ -13,6 +13,7 @@ import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
+import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAISwimming;
@@ -41,6 +42,7 @@ import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.ai.EntityCustomIZAIBeg;
+import common.zeroquest.entity.ai.EntityCustomRZAIBeg;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIFollowOwner;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtByTarget;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtTarget;
@@ -59,8 +61,7 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
 {   
     /**
      * This time increases while wolf is shaking and emitting water particles.
-     */
-    
+     */   
     private float field_70926_e;
     private float field_70924_f;
     /** true is the wolf is wet else false */
@@ -72,12 +73,10 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
     private float timeWolfIsShaking;
     private float prevTimeWolfIsShaking;
     private static final String __OBFID = "CL_00001654";
-    public int rare;
     private static final Block footprint = Blocks.snow_layer;
     private static final Block footprint2 = Blocks.ice;
     private static final float footprint_chance = 0.2F;
     public InventoryIcePack inventory;
-    private boolean canSeeCreeper;
     
     public static final double maxHealth = 35;
     public static final double attackDamage = 6;
@@ -108,20 +107,18 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
 		this.tasks.addTask(4, new EntityAICustomArrowAttack(this, 0.1, 60, 10.0F));
         this.tasks.addTask(5, new EntityAIAttackOnCollide(this, 1.0D, true));
         this.tasks.addTask(6, new EntityCustomAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-        this.tasks.addTask(7, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(9, new EntityCustomIZAIBeg(this, 8.0F));
-        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(10, new EntityAILookIdle(this));
+        this.tasks.addTask(7, aiFetchBone);
+        this.tasks.addTask(8, new EntityAIMate(this, 1.0D));
+        this.tasks.addTask(9, new EntityAIWander(this, 1.0D));
+        this.tasks.addTask(10, new EntityCustomIZAIBeg(this, 8.0F));
+        this.tasks.addTask(11, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(11, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityCustomAIOwnerHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityCustomAIOwnerHurtTarget(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(4, new EntityCustomAITargetNonTamed(this, EntitySheep.class, 200, false));
         this.setTamed(false);
         this.inventory = new InventoryIcePack(this);
-        
-        addImmunity(DamageSource.cactus);
-        addImmunity(DamageSource.drown);
     }
 
     protected void applyEntityAttributes()
@@ -361,15 +358,6 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
         }
     }
 
-    public double sniffRange(){
-        double d = 0.0D;
-        for (int i = 0; i < 15 * 6; i++)
-        {
-            d++;
-        }
-        return d;
-    }
-
     /**
      * Called to update the entity's position/logic.
      */
@@ -430,6 +418,22 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
                 }
             }
         }
+        
+        if(this.isTamed()) { //TODO
+    		EntityPlayer player = (EntityPlayer)this.getOwner();
+    		
+    		if(player != null) {
+    			float distanceToOwner = player.getDistanceToEntity(this);
+
+                if (distanceToOwner <= 2F && this.hasBone()) {
+                	if(!this.worldObj.isRemote) {
+                		this.entityDropItem(new ItemStack(ModItems.toy, 1, 1), 0.0F);
+                	}
+                	
+                    this.setHasBone(false);
+                }
+    		}
+    	}
     }
 
     @SideOnly(Side.CLIENT)
@@ -633,6 +637,7 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
                 else if(itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer))
                 {
                  par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.IceZertumPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+                 this.worldObj.playSoundEffect(this.posX, this.posY + 0.5D, this.posZ, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
                  return true;
                 }
                 else if (itemstack.getItem() == Items.dye)
@@ -642,12 +647,7 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
                     if (i != this.getCollarColor())
                     {
                         this.setCollarColor(i);
-
-                        if (!par1EntityPlayer.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
-                        {
-                            par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
-                        }
-
+                        ItemUtils.consumeEquipped(par1EntityPlayer, Items.dye);
                         return true;
                     }
                 }
@@ -662,35 +662,17 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
                 this.setAttackTarget((EntityLivingBase)null);
             }
         }
-        else if (itemstack != null && itemstack.getItem() == ModItems.nileBone && !this.isAngry())
+        else if (ItemUtils.consumeEquipped(par1EntityPlayer, ModItems.nileBone) && !this.isAngry())
         {
-            if (!par1EntityPlayer.capabilities.isCreativeMode)
-            {
-                --itemstack.stackSize;
-            }
-
-            if (itemstack.stackSize <= 0)
-            {
-                par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
-            }
-
             if (isServer())
             {
                 tamedFor(par1EntityPlayer, rand.nextInt(3) == 0);
             	par1EntityPlayer.triggerAchievement(ModAchievements.ZertTame);
             }
-
             return true;
         }
-
         return super.interact(par1EntityPlayer);
     }
-    
-    public boolean canInteract(EntityPlayer player) {
-        if(player.getCommandSenderName().equalsIgnoreCase(this.func_152113_b())) {
-        }
-        return true;
-       }
 
     @SideOnly(Side.CLIENT)
     public void handleHealthUpdate(byte p_70103_1_)

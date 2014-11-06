@@ -55,7 +55,7 @@ public class ZeroQuest
 	@Instance("zero_quest")
 	public static ZeroQuest instance;
 	public static final String modid = "zero_quest";
-	public static final String version = "v1.1.5";
+	public static final String version = "v1.2.0";
 	public static final Logger Log = LogManager.getFormatterLogger("Zero Quest");
     public static final String channel = modid;
 	
@@ -81,7 +81,7 @@ public class ZeroQuest
     @EventHandler
     public void preInit(FMLPreInitializationEvent event){
         config = new ConfigurationHandler(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + channel + File.separator + modid.toLowerCase() + ".cfg"));   
-   		FMLCommonHandler.instance().bus().register(new OnPlayerLogin(version, "ZeroQuest"));	    	
+   		FMLCommonHandler.instance().bus().register(new OnPlayerLogin(version, "ZeroQuest", false));	    	
     	Log.info("-----PRE-CONTENT LOAD INITATING-----");
     	Log.info("Loading Main Stuff...");
         this.ZeroTab = new ZeroQuestTab(CreativeTabs.getNextID());

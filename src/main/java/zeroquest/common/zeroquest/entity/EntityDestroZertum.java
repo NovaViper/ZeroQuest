@@ -43,6 +43,7 @@ import common.zeroquest.ZeroQuest;
 import common.zeroquest.client.particle.ParticleEffects;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.ai.EntityCustomDeZAIBeg;
+import common.zeroquest.entity.ai.EntityCustomFZAIBeg;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIBeg;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIFollowOwner;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtByTarget;
@@ -66,14 +67,12 @@ public class EntityDestroZertum extends EntityCustomTameable
     /** true is the wolf is wet else false */
     private boolean isShaking;
     private boolean field_70928_h;
-    private boolean canSeeCreeper;
     
     /**
      * This time increases while wolf is shaking and emitting water particles.
      */
     private float timeWolfIsShaking;
     private float prevTimeWolfIsShaking;
-    public int rare;
     public InventoryDestroPack inventory;
     
     public static final double maxHealth = 30;
@@ -94,19 +93,18 @@ public class EntityDestroZertum extends EntityCustomTameable
         this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, true));
         this.tasks.addTask(5, new EntityCustomAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-        this.tasks.addTask(6, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(8, new EntityCustomDeZAIBeg(this, 8.0F));
-        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(9, new EntityAILookIdle(this));
+        this.tasks.addTask(6, aiFetchBone);
+        this.tasks.addTask(7, new EntityAIMate(this, 1.0D));
+        this.tasks.addTask(8, new EntityAIWander(this, 1.0D));
+        this.tasks.addTask(9, new EntityCustomDeZAIBeg(this, 8.0F));
+        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(10, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityCustomAIOwnerHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityCustomAIOwnerHurtTarget(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(4, new EntityCustomAITargetNonTamed(this, EntitySheep.class, 200, false));
         this.setTamed(false);
         this.inventory = new InventoryDestroPack(this);
-        
-        addImmunity(DamageSource.cactus);
     }
 
     protected void applyEntityAttributes()
@@ -315,16 +313,6 @@ public class EntityDestroZertum extends EntityCustomTameable
             }
         }
     }
-    
-
-    public double sniffRange(){
-        double d = 0.0D;
-        for (int i = 0; i < 15 * 6; i++)
-        {
-            d++;
-        }
-        return d;
-    }
 
     /**
      * Called to update the entity's position/logic.
@@ -386,6 +374,22 @@ public class EntityDestroZertum extends EntityCustomTameable
                 }
             }
         }
+        
+        if(this.isTamed()) { //TODO
+    		EntityPlayer player = (EntityPlayer)this.getOwner();
+    		
+    		if(player != null) {
+    			float distanceToOwner = player.getDistanceToEntity(this);
+
+                if (distanceToOwner <= 2F && this.hasBone()) {
+                	if(!this.worldObj.isRemote) {
+                		this.entityDropItem(new ItemStack(ModItems.toy, 1, 1), 0.0F);
+                	}
+                	
+                    this.setHasBone(false);
+                }
+    		}
+    	}
     }
 
     @SideOnly(Side.CLIENT)
@@ -568,6 +572,7 @@ public class EntityDestroZertum extends EntityCustomTameable
                 else if(itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer)) //TODO
                 {
                  par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.DestroZertumPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+                 this.worldObj.playSoundEffect(this.posX, this.posY + 0.5D, this.posZ, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
                  return true;
                 }
                 else if (itemstack.getItem() == Items.dye)
@@ -577,12 +582,7 @@ public class EntityDestroZertum extends EntityCustomTameable
                     if (i != this.getCollarColor())
                     {
                         this.setCollarColor(i);
-
-                        if (!par1EntityPlayer.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
-                        {
-                            par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
-                        }
-
+                        ItemUtils.consumeEquipped(par1EntityPlayer, Items.dye);
                         return true;
                     }
                 }
@@ -597,36 +597,18 @@ public class EntityDestroZertum extends EntityCustomTameable
                 this.setAttackTarget((EntityLivingBase)null);
             }
         }
-        else if (itemstack != null && itemstack.getItem() == ModItems.nileBone && !this.isAngry())
+        else if (ItemUtils.consumeEquipped(par1EntityPlayer, ModItems.nileBone) && !this.isAngry())
         {
-            if (!par1EntityPlayer.capabilities.isCreativeMode)
-            {
-                --itemstack.stackSize;
-            }
-
-            if (itemstack.stackSize <= 0)
-            {
-                par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
-            }
-
             if (isServer())
             {
                 tamedFor(par1EntityPlayer, rand.nextInt(3) == 0);
             	par1EntityPlayer.triggerAchievement(ModAchievements.ZertTame);
             }
-
             return true;
         }
-
         return super.interact(par1EntityPlayer);
     }
-    
-    public boolean canInteract(EntityPlayer player) {
-        if(player.getCommandSenderName().equalsIgnoreCase(this.func_152113_b())) {
-        }
-        return true;
-       }
-
+ 
     @SideOnly(Side.CLIENT)
     public void handleHealthUpdate(byte p_70103_1_)
     {

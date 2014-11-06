@@ -31,11 +31,9 @@ public class RenderIceZertum extends RenderLiving
 
     protected int func_82447_a(EntityIceZertum par1EntityZertum, int par2, float par3)
     {
-        float f1;
-
         if (par2 == 0 && par1EntityZertum.getWolfShaking())
         {
-            f1 = par1EntityZertum.getBrightness(par3) * par1EntityZertum.getShadingWhileShaking(par3);
+            float f1 = par1EntityZertum.getBrightness(par3) * par1EntityZertum.getShadingWhileShaking(par3);
             this.bindTexture(IceZertumTextures);
             GL11.glColor3f(f1, f1, f1);
             return 1;
@@ -43,9 +41,8 @@ public class RenderIceZertum extends RenderLiving
         else if (par2 == 1 && par1EntityZertum.isTamed())
         {
             this.bindTexture(ZertumCollarTextures);
-            f1 = 1.0F;
             int j = par1EntityZertum.getCollarColor();
-            GL11.glColor3f(f1 * EntitySheep.fleeceColorTable[j][0], f1 * EntitySheep.fleeceColorTable[j][1], f1 * EntitySheep.fleeceColorTable[j][2]);
+            GL11.glColor3f(EntitySheep.fleeceColorTable[j][0], EntitySheep.fleeceColorTable[j][1], EntitySheep.fleeceColorTable[j][2]);
             return 1;
         }
         else if (par2 == 0 && par1EntityZertum.getHealth() <=10 &&  par1EntityZertum.isTamed())

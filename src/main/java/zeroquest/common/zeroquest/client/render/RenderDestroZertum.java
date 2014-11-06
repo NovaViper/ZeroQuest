@@ -17,11 +17,11 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderDestroZertum extends RenderLiving
 {
-    private static final ResourceLocation zwolfTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/deszertum.png");
-    private static final ResourceLocation tamedZWolfTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/deszertum_tame.png");
-    private static final ResourceLocation anrgyZWolfTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/deszertum_angry.png");
-    private static final ResourceLocation zwolfCollarTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_collar.png");
-    private static final ResourceLocation zwolfDyingTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_dying.png");
+    private static final ResourceLocation destroZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/deszertum.png");
+    private static final ResourceLocation tamedDestroZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/deszertum_tame.png");
+    private static final ResourceLocation angryDestroZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/deszertum_angry.png");
+    private static final ResourceLocation ZertumCollarTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_collar.png");
+    private static final ResourceLocation ZertumDyingTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_dying.png");
 
     public RenderDestroZertum(ModelDestroZertum par1ModelZertum, float par3)
     {
@@ -31,26 +31,23 @@ public class RenderDestroZertum extends RenderLiving
     
     protected int func_82447_a(EntityDestroZertum par1EntityZertum, int par2, float par3)
     {
-        float f1;
-
         if (par2 == 0 && par1EntityZertum.getWolfShaking())
         {
-            f1 = par1EntityZertum.getBrightness(par3) * par1EntityZertum.getShadingWhileShaking(par3);
-            this.bindTexture(zwolfTextures);
+            float f1 = par1EntityZertum.getBrightness(par3) * par1EntityZertum.getShadingWhileShaking(par3);
+            this.bindTexture(destroZertumTextures);
             GL11.glColor3f(f1, f1, f1);
             return 1;
         }
         else if (par2 == 1 && par1EntityZertum.isTamed())
         {
-            this.bindTexture(zwolfCollarTextures);
-            f1 = 1.0F;
+            this.bindTexture(ZertumCollarTextures);
             int j = par1EntityZertum.getCollarColor();
-            GL11.glColor3f(f1 * EntitySheep.fleeceColorTable[j][0], f1 * EntitySheep.fleeceColorTable[j][1], f1 * EntitySheep.fleeceColorTable[j][2]);
+            GL11.glColor3f(EntitySheep.fleeceColorTable[j][0], EntitySheep.fleeceColorTable[j][1], EntitySheep.fleeceColorTable[j][2]);
             return 1;
         }
         else if (par2 == 0 && par1EntityZertum.getHealth() <=10 &&  par1EntityZertum.isTamed())
         {
-            this.bindTexture(zwolfDyingTextures);
+            this.bindTexture(ZertumDyingTextures);
             return 1;
         }
         else
@@ -61,7 +58,7 @@ public class RenderDestroZertum extends RenderLiving
 
     protected ResourceLocation func_110914_a(EntityDestroZertum par1Entityzertum)
     {
-        return par1Entityzertum.isTamed() ? tamedZWolfTextures : (par1Entityzertum.isAngry() ? anrgyZWolfTextures : zwolfTextures);
+        return par1Entityzertum.isTamed() ? tamedDestroZertumTextures : (par1Entityzertum.isAngry() ? angryDestroZertumTextures : destroZertumTextures);
     }
 
     /**

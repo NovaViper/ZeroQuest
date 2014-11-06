@@ -77,13 +77,6 @@ import net.minecraftforge.common.ForgeHooks;
 
 public class EntityJakan extends EntityCustomTameable /*implements IRangedAttackMob*/
 {
-
-    private boolean canSeeCreeper;
-    public int rare;
-
-    private int field_110285_bP;
-    private boolean field_110294_bI;
-    protected float jumpPower;
     public InventoryJakanPack inventory;
     
     public static final double maxHealth = 50;
@@ -105,6 +98,8 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
     {
         super(p_i1696_1_);
         this.setSize(2.6F, 2.6F);
+        this.isImmuneToFire = true;
+        this.stepHeight = 1;
         this.getNavigator().setAvoidsWater(true);
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiCSit);
@@ -121,10 +116,6 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
         this.targetTasks.addTask(4, new EntityCustomAITargetNonTamed(this, EntitySheep.class, 200, false));
         this.setTamed(false);
         this.inventory = new InventoryJakanPack(this);
-        
-        addImmunity(DamageSource.lava);
-        addImmunity(DamageSource.inFire);
-        addImmunity(DamageSource.onFire);
     }
 
     protected void applyEntityAttributes()
@@ -340,16 +331,6 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
             }
         }
     }
-    
-
-    public double sniffRange(){
-        double d = 0.0D;
-        for (int i = 0; i < 15 * 6; i++)
-        {
-            d++;
-        }
-        return d;
-    }
 
     /**
      * Called to update the entity's position/logic.
@@ -554,12 +535,7 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
                     if (i != this.getCollarColor())
                     {
                         this.setCollarColor(i);
-
-                        if (!par1EntityPlayer.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
-                        {
-                            par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
-                        }
-
+                        ItemUtils.consumeEquipped(par1EntityPlayer, Items.dye);
                         return true;
                     }
                 }
@@ -579,11 +555,11 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
             if (isServer())
             {
                 tamedFor(par1EntityPlayer, rand.nextInt(3) == 0);
+            	par1EntityPlayer.triggerAchievement(ModAchievements.ZertTame);
             }
 
             return true;
         }
-
         return super.interact(par1EntityPlayer);
     }
     
@@ -627,7 +603,8 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
     /**
      * Moves the entity based on the specified heading.  Args: strafe, forward
      */
-    public void moveEntityWithHeading(float p_70612_1_, float p_70612_2_)
+    @Override
+    public void moveEntityWithHeading(float p_70612_1_, float p_70612_2_) //TODO
     {
         if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase && this.getSaddled())
         {
@@ -641,39 +618,7 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
             if (p_70612_2_ <= 0.0F)
             {
                 p_70612_2_ *= 0.25F;
-                //this.field_110285_bP = 0;
             }
-
-            /*if (this.onGround /*&& this.jumpPower == 0.0F && this.isRearing() && !this.field_110294_bI)
-            {
-                p_70612_1_ = 0.0F;
-                p_70612_2_ = 0.0F;
-            }*/
-
-            /*if (/*this.jumpPower > 0.0F && !this.isHorseJumping() && this.onGround)
-            {
-                this.motionY = this.getHorseJumpStrength() * (double)this.jumpPower;
-
-                if (this.isPotionActive(Potion.jump))
-                {
-                    this.motionY += (double)((float)(this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F);
-                }
-
-                this.setHorseJumping(true);
-                this.isAirBorne = true;
-
-                if (p_70612_2_ > 0.0F)
-                {
-                    float f2 = MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F);
-                    float f3 = MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F);
-                    this.motionX += (double)(-0.4F * f2 * this.jumpPower);
-                    this.motionZ += (double)(0.4F * f3 * this.jumpPower);
-                    this.playSound("mob.horse.jump", 0.4F, 1.0F);
-                }
-
-                this.jumpPower = 0.0F;
-                net.minecraftforge.common.ForgeHooks.onLivingJump(this);
-            }*/
 
             this.stepHeight = 1.0F;
             this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
@@ -683,12 +628,6 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
                 this.setAIMoveSpeed((float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
                 super.moveEntityWithHeading(p_70612_1_, p_70612_2_);
             }
-
-            /*if (this.onGround)
-            {
-                this.jumpPower = 0.0F;
-                this.setHorseJumping(false);
-            }*/
 
             this.prevLimbSwingAmount = this.limbSwingAmount;
             double d1 = this.posX - this.prevPosX;
@@ -711,18 +650,11 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
         }
     }
 
-    
-    public boolean canInteract(EntityPlayer player) {
-        if(player.getCommandSenderName().equalsIgnoreCase(this.func_152113_b())) {
-        }
-        return true;
-       }
-
     /**
      * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
      * the animal type)
      */
-    public boolean isBreedingItem(ItemStack itemstack)
+    public boolean isBreedingItem(ItemStack itemstack) //TODO
     {
     	return itemstack == null ? false : itemstack.getItem() == ModItems.vitoidFruit;
     }

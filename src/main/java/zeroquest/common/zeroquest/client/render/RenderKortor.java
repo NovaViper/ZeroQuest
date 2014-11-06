@@ -30,14 +30,11 @@ public class RenderKortor extends RenderLiving
     
     protected int func_82447_a(EntityKortor par1EntityKortor, int par2, float par3)
     {
-        float f1;
-        
         if (par2 == 1 && par1EntityKortor.getSaddled())
         {
             this.bindTexture(kortorSaddleTexture);
-            f1 = 1.0F;
             int j = par1EntityKortor.getCollarColor();
-            GL11.glColor3f(f1 * EntitySheep.fleeceColorTable[j][0], f1 * EntitySheep.fleeceColorTable[j][1], f1 * EntitySheep.fleeceColorTable[j][2]);
+            GL11.glColor3f(EntitySheep.fleeceColorTable[j][0], EntitySheep.fleeceColorTable[j][1], EntitySheep.fleeceColorTable[j][2]);
             return 1;
         }
         else

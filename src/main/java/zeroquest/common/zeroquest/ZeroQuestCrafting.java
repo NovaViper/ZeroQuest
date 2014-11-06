@@ -131,6 +131,11 @@ public class ZeroQuestCrafting
 			"XZX",
 			" X ",
 			'Z', new ItemStack(Items.bone), 'X', new ItemStack(Items.rotten_flesh) });
+		addRecipe(new ItemStack(ModItems.toy), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.leather), 'X', Items.slime_ball });
 		
 		addShapelessRecipe(new ItemStack(Items.dye, 4, 15), ModItems.nileBone);
 		addShapelessRecipe(new ItemStack(ModItems.nileGrenade), ModItems.nileGrain, Items.gunpowder);		

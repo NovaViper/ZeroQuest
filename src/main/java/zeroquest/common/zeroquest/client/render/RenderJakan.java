@@ -30,14 +30,11 @@ public class RenderJakan extends RenderLiving
     
     protected int func_82447_a(EntityJakan par1EntityJakan, int par2, float par3)
     {
-        float f1;
-        
         if (par2 == 1 && par1EntityJakan.getSaddled())
         {
             this.bindTexture(saddledJakanTextures);
-            f1 = 1.0F;
             int j = par1EntityJakan.getCollarColor();
-            GL11.glColor3f(f1 * EntitySheep.fleeceColorTable[j][0], f1 * EntitySheep.fleeceColorTable[j][1], f1 * EntitySheep.fleeceColorTable[j][2]);
+            GL11.glColor3f(EntitySheep.fleeceColorTable[j][0], EntitySheep.fleeceColorTable[j][1], EntitySheep.fleeceColorTable[j][2]);
             return 1;
         }
         else

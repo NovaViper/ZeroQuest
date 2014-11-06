@@ -19,9 +19,9 @@ import common.zeroquest.item.ItemNilePickaxe;
 import common.zeroquest.item.ItemNileSeed;
 import common.zeroquest.item.ItemNileShovel;
 import common.zeroquest.item.ItemNileSpark;
-import common.zeroquest.item.ItemNileStoneSlab;
 import common.zeroquest.item.ItemNileSword;
 import common.zeroquest.item.ItemNiliBucket;
+import common.zeroquest.item.ItemToy;
 import common.zeroquest.item.KurrSeed;
 import common.zeroquest.item.ZQFood;
 import common.zeroquest.item.VitoidFruit;
@@ -63,6 +63,7 @@ public class ModItems {
 	public static Item animalCage;
 	public static Item nileSpark;
 	public static Item nileBone;
+	public static Item toy;
 	
 	public static Item FPoisonball;
 	
@@ -98,8 +99,6 @@ public class ModItems {
     	nileGrenade = new ItemNileGrenade().setUnlocalizedName("nileGrenade").setTextureName(ZeroQuest.modid + ":" + "nileGrenade");
     	register(nileGrenade, "nile_grenade");
     	
-    	//itemNileStoneSlab = new ItemNileStoneSlab(ModBlocks.nileStone).setUnlocalizedName("itemNileStoneSlab");
-    	
     	//Basics//
     	nileEssence = new ItemEssence().setUnlocalizedName("nileEssence").setTextureName(ZeroQuest.modid + ":" + "nileEssence").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nileEssence, "nile_essence");
@@ -113,6 +112,8 @@ public class ModItems {
     	register(dogTreat, "dog_treat");
     	nileBone = new ItemNileBone().setUnlocalizedName("nileBone").setTextureName(ZeroQuest.modid + ":" + "nileBone").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nileBone, "nile_bone");
+    	toy = new ItemToy().setUnlocalizedName("toy").setCreativeTab(ZeroQuest.ZeroTab);
+    	register(toy, "toy");
     	//animalCage = new ItemCage().setUnlocalizedName("animalCage").setTextureName(ZeroQuest.modid + ":" + "animalCage");
     	//register(animalCage, "animalCage");
     	

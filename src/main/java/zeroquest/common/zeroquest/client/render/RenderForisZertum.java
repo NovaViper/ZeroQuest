@@ -5,7 +5,6 @@ import org.lwjgl.opengl.GL11;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.client.model.ModelForisZertum;
 import common.zeroquest.entity.EntityForisZertum;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 import net.minecraft.client.renderer.entity.Render;
@@ -19,8 +18,8 @@ import net.minecraft.util.ResourceLocation;
 public class RenderForisZertum extends RenderLiving
 {
     private static final ResourceLocation forisZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/fzertum.png");
-    private static final ResourceLocation tamedforisZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/fzertum_tame.png");
-    private static final ResourceLocation anrgyforisZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/fzertum_angry.png");
+    private static final ResourceLocation tamedForisZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/fzertum_tame.png");
+    private static final ResourceLocation anrgyForisZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/fzertum_angry.png");
     private static final ResourceLocation ZertumCollarTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_collar.png");
     private static final ResourceLocation ZertumDyingTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_dying.png");
 
@@ -30,18 +29,11 @@ public class RenderForisZertum extends RenderLiving
         this.setRenderPassModel(par1ModelZertum);
     }
 
-    protected float getTailRotation(EntityForisZertum par1EntityZertum, float par2)
-    {
-        return par1EntityZertum.getTailRotation();
-    }
-
     protected int func_82447_a(EntityForisZertum par1EntityZertum, int par2, float par3)
     {
-        float f1;
-
         if (par2 == 0 && par1EntityZertum.getWolfShaking())
         {
-            f1 = par1EntityZertum.getBrightness(par3) * par1EntityZertum.getShadingWhileShaking(par3);
+            float f1 = par1EntityZertum.getBrightness(par3) * par1EntityZertum.getShadingWhileShaking(par3);
             this.bindTexture(forisZertumTextures);
             GL11.glColor3f(f1, f1, f1);
             return 1;
@@ -49,9 +41,8 @@ public class RenderForisZertum extends RenderLiving
         else if (par2 == 1 && par1EntityZertum.isTamed())
         {
             this.bindTexture(ZertumCollarTextures);
-            f1 = 1.0F;
             int j = par1EntityZertum.getCollarColor();
-            GL11.glColor3f(f1 * EntitySheep.fleeceColorTable[j][0], f1 * EntitySheep.fleeceColorTable[j][1], f1 * EntitySheep.fleeceColorTable[j][2]);
+            GL11.glColor3f(EntitySheep.fleeceColorTable[j][0], EntitySheep.fleeceColorTable[j][1], EntitySheep.fleeceColorTable[j][2]);
             return 1;
         }
         else if (par2 == 0 && par1EntityZertum.getHealth() <=10 &&  par1EntityZertum.isTamed())
@@ -67,7 +58,7 @@ public class RenderForisZertum extends RenderLiving
 
     protected ResourceLocation func_110914_a(EntityForisZertum par1Entityzertum)
     {
-        return par1Entityzertum.isTamed() ? tamedforisZertumTextures : (par1Entityzertum.isAngry() ? anrgyforisZertumTextures : forisZertumTextures);
+        return par1Entityzertum.isTamed() ? tamedForisZertumTextures : (par1Entityzertum.isAngry() ? anrgyForisZertumTextures : forisZertumTextures);
     }
 
     /**
@@ -76,14 +67,6 @@ public class RenderForisZertum extends RenderLiving
     protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
     {
         return this.func_82447_a((EntityForisZertum)par1EntityLivingBase, par2, par3);
-    }
-
-    /**
-     * Defines what float the third param in setRotationAngles of ModelBase is
-     */
-    protected float handleRotationFloat(EntityLivingBase par1EntityLivingBase, float par2)
-    {
-        return this.getTailRotation((EntityForisZertum)par1EntityLivingBase, par2);
     }
 
     /**

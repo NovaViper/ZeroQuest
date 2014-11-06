@@ -23,12 +23,14 @@ public class BlockDarkGrainOre extends Block
         this.setLightLevel(0.5F);
     }
     
-    public Item idDropped(int metadata, Random par2Random, int fortune){
+    @Override
+    public Item getItemDropped(int metadata, Random par2Random, int fortune){
         return ModItems.darkGrain;
     }
     /**
      * Returns the usual quantity dropped by the block plus a bonus of 1 to 'i' (inclusive).
      */
+    @Override
     public int quantityDroppedWithBonus(int par1, Random par2Random)
     {
             return this.quantityDropped(par2Random) + par2Random.nextInt(1);
@@ -37,12 +39,13 @@ public class BlockDarkGrainOre extends Block
     /**
      * Returns the quantity of items to drop on block destruction.
      */
+    @Override
     public int quantityDropped(Random par1Random)
     {
             return 1 + par1Random.nextInt(2);
     }
 
-    
+    @Override
     public void dropBlockAsItemWithChance(World world, int par2, int par3, int par4, int par5, float par6, int par7){
     	super.dropBlockAsItemWithChance(world, par2, par3, par4, par5, par6, par7);
     	}

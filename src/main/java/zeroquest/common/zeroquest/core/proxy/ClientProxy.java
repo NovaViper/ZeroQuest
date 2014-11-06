@@ -19,6 +19,7 @@ import common.zeroquest.client.model.ModelZertum;
 import common.zeroquest.client.render.RenderDarkZertum;
 import common.zeroquest.client.render.RenderDestroZertum;
 import common.zeroquest.client.render.RenderFPoisonball;
+import common.zeroquest.client.render.RenderFireball;
 import common.zeroquest.client.render.RenderForisZertum;
 import common.zeroquest.client.render.RenderGrenade;
 import common.zeroquest.client.render.RenderIceZertum;
@@ -39,6 +40,7 @@ import common.zeroquest.entity.EntityKortor;
 import common.zeroquest.entity.EntityKurr;
 import common.zeroquest.entity.EntityRedZertum;
 import common.zeroquest.entity.EntityZertum;
+import common.zeroquest.entity.projectile.EntityFireball;
 import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
 import common.zeroquest.entity.projectile.EntityGrenade;
 import common.zeroquest.entity.projectile.EntityIceball;
@@ -63,6 +65,7 @@ public class ClientProxy extends CommonProxy{
 	   	
 	   	RenderingRegistry.registerEntityRenderingHandler(EntityFlamingPoisonball.class, new RenderFPoisonball(1));
 	   	RenderingRegistry.registerEntityRenderingHandler(EntityIceball.class, new RenderIceball(Items.snowball, 1));
+	   	RenderingRegistry.registerEntityRenderingHandler(EntityFireball.class, new RenderFireball(Items.fire_charge, 1));
 	   	RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderGrenade(ModItems.nileGrenade));
 	   	
 	   	TileEntitySpecialRenderer render = new RendererNileTable();

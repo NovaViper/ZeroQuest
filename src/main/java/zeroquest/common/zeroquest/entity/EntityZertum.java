@@ -10,6 +10,7 @@ import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
+import net.minecraft.entity.ai.EntityAIAvoidEntity;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -18,14 +19,11 @@ import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -35,6 +33,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
@@ -45,10 +44,10 @@ import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtByTarget;
 import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtTarget;
 import common.zeroquest.entity.ai.tameable.EntityCustomAITargetNonTamed;
 import common.zeroquest.inventory.InventoryPack;
-import common.zeroquest.inventory.InventoryRedPack;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
@@ -70,9 +69,7 @@ public class EntityZertum extends EntityCustomTameable
     private float timeWolfIsShaking;
     private float prevTimeWolfIsShaking;
     private static final String __OBFID = "CL_00001654";
-    public int rare;
     public InventoryPack inventory;
-    private boolean canSeeCreeper;
     
     public static final double maxHealth = 25;
     public static final double attackDamage = 6;
@@ -92,11 +89,12 @@ public class EntityZertum extends EntityCustomTameable
         this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, true));
         this.tasks.addTask(5, new EntityCustomAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-        this.tasks.addTask(6, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(8, new EntityCustomAIBeg(this, 8.0F));
-        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(9, new EntityAILookIdle(this));
+        this.tasks.addTask(6, aiFetchBone);
+        this.tasks.addTask(7, new EntityAIMate(this, 1.0D));
+        this.tasks.addTask(8, new EntityAIWander(this, 1.0D));
+        this.tasks.addTask(9, new EntityCustomAIBeg(this, 8.0F));
+        this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(10, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityCustomAIOwnerHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityCustomAIOwnerHurtTarget(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
@@ -263,9 +261,13 @@ public class EntityZertum extends EntityCustomTameable
                 {
                 	this.dropItem(ModItems.nileGrain, 1);
                 }
+                /*if(this.hasRadarCollar())
+                {
+                	this.dropItem(ModItems.radioCollar, 1);
+                }*/
                 /*if(rare >= 17)
                 {
-                	this.dropItem(ModItems.nileDust.itemID, 1);
+                	this.dropItem(ModItems.darkDust.itemID, 1);
                 }*/
                 else
                 {
@@ -282,7 +284,6 @@ public class EntityZertum extends EntityCustomTameable
     public void onLivingUpdate() //TODO
     {
         super.onLivingUpdate();
-
         if (!this.worldObj.isRemote && this.isShaking && !this.field_70928_h && !this.hasPath() && this.onGround)
         {
             this.field_70928_h = true;
@@ -310,16 +311,6 @@ public class EntityZertum extends EntityCustomTameable
                 canSeeCreeper = false;
             }
         }
-    }
-    
-
-    public double sniffRange(){
-        double d = 0.0D;
-        for (int i = 0; i < 15 * 6; i++)
-        {
-            d++;
-        }
-        return d;
     }
 
     /**
@@ -382,6 +373,22 @@ public class EntityZertum extends EntityCustomTameable
                 }
             }
         }
+        
+        if(this.isTamed()) { //TODO
+    		EntityPlayer player = (EntityPlayer)this.getOwner();
+    		
+    		if(player != null) {
+    			float distanceToOwner = player.getDistanceToEntity(this);
+
+                if (distanceToOwner <= 2F && this.hasBone()) {
+                	if(!this.worldObj.isRemote) {
+                		this.entityDropItem(new ItemStack(ModItems.toy, 1, 1), 0.0F);
+                	}
+                	
+                    this.setHasBone(false);
+                }
+    		}
+    	}
     }
 
     @SideOnly(Side.CLIENT)
@@ -439,7 +446,7 @@ public class EntityZertum extends EntityCustomTameable
     /**
      * Called when the entity is attacked.
      */
-    public boolean attackEntityFrom(DamageSource p_70097_1_, float p_70097_2_)
+    public boolean attackEntityFrom(DamageSource p_70097_1_, float p_70097_2_) //TODO
     {
         if (this.isEntityInvulnerable())
         {
@@ -461,16 +468,28 @@ public class EntityZertum extends EntityCustomTameable
 
     public boolean attackEntityAsMob(Entity par1Entity)
     {
-        float f = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
+        float damage = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
         int i = 0;
+        int critChance = 5;
+        critChance += 2;
+        
+        if (rand.nextInt(6) < critChance) { //TODO
+        	damage += (damage + 3) / 2;
+            double d0 = this.rand.nextGaussian() * 0.02D;
+            double d1 = this.rand.nextGaussian() * 0.02D;
+            double d2 = this.rand.nextGaussian() * 0.02D;
+            worldObj.spawnParticle("crit", this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) -
+            		(double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + 
+            		(double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
+        }
 
         if (par1Entity instanceof EntityLivingBase)
         {
-            f += EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLivingBase)par1Entity);
+            damage += EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLivingBase)par1Entity);
             i += EnchantmentHelper.getKnockbackModifier(this, (EntityLivingBase)par1Entity);
         }
 
-        boolean flag = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), f);
+        boolean flag = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), damage);
 
         if (flag)
         {
@@ -539,7 +558,7 @@ public class EntityZertum extends EntityCustomTameable
     /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
      */
-    public boolean interact(EntityPlayer par1EntityPlayer) //TODO
+    public boolean interact(EntityPlayer par1EntityPlayer)
     {
         ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
 
@@ -563,12 +582,12 @@ public class EntityZertum extends EntityCustomTameable
                             this.heal((float)itemfood.func_150905_g(itemstack));
                         }
                         return true;
-                        
                     }
                 }
-                else if(itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer))
+                else if(itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer)) //TODO
                 {
                  par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.ZertumPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+                 this.worldObj.playSoundEffect(this.posX, this.posY + 0.5D, this.posZ, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
                  return true;
                 }
                 else if (itemstack.getItem() == Items.dye)
@@ -578,12 +597,7 @@ public class EntityZertum extends EntityCustomTameable
                     if (i != this.getCollarColor())
                     {
                         this.setCollarColor(i);
-
-                        if (!par1EntityPlayer.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
-                        {
-                            par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
-                        }
-
+                        ItemUtils.consumeEquipped(par1EntityPlayer, Items.dye);
                         return true;
                     }
                 }
@@ -598,35 +612,17 @@ public class EntityZertum extends EntityCustomTameable
                 this.setAttackTarget((EntityLivingBase)null);
             }
         }
-        else if (itemstack != null && itemstack.getItem() == ModItems.nileBone && !this.isAngry())
+        else if (ItemUtils.consumeEquipped(par1EntityPlayer, ModItems.nileBone) && !this.isAngry())
         {
-            if (!par1EntityPlayer.capabilities.isCreativeMode)
-            {
-                --itemstack.stackSize;
-            }
-
-            if (itemstack.stackSize <= 0)
-            {
-                par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
-            }
-
             if (isServer())
             {
                 tamedFor(par1EntityPlayer, rand.nextInt(3) == 0);
             	par1EntityPlayer.triggerAchievement(ModAchievements.ZertTame);
             }
-
             return true;
         }
-
         return super.interact(par1EntityPlayer);
     }
-    
-    public boolean canInteract(EntityPlayer player) {
-        if(player.getCommandSenderName().equalsIgnoreCase(this.func_152113_b())) {
-        }
-        return true;
-       }
 
     @SideOnly(Side.CLIENT)
     public void handleHealthUpdate(byte p_70103_1_)
@@ -708,7 +704,6 @@ public class EntityZertum extends EntityCustomTameable
  	 {
  		 double chance = Math.random();
 
-
  		 if (chance < 0.5){
  			 EntityZertum var3 = new EntityZertum(this.worldObj);
  			 var3.func_152115_b(this.func_152113_b());
@@ -779,27 +774,5 @@ public class EntityZertum extends EntityCustomTameable
     protected boolean canDespawn()
     {
         return !this.isTamed() && this.ticksExisted > 2400;
-    }
-
-    public boolean func_142018_a(EntityLivingBase p_142018_1_, EntityLivingBase p_142018_2_)
-    {
-        if (!(p_142018_1_ instanceof EntityCreeper) && !(p_142018_1_ instanceof EntityGhast))
-        {
-            if (p_142018_1_ instanceof EntityZertum)
-            {
-                EntityZertum entitywolf = (EntityZertum)p_142018_1_;
-
-                if (entitywolf.isTamed() && entitywolf.getOwner() == p_142018_2_)
-                {
-                    return false;
-                }
-            }
-
-            return p_142018_1_ instanceof EntityPlayer && p_142018_2_ instanceof EntityPlayer && !((EntityPlayer)p_142018_2_).canAttackPlayer((EntityPlayer)p_142018_1_) ? false : !(p_142018_1_ instanceof EntityHorse) || !((EntityHorse)p_142018_1_).isTame();
-        }
-        else
-        {
-            return false;
-        }
     }
 }

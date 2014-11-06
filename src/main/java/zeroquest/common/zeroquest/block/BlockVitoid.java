@@ -38,6 +38,7 @@ public class BlockVitoid extends BlockCrops{
 	public Item func_149865_P(){
 		return ModItems.vitoidFruit;
 	}
+	
 	@Override
 	@SideOnly(Side.CLIENT)
     public void registerBlockIcons(IIconRegister par1IconRegister){

@@ -25,7 +25,6 @@ public class BlockNileGrainOre extends Block
         this.setLightLevel(0.2F);
     }
     
-    //If the block's drop is an item.
     @Override
     public Item getItemDropped(int metadata, Random random, int fortune) {
         return ModItems.nileGrain;

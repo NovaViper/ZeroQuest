@@ -52,3 +52,15 @@ V1.1.0 - Pet Splash!
 
 V1.1.5 - Redesigner!
 *Redesigned all Zertums!
+
+V1.2.0 - Commands and AI!
++Added help command
++Added version command
++Added purge command
++Added Aliases for commands
++Added Beta version checker(Currently not used)
++Given Zertums fetching AI
++Added Toy ball
+~Fixed Fire immunity
+*Switched methods to main class
+*Rearranged Tab complete commands

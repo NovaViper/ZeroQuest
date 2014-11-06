@@ -25,7 +25,6 @@ public class BlockNileCoalOre extends Block
         this.setLightLevel(0.2F);
     }
     
-    //If the block's drop is an item.
     @Override
     public Item getItemDropped(int metadata, Random random, int fortune) {
         return ModItems.nileCoal;
@@ -66,6 +65,7 @@ public class BlockNileCoalOre extends Block
         }
     }
     
+    @Override
     public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
     {
 

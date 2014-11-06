@@ -52,10 +52,6 @@ import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityKortor extends EntityCustomTameable
 {
-
-    private boolean canSeeCreeper;
-    public int rare;
-
     private float mouthOpenness;
     private float prevMouthOpenness;
     public int field_110278_bp;
@@ -318,16 +314,6 @@ public class EntityKortor extends EntityCustomTameable
                 canSeeCreeper = false;
             }
         }
-    }
-    
-
-    public double sniffRange(){
-        double d = 0.0D;
-        for (int i = 0; i < 15 * 6; i++)
-        {
-            d++;
-        }
-        return d;
     }
 
     /**
@@ -621,11 +607,6 @@ public class EntityKortor extends EntityCustomTameable
                  par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.KortorPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
                  return true;
                 }
-                else if (this.riddenByEntity == null && this.getSaddled() && !this.isChild() && !ItemUtils.hasEquippedUsable(par1EntityPlayer)  && itemstack.getItem() != Items.spawn_egg && itemstack.getItem() != Items.stick && itemstack.getItem() != Items.dye && !this.isBreedingItem(itemstack))
-                {
-                        par1EntityPlayer.mountEntity(this);
-                        this.aiCSit.setSitting(false);
-                }
                 else if (itemstack.getItem() == Items.dye)
                 {
                     int i = BlockColored.func_150032_b(itemstack.getItemDamage());
@@ -633,12 +614,7 @@ public class EntityKortor extends EntityCustomTameable
                     if (i != this.getCollarColor())
                     {
                         this.setCollarColor(i);
-
-                        if (!par1EntityPlayer.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
-                        {
-                            par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
-                        }
-
+                        ItemUtils.consumeEquipped(par1EntityPlayer, Items.dye);
                         return true;
                     }
                 }
@@ -655,14 +631,15 @@ public class EntityKortor extends EntityCustomTameable
         }
         else if (ItemUtils.consumeEquipped(par1EntityPlayer, ModItems.nileBone) && !this.isAngry())
         {
+
             if (isServer())
             {
                 tamedFor(par1EntityPlayer, rand.nextInt(3) == 0);
+            	par1EntityPlayer.triggerAchievement(ModAchievements.ZertTame);
             }
 
             return true;
         }
-
         return super.interact(par1EntityPlayer);
     }
     
@@ -706,7 +683,8 @@ public class EntityKortor extends EntityCustomTameable
     /**
      * Moves the entity based on the specified heading.  Args: strafe, forward
      */
-    public void moveEntityWithHeading(float p_70612_1_, float p_70612_2_)
+    @Override
+    public void moveEntityWithHeading(float p_70612_1_, float p_70612_2_) //TODO
     {
         if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase && this.getSaddled())
         {
@@ -720,39 +698,7 @@ public class EntityKortor extends EntityCustomTameable
             if (p_70612_2_ <= 0.0F)
             {
                 p_70612_2_ *= 0.25F;
-                //this.field_110285_bP = 0;
             }
-
-            /*if (this.onGround /*&& this.jumpPower == 0.0F && this.isRearing() && !this.field_110294_bI)
-            {
-                p_70612_1_ = 0.0F;
-                p_70612_2_ = 0.0F;
-            }*/
-
-            /*if (/*this.jumpPower > 0.0F && !this.isHorseJumping() && this.onGround)
-            {
-                this.motionY = this.getHorseJumpStrength() * (double)this.jumpPower;
-
-                if (this.isPotionActive(Potion.jump))
-                {
-                    this.motionY += (double)((float)(this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F);
-                }
-
-                this.setHorseJumping(true);
-                this.isAirBorne = true;
-
-                if (p_70612_2_ > 0.0F)
-                {
-                    float f2 = MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F);
-                    float f3 = MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F);
-                    this.motionX += (double)(-0.4F * f2 * this.jumpPower);
-                    this.motionZ += (double)(0.4F * f3 * this.jumpPower);
-                    this.playSound("mob.horse.jump", 0.4F, 1.0F);
-                }
-
-                this.jumpPower = 0.0F;
-                net.minecraftforge.common.ForgeHooks.onLivingJump(this);
-            }*/
 
             this.stepHeight = 1.0F;
             this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
@@ -762,12 +708,6 @@ public class EntityKortor extends EntityCustomTameable
                 this.setAIMoveSpeed((float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
                 super.moveEntityWithHeading(p_70612_1_, p_70612_2_);
             }
-
-            /*if (this.onGround)
-            {
-                this.jumpPower = 0.0F;
-                this.setHorseJumping(false);
-            }*/
 
             this.prevLimbSwingAmount = this.limbSwingAmount;
             double d1 = this.posX - this.prevPosX;
@@ -790,18 +730,11 @@ public class EntityKortor extends EntityCustomTameable
         }
     }
 
-    
-    public boolean canInteract(EntityPlayer player) {
-        if(player.getCommandSenderName().equalsIgnoreCase(this.func_152113_b())) {
-        }
-        return true;
-       }
-
     /**
      * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
      * the animal type)
      */
-    public boolean isBreedingItem(ItemStack itemstack)
+    public boolean isBreedingItem(ItemStack itemstack) //TODO
     {
     	return itemstack == null ? false : itemstack.getItem() == ModItems.vitoidFruit;
     }

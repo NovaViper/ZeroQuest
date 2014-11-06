@@ -17,10 +17,12 @@ public class OnPlayerLogin{
 
 	private String version;
 	private String name;
+	private boolean isBeta;
 
-	public OnPlayerLogin(String modVersion, String modName){
+	public OnPlayerLogin(String modVersion, String modName, boolean beta){
 		version = modVersion;
 		name = modName;
+		isBeta = beta; 
 	}
 
 	@SubscribeEvent
@@ -39,11 +41,16 @@ public class OnPlayerLogin{
 					if(pairedString[1].equals(version)){
 						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + pairedString[0] + " " + version +  EnumChatFormatting.RESET + " is up to date"));
 						break;
+					}else if(isBeta == true){
+						player.addChatMessage(ChatHelper.getChatComponent("Welcome to " + EnumChatFormatting.GREEN  + pairedString[0] + EnumChatFormatting.RESET + "("+version+")" + " Beta!"));
+						player.addChatMessage(ChatHelper.getChatComponent("Thank you for beta testing!"));
+						break;						
 					}else{
 						player.addChatMessage(ChatHelper.getChatComponent("A new update: " + EnumChatFormatting.GREEN  + pairedString[0] + EnumChatFormatting.RESET + "("+pairedString[1]+")" + " is available for Minecraft 1.7.10!"));
 						player.addChatMessage(ChatHelper.getChatComponent("Download newest version at: http://minecraft.curseforge.com/mc-mods/221194-forge-zero-quest"));
 						break;
 					}
+					
 				}
 			}
 			in.close();

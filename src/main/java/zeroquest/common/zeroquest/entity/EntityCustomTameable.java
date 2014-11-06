@@ -15,20 +15,22 @@ import net.minecraft.scoreboard.Team;
 import net.minecraft.server.management.PreYggdrasilConverter;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-
 import common.zeroquest.client.particle.ParticleEffects;
+import common.zeroquest.entity.ai.EntityAIFetchBone;
 import common.zeroquest.entity.ai.tameable.EntityCustomAISit;
-
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
 
 public abstract class EntityCustomTameable extends EntityAnimal implements IEntityOwnable
 {
     protected EntityCustomAISit aiCSit = new EntityCustomAISit(this);
+    public EntityAIFetchBone aiFetchBone = new EntityAIFetchBone(this, 1.5D, 0.0F, 30.0F);
+    private boolean hasBone;
+    protected boolean canSeeCreeper;
+    public int rare;
     private static final String __OBFID = "CL_00001561";
-    private static final  int INDEX_TAME = 16;
-    private static final  int INDEX_OWNER = 17;
-    private Set<String> immunities = new HashSet<String>();
+    private static final int INDEX_TAME = 16;
+    private static final int INDEX_OWNER = 17;
 
     public EntityCustomTameable(World p_i1604_1_)
     {
@@ -126,7 +128,7 @@ public abstract class EntityCustomTameable extends EntityAnimal implements IEnti
             setTamed(true);
             setPathToEntity((PathEntity)null);
             setAttackTarget((EntityLivingBase)null);
-            aiCSit.setSitting(true);
+            aiCSit.setSitting(false);
             func_152115_b(player.getUniqueID().toString());
             playTameEffect(true);
             worldObj.setEntityState(this, (byte)7);
@@ -267,21 +269,13 @@ public abstract class EntityCustomTameable extends EntityAnimal implements IEnti
         return super.isOnSameTeam(p_142014_1_);
     }
     
-    protected void addImmunity(DamageSource dmg) {
-    	immunities.add(dmg.damageType);
-    	}
-    	public boolean isImmuneToDamage(DamageSource dmg) {
-    		if (immunities.isEmpty()) {
-    			return false;
-    		}
-    		return immunities.contains(dmg.damageType);
-    	}
-    
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage);
     }
+    
+    /*=======================================================UNIVERSAL=======================================================*/
     
     /**
      * Checks if this entity is running on a client.
@@ -303,6 +297,14 @@ public abstract class EntityCustomTameable extends EntityAnimal implements IEnti
         return !worldObj.isRemote;
     }
     
+    public double sniffRange(){
+        double d = 0.0D;
+        for (int i = 0; i < 15 * 6; i++)
+        {
+            d++;
+        }
+        return d;
+    }  
     
     /**
      * Gets the pitch of living sounds in living entities.
@@ -314,4 +316,27 @@ public abstract class EntityCustomTameable extends EntityAnimal implements IEnti
     		return super.getSoundPitch() * 2;
     		}
     	}
+    
+    public boolean canInteract(EntityPlayer player) {
+    	if(player.getCommandSenderName().equalsIgnoreCase(this.func_152113_b())) {
+    	}
+    		return true;
+    	}
+
+/*=======================================================FOR ZERTUMS ONLY=======================================================*/
+    public boolean didWolfFish() {
+        return rand.nextInt(15) < 4 * 2;
+    }
+    
+    public boolean didWolfCook() {
+        return rand.nextInt(15) < 4 * 2;
+    }
+    
+    public void setHasBone(boolean hasBone) { //TODO bone fetching
+    	this.hasBone = hasBone;
+    }
+    
+    public boolean hasBone() {
+    	return this.hasBone;
+    }
 }

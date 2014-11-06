@@ -17,13 +17,8 @@ import common.zeroquest.block.BlockNileCoalOre;
 import common.zeroquest.block.BlockNileCobblestone;
 import common.zeroquest.block.BlockNileGrainOre;
 import common.zeroquest.block.BlockNilePinkFlower;
-import common.zeroquest.block.BlockNileSlab;
 import common.zeroquest.block.BlockNileStone;
 import common.zeroquest.block.BlockNileTable;
-import common.zeroquest.block.BlockNileWall;
-import common.zeroquest.block.BlockSlabBedRock;
-import common.zeroquest.block.BlockSlabNileCobblestone;
-import common.zeroquest.block.BlockSlabNileStone;
 import common.zeroquest.block.BlockVitoid;
 import common.zeroquest.block.fluid.BlockFluidAcid;
 import common.zeroquest.block.fluid.BlockFluidNili;
@@ -35,7 +30,6 @@ import common.zeroquest.block.portal.BlockPortalDarkax;
 import common.zeroquest.events.BucketHandler;
 import common.zeroquest.fluid.AcidFluid;
 import common.zeroquest.fluid.NiliFluid;
-import common.zeroquest.item.ItemNileStoneSlab;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
@@ -53,11 +47,6 @@ public class ModBlocks {
 	public static Block vitoidPlant;
 	
 	public static Block nileWorktable;
-	
-	//Slabs and Walls
-	public static Block nileStoneSlab;
-	public static Block nileStoneDoubleSlab;
-	public static Block nileCobblestoneWall;
 	
 	//Portal//
 	public static Block nillaxStone;
@@ -80,15 +69,9 @@ public class ModBlocks {
 		looseBedrock = new BlockBedRock().setBlockName("looseBedrock").setBlockTextureName(ZeroQuest.modid + ":" + "looseBedrock");
 		register(looseBedrock, "bedrock_loose");
 		
-		/*nileStoneSlab = new BlockSlabNileStone(false, nileStone, Material.rock).setBlockName("nileStoneSlab").setBlockTextureName(ZeroQuest.modid + ":" + "nileStone");
-		register(nileStoneSlab, "nile_ stone_slab");		
-		nileStoneDoubleSlab = new BlockSlabNileStone(true, nileStone, Material.rock).setBlockName("nileStoneDoubleSlab").setBlockTextureName(ZeroQuest.modid + ":" + "nileStone");
-		register(nileStoneDoubleSlab, "nile_ stone_double_slab");*/ //TODO
-		
 		//Basic Blocks//
 		nileWorktable = new BlockNileTable().setBlockName("nileWorktable").setBlockTextureName(ZeroQuest.modid + ":" + "nileWorktable");
 		register(nileWorktable, "crafting_table_nile");
-		//nileCobblestoneWall = new BlockNileWall(nileCobblestone);
 
 		//Flowers/Plants//
 		nileBlueFlower = new BlockNileBFlower().setBlockName("nileBlueFlower").setBlockTextureName(ZeroQuest.modid + ":" + "nileBlueFlower");

@@ -124,6 +124,7 @@ public class BlockPortalDarkax extends BlockPortal{
      * A randomly called display update to be able to add particles or other items for display
      */
     @SideOnly(Side.CLIENT)
+    @Override
     public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
     {
         if (par5Random.nextInt(100) == 0)

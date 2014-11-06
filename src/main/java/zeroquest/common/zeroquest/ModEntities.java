@@ -2,7 +2,6 @@ package common.zeroquest;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
-
 import common.zeroquest.entity.EntityDarkZertum;
 import common.zeroquest.entity.EntityDestroZertum;
 import common.zeroquest.entity.EntityForisZertum;
@@ -12,11 +11,11 @@ import common.zeroquest.entity.EntityKortor;
 import common.zeroquest.entity.EntityKurr;
 import common.zeroquest.entity.EntityRedZertum;
 import common.zeroquest.entity.EntityZertum;
+import common.zeroquest.entity.projectile.EntityFireball;
 import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
 import common.zeroquest.entity.projectile.EntityGrenade;
 import common.zeroquest.entity.projectile.EntityIceball;
 import common.zeroquest.tileentity.TileEntityNileTable;
-
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 
@@ -57,6 +56,7 @@ public class ModEntities {
 		   registerProjectileEntity(EntityFlamingPoisonball.class, "FPoisonball", 400);
 		   EntityRegistry.registerModEntity(EntityGrenade.class, "Grenade", 401, ZeroQuest.instance, 80, 3, true);
 		   registerProjectileEntity(EntityIceball.class, "Iceball", 402);
+		   registerProjectileEntity(EntityFireball.class, "Fireball", 403);
 	   }
 	   
 		public static void registerEntity(Class entityClass, String saveName, int id) {

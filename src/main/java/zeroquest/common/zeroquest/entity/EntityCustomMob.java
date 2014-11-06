@@ -19,7 +19,7 @@ import net.minecraft.world.World;
 public abstract class EntityCustomMob extends EntityCreature implements IMob
 {
     private static final String __OBFID = "CL_00001692";
-    private Set<String> immunities = new HashSet<String>();
+    public int rare;
 
     public EntityCustomMob(World p_i1738_1_)
     {
@@ -271,14 +271,4 @@ public abstract class EntityCustomMob extends EntityCreature implements IMob
     public boolean isServer() {
         return !worldObj.isRemote;
     }
-    
-    protected void addImmunity(DamageSource dmg) {
-    	immunities.add(dmg.damageType);
-    	}
-    	public boolean isImmuneToDamage(DamageSource dmg) {
-    		if (immunities.isEmpty()) {
-    			return false;
-    		}
-    		return immunities.contains(dmg.damageType);
-    	}
 }
