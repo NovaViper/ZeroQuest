@@ -1,99 +1,36 @@
 package common.zeroquest.entity;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.UUID;
-
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityOwnable;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.passive.EntityAnimal;
+import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathEntity;
-import net.minecraft.scoreboard.Team;
-import net.minecraft.server.management.PreYggdrasilConverter;
-import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
+
 import common.zeroquest.client.particle.ParticleEffects;
 import common.zeroquest.entity.ai.EntityAIFetchBone;
-import common.zeroquest.entity.ai.tameable.EntityCustomAISit;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
-public abstract class EntityCustomTameable extends EntityAnimal implements IEntityOwnable
+
+public abstract class EntityCustomTameable extends EntityTameable
 {
-    protected EntityCustomAISit aiCSit = new EntityCustomAISit(this);
     public EntityAIFetchBone aiFetchBone = new EntityAIFetchBone(this, 1.5D, 0.0F, 30.0F);
     private boolean hasBone;
     protected boolean canSeeCreeper;
     public int rare;
-    private static final String __OBFID = "CL_00001561";
-    private static final int INDEX_TAME = 16;
-    private static final int INDEX_OWNER = 17;
+    /**Cooldown for Ranged Attack**/
+	protected int cooldown;
 
     public EntityCustomTameable(World p_i1604_1_)
     {
         super(p_i1604_1_);
     }
-
-    protected void entityInit()
-    {
-        super.entityInit();
-        this.dataWatcher.addObject(INDEX_TAME, Byte.valueOf((byte)0));
-        this.dataWatcher.addObject(INDEX_OWNER, "");
-    }
-
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
-    public void writeEntityToNBT(NBTTagCompound p_70014_1_)
-    {
-        super.writeEntityToNBT(p_70014_1_);
-
-        if (this.func_152113_b() == null)
-        {
-            p_70014_1_.setString("OwnerUUID", "");
-        }
-        else
-        {
-            p_70014_1_.setString("OwnerUUID", this.func_152113_b());
-        }
-
-        p_70014_1_.setBoolean("Sitting", this.isSitting());
-    }
-
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
-    public void readEntityFromNBT(NBTTagCompound p_70037_1_)
-    {
-        super.readEntityFromNBT(p_70037_1_);
-        String s = "";
-
-        if (p_70037_1_.hasKey("OwnerUUID", 8))
-        {
-            s = p_70037_1_.getString("OwnerUUID");
-        }
-        else
-        {
-            String s1 = p_70037_1_.getString("Owner");
-            s = PreYggdrasilConverter.func_152719_a(s1);
-        }
-
-        if (s.length() > 0)
-        {
-            this.func_152115_b(s);
-            this.setTamed(true);
-        }
-
-        this.aiCSit.setSitting(p_70037_1_.getBoolean("Sitting"));
-        this.setSitting(p_70037_1_.getBoolean("Sitting"));
-    }
-
+    
+    /*=======================================================UNIVERSAL=======================================================*/
+    
     /**
      * Play the taming effect, will either be hearts or smoke depending on status
      */
+    @Override
     protected void playTameEffect(boolean p_70908_1_)
     {
         String s = "heart";
@@ -128,7 +65,7 @@ public abstract class EntityCustomTameable extends EntityAnimal implements IEnti
             setTamed(true);
             setPathToEntity((PathEntity)null);
             setAttackTarget((EntityLivingBase)null);
-            aiCSit.setSitting(false);
+            aiSit.setSitting(false);
             func_152115_b(player.getUniqueID().toString());
             playTameEffect(true);
             worldObj.setEntityState(this, (byte)7);
@@ -137,145 +74,13 @@ public abstract class EntityCustomTameable extends EntityAnimal implements IEnti
             worldObj.setEntityState(this, (byte) 6);
         }
     }
-
-    @SideOnly(Side.CLIENT)
-    public void handleHealthUpdate(byte p_70103_1_)
-    {
-        if (p_70103_1_ == 7)
-        {
-            this.playTameEffect(true);
-        }
-        else if (p_70103_1_ == 6)
-        {
-            this.playTameEffect(false);
-        }
-        else
-        {
-            super.handleHealthUpdate(p_70103_1_);
-        }
-    }
-
-    public boolean isTamed()
-    {
-        return (this.dataWatcher.getWatchableObjectByte(INDEX_TAME) & 4) != 0;
-    }
-
-    public void setTamed(boolean p_70903_1_)
-    {
-        byte b0 = this.dataWatcher.getWatchableObjectByte(INDEX_TAME);
-
-        if (p_70903_1_)
-        {
-            this.dataWatcher.updateObject(INDEX_TAME, Byte.valueOf((byte)(b0 | 4)));
-        }
-        else
-        {
-            this.dataWatcher.updateObject(INDEX_TAME, Byte.valueOf((byte)(b0 & -5)));
-        }
-    }
-
-    public boolean isSitting()
-    {
-        return (this.dataWatcher.getWatchableObjectByte(INDEX_TAME) & 1) != 0;
-    }
-
-    public void setSitting(boolean p_70904_1_)
-    {
-        byte b0 = this.dataWatcher.getWatchableObjectByte(INDEX_TAME);
-
-        if (p_70904_1_)
-        {
-            this.dataWatcher.updateObject(INDEX_TAME, Byte.valueOf((byte)(b0 | 1)));
-        }
-        else
-        {
-            this.dataWatcher.updateObject(INDEX_TAME, Byte.valueOf((byte)(b0 & -2)));
-        }
-    }
-    /**getOwner
-     * */
-    public String func_152113_b()
-    {
-        return this.dataWatcher.getWatchableObjectString(INDEX_OWNER);
-    }
-
-    /**setOwner
-     * */
-    public void func_152115_b(String p_152115_1_)
-    {
-        this.dataWatcher.updateObject(INDEX_OWNER, p_152115_1_);
-    }
-
-    public EntityLivingBase getOwner()
-    {
-        try
-        {
-            UUID uuid = UUID.fromString(this.func_152113_b());
-            return uuid == null ? null : this.worldObj.func_152378_a(uuid);
-        }
-        catch (IllegalArgumentException illegalargumentexception)
-        {
-            return null;
-        }
-    }
-
-    public boolean func_152114_e(EntityLivingBase p_152114_1_)
-    {
-        return p_152114_1_ == this.getOwner();
-    }
-
-    public EntityCustomAISit func_70907_r()
-    {
-        return this.aiCSit;
-    }
-
-    public boolean func_142018_a(EntityLivingBase p_142018_1_, EntityLivingBase p_142018_2_)
-    {
-        return true;
-    }
-
-    public Team getTeam()
-    {
-        if (this.isTamed())
-        {
-            EntityLivingBase entitylivingbase = this.getOwner();
-
-            if (entitylivingbase != null)
-            {
-                return entitylivingbase.getTeam();
-            }
-        }
-
-        return super.getTeam();
-    }
-
-    public boolean isOnSameTeam(EntityLivingBase p_142014_1_)
-    {
-        if (this.isTamed())
-        {
-            EntityLivingBase entitylivingbase1 = this.getOwner();
-
-            if (p_142014_1_ == entitylivingbase1)
-            {
-                return true;
-            }
-
-            if (entitylivingbase1 != null)
-            {
-                return entitylivingbase1.isOnSameTeam(p_142014_1_);
-            }
-        }
-
-        return super.isOnSameTeam(p_142014_1_);
-    }
     
+    @Override
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
         this.getAttributeMap().registerAttribute(SharedMonsterAttributes.attackDamage);
     }
-    
-    /*=======================================================UNIVERSAL=======================================================*/
     
     /**
      * Checks if this entity is running on a client.

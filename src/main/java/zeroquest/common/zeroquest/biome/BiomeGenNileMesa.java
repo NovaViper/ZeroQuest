@@ -129,7 +129,7 @@ public class BiomeGenNileMesa extends BiomeGenBase
 
             if ((p_150573_3_[i2] == null || p_150573_3_[i2].getMaterial() == Material.air) && l1 < (int)d5)
             {
-                p_150573_3_[i2] = ModBlocks.nileStone;
+                p_150573_3_[i2] = Blocks.stone;
             }
 
             if (l1 <= 0 + p_150573_2_.nextInt(5))
@@ -142,7 +142,7 @@ public class BiomeGenNileMesa extends BiomeGenBase
 
                 if (block1 != null && block1.getMaterial() != Material.air)
                 {
-                    if (block1 == ModBlocks.nileStone)
+                    if (block1 == Blocks.stone)
                     {
                         byte b0;
 
@@ -153,7 +153,7 @@ public class BiomeGenNileMesa extends BiomeGenBase
                             if (i1 <= 0)
                             {
                                 block = null;
-                                block2 = ModBlocks.nileStone;
+                                block2 = Blocks.stone;
                             }
                             else if (l1 >= 59 && l1 <= 64)
                             {

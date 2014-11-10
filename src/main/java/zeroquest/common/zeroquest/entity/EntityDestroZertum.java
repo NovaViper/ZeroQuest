@@ -1,8 +1,6 @@
 package common.zeroquest.entity;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
@@ -12,11 +10,15 @@ import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
+import net.minecraft.entity.ai.EntityAIFollowOwner;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
+import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
+import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -27,7 +29,6 @@ import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -37,27 +38,21 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
-import common.zeroquest.client.particle.ParticleEffects;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.ai.EntityCustomDeZAIBeg;
-import common.zeroquest.entity.ai.EntityCustomFZAIBeg;
-import common.zeroquest.entity.ai.tameable.EntityCustomAIBeg;
-import common.zeroquest.entity.ai.tameable.EntityCustomAIFollowOwner;
-import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtByTarget;
-import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtTarget;
-import common.zeroquest.entity.ai.tameable.EntityCustomAISit;
-import common.zeroquest.entity.ai.tameable.EntityCustomAITargetNonTamed;
 import common.zeroquest.inventory.InventoryDestroPack;
-import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
-import cpw.mods.fml.common.FMLLog;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
+
 
 public class EntityDestroZertum extends EntityCustomTameable
 {
@@ -86,23 +81,23 @@ public class EntityDestroZertum extends EntityCustomTameable
     public EntityDestroZertum(World p_i1696_1_)
     {
         super(p_i1696_1_);
-        this.setSize(1.5F, 1.5F);
+        this.setSize(0.6F, 1.5F);
         this.getNavigator().setAvoidsWater(true);
         this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, this.aiCSit);
+        this.tasks.addTask(2, this.aiSit);
         this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
         this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, true));
-        this.tasks.addTask(5, new EntityCustomAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
+        this.tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
         this.tasks.addTask(6, aiFetchBone);
         this.tasks.addTask(7, new EntityAIMate(this, 1.0D));
         this.tasks.addTask(8, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(9, new EntityCustomDeZAIBeg(this, 8.0F));
         this.tasks.addTask(10, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(10, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityCustomAIOwnerHurtByTarget(this));
-        this.targetTasks.addTask(2, new EntityCustomAIOwnerHurtTarget(this));
+        this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
+        this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(4, new EntityCustomAITargetNonTamed(this, EntitySheep.class, 200, false));
+        this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntitySheep.class, 200, false));
         this.setTamed(false);
         this.inventory = new InventoryDestroPack(this);
     }
@@ -456,7 +451,7 @@ public class EntityDestroZertum extends EntityCustomTameable
         else
         {
             Entity entity = p_70097_1_.getEntity();
-            this.aiCSit.setSitting(false);
+            this.aiSit.setSitting(false);
 
             if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow))
             {
@@ -590,7 +585,7 @@ public class EntityDestroZertum extends EntityCustomTameable
 
             if (canInteract(par1EntityPlayer) && isServer() && !this.isBreedingItem(itemstack))
             {
-                this.aiCSit.setSitting(!this.isSitting());
+                this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
                 this.setPathToEntity((PathEntity)null);
                 this.setTarget((Entity)null);

@@ -54,10 +54,10 @@ public abstract class GenLayerZQuest extends GenLayer
     	biomes = new GenLayerZoom(1005L, biomes);
     	GenLayer genlayervoronoizoom = new GenLayerVoronoiZoom(10L, biomes);
     	biomes.initWorldGenSeed(p_75901_0_);
-    	genlayervoronoizoom.initWorldGenSeed(p_75901_0_);
-    	return new GenLayer[] {biomes, genlayervoronoizoom};
+    	//genlayervoronoizoom.initWorldGenSeed(p_75901_0_);
+    	//return new GenLayer[] {biomes, genlayervoronoizoom};
     	
-        /*boolean flag = false;
+        boolean flag = false;
         //GenLayerIsland genlayerisland = new GenLayerIsland(1L);
         GenLayerFuzzyZoom genlayerfuzzyzoom = new GenLayerFuzzyZoom(2000L, biomes);
         GenLayerAddIsland genlayeraddisland = new GenLayerAddIsland(1L, genlayerfuzzyzoom);
@@ -119,9 +119,9 @@ public abstract class GenLayerZQuest extends GenLayer
 
         GenLayerSmooth genlayersmooth1 = new GenLayerSmooth(1000L, (GenLayer)object);
         GenLayerNiliRiverMix genlayerrivermix = new GenLayerNiliRiverMix(100L, genlayersmooth1, genlayersmooth);
-        GenLayerVoronoiZoom genlayervoronoizoom = new GenLayerVoronoiZoom(10L, genlayerrivermix);
+       // GenLayerVoronoiZoom genlayervoronoizoom = new GenLayerVoronoiZoom(10L, genlayerrivermix);
         genlayerrivermix.initWorldGenSeed(p_75901_0_);
         genlayervoronoizoom.initWorldGenSeed(p_75901_0_);
-        return new GenLayer[] {genlayerrivermix, genlayervoronoizoom, genlayerrivermix, biomes};*/
+        return new GenLayer[] {genlayerrivermix, genlayervoronoizoom, genlayerrivermix, biomes};
     }
 }

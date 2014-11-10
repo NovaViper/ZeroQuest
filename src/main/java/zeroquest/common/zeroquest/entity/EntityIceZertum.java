@@ -12,11 +12,14 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
+import net.minecraft.entity.ai.EntityAIFollowOwner;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
+import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
+import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityCreeper;
@@ -37,16 +40,12 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
+
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.ai.EntityCustomIZAIBeg;
-import common.zeroquest.entity.ai.EntityCustomRZAIBeg;
-import common.zeroquest.entity.ai.tameable.EntityCustomAIFollowOwner;
-import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtByTarget;
-import common.zeroquest.entity.ai.tameable.EntityCustomAIOwnerHurtTarget;
-import common.zeroquest.entity.ai.tameable.EntityCustomAITargetNonTamed;
 import common.zeroquest.entity.ai.targeting.EntityAICustomArrowAttack;
 import common.zeroquest.entity.ai.targeting.EntityAICustomLeapAtTarget;
 import common.zeroquest.entity.projectile.EntityIceball;
@@ -54,8 +53,10 @@ import common.zeroquest.inventory.InventoryIcePack;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
+
 import cpw.mods.fml.relauncher.Side;
 import cpw.mods.fml.relauncher.SideOnly;
+
 
 public class EntityIceZertum extends EntityCustomTameable implements IRangedAttackMob
 {   
@@ -85,8 +86,6 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
     public static final double attackDamageTamed = 8;
     public static final double maxHealthBaby = 10;
     public static final double attackDamageBaby = 4;
-    /**Cooldown for Ranged Attack**/
-	private int cooldown;
 	
     // data value IDs
     /** The number for taming! DO NOT CHANGE UNLESS CHANGED IN EntityCustomTameable!
@@ -99,24 +98,24 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
     public EntityIceZertum(World p_i1696_1_)
     {
         super(p_i1696_1_);
-        this.setSize(1.5F, 1.5F);
+        this.setSize(0.6F, 1.5F);
         this.getNavigator().setAvoidsWater(true);
         this.tasks.addTask(1, new EntityAISwimming(this));
-        this.tasks.addTask(2, this.aiCSit);
+        this.tasks.addTask(2, this.aiSit);
         this.tasks.addTask(3, new EntityAICustomLeapAtTarget(this, 0.4F));
 		this.tasks.addTask(4, new EntityAICustomArrowAttack(this, 0.1, 60, 10.0F));
         this.tasks.addTask(5, new EntityAIAttackOnCollide(this, 1.0D, true));
-        this.tasks.addTask(6, new EntityCustomAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
+        this.tasks.addTask(6, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
         this.tasks.addTask(7, aiFetchBone);
         this.tasks.addTask(8, new EntityAIMate(this, 1.0D));
         this.tasks.addTask(9, new EntityAIWander(this, 1.0D));
         this.tasks.addTask(10, new EntityCustomIZAIBeg(this, 8.0F));
         this.tasks.addTask(11, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
         this.tasks.addTask(11, new EntityAILookIdle(this));
-        this.targetTasks.addTask(1, new EntityCustomAIOwnerHurtByTarget(this));
-        this.targetTasks.addTask(2, new EntityCustomAIOwnerHurtTarget(this));
+        this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
+        this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
-        this.targetTasks.addTask(4, new EntityCustomAITargetNonTamed(this, EntitySheep.class, 200, false));
+        this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntitySheep.class, 200, false));
         this.setTamed(false);
         this.inventory = new InventoryIcePack(this);
     }
@@ -500,7 +499,7 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
         else
         {
             Entity entity = p_70097_1_.getEntity();
-            this.aiCSit.setSitting(false);
+            this.aiSit.setSitting(false);
 
             if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow))
             {
@@ -655,7 +654,7 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
 
             if (canInteract(par1EntityPlayer) && isServer() && !this.isBreedingItem(itemstack))
             {
-                this.aiCSit.setSitting(!this.isSitting());
+                this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
                 this.setPathToEntity((PathEntity)null);
                 this.setTarget((Entity)null);

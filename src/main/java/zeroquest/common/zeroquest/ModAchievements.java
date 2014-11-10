@@ -19,35 +19,38 @@ public class ModAchievements
 {
 	//Examples on AchievementList//	
 	public static AchievementPage ZeroQuestPage;
-	public static Achievement ZQuestStart;
+	public static Achievement NileStart;
+	public static Achievement TraveltoNillax;
 	public static Achievement ZertKill;
 	public static Achievement buildBone;
 	public static Achievement buildNileSword;
 	public static Achievement buildNWorkBench;
 	public static Achievement ZertTame;
 	public static Achievement MountUp;
-	public static Achievement DragonSlayer;
 	
 	public static AchievementPage DarkQuestPage;
 	public static Achievement DarkStart;
+	public static Achievement TraveltoDarkax;
+	public static Achievement DragonSlayer;
 
-	//Add Name and Desc in ClientProxy//
-	public static void load() {   
-   		ZQuestStart = new Achievement("achievement.ZQuestStart", "ZQuestStart", 0, 0, ModItems.nileGrain, (Achievement)null).initIndependentStat();
-   		buildNWorkBench = new Achievement("achievement.buildNWorkBench", "buildNWorkBench", 2, 0, ModBlocks.nileWorktable, ZQuestStart).registerStat();
-   		buildNileSword = new Achievement("achievement.buildNileSword", "buildNileSword", 5, 0, ModItems.nileSword, buildNWorkBench).registerStat();
-   		ZertKill = new Achievement("achievement.ZertKill", "ZertKill", 7, 0, Items.bone, buildNileSword).registerStat();
+	public static void load() {
+   		NileStart = new Achievement("achievement.NileStart", "NileStart", 0, 0, ModItems.nileGrain, (Achievement)null).initIndependentStat();
+   		TraveltoNillax = new Achievement("achievement.TraveltoNillax", "TraveltoNillax", 2, 1, ModBlocks.nillaxStone, NileStart).registerStat();
+   		buildNWorkBench = new Achievement("achievement.buildNWorkBench", "buildNWorkBench", 4, -1, ModBlocks.nileWorktable, TraveltoNillax).registerStat();
+   		buildNileSword = new Achievement("achievement.buildNileSword", "buildNileSword", 6, -1, ModItems.nileSword, buildNWorkBench).registerStat();
+   		ZertKill = new Achievement("achievement.ZertKill", "ZertKill", 8, -1, Items.bone, buildNileSword).registerStat();
    		buildBone = new Achievement("achievement.buildBone", "buildBone", 2, -3, ModItems.nileBone, buildNWorkBench).registerStat().setSpecial();
-   		ZertTame = new Achievement("achievement.ZertTame", "ZertTame", 2, -5, ModItems.dogTreat, buildBone).registerStat();
-   		MountUp = new Achievement("achievement.MountUp", "MountUp", 5, -3, Items.saddle, buildBone).registerStat();
+   		ZertTame = new Achievement("achievement.ZertTame", "ZertTame", 0, -5, ModItems.dogTreat, buildBone).registerStat();
+   		MountUp = new Achievement("achievement.MountUp", "MountUp", -1, -3, Items.saddle, buildBone).registerStat();
    		
-		ZeroQuestPage.registerAchievementPage(new AchievementPage("Zero Quest", new Achievement[]{ZQuestStart, ZertKill, buildBone, buildNileSword, buildNWorkBench, ZertTame, MountUp}));
+		ZeroQuestPage.registerAchievementPage(new AchievementPage("Zero Quest", new Achievement[]{NileStart, ZertKill, buildBone, buildNileSword, buildNWorkBench, ZertTame, MountUp, TraveltoNillax}));
 	}
 	
 	public static void loadDark(){
    		DarkStart = new Achievement("achievement.DarkStart", "DarkStart", 0, 0, ModItems.darkGrain, (Achievement)null).initIndependentStat();
-   		DragonSlayer = new Achievement("achievement.DragonSlayer", "DragonSlayer", 2, 0, Items.diamond_sword, DarkStart).setSpecial().registerStat();
-   		
-   		DarkQuestPage.registerAchievementPage(new AchievementPage("Dark Quest", new Achievement[]{DarkStart, DragonSlayer}));
+   		TraveltoDarkax = new Achievement("achievement.TraveltoDarkax", "TraveltoDarkax", 2, 1, ModBlocks.darkaxStone, DarkStart).registerStat();
+   		DragonSlayer = new Achievement("achievement.DragonSlayer", "DragonSlayer", 4, -1, Items.diamond_sword, TraveltoDarkax).setSpecial().registerStat();
+ 
+   		DarkQuestPage.registerAchievementPage(new AchievementPage("Dark Quest", new Achievement[]{DarkStart, DragonSlayer, TraveltoDarkax}));
 	}
 }

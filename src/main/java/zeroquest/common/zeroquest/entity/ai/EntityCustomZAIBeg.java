@@ -1,4 +1,4 @@
-package common.zeroquest.entity.ai.tameable;
+package common.zeroquest.entity.ai;
 
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
@@ -7,7 +7,7 @@ import net.minecraft.world.World;
 import common.zeroquest.ModItems;
 import common.zeroquest.entity.EntityZertum;
 
-public class EntityCustomAIBeg extends EntityAIBase
+public class EntityCustomZAIBeg extends EntityAIBase
 {
     private EntityZertum theWolf;
     private EntityPlayer thePlayer;
@@ -16,7 +16,7 @@ public class EntityCustomAIBeg extends EntityAIBase
     private int field_75384_e;
     private static final String __OBFID = "CL_00001576";
 
-    public EntityCustomAIBeg(EntityZertum p_i1617_1_, float p_i1617_2_)
+    public EntityCustomZAIBeg(EntityZertum p_i1617_1_, float p_i1617_2_)
     {
         this.theWolf = p_i1617_1_;
         this.worldObject = p_i1617_1_.worldObj;

@@ -2,6 +2,7 @@ package common.zeroquest.world.gen.layer;
 
 import common.zeroquest.ModBiomes;
 
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
 

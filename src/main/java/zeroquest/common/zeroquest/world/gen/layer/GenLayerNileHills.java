@@ -66,14 +66,22 @@ public class GenLayerNileHills extends GenLayer
                     int i2 = k1;
                     int j2;
 
-                    if (k1 == ModBiomes.redSeed.biomeID)
-                    {
-                        i2 = ModBiomes.bioZone.biomeID;
-                    }
                     if (k1 == ModBiomes.destroZone.biomeID)
                     {
                         i2 = ModBiomes.destroZoneHills.biomeID;
                     }
+                    /*else if (k1 == BiomeGenBase.forest.biomeID)
+                    {
+                        i2 = BiomeGenBase.forestHills.biomeID;
+                    }
+                    else if (k1 == BiomeGenBase.birchForest.biomeID)
+                    {
+                        i2 = BiomeGenBase.birchForestHills.biomeID;
+                    }
+                    else if (k1 == BiomeGenBase.roofedForest.biomeID)
+                    {
+                        i2 = BiomeGenBase.plains.biomeID;
+                    }*/
                     else if (k1 == ModBiomes.blueTaiga.biomeID)
                     {
                         i2 = ModBiomes.blueTaigaHills.biomeID;
@@ -86,17 +94,21 @@ public class GenLayerNileHills extends GenLayer
                     {
                         i2 = ModBiomes.blueColdTaigaHills.biomeID;
                     }
-                    else if (k1 == ModBiomes.redSeed.biomeID)
+                    /*else if (k1 == BiomeGenBase.plains.biomeID)
                     {
                         if (this.nextInt(3) == 0)
                         {
-                            i2 = ModBiomes.pinkZone.biomeID;
+                            i2 = BiomeGenBase.forestHills.biomeID;
                         }
                         else
                         {
-                            i2 = ModBiomes.walRockland.biomeID;
+                            i2 = BiomeGenBase.forest.biomeID;
                         }
-                    }
+                    }*/
+                    /*else if (k1 == BiomeGenBase.icePlains.biomeID)
+                    {
+                        i2 = BiomeGenBase.iceMountains.biomeID;
+                    }*/
                     else if (k1 == ModBiomes.nileJungle.biomeID)
                     {
                         i2 = ModBiomes.nileJungleHills.biomeID;
@@ -123,11 +135,11 @@ public class GenLayerNileHills extends GenLayer
 
                         if (j2 == 0)
                         {
-                            i2 = ModBiomes.bioZone.biomeID;
+                            i2 = ModBiomes.redSeed.biomeID;
                         }
                         else
                         {
-                            i2 = ModBiomes.redSeed.biomeID;
+                            i2 = ModBiomes.bioZone.biomeID;
                         }
                     }
 

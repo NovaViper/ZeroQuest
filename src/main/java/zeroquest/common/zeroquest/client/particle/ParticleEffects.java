@@ -1,14 +1,10 @@
 package common.zeroquest.client.particle;
 
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.particle.EntityDropParticleFX;
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.client.particle.EntityHeartFX;
-import net.minecraft.client.particle.EntityPortalFX;
-import net.minecraft.client.particle.EntityReddustFX;
-import net.minecraft.client.particle.EntitySuspendFX;
 import net.minecraft.world.World;
+
 
 public class ParticleEffects
 {

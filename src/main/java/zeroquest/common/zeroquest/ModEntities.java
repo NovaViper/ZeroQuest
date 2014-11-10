@@ -39,15 +39,15 @@ public class ModEntities {
 	       	registerEntityEgg(EntityIceZertum.class, 0xCCCCCC, 0x6699FF);
 	       	registerEntity(EntityForisZertum.class, "ForisZertum", 4);
 	       	registerEntityEgg(EntityForisZertum.class, 0xCCCCCC, 0x33CC33);
-	       	registerEntity(EntityJakan.class, "Jakan", 5);
+	       	registerEntity(EntityJakan.class, "Jakan", 30);
 	       	registerEntityEgg(EntityJakan.class, 0x0033CC, 0x00CCFF);
-	       	registerEntity(EntityKortor.class, "Kortor", 6);
+	       	registerEntity(EntityKortor.class, "Kortor", 31);
 	       	registerEntityEgg(EntityKortor.class, 0x6699FF, 0xD1E0FF);
 	}
 	   public static void loadDarkCreatures(){
-	       	registerEntity(EntityDarkZertum.class, "DarkZertum", 20);
+	       	registerEntity(EntityDarkZertum.class, "DarkZertum", 40);
 	       	registerEntityEgg(EntityDarkZertum.class, 0xCCCCCC, 0x470047);
-	       	registerEntity(EntityKurr.class, "Kurr", 21);
+	       	registerEntity(EntityKurr.class, "Kurr", 41);
 	       	registerEntityEgg(EntityKurr.class, 0xFF0000, 0x660000);
 	   }
 	   

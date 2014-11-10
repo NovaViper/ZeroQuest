@@ -96,7 +96,7 @@ public class BiomeGenDestroZone extends BiomeGenBase
 
                 if (block2 != null && block2.getMaterial() != Material.air)
                 {
-                    if (block2 == ModBlocks.nileStone)
+                    if (block2 == Blocks.stone)
                     {
                         if (k == -1)
                         {
@@ -104,7 +104,7 @@ public class BiomeGenDestroZone extends BiomeGenBase
                             {
                                 block = null;
                                 b0 = 0;
-                                block1 = ModBlocks.nileStone;
+                                block1 = Blocks.stone;
                             }
                             else if (l1 >= 59 && l1 <= 64)
                             {
@@ -137,7 +137,7 @@ public class BiomeGenDestroZone extends BiomeGenBase
                             else if (l1 < 56 - l)
                             {
                                 block = null;
-                                block1 = ModBlocks.nileStone;
+                                block1 = Blocks.stone;
                                 blocks[i2] = Blocks.gravel;
                             }
                             else

@@ -37,7 +37,7 @@ public class BiomeGenBlueTaiga extends BiomeGenBase
     private static final WorldGenTaiga2 field_150640_aD = new WorldGenTaiga2(false);
     private static final WorldGenMegaPineTree field_150641_aE = new WorldGenMegaPineTree(false, false);
     private static final WorldGenMegaPineTree field_150642_aF = new WorldGenMegaPineTree(false, true);
-    private static final WorldGenBlockBlob field_150643_aG = new WorldGenBlockBlob(ModBlocks.nileCobblestone, 0);
+    private static final WorldGenBlockBlob field_150643_aG = new WorldGenBlockBlob(ModBlocks.looseBedrock, 0);
     private int field_150644_aH;
     private static final String __OBFID = "CL_00000186";
 
@@ -177,7 +177,7 @@ public class BiomeGenBlueTaiga extends BiomeGenBase
 
                     if (block2 != null && block2.getMaterial() != Material.air)
                     {
-                        if (block2 == ModBlocks.nileStone)
+                        if (block2 == Blocks.stone)
                         {
                             if (k == -1)
                             {
@@ -185,7 +185,7 @@ public class BiomeGenBlueTaiga extends BiomeGenBase
                                 {
                                     block = null;
                                     b0 = 0;
-                                    block1 = ModBlocks.nileStone;
+                                    block1 = Blocks.stone;
                                 }
                                 else if (l1 >= 59 && l1 <= 64)
                                 {
@@ -218,7 +218,7 @@ public class BiomeGenBlueTaiga extends BiomeGenBase
                                 else if (l1 < 56 - l)
                                 {
                                     block = null;
-                                    block1 = ModBlocks.nileStone;
+                                    block1 = Blocks.stone;
                                     p_150573_3_[i2] = Blocks.gravel;
                                 }
                                 else

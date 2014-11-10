@@ -1,9 +1,9 @@
 package common.zeroquest.world.gen.layer;
 
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenJungle;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
-
 import common.zeroquest.ModBiomes;
 import common.zeroquest.biome.BiomeGenNileJungle;
 import common.zeroquest.biome.BiomeGenNileMesa;
@@ -39,7 +39,7 @@ public class GenLayerNileShore extends GenLayer
                 int j2;
                 int k2;
 
-                if (k1 == ModBiomes.nileIsland.biomeID)
+                if (k1 == BiomeGenBase.mushroomIsland.biomeID)
                 {
                     l1 = aint[j1 + 1 + (i1 + 1 - 1) * (p_75904_3_ + 2)];
                     i2 = aint[j1 + 1 + 1 + (i1 + 1) * (p_75904_3_ + 2)];
@@ -52,10 +52,10 @@ public class GenLayerNileShore extends GenLayer
                     }
                     else
                     {
-                        aint1[j1 + i1 * p_75904_3_] = ModBiomes.nileIslandShore.biomeID;
+                        aint1[j1 + i1 * p_75904_3_] = BiomeGenBase.mushroomIslandShore.biomeID;
                     }
                 }
-                else if (biomegenbase != null && biomegenbase.getBiomeClass() == BiomeGenNileJungle.class)
+                else if (biomegenbase != null && biomegenbase.getBiomeClass() == BiomeGenJungle.class)
                 {
                     l1 = aint[j1 + 1 + (i1 + 1 - 1) * (p_75904_3_ + 2)];
                     i2 = aint[j1 + 1 + 1 + (i1 + 1) * (p_75904_3_ + 2)];
@@ -70,7 +70,7 @@ public class GenLayerNileShore extends GenLayer
                         }
                         else
                         {
-                            aint1[j1 + i1 * p_75904_3_] = ModBiomes.nileBeach.biomeID;
+                            aint1[j1 + i1 * p_75904_3_] = BiomeGenBase.beach.biomeID;
                         }
                     }
                     else
@@ -82,7 +82,7 @@ public class GenLayerNileShore extends GenLayer
                 {
                     if (biomegenbase != null && biomegenbase.func_150559_j())
                     {
-                        this.func_151632_a(aint, aint1, j1, i1, p_75904_3_, k1, ModBiomes.nileColdBeach.biomeID);
+                        this.func_151632_a(aint, aint1, j1, i1, p_75904_3_, k1, BiomeGenBase.coldBeach.biomeID);
                     }
                     else if (k1 != ModBiomes.nileMesa.biomeID && k1 != ModBiomes.nileMesaPlateau_F.biomeID)
                     {
@@ -99,7 +99,7 @@ public class GenLayerNileShore extends GenLayer
                             }
                             else
                             {
-                                aint1[j1 + i1 * p_75904_3_] = ModBiomes.nileBeach.biomeID;
+                                aint1[j1 + i1 * p_75904_3_] = BiomeGenBase.beach.biomeID;
                             }
                         }
                         else
@@ -133,7 +133,7 @@ public class GenLayerNileShore extends GenLayer
                 }
                 else
                 {
-                    this.func_151632_a(aint, aint1, j1, i1, p_75904_3_, k1, ModBiomes.nileStoneBeach.biomeID);
+                    this.func_151632_a(aint, aint1, j1, i1, p_75904_3_, k1, BiomeGenBase.stoneBeach.biomeID);
                 }
             }
         }
@@ -167,7 +167,7 @@ public class GenLayerNileShore extends GenLayer
 
     private boolean func_151631_c(int p_151631_1_)
     {
-        return BiomeGenBase.getBiome(p_151631_1_) != null && BiomeGenBase.getBiome(p_151631_1_).getBiomeClass() == BiomeGenNileJungle.class ? true : p_151631_1_ == ModBiomes.nileJungleEdge.biomeID || p_151631_1_ == ModBiomes.nileJungle.biomeID || p_151631_1_ == ModBiomes.nileJungleHills.biomeID || p_151631_1_ == ModBiomes.pinkZone.biomeID || p_151631_1_ == ModBiomes.blueTaiga.biomeID || isBiomeOceanic(p_151631_1_);
+        return BiomeGenBase.getBiome(p_151631_1_) != null && BiomeGenBase.getBiome(p_151631_1_).getBiomeClass() == BiomeGenNileJungle.class ? true : p_151631_1_ == ModBiomes.nileJungleEdge.biomeID || p_151631_1_ == ModBiomes.nileJungle.biomeID || p_151631_1_ == ModBiomes.nileJungleHills.biomeID || p_151631_1_ == ModBiomes.bioZone.biomeID || p_151631_1_ == ModBiomes.blueTaiga.biomeID || isBiomeOceanic(p_151631_1_);
     }
 
     private boolean func_151633_d(int p_151633_1_)

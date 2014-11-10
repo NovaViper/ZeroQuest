@@ -14,10 +14,8 @@ import common.zeroquest.block.BlockDrestroFlower;
 import common.zeroquest.block.BlockNileB2Flower;
 import common.zeroquest.block.BlockNileBFlower;
 import common.zeroquest.block.BlockNileCoalOre;
-import common.zeroquest.block.BlockNileCobblestone;
 import common.zeroquest.block.BlockNileGrainOre;
 import common.zeroquest.block.BlockNilePinkFlower;
-import common.zeroquest.block.BlockNileStone;
 import common.zeroquest.block.BlockNileTable;
 import common.zeroquest.block.BlockVitoid;
 import common.zeroquest.block.fluid.BlockFluidAcid;
@@ -34,8 +32,8 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.LanguageRegistry;
 
 public class ModBlocks {
-	public static Block nileStone;
-	public static Block nileCobblestone;
+	//public static Block nileStone;
+	//public static Block nileCobblestone;
 	public static Block looseBedrock;
 	public static Block nileCoalOre;
 	public static Block nileGrainOre;
@@ -62,10 +60,10 @@ public class ModBlocks {
 	
 	public static void load() {
 		//Natural Blocks//
-		nileStone = new BlockNileStone().setBlockName("nileStone").setBlockTextureName(ZeroQuest.modid + ":" + "nileStone");
+		/*nileStone = new BlockNileStone().setBlockName("nileStone").setBlockTextureName(ZeroQuest.modid + ":" + "nileStone");
 		register(nileStone, "nile_ stone");
 		nileCobblestone = new BlockNileCobblestone(Material.rock).setBlockName("nileCobblestone").setBlockTextureName(ZeroQuest.modid + ":" + "nileCobblestone");
-		register(nileCobblestone, "nile_cobblestone");
+		register(nileCobblestone, "nile_cobblestone");*/
 		looseBedrock = new BlockBedRock().setBlockName("looseBedrock").setBlockTextureName(ZeroQuest.modid + ":" + "looseBedrock");
 		register(looseBedrock, "bedrock_loose");
 		

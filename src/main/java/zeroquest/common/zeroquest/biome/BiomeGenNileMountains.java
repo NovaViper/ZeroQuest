@@ -71,7 +71,7 @@ public class BiomeGenNileMountains extends BiomeGenBase
             j1 = p_76728_2_.nextInt(28) + 4;
             int k1 = p_76728_4_ + p_76728_2_.nextInt(16);
 
-            if (p_76728_1_.getBlock(i1, j1, k1).isReplaceableOreGen(p_76728_1_, i1, j1, k1, ModBlocks.nileStone))
+            if (p_76728_1_.getBlock(i1, j1, k1).isReplaceableOreGen(p_76728_1_, i1, j1, k1, Blocks.stone))
             {
                 p_76728_1_.setBlock(i1, j1, k1, Blocks.emerald_ore, 0, 2);
             }
@@ -113,7 +113,7 @@ public class BiomeGenNileMountains extends BiomeGenBase
 
                 if (block2 != null && block2.getMaterial() != Material.air)
                 {
-                    if (block2 == ModBlocks.nileStone)
+                    if (block2 == Blocks.stone)
                     {
                         if (k == -1)
                         {
@@ -121,7 +121,7 @@ public class BiomeGenNileMountains extends BiomeGenBase
                             {
                                 block = null;
                                 b0 = 0;
-                                block1 = ModBlocks.nileStone;
+                                block1 = Blocks.stone;
                             }
                             else if (l1 >= 59 && l1 <= 64)
                             {
@@ -154,7 +154,7 @@ public class BiomeGenNileMountains extends BiomeGenBase
                             else if (l1 < 56 - l)
                             {
                                 block = null;
-                                block1 = ModBlocks.nileStone;
+                                block1 = Blocks.stone;
                                 blocks[i2] = Blocks.gravel;
                             }
                             else

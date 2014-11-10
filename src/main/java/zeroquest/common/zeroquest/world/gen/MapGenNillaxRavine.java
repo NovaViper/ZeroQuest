@@ -224,8 +224,8 @@ public class MapGenNillaxRavine extends MapGenBase
     //Exception biomes to make sure we generate like vanilla
     private boolean isExceptionBiome(BiomeGenBase biome)
     {
-        if (biome == BiomeGenBase.mushroomIsland) return true;
-        if (biome == BiomeGenBase.beach) return true;
+        if (biome == ModBiomes.nileIsland) return true;
+        if (biome == ModBiomes.nileBeach) return true;
         if (biome == ModBiomes.destroZone) return true;
         return false;
     }
@@ -260,7 +260,7 @@ public class MapGenNillaxRavine extends MapGenBase
         Block filler = (isExceptionBiome(biome) ? Blocks.dirt  : biome.fillerBlock);
         Block block  = data[index];
 
-        if (block == ModBlocks.nileStone || block == filler || block == top)
+        if (block == Blocks.stone || block == filler || block == top)
         {
             if (y < 10)
             {

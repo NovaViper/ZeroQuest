@@ -4,7 +4,7 @@ ZERO QUEST CHANGE LOG
 |+ = Addition    |
 |- = Deletion    |
 |~ = Bug Fix     |
-|* = Enchancement|
+|* = Enhancement |
 |================|
 
 Alpha 0.0.1
@@ -21,7 +21,7 @@ Beta 0.0.2
 *Rearranged code
 ~Fixed most code and errors
 
-v1.0.0 Release - Offical Release
+v1.0.0 Release - Official Release
 +Added new Biomes to Nillax Dimension (Nile Mesa, Nile Jungles, Niles Swamplands, Nile Mountains/Extreme Hills)
 +Added Nile Grenade
 +Added Acid and Nili fluids and buckets!
@@ -32,11 +32,11 @@ v1.0.0 Release - Offical Release
 ~Fixed Client console info for mod
 ~Fixed "Bound Not Positive" bug!
 
-v1.0.5 (Reuploaded) - TIME FOR THE KURR TO STRIKE!
+v1.0.5 (Re-Uploaded) - TIME FOR THE KURR TO STRIKE!
 +Added Kurr seeds
 *Altered Kurr for even HARDER difficulty!
 *Kurrs now drop around 50 EXP
-~Fixed Biome Code Mixup
+~Fixed Biome Code Mix-up
 
 V1.1.0 - Pet Splash!
 +Added Ice Zertum
@@ -50,10 +50,10 @@ V1.1.0 - Pet Splash!
 *Added Inventory to Kortor
 *Changed BiomeGenBlueNile file to BiomeGenBlueTaiga
 
-V1.1.5 - Redesigner!
+V1.1.5 - Re-designer!
 *Redesigned all Zertums!
 
-V1.2.0 - Commands and AI!
+V1.2.0 - Waves of change
 +Added help command
 +Added version command
 +Added purge command
@@ -61,6 +61,16 @@ V1.2.0 - Commands and AI!
 +Added Beta version checker(Currently not used)
 +Given Zertums fetching AI
 +Added Toy ball
-~Fixed Fire immunity
++Addded Travel To Nillax and Travel to Darkax Achievements
+-Removed Dark Particles toggle
+-Removed Nile Stone
+-Removed Nile Cobblestone
+~Fixed Fire immunity bug from v1.1.5
+~Fixed occasional particle crash
+*Adjusted size that allows Zertums to fit through doors and narrow spaces (not physical/rendering size)
 *Switched methods to main class
 *Rearranged Tab complete commands
+*Now tameable nile creatures extend to the class file EntityTameable
+*Now nile mobs extend to the class file EntityMob
+*Now integrated for the new Forge Configurations GUI
+*Changed Dog Treat texture

@@ -6,8 +6,17 @@ language.code=en_US
 itemGroup.zerotab=Zero Quest
 itemGroup.darktab=Dark Quest
 
-tile.nileStone.name=Nile Stone
-tile.nileCobblestone.name=Nile Cobblestone
+gui.config.title=Zero Quest Configurations
+gui.config.function=Functions Settings
+gui.config.function.tooltip=Manage all the entity and mod functions.
+gui.config.load=Load Settings
+gui.config.load.tooltip=Manage what the mod loads into the game
+
+gui.config.property.DarkElements=Dark Elements
+gui.config.property.DarkElements.tooltip=Toggles the Dark Elemental Load
+gui.config.property.Healing=Healing
+gui.config.property.Healing.tooltip=Toggles the Healing ability of ALL Zero Quest tameable creatures
+
 tile.nileBlueFlower.name=Nile Blue Flower
 tile.nileBlackFlower.name=Nile Black Flower
 tile.nilePinkFlower.name=Nile Pink Flower
@@ -106,8 +115,10 @@ entity.zero_quest.FPoisonball.name= Flaming Poisonball
 entity.zero_quest.nileGrenade.name=Nile Grenade
 entity.zero_quest.Iceball.name=Iceball
 
-achievement.ZQuestStart=Start Zero Quest!
-achievement.ZQuestStart.desc=Gather nile grains, dust, or essence
+achievement.NileStart=Start Zero Quest!
+achievement.NileStart.desc=Gather nile grains, dust, or essence
+achievement.TraveltoNillax=Another Overworld?
+achievement.TraveltoNillax.desc=Build a portal to the Nillax dimension
 achievement.ZertKill=Death to the Savages!
 achievement.ZertKill.desc=Kill a Zertum
 achievement.buildNileSword=Nile Combat
@@ -121,6 +132,8 @@ achievement.ZertTame.desc=Tame a Zertum
 achievement.MountUp= Mount up, Ladies!
 achievement.MountUp.desc=Mount on a Jakan
 
+achievement.TraveltoDarkax=Flipped Dimensions
+achievement.TraveltoDarkax.desc=Build a portal to the Darkax dimension
 achievement.DragonSlayer=The Dragon Slayer
 achievement.DragonSlayer.desc=Kill a Kurr
 achievement.DarkStart=Dark Quest

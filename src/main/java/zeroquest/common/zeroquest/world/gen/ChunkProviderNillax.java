@@ -181,7 +181,7 @@ public class ChunkProviderNillax implements IChunkProvider
                             {
                                 if ((d15 += d16) > 0.0D)
                                 {
-                                    p_147424_3_[j3 += short1] = ModBlocks.nileStone;
+                                    p_147424_3_[j3 += short1] = Blocks.stone;
                                 }
                                 else if (k2 * 8 + l2 < b0)
                                 {

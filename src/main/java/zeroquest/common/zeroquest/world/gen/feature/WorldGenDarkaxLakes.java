@@ -150,7 +150,7 @@ public class WorldGenDarkaxLakes extends WorldGenerator
 
                             if (flag && (j1 < 4 || p_76484_2_.nextInt(2) != 0) && p_76484_1_.getBlock(p_76484_3_ + i1, p_76484_4_ + j1, p_76484_5_ + j2).getMaterial().isSolid())
                             {
-                                p_76484_1_.setBlock(p_76484_3_ + i1, p_76484_4_ + j1, p_76484_5_ + j2, ModBlocks.nileStone, 0, 2);
+                                p_76484_1_.setBlock(p_76484_3_ + i1, p_76484_4_ + j1, p_76484_5_ + j2, Blocks.stone, 0, 2);
                             }
                         }
                     }

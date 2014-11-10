@@ -1,9 +1,9 @@
 package common.zeroquest.world.gen.layer;
 
-import common.zeroquest.ModBiomes;
-
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
+
+import common.zeroquest.ModBiomes;
 
 public class GenLayerDeepNiliOcean extends GenLayer
 {

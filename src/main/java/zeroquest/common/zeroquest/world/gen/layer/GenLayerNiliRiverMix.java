@@ -1,9 +1,10 @@
 package common.zeroquest.world.gen.layer;
 
-import common.zeroquest.ModBiomes;
-
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
+
+import common.zeroquest.ModBiomes;
 
 public class GenLayerNiliRiverMix extends GenLayer
 {
@@ -45,17 +46,17 @@ public class GenLayerNiliRiverMix extends GenLayer
             {
                 if (aint1[i1] == ModBiomes.niliRiver.biomeID)
                 {
-                    if (aint[i1] == ModBiomes.blueColdTaiga.biomeID || aint[i1] == ModBiomes.blueColdTaigaHills.biomeID)
+                    if (aint[i1] == ModBiomes.blueColdTaiga.biomeID)
                     {
                         aint2[i1] = ModBiomes.niliFrozenRiver.biomeID;
                     }
-                    else if (aint[i1] != ModBiomes.nileIsland.biomeID && aint[i1] != ModBiomes.nileIslandShore.biomeID)
+                    else if (aint[i1] != BiomeGenBase.mushroomIsland.biomeID && aint[i1] != BiomeGenBase.mushroomIslandShore.biomeID)
                     {
                         aint2[i1] = aint1[i1] & 255;
                     }
                     else
                     {
-                        aint2[i1] = ModBiomes.nileIslandShore.biomeID;
+                        aint2[i1] = BiomeGenBase.mushroomIslandShore.biomeID;
                     }
                 }
                 else

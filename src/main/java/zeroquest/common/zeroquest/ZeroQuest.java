@@ -49,7 +49,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraftforge.common.util.EnumHelper;
 
-@Mod(modid = ZeroQuest.modid, name = "Zero Quest", version = ZeroQuest.version, useMetadata = true)
+@Mod(modid = ZeroQuest.modid, name = "Zero Quest", version = ZeroQuest.version, useMetadata = true, guiFactory = "common.zeroquest.client.gui.config.GuiFactory")
 public class ZeroQuest 
 {
 	@Instance("zero_quest")
@@ -76,12 +76,13 @@ public class ZeroQuest
 	public static CreativeTabs ZeroTab;
 	public static CreativeTabs DarkTab;
 	
-    private ConfigurationHandler config;
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event){
-        config = new ConfigurationHandler(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + channel + File.separator + modid.toLowerCase() + ".cfg"));   
-   		FMLCommonHandler.instance().bus().register(new OnPlayerLogin(version, "ZeroQuest", false));	    	
+        ConfigHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + channel + File.separator + modid.toLowerCase() + ".cfg"));
+        FMLCommonHandler.instance().bus().register(new ConfigEvent());
+   		
+        FMLCommonHandler.instance().bus().register(new OnPlayerLogin(version, "ZeroQuest", false));	    	
     	Log.info("-----PRE-CONTENT LOAD INITATING-----");
     	Log.info("Loading Main Stuff...");
         this.ZeroTab = new ZeroQuestTab(CreativeTabs.getNextID());
@@ -155,6 +156,12 @@ public class ZeroQuest
     	DimensionManager.registerDimension(NillaxID, NillaxID);
     	Log.info("Dimensions Loaded Successfully!");
         Log.info("-----CONTENT LOAD FINSHED-----");
+	}
+	
+	@EventHandler
+	public void PostInt(FMLPostInitializationEvent event)
+	{
+		
 	}
 	
     @EventHandler //TODO
