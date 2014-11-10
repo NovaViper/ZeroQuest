@@ -28,7 +28,9 @@ public class WorldGenZQuest implements IWorldGenerator {
 			case ZeroQuest.NillaxID:
 				generateNillaxDimension(world, random, chunkX*16, chunkZ*16);
 			case ZeroQuest.DarkaxID:
+				if(Constants.DEF_DARKLOAD == true){
 				generateDarkaxDimension(world, random, chunkX*16, chunkZ*16);
+				}
 		}
 	}
 
