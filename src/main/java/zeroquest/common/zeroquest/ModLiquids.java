@@ -18,9 +18,10 @@ import common.zeroquest.fluid.NiliFluid;
 import common.zeroquest.item.ItemAcidBucket;
 import common.zeroquest.item.ItemNiliBucket;
 import cpw.mods.fml.common.registry.GameRegistry;
-
+/**Unknown Rendering Errors and problems with terrian generation, deprecated entirely to simplify mod and terrian generation**/
+@Deprecated
 public class ModLiquids {
-	
+
 	public static Block acidBlock;
 	public static Block niliBlock;
 	
@@ -51,7 +52,7 @@ public class ModLiquids {
 		   
 	       putLiquidsInBuckets(acidBlock, acidBucket);
 	       putLiquidsInBuckets(niliBlock, niliBucket);
-	       MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
+		   MinecraftForge.EVENT_BUS.register(BucketHandler.INSTANCE);
 	   }
 	   
 	   public static void putLiquidsInBuckets(Block liquid, Item liquidBucket){

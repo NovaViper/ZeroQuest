@@ -1,6 +1,6 @@
 package common.zeroquest.inventory;
 
-import common.zeroquest.entity.EntityZertum;
+import common.zeroquest.entity.EntityCustomTameable;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
@@ -13,9 +13,9 @@ import net.minecraft.item.ItemStack;
 */
 public class ContainerPack extends Container {
 
-    private EntityZertum wolf;
+    private EntityCustomTameable wolf;
 
-    public ContainerPack(InventoryPlayer par1IInventory, EntityZertum entitydtdoggy) {
+    public ContainerPack(InventoryPlayer par1IInventory, EntityCustomTameable entitydtdoggy) {
         wolf = entitydtdoggy;
         int i = 0;
         inventoryItemStacks.clear();
@@ -25,7 +25,7 @@ public class ContainerPack extends Container {
         {
             for (int i1 = 0; i1 < 5; i1++)
             {
-                this.addSlotToContainer(new SlotPack(entitydtdoggy.inventory, i, 79 + 18 * i1, 1 + 18 * j + 24, wolf));
+                this.addSlotToContainer(new Slot(entitydtdoggy.inventory, i, 79 + 18 * i1, 1 + 18 * j + 24));
                 i++;
             }
         }

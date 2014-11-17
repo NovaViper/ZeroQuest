@@ -13,6 +13,7 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenMesa;
 import net.minecraft.world.gen.NoiseGeneratorPerlin;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import common.zeroquest.ModBiomes;
@@ -48,12 +49,6 @@ public class BiomeGenNileMesa extends BiomeGenBase
         this.theBiomeDecorator.cactiPerChunk = 5;
         this.theBiomeDecorator.flowersPerChunk = 0;
         this.spawnableCreatureList.clear();
-        this.spawnableMonsterList.clear();
-        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySpider.class, 100, 4, 4));
-        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityZombie.class, 100, 4, 4));
-        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySkeleton.class, 100, 4, 4));
-        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityCreeper.class, 100, 4, 4));
-        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySlime.class, 100, 4, 4));
 
         if (p_i45380_3_)
         {
@@ -347,21 +342,20 @@ public class BiomeGenNileMesa extends BiomeGenBase
     }
 
     /**
-     * Provides the basic foliage color based on the biome temperature and rainfall
-     */
+    * Provides the basic foliage color based on the biome temperature and rainfall
+    */
     @SideOnly(Side.CLIENT)
     public int getBiomeFoliageColor(int p_150571_1_, int p_150571_2_, int p_150571_3_)
     {
-        return 0xCC6600;
+    return 0xCC6600;
     }
-
     /**
-     * Provides the basic grass color based on the biome temperature and rainfall
-     */
+    * Provides the basic grass color based on the biome temperature and rainfall
+    */
     @SideOnly(Side.CLIENT)
     public int getBiomeGrassColor(int p_150558_1_, int p_150558_2_, int p_150558_3_)
     {
-        return 0xCC3300;
+    return 0xCC3300;
     }
 
     public byte func_150618_d(int p_150618_1_, int p_150618_2_, int p_150618_3_)
@@ -376,7 +370,7 @@ public class BiomeGenNileMesa extends BiomeGenBase
      */
     public BiomeGenBase createMutation()
     {
-        boolean flag = this.biomeID == ModBiomes.nileMesa.biomeID;
+        boolean flag = this.biomeID == BiomeGenBase.mesa.biomeID;
         BiomeGenNileMesa biomegenmesa = new BiomeGenNileMesa(this.biomeID + 128, flag, this.field_150620_aI);
 
         if (!flag)

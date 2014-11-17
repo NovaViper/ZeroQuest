@@ -41,6 +41,7 @@ public class ConfigHandler {
 	   
 	   config.addCustomCategoryComment(CATEGORY_FUNCTION, "Here you can manage all mod and entity functions");
 	   config.addCustomCategoryComment(CATEGORY_LOAD, "Here you can manage what the mod loads into the game");
+	   config.addCustomCategoryComment(CATEGORY_MISC, "Here you can manage the miscellaneous functions of the mod");
 	   
 		   /*=================================Load Configurations==========================================*/
 	   	   prop = config.get(CATEGORY_LOAD, "DarkElements", false);
@@ -54,6 +55,12 @@ public class ConfigHandler {
 	   	   prop.comment = "Toggles the healing ability of ALL ZQ tameable creatures";
    		   prop.setLanguageKey("gui.config.property.Healing");
    		   Constants.DEF_HEALING =  prop.getBoolean(Constants.DEF_HEALING);
+           propOrder.add(prop.getName());
+           
+	   	   prop = config.get(CATEGORY_FUNCTION, "SnowStep", true);
+	   	   prop.comment = "Toggles the snow/ice footprints of Ice Zertums";
+   		   prop.setLanguageKey("gui.config.property.SnowStep");
+   		   Constants.DEF_SNOWSTEP =  prop.getBoolean(Constants.DEF_SNOWSTEP);
            propOrder.add(prop.getName());
 
     	   if(config.hasChanged()){

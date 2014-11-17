@@ -25,6 +25,7 @@ import net.minecraft.item.ItemArmor.ArmorMaterial;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.world.WorldProvider;
 import net.minecraft.world.WorldType;
 import net.minecraftforge.client.MinecraftForgeClient;
 import net.minecraftforge.common.BiomeDictionary;
@@ -55,7 +56,7 @@ public class ZeroQuest
 	@Instance("zero_quest")
 	public static ZeroQuest instance;
 	public static final String modid = "zero_quest";
-	public static final String version = "v1.2.0";
+	public static final String version = "v1.2.5";
 	public static final Logger Log = LogManager.getFormatterLogger("Zero Quest");
     public static final String channel = modid;
 	
@@ -90,8 +91,6 @@ public class ZeroQuest
    		this.DarkTab = new DarkQuestTab(CreativeTabs.getNextID());
     	}
 		NetworkRegistry.INSTANCE.registerGuiHandler(ZeroQuest.modid, proxy);
-    	LocalizationHandler.loadLanguages();
-    	ModLiquids.load(); //TODO
     	Log.info("Load Stuff Loaded Successfully!");		
     	Log.info("-----PRE-CONTENT LOAD FINISHED-----");
     	}
@@ -135,8 +134,8 @@ public class ZeroQuest
     		ModBiomes.loadDarkBiomes();
     		ModAchievements.loadDark();
     		OreDic.loadDarkOre();
-           	DimensionManager.registerProviderType(DarkaxID, WorldProviderDarkax.class, false);
-            DimensionManager.registerDimension(DarkaxID, DarkaxID);
+           	registerProviderType(DarkaxID, WorldProviderDarkax.class, false);
+            registerDimension(DarkaxID, DarkaxID);
             Log.info("Dark Elements Loaded Successfully!");
     	}else{
     		Log.warn("Dark Elemental Load is not ENABLED! Change configurations to enable!");
@@ -152,8 +151,8 @@ public class ZeroQuest
        	Log.info("The Crucial Stuff Loaded Successfully!");
 		
        	Log.info("Loading Dimensions...");
-    	DimensionManager.registerProviderType(NillaxID, WorldProviderNillax.class, false);
-    	DimensionManager.registerDimension(NillaxID, NillaxID);
+       	registerProviderType(NillaxID, WorldProviderNillax.class, false);
+       	registerDimension(NillaxID, NillaxID);
     	Log.info("Dimensions Loaded Successfully!");
         Log.info("-----CONTENT LOAD FINSHED-----");
 	}
@@ -175,5 +174,13 @@ public class ZeroQuest
     	Log.info("Commands Loaded Successfully!");  
     	Log.info("-----SERVER CONTENT LOAD FINSHED-----");
     	
+    }
+    
+    public void registerProviderType(int id, Class<? extends WorldProvider> provider, boolean keepLoaded){
+       	DimensionManager.registerProviderType(id, provider, keepLoaded);
+    }
+    
+    public void registerDimension(int id, int providerType){
+        DimensionManager.registerDimension(id, providerType);
     }
 }

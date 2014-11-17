@@ -74,3 +74,15 @@ V1.2.0 - Waves of change
 *Now nile mobs extend to the class file EntityMob
 *Now integrated for the new Forge Configurations GUI
 *Changed Dog Treat texture
+
+V1.2.5 - Someone's saying goodbye!
++Added Snow Footprints configuration for Ice Zertum
+-Removed Nili and Acid
+-Removed Nili Bucket and Acid Bucket
+-Removed Localization handler (was not being used since 1.7)
+-Removed Custom Elemental Inventory skins (all tameable entities now use the same inventory class)
+~Custom liquid bug fixed because of deletion
+~Fixed Server errors relating to entities!
+*Altered the Nillax and Darkax Dimension
+*Inventory classes reduced for more memory!
+*Commands now ignore cases

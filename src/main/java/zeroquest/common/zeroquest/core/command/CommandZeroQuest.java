@@ -46,7 +46,7 @@ public class CommandZeroQuest extends CommandBase {
    
    @Override
    public String getCommandUsage(ICommandSender sender) {
-       return String.format("/zquest|/zq|/zero help");
+       return String.format("/zquest,zq,zero help,h");
    }
    
    /**
@@ -67,22 +67,22 @@ public class CommandZeroQuest extends CommandBase {
        boolean global = params[params.length - 1].equalsIgnoreCase("global") || params[params.length - 1].equalsIgnoreCase("g");
 
        String command = params[0];
-       if (command.equals("stage")) {
+       if (command.equalsIgnoreCase("stage") || command.equalsIgnoreCase("s")) {
            if (params.length < 2) {
                throw new WrongUsageException(getCommandUsage(sender));
            }
            
            String parameter = params[1];
            
-           if (parameter.equals("baby")) {
+           if (parameter.equalsIgnoreCase("baby")) {
         	   appyModifier(sender, new AgeModifier(-24000), global);
            }
-           else if (parameter.equals("adult")) {
+           else if (parameter.equalsIgnoreCase("adult")) {
         	   appyModifier(sender, new AgeModifier(1), global);
            }
        }
        
-       else if (command.equals("heal")) {
+       else if (command.equalsIgnoreCase("heal") || command.equalsIgnoreCase("hp")) {
     	   if (sender instanceof EntityPlayerMP) {
                appyModifier(sender, new HealthModifier(), global);
            } else {
@@ -91,7 +91,7 @@ public class CommandZeroQuest extends CommandBase {
            }
        }
        
-       else if (command.equals("tame")) {
+       else if (command.equalsIgnoreCase("tame") || command.equalsIgnoreCase("t")) {
            if (sender instanceof EntityPlayerMP) {
                EntityPlayerMP player = (EntityPlayerMP) sender;
                appyModifier(sender, new TameModifier(player), global);
@@ -101,7 +101,7 @@ public class CommandZeroQuest extends CommandBase {
            }
        }
        
-       else if (command.equals("version") | command.equals("v")) {
+       else if (command.equalsIgnoreCase("version") || command.equalsIgnoreCase("v")) {
            if (sender instanceof EntityPlayerMP) {
                EntityPlayerMP player = (EntityPlayerMP) sender;
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"---------------------------------------------------"));
@@ -116,16 +116,16 @@ public class CommandZeroQuest extends CommandBase {
            }
        }
        
-       else if (command.equals("help") || command.equals("h")) { //TODO
+       else if (command.equalsIgnoreCase("help") || command.equalsIgnoreCase("h")) { //TODO
            if (sender instanceof EntityPlayerMP) {
                EntityPlayerMP player = (EntityPlayerMP) sender;
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"----------------- "+EnumChatFormatting.GREEN+"ZeroQuest - " +ZeroQuest.version+EnumChatFormatting.GOLD+" -----------------"));
-               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest tame [global|g] - "+EnumChatFormatting.RESET+"Tames a nile tameable creature"));
-               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest stage <baby|adult> [global|g] - "+EnumChatFormatting.RESET+"Sets the stage of a tamed nile creature"));     
-               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest heal [global|g] - "+EnumChatFormatting.RESET+"Heals a tamed nile creature"));
-               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest help|h - "+EnumChatFormatting.RESET+"Pulls up help menu"));
-               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest version|v - "+EnumChatFormatting.RESET+"displays mod version"));
-               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest purge|p <tamed|all> [global|g] - "+EnumChatFormatting.RESET+"Kills off nile creatures, either tamed or ALL nile tameable creatures"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest tame,t [globa,g] - "+EnumChatFormatting.RESET+"Tames a nile tameable creature"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest stage,s <baby|adult> [global,g] - "+EnumChatFormatting.RESET+"Sets the stage of a tamed nile creature"));     
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest heal,hp, [global,g] - "+EnumChatFormatting.RESET+"Heals a tamed nile creature"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest help,h - "+EnumChatFormatting.RESET+"Pulls up help menu"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest version,v - "+EnumChatFormatting.RESET+"Displays mod version"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest purge,p <tamed|all> [global,g] - "+EnumChatFormatting.RESET+"Kills off nile creatures, Tamed parameter kills only 1 tamed nile creature (unless global parameter is added), all kills EVERY nile creature"));
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"---------------------------------------------------"));
            
            } else {
@@ -134,17 +134,17 @@ public class CommandZeroQuest extends CommandBase {
            }
        }
        
-       else if (command.equals("purge") || command.equals("p")) { //TODO
+       else if (command.equalsIgnoreCase("purge") || command.equalsIgnoreCase("p")) { //TODO
            if (params.length < 2) {
                throw new WrongUsageException(getCommandUsage(sender));
            }
            
            String parameter = params[1];
            
-           if (parameter.equals("tamed")) {
+           if (parameter.equalsIgnoreCase("tamed")) {
         	   appyModifier(sender, new PurgeModifier(false), global);
            }
-           else if (parameter.equals("all")) {
+           else if (parameter.equalsIgnoreCase("all")) {
         	   appyModifier(sender, new PurgeModifier(true), true);
            }
        }       
@@ -160,8 +160,8 @@ public class CommandZeroQuest extends CommandBase {
    public List addTabCompletionOptions(ICommandSender icommandsender, String[] astring)
    {
        return astring.length == 1 ? getListOfStringsMatchingLastWord(astring, new String[] {/*"tame", "heal", "purge", "version", "help", "stage"*/}) : 
-    	   (astring.length == 2 && astring[0].equals("stage") ? getListOfStringsMatchingLastWord(astring, new String[] {"baby", "adult"}) 
-    		   : (astring.length == 2 && astring[0].equals("purge") || astring[0].equals("p") ? getListOfStringsMatchingLastWord(astring, new String[] {"tamed", "all"}): null));
+    	   (astring.length == 2 && astring[0].equalsIgnoreCase("stage") || astring[0].equalsIgnoreCase("s") ? getListOfStringsMatchingLastWord(astring, new String[] {"baby", "adult"}) 
+    		   : (astring.length == 2 && astring[0].equalsIgnoreCase("purge") || astring[0].equalsIgnoreCase("p") ? getListOfStringsMatchingLastWord(astring, new String[] {"tamed", "all"}): null));
    }
 
    

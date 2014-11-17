@@ -44,7 +44,7 @@ import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.ai.EntityCustomDeZAIBeg;
-import common.zeroquest.inventory.InventoryDestroPack;
+import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
@@ -68,7 +68,6 @@ public class EntityDestroZertum extends EntityCustomTameable
      */
     private float timeWolfIsShaking;
     private float prevTimeWolfIsShaking;
-    public InventoryDestroPack inventory;
     
     public static final double maxHealth = 30;
     public static final double attackDamage = 8;
@@ -99,7 +98,7 @@ public class EntityDestroZertum extends EntityCustomTameable
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntitySheep.class, 200, false));
         this.setTamed(false);
-        this.inventory = new InventoryDestroPack(this);
+        this.inventory = new InventoryPack(this);
     }
 
     protected void applyEntityAttributes()
@@ -505,27 +504,6 @@ public class EntityDestroZertum extends EntityCustomTameable
         }
     }
     
-    public void dropChestItems()
-    {
-        this.dropItemsInChest(this, this.inventory);
-    }
-    
-    private void dropItemsInChest(Entity par1Entity, InventoryDestroPack inventory2)
-    {
-        if (inventory2 != null && !this.worldObj.isRemote)
-        {
-            for (int i = 0; i < inventory2.getSizeInventory(); ++i)
-            {
-                ItemStack itemstack = inventory2.getStackInSlot(i);
-
-                if (itemstack != null)
-                {
-                    this.entityDropItem(itemstack, 0.0F);
-                }
-            }
-        }
-    }
-    
     @Override
     protected float getPitch() {
     	if(!this.isChild())
@@ -566,9 +544,11 @@ public class EntityDestroZertum extends EntityCustomTameable
                 }
                 else if(itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer)) //TODO
                 {
-                 par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.DestroZertumPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+                	if(isServer()){
+                 par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
                  this.worldObj.playSoundEffect(this.posX, this.posY + 0.5D, this.posZ, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
                  return true;
+                	}
                 }
                 else if (itemstack.getItem() == Items.dye)
                 {

@@ -1,21 +1,20 @@
 package common.zeroquest.inventory;
 
-import common.zeroquest.entity.EntityZertum;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ISidedInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.tileentity.TileEntityHopper;
+
+import common.zeroquest.entity.EntityCustomTameable;
 
 public class InventoryPack implements IInventory {
 
 public ItemStack[] inventorySlots;
-    private EntityZertum dog;
+    private EntityCustomTameable dog;
 
-    public InventoryPack(EntityZertum entitydtdoggy) {
+    public InventoryPack(EntityCustomTameable entitydtdoggy) {
         this.dog = entitydtdoggy;
         this.inventorySlots = new ItemStack[this.getSizeInventory()];
     }

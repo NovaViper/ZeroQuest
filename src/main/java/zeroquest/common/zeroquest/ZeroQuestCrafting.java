@@ -143,8 +143,8 @@ public class ZeroQuestCrafting
 		addShapelessRecipe(new ItemStack(ModItems.nileSpark), ModItems.nileDust, Items.flint_and_steel);
 		
 		//Smelting// //TODO
-		addSmelting(new ItemStack(Items.water_bucket), new ItemStack(ModLiquids.niliBucket), 1.0F);
-		addSmelting(new ItemStack(Items.lava_bucket), new ItemStack(ModLiquids.acidBucket), 1.0F);		
+		/*addSmelting(new ItemStack(Items.water_bucket), new ItemStack(ModLiquids.niliBucket), 1.0F);
+		addSmelting(new ItemStack(Items.lava_bucket), new ItemStack(ModLiquids.acidBucket), 1.0F);*/	
 
 	}
 	

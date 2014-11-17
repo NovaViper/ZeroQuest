@@ -49,7 +49,7 @@ import common.zeroquest.entity.ai.EntityCustomIZAIBeg;
 import common.zeroquest.entity.ai.targeting.EntityAICustomArrowAttack;
 import common.zeroquest.entity.ai.targeting.EntityAICustomLeapAtTarget;
 import common.zeroquest.entity.projectile.EntityIceball;
-import common.zeroquest.inventory.InventoryIcePack;
+import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
@@ -77,7 +77,6 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
     private static final Block footprint = Blocks.snow_layer;
     private static final Block footprint2 = Blocks.ice;
     private static final float footprint_chance = 0.2F;
-    public InventoryIcePack inventory;
     
     public static final double maxHealth = 35;
     public static final double attackDamage = 6;
@@ -117,7 +116,7 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
         this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntitySheep.class, 200, false));
         this.setTamed(false);
-        this.inventory = new InventoryIcePack(this);
+        this.inventory = new InventoryPack(this);
     }
 
     protected void applyEntityAttributes()
@@ -312,13 +311,15 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
             int j = MathHelper.floor_double(this.posY);
             int k = MathHelper.floor_double(this.posZ + (l / 2 % 2 * 2 - 1) * 0.25F);
 
-            if (this.worldObj.getBlock(i, j, k).getMaterial() == Material.air 
-            		&& footprint.canPlaceBlockAt(this.worldObj, i, j, k)) {
-                this.worldObj.setBlock(i, j, k, footprint);
-            }
-            if (this.worldObj.getBlock(i, j, k).getMaterial() == Material.water 
-            		&& footprint2.canPlaceBlockAt(this.worldObj, i, j, k)) {
-                this.worldObj.setBlock(i, j, k, footprint2);
+            if(Constants.DEF_SNOWSTEP == true){
+            	if (this.worldObj.getBlock(i, j, k).getMaterial() == Material.air 
+            			&& footprint.canPlaceBlockAt(this.worldObj, i, j, k)) {
+            		this.worldObj.setBlock(i, j, k, footprint);
+            	}
+            	if (this.worldObj.getBlock(i, j, k).getMaterial() == Material.water 
+            			&& footprint2.canPlaceBlockAt(this.worldObj, i, j, k)) {
+            		this.worldObj.setBlock(i, j, k, footprint2);
+            	}
             }
         }
               
@@ -574,27 +575,6 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
         }
     }
     
-    public void dropChestItems()
-    {
-        this.dropItemsInChest(this, this.inventory);
-    }
-    
-    private void dropItemsInChest(Entity par1Entity, InventoryIcePack inventory2)
-    {
-        if (inventory2 != null && !this.worldObj.isRemote)
-        {
-            for (int i = 0; i < inventory2.getSizeInventory(); ++i)
-            {
-                ItemStack itemstack = inventory2.getStackInSlot(i);
-
-                if (itemstack != null)
-                {
-                    this.entityDropItem(itemstack, 0.0F);
-                }
-            }
-        }
-    }
-    
     @Override
     protected float getPitch() {
     	if(!this.isChild())
@@ -633,11 +613,13 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
                         return true;
                     }
                 }
-                else if(itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer))
+                else if(itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer)) //TODO
                 {
-                 par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.IceZertumPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+                	if(isServer()){
+                 par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
                  this.worldObj.playSoundEffect(this.posX, this.posY + 0.5D, this.posZ, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
                  return true;
+                	}
                 }
                 else if (itemstack.getItem() == Items.dye)
                 {

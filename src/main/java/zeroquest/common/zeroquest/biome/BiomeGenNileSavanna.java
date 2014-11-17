@@ -11,11 +11,13 @@ import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.init.Blocks;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenMutated;
+import net.minecraft.world.biome.BiomeGenSavanna;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenFlowers;
 import net.minecraft.world.gen.feature.WorldGenSavannaTree;
@@ -49,10 +51,6 @@ public class BiomeGenNileSavanna extends BiomeGenBase
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySkeleton.class, 100, 4, 4));
        	this.waterColorMultiplier = 0x0099cc;
     }
-    
-@SideOnly(Side.CLIENT)
-@Override
-public int getSkyColorByTemp(float par1){return 0x6699FF;}
 
     public WorldGenAbstractTree func_150567_a(Random p_150567_1_)
     {
@@ -72,31 +70,21 @@ public int getSkyColorByTemp(float par1){return 0x6699FF;}
         return mutated;
     }
 
-    public void decorate(World par1World, Random par2Random, int chunk_X, int chunk_Z)
+    public void decorate(World p_76728_1_, Random p_76728_2_, int p_76728_3_, int p_76728_4_)
     {
         genTallFlowers.func_150548_a(2);
 
         for (int k = 0; k < 7; ++k)
         {
-            int l = chunk_X + par2Random.nextInt(16) + 8;
-            int i1 = chunk_Z + par2Random.nextInt(16) + 8;
-            int j1 = par2Random.nextInt(par1World.getHeightValue(l, i1) + 32);
-            genTallFlowers.generate(par1World, par2Random, l, j1, i1);
+            int l = p_76728_3_ + p_76728_2_.nextInt(16) + 8;
+            int i1 = p_76728_4_ + p_76728_2_.nextInt(16) + 8;
+            int j1 = p_76728_2_.nextInt(p_76728_1_.getHeightValue(l, i1) + 32);
+            genTallFlowers.generate(p_76728_1_, p_76728_2_, l, j1, i1);
         }
 
-        super.decorate(par1World, par2Random, chunk_X, chunk_Z);
-    	WorldGenFlowers blueFlowerGenerator = new WorldGenFlowers(ModBlocks.nileBlackFlower);
-    	
-        boolean doGen = TerrainGen.decorate(par1World, par2Random, chunk_X, chunk_Z, FLOWERS);
-        for (int j = 0; doGen && j < 30; ++j)
-        {
-            int k = chunk_X + par2Random.nextInt(16) + 8;
-            int l = par2Random.nextInt(128);
-            int i1 = chunk_Z + par2Random.nextInt(16) + 8;
-            blueFlowerGenerator.generate(par1World, par2Random, k, l, i1);
-        }
+        super.decorate(p_76728_1_, p_76728_2_, p_76728_3_, p_76728_4_);
     }
-    
+
     public static class Mutated extends BiomeGenMutated
         {
             private static final String __OBFID = "CL_00000183";
@@ -109,100 +97,24 @@ public int getSkyColorByTemp(float par1){return 0x6699FF;}
                 this.theBiomeDecorator.grassPerChunk = 5;
             }
 
-        	public void genTerrainBlocks(World world, Random random, Block[] blocks, byte[] bytes, int int1, int int2, double d)
+            public void genTerrainBlocks(World p_150573_1_, Random p_150573_2_, Block[] p_150573_3_, byte[] p_150573_4_, int p_150573_5_, int p_150573_6_, double p_150573_7_)
             {
-                boolean flag = true;
-                Block block = this.topBlock;
-                byte b0 = (byte)(this.field_150604_aj & 255);
-                Block block1 = this.fillerBlock;
-                int k = -1;
-                int l = (int)(d / 3.0D + 3.0D + random.nextDouble() * 0.25D);
-                int i1 = int1 & 15;
-                int j1 = int2 & 15;
-                int k1 = blocks.length / 256;
+                this.topBlock = Blocks.grass;
+                this.field_150604_aj = 0;
+                this.fillerBlock = Blocks.dirt;
 
-                for (int l1 = 255; l1 >= 0; --l1)
+                if (p_150573_7_ > 1.75D)
                 {
-                    int i2 = (j1 * 16 + i1) * k1 + l1;
-
-                    if (l1 <= 0 + random.nextInt(5))
-                    {
-                        blocks[i2] = Blocks.bedrock;
-                    }
-                    else
-                    {
-                        Block block2 = blocks[i2];
-
-                        if (block2 != null && block2.getMaterial() != Material.air)
-                        {
-                            if (block2 == Blocks.stone)
-                            {
-                                if (k == -1)
-                                {
-                                    if (l <= 0)
-                                    {
-                                        block = null;
-                                        b0 = 0;
-                                        block1 = Blocks.stone;
-                                    }
-                                    else if (l1 >= 59 && l1 <= 64)
-                                    {
-                                        block = this.topBlock;
-                                        b0 = (byte)(this.field_150604_aj & 255);
-                                        block1 = this.fillerBlock;
-                                    }
-
-                                    if (l1 < 63 && (block == null || block.getMaterial() == Material.air))
-                                    {
-                                        if (this.getFloatTemperature(int1, l1, int2) < 0.15F)
-                                        {
-                                            block = Blocks.ice;
-                                            b0 = 0;
-                                        }
-                                        else
-                                        {
-                                            block = ModLiquids.niliBlock;
-                                            b0 = 0;
-                                        }
-                                    }
-
-                                    k = l;
-
-                                    if (l1 >= 62)
-                                    {
-                                        blocks[i2] = block;
-                                        bytes[i2] = b0;
-                                    }
-                                    else if (l1 < 56 - l)
-                                    {
-                                        block = null;
-                                        block1 = Blocks.stone;
-                                        blocks[i2] = Blocks.gravel;
-                                    }
-                                    else
-                                    {
-                                        blocks[i2] = block1;
-                                    }
-                                }
-                                else if (k > 0)
-                                {
-                                    --k;
-                                    blocks[i2] = block1;
-
-                                    if (k == 0 && block1 == Blocks.sand)
-                                    {
-                                        k = random.nextInt(4) + Math.max(0, l1 - 63);
-                                        block1 = Blocks.sandstone;
-                                    }
-                                }
-                            }
-                        }
-                        else
-                        {
-                            k = -1;
-                        }
-                    }
+                    this.topBlock = Blocks.stone;
+                    this.fillerBlock = Blocks.stone;
                 }
+                else if (p_150573_7_ > -0.5D)
+                {
+                    this.topBlock = Blocks.dirt;
+                    this.field_150604_aj = 1;
+                }
+
+                this.genBiomeTerrain(p_150573_1_, p_150573_2_, p_150573_3_, p_150573_4_, p_150573_5_, p_150573_6_, p_150573_7_);
             }
 
             public void decorate(World p_76728_1_, Random p_76728_2_, int p_76728_3_, int p_76728_4_)
@@ -210,101 +122,4 @@ public int getSkyColorByTemp(float par1){return 0x6699FF;}
                 this.theBiomeDecorator.decorateChunk(p_76728_1_, p_76728_2_, this, p_76728_3_, p_76728_4_);
             }
         }
-    
-	@Override
-	public void genTerrainBlocks(World world, Random random, Block[] blocks, byte[] bytes, int int1, int int2, double d)
-    {
-        boolean flag = true;
-        Block block = this.topBlock;
-        byte b0 = (byte)(this.field_150604_aj & 255);
-        Block block1 = this.fillerBlock;
-        int k = -1;
-        int l = (int)(d / 3.0D + 3.0D + random.nextDouble() * 0.25D);
-        int i1 = int1 & 15;
-        int j1 = int2 & 15;
-        int k1 = blocks.length / 256;
-
-        for (int l1 = 255; l1 >= 0; --l1)
-        {
-            int i2 = (j1 * 16 + i1) * k1 + l1;
-
-            if (l1 <= 0 + random.nextInt(5))
-            {
-                blocks[i2] = Blocks.bedrock;
-            }
-            else
-            {
-                Block block2 = blocks[i2];
-
-                if (block2 != null && block2.getMaterial() != Material.air)
-                {
-                    if (block2 == Blocks.stone)
-                    {
-                        if (k == -1)
-                        {
-                            if (l <= 0)
-                            {
-                                block = null;
-                                b0 = 0;
-                                block1 = Blocks.stone;
-                            }
-                            else if (l1 >= 59 && l1 <= 64)
-                            {
-                                block = this.topBlock;
-                                b0 = (byte)(this.field_150604_aj & 255);
-                                block1 = this.fillerBlock;
-                            }
-
-                            if (l1 < 63 && (block == null || block.getMaterial() == Material.air))
-                            {
-                                if (this.getFloatTemperature(int1, l1, int2) < 0.15F)
-                                {
-                                    block = Blocks.ice;
-                                    b0 = 0;
-                                }
-                                else
-                                {
-                                    block = ModLiquids.niliBlock;
-                                    b0 = 0;
-                                }
-                            }
-
-                            k = l;
-
-                            if (l1 >= 62)
-                            {
-                                blocks[i2] = block;
-                                bytes[i2] = b0;
-                            }
-                            else if (l1 < 56 - l)
-                            {
-                                block = null;
-                                block1 = Blocks.stone;
-                                blocks[i2] = Blocks.gravel;
-                            }
-                            else
-                            {
-                                blocks[i2] = block1;
-                            }
-                        }
-                        else if (k > 0)
-                        {
-                            --k;
-                            blocks[i2] = block1;
-
-                            if (k == 0 && block1 == Blocks.sand)
-                            {
-                                k = random.nextInt(4) + Math.max(0, l1 - 63);
-                                block1 = Blocks.sandstone;
-                            }
-                        }
-                    }
-                }
-                else
-                {
-                    k = -1;
-                }
-            }
-        }
-    }
 }

@@ -4,16 +4,11 @@ import common.zeroquest.biome.BiomeGenBioZone;
 import common.zeroquest.biome.BiomeGenBlueTaiga;
 import common.zeroquest.biome.BiomeGenDarkLand;
 import common.zeroquest.biome.BiomeGenDestroZone;
-import common.zeroquest.biome.BiomeGenNileBeach;
-import common.zeroquest.biome.BiomeGenNileIsland;
 import common.zeroquest.biome.BiomeGenNileJungle;
 import common.zeroquest.biome.BiomeGenNileMesa;
 import common.zeroquest.biome.BiomeGenNileMountains;
 import common.zeroquest.biome.BiomeGenNileSavanna;
-import common.zeroquest.biome.BiomeGenNileStoneBeach;
 import common.zeroquest.biome.BiomeGenNileSwamp;
-import common.zeroquest.biome.BiomeGenNiliOcean;
-import common.zeroquest.biome.BiomeGenNiliRiver;
 import common.zeroquest.biome.BiomeGenPinkZone;
 import common.zeroquest.biome.BiomeGenRedSeed;
 import common.zeroquest.biome.BiomeGenWalRockland;
@@ -63,16 +58,6 @@ public class ModBiomes
     public static BiomeGenBase nileJungleHills;
     public static BiomeGenBase nileJungleEdge;
     public static BiomeGenBase nileSwampland;
-    public static BiomeGenBase niliOcean;
-    public static BiomeGenBase niliFrozenOcean;
-    public static BiomeGenBase niliDeepOcean;
-    public static BiomeGenBase niliRiver;
-    public static BiomeGenBase niliFrozenRiver;
-    public static BiomeGenBase nileBeach;
-    public static BiomeGenBase nileColdBeach;
-    public static BiomeGenBase nileStoneBeach;
-    public static BiomeGenBase nileIsland;
-    public static BiomeGenBase nileIslandShore;
     public static BiomeGenBase nileMesa;
     public static BiomeGenBase nileMesaPlateau_F;
     public static BiomeGenBase nileMesaPlateau;
@@ -100,23 +85,9 @@ public class ModBiomes
 	       nileJungleHills = new BiomeGenNileJungle(125, false).setColor(0x33CC33).setBiomeName("Nile Jungle Hills").func_76733_a(5470985).setTemperatureRainfall(0.95F, 0.9F).setHeight(height_LowHills);
 	       nileJungleEdge = new BiomeGenNileJungle(126, true).setColor(0x5CD65C).setBiomeName("Nile Jungle Edge").func_76733_a(5470985).setTemperatureRainfall(0.95F, 0.8F);
 	       nileSwampland = new BiomeGenNileSwamp(127).setBiomeName("Nile Swampland").func_76733_a(9154376).setHeight(height_PartiallySubmerged).setTemperatureRainfall(0.8F, 0.9F);
-	       //Waters
-	       niliOcean = new BiomeGenNiliOcean(128).setColor(112).setBiomeName("Nili Ocean").setHeight(height_Oceans);
-	       niliFrozenOcean = new BiomeGenNiliOcean(129).setColor(9474208).setBiomeName("Frozen Nili Ocean").setEnableSnow().setHeight(height_Oceans).setTemperatureRainfall(0.0F, 0.5F);
-	       niliDeepOcean = new BiomeGenNiliOcean(130).setColor(48).setBiomeName("Deep Ocean").setHeight(height_DeepOceans);
-	       niliRiver = new BiomeGenNiliRiver(131).setColor(255).setBiomeName("Nili River").setHeight(height_ShallowWaters);
-	       niliFrozenRiver = new BiomeGenNiliRiver(132).setColor(10526975).setBiomeName("FrozenRiver").setEnableSnow().setHeight(height_ShallowWaters).setTemperatureRainfall(0.0F, 0.5F);
-	       //Shores
-	       nileBeach = new BiomeGenNileBeach(133).setColor(16440917).setBiomeName("Beach").setTemperatureRainfall(0.8F, 0.4F).setHeight(height_Shores);
-	       nileColdBeach = new BiomeGenNileBeach(134).setColor(16445632).setBiomeName("Cold Nile Beach").setTemperatureRainfall(0.05F, 0.3F).setHeight(height_Shores).setEnableSnow();
-	       nileStoneBeach = new BiomeGenNileStoneBeach(135).setColor(10658436).setBiomeName("Nile Stone Beach").setTemperatureRainfall(0.2F, 0.3F).setHeight(height_RockyWaters);
-	       //Island
-	       nileIsland = new BiomeGenNileIsland(136).setColor(16711935).setBiomeName("Nile Island").setTemperatureRainfall(0.9F, 1.0F).setHeight(height_LowIslands);
-	       nileIslandShore = new BiomeGenNileIsland(137).setColor(10486015).setBiomeName("NileIslandShore").setTemperatureRainfall(0.9F, 1.0F).setHeight(height_Shores);
-
 	       nileMesa = new BiomeGenNileMesa(138, false, false).setColor(14238997).setBiomeName("Nile Mesa");
-	       nileMesaPlateau_F = new BiomeGenNileMesa(139, false, true).setColor(11573093).setBiomeName("Mesa Plateau F").setHeight(height_HighPlateaus);
-	       nileMesaPlateau = new BiomeGenNileMesa(140, false, false).setColor(13274213).setBiomeName("Mesa Plateau").setHeight(height_HighPlateaus);
+	       nileMesaPlateau_F = new BiomeGenNileMesa(139, false, true).setColor(11573093).setBiomeName("Nile Mesa Plateau F").setHeight(height_HighPlateaus);
+	       nileMesaPlateau = new BiomeGenNileMesa(140, false, false).setColor(13274213).setBiomeName("Nile Mesa Plateau").setHeight(height_HighPlateaus);
 	       nileMountains = new BiomeGenNileMountains(141, false).setColor(6316128).setBiomeName("Nile Mountain").setHeight(height_MidHills).setTemperatureRainfall(0.2F, 0.3F);
 	       nileMountainsEdge = new BiomeGenNileMountains(142, true).setColor(7501978).setBiomeName("Nile Mountain Edge").setHeight(height_MidHills.attenuate()).setTemperatureRainfall(0.2F, 0.3F);
 	       nileMountainsPlus = new BiomeGenNileMountains(143, true).setColor(5271632).setBiomeName("Nile Mountain+").setHeight(height_MidHills).setTemperatureRainfall(0.2F, 0.3F);
@@ -137,9 +108,6 @@ public class ModBiomes
 	       BiomeManager.addSpawnBiome(nileJungleHills);
 	       BiomeManager.addSpawnBiome(nileJungleEdge);
 	       BiomeManager.addSpawnBiome(nileSwampland);
-	       BiomeManager.oceanBiomes.add(niliOcean);
-	       BiomeManager.oceanBiomes.add(niliFrozenOcean);
-	       BiomeManager.oceanBiomes.add(niliDeepOcean);
 	}
 	
 	public static void loadDarkBiomes(){    	    

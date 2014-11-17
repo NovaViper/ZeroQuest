@@ -94,17 +94,17 @@ public class GenLayerNileHills extends GenLayer
                     {
                         i2 = ModBiomes.blueColdTaigaHills.biomeID;
                     }
-                    /*else if (k1 == BiomeGenBase.plains.biomeID)
+                    else if (k1 == ModBiomes.redSeed.biomeID)
                     {
                         if (this.nextInt(3) == 0)
                         {
-                            i2 = BiomeGenBase.forestHills.biomeID;
+                            i2 = ModBiomes.bioZone.biomeID;
                         }
                         else
                         {
-                            i2 = BiomeGenBase.forest.biomeID;
+                            i2 = ModBiomes.walRockland.biomeID;
                         }
-                    }*/
+                    }
                     /*else if (k1 == BiomeGenBase.icePlains.biomeID)
                     {
                         i2 = BiomeGenBase.iceMountains.biomeID;
@@ -113,9 +113,9 @@ public class GenLayerNileHills extends GenLayer
                     {
                         i2 = ModBiomes.nileJungleHills.biomeID;
                     }
-                    else if (k1 == ModBiomes.niliOcean.biomeID)
+                    else if (k1 == BiomeGenBase.ocean.biomeID)
                     {
-                        i2 = ModBiomes.niliDeepOcean.biomeID;
+                        i2 = BiomeGenBase.deepOcean.biomeID;
                     }
                     else if (k1 == ModBiomes.nileMountains.biomeID)
                     {
@@ -129,7 +129,7 @@ public class GenLayerNileHills extends GenLayer
                     {
                         i2 = ModBiomes.nileMesa.biomeID;
                     }
-                    else if (k1 == ModBiomes.niliDeepOcean.biomeID && this.nextInt(3) == 0)
+                    else if (k1 == BiomeGenBase.deepOcean.biomeID && this.nextInt(3) == 0)
                     {
                         j2 = this.nextInt(2);
 

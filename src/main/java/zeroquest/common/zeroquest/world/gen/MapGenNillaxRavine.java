@@ -218,14 +218,14 @@ public class MapGenNillaxRavine extends MapGenBase
 
     protected boolean isOceanBlock(Block[] data, int index, int x, int y, int z, int chunkX, int chunkZ)
     {
-        return data[index] == ModLiquids.niliBlock;
+        return data[index] == Blocks.water;
     }
 
     //Exception biomes to make sure we generate like vanilla
     private boolean isExceptionBiome(BiomeGenBase biome)
     {
-        if (biome == ModBiomes.nileIsland) return true;
-        if (biome == ModBiomes.nileBeach) return true;
+        if (biome == BiomeGenBase.mushroomIsland) return true;
+        if (biome == BiomeGenBase.beach) return true;
         if (biome == ModBiomes.destroZone) return true;
         return false;
     }

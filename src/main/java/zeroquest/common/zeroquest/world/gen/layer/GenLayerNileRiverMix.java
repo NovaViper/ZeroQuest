@@ -6,13 +6,13 @@ import net.minecraft.world.gen.layer.IntCache;
 
 import common.zeroquest.ModBiomes;
 
-public class GenLayerNiliRiverMix extends GenLayer
+public class GenLayerNileRiverMix extends GenLayer
 {
     private GenLayer biomePatternGeneratorChain;
     private GenLayer riverPatternGeneratorChain;
     private static final String __OBFID = "CL_00000567";
 
-    public GenLayerNiliRiverMix(long p_i2129_1_, GenLayer p_i2129_3_, GenLayer p_i2129_4_)
+    public GenLayerNileRiverMix(long p_i2129_1_, GenLayer p_i2129_3_, GenLayer p_i2129_4_)
     {
         super(p_i2129_1_);
         this.biomePatternGeneratorChain = p_i2129_3_;
@@ -42,13 +42,13 @@ public class GenLayerNiliRiverMix extends GenLayer
 
         for (int i1 = 0; i1 < p_75904_3_ * p_75904_4_; ++i1)
         {
-            if (aint[i1] != ModBiomes.niliOcean.biomeID && aint[i1] != ModBiomes.niliDeepOcean.biomeID)
+            if (aint[i1] != BiomeGenBase.ocean.biomeID && aint[i1] != BiomeGenBase.deepOcean.biomeID)
             {
-                if (aint1[i1] == ModBiomes.niliRiver.biomeID)
+                if (aint1[i1] == BiomeGenBase.river.biomeID)
                 {
                     if (aint[i1] == ModBiomes.blueColdTaiga.biomeID)
                     {
-                        aint2[i1] = ModBiomes.niliFrozenRiver.biomeID;
+                        aint2[i1] = BiomeGenBase.frozenRiver.biomeID;
                     }
                     else if (aint[i1] != BiomeGenBase.mushroomIsland.biomeID && aint[i1] != BiomeGenBase.mushroomIslandShore.biomeID)
                     {

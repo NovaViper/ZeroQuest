@@ -6,4 +6,5 @@ public class Constants {
 	
 	   public static boolean DEF_DARKLOAD = false;
 	   public static boolean DEF_HEALING = false;
+	   public static boolean DEF_SNOWSTEP = true;
 }

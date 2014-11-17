@@ -1,14 +1,16 @@
 package common.zeroquest.entity;
 
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.ItemStack;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.world.World;
-
 import common.zeroquest.client.particle.ParticleEffects;
 import common.zeroquest.entity.ai.EntityAIFetchBone;
+import common.zeroquest.inventory.InventoryPack;
 
 
 public abstract class EntityCustomTameable extends EntityTameable
@@ -19,6 +21,7 @@ public abstract class EntityCustomTameable extends EntityTameable
     public int rare;
     /**Cooldown for Ranged Attack**/
 	protected int cooldown;
+    public InventoryPack inventory;
 
     public EntityCustomTameable(World p_i1604_1_)
     {
@@ -127,6 +130,27 @@ public abstract class EntityCustomTameable extends EntityTameable
     	}
     		return true;
     	}
+    
+    public void dropChestItems()
+    {
+        this.dropItemsInChest(this, this.inventory);
+    }
+    
+    private void dropItemsInChest(Entity par1Entity, InventoryPack inventory2)
+    {
+        if (inventory2 != null && !this.worldObj.isRemote)
+        {
+            for (int i = 0; i < inventory2.getSizeInventory(); ++i)
+            {
+                ItemStack itemstack = inventory2.getStackInSlot(i);
+
+                if (itemstack != null)
+                {
+                    this.entityDropItem(itemstack, 0.0F);
+                }
+            }
+        }
+    }
 
 /*=======================================================FOR ZERTUMS ONLY=======================================================*/
     public boolean didWolfFish() {

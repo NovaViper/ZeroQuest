@@ -42,7 +42,7 @@ import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.core.proxy.CommonProxy;
-import common.zeroquest.inventory.InventoryKortorPack;
+import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
@@ -58,7 +58,6 @@ public class EntityKortor extends EntityCustomTameable
     public int field_110279_bq;
     private String field_110286_bQ;
     private int openMouthCounter;
-    public InventoryKortorPack inventory;
     
     public static final double maxHealth = 25;
     public static final double attackDamage = 3;
@@ -95,7 +94,7 @@ public class EntityKortor extends EntityCustomTameable
         this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
         this.setTamed(false);
-        this.inventory = new InventoryKortorPack(this);
+        this.inventory = new InventoryPack(this);
     }
 
     protected void applyEntityAttributes()
@@ -545,27 +544,6 @@ public class EntityKortor extends EntityCustomTameable
             }
         }
     }
-    
-    public void dropChestItems()
-    {
-        this.dropItemsInChest(this, this.inventory);
-    }
-    
-    private void dropItemsInChest(Entity par1Entity, InventoryKortorPack inventory2)
-    {
-        if (inventory2 != null && !this.worldObj.isRemote)
-        {
-            for (int i = 0; i < inventory2.getSizeInventory(); ++i)
-            {
-                ItemStack itemstack = inventory2.getStackInSlot(i);
-
-                if (itemstack != null)
-                {
-                    this.entityDropItem(itemstack, 0.0F);
-                }
-            }
-        }
-    }
 
     /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
@@ -602,10 +580,18 @@ public class EntityKortor extends EntityCustomTameable
                 {
                 	this.setSaddled(true);
                 }
-                else if(itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer))
+                else if (this.riddenByEntity == null && this.getSaddled() && !this.isChild() && !ItemUtils.hasEquippedUsable(par1EntityPlayer)  && itemstack.getItem() != Items.spawn_egg && itemstack.getItem() != Items.stick && itemstack.getItem() != Items.dye && !this.isBreedingItem(itemstack))
                 {
-                 par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.KortorPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+                        par1EntityPlayer.mountEntity(this);
+                        this.aiSit.setSitting(false);
+                }
+                else if(itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer)) //TODO
+                {
+                	if(isServer()){
+                 par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+                 this.worldObj.playSoundEffect(this.posX, this.posY + 0.5D, this.posZ, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
                  return true;
+                	}
                 }
                 else if (itemstack.getItem() == Items.dye)
                 {

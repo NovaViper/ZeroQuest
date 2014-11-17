@@ -3,7 +3,7 @@ package common.zeroquest.client.gui;
 import org.lwjgl.opengl.GL11;
 
 import common.zeroquest.ZeroQuest;
-import common.zeroquest.entity.EntityZertum;
+import common.zeroquest.entity.EntityCustomTameable;
 import common.zeroquest.inventory.ContainerPack;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -17,16 +17,16 @@ public class GuiPack extends GuiContainer
 {
     private float xSize_wolf;
     private float ySize_wolf;
-    private EntityZertum dog;
+    private EntityCustomTameable entity;
     private boolean mouseWasDown;
     
     private static final ResourceLocation gui = new ResourceLocation(ZeroQuest.modid + ":" + "textures/gui/petInventory.png");
 
 
-    public GuiPack(InventoryPlayer inventoryplayer, EntityZertum entityzertum) {
-        super(new ContainerPack(inventoryplayer, entityzertum));
+    public GuiPack(InventoryPlayer inventoryplayer, EntityCustomTameable entityCustomTameable) {
+        super(new ContainerPack(inventoryplayer, entityCustomTameable));
         this.mouseWasDown = false;
-        this.dog = entityzertum;
+        this.entity = entityCustomTameable;
         this.allowUserInput = false;
         this.ySize = ySize + 60;
     }
@@ -34,7 +34,7 @@ public class GuiPack extends GuiContainer
 
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-    	String s = this.dog.inventory.hasCustomInventoryName() ? this.dog.inventory.getInventoryName() : StatCollector.translateToLocal(this.dog.inventory.getInventoryName());
+    	String s = this.entity.inventory.hasCustomInventoryName() ? this.entity.inventory.getInventoryName() : StatCollector.translateToLocal(this.entity.inventory.getInventoryName());
         this.fontRendererObj.drawString(s, this.xSize / 2 - 10, 14, 4210752);
         this.fontRendererObj.drawString(StatCollector.translateToLocal("Inventory"), 8, this.ySize - 155 + 2, 4210752);
     }
@@ -66,6 +66,6 @@ public class GuiPack extends GuiContainer
     }
 
 
-    GuiInventory.func_147046_a(l + 42, i1 + 51, 30, (float)(l + 51) - xSize_wolf, (float)((i1 + 75) - 50) - ySize_wolf, this.dog);
+    GuiInventory.func_147046_a(l + 42, i1 + 51, 30, (float)(l + 51) - xSize_wolf, (float)((i1 + 75) - 50) - ySize_wolf, this.entity);
     }
 }

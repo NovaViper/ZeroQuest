@@ -46,7 +46,7 @@ public class GenLayerNileShore extends GenLayer
                     j2 = aint[j1 + 1 - 1 + (i1 + 1) * (p_75904_3_ + 2)];
                     k2 = aint[j1 + 1 + (i1 + 1 + 1) * (p_75904_3_ + 2)];
 
-                    if (l1 != ModBiomes.niliOcean.biomeID && i2 != ModBiomes.niliOcean.biomeID && j2 != ModBiomes.niliOcean.biomeID && k2 != ModBiomes.niliOcean.biomeID)
+                    if (l1 != BiomeGenBase.ocean.biomeID && i2 != BiomeGenBase.ocean.biomeID && j2 != BiomeGenBase.ocean.biomeID && k2 != BiomeGenBase.ocean.biomeID)
                     {
                         aint1[j1 + i1 * p_75904_3_] = k1;
                     }
@@ -86,7 +86,7 @@ public class GenLayerNileShore extends GenLayer
                     }
                     else if (k1 != ModBiomes.nileMesa.biomeID && k1 != ModBiomes.nileMesaPlateau_F.biomeID)
                     {
-                        if (k1 != ModBiomes.niliOcean.biomeID && k1 != ModBiomes.niliDeepOcean.biomeID && k1 != ModBiomes.niliRiver.biomeID && k1 != ModBiomes.nileSwampland.biomeID)
+                        if (k1 != BiomeGenBase.ocean.biomeID && k1 != BiomeGenBase.deepOcean.biomeID && k1 != BiomeGenBase.river.biomeID && k1 != ModBiomes.nileSwampland.biomeID)
                         {
                             l1 = aint[j1 + 1 + (i1 + 1 - 1) * (p_75904_3_ + 2)];
                             i2 = aint[j1 + 1 + 1 + (i1 + 1) * (p_75904_3_ + 2)];

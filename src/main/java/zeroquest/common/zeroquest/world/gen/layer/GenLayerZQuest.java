@@ -75,7 +75,7 @@ public abstract class GenLayerZQuest extends GenLayer
         genlayerzoom = new GenLayerZoom(2003L, genlayerzoom);
         genlayeraddisland = new GenLayerAddIsland(4L, genlayerzoom);
         //GenLayerAddMushroomIsland genlayeraddmushroomisland = new GenLayerAddMushroomIsland(5L, genlayeraddisland);
-        GenLayerDeepNiliOcean genlayerdeepocean = new GenLayerDeepNiliOcean(4L, genlayeraddisland);
+        GenLayerDeepOcean genlayerdeepocean = new GenLayerDeepOcean(4L, genlayeraddisland);
         GenLayer genlayer2 = GenLayerZoom.magnify(1000L, genlayerdeepocean, 0);
         byte b0 = 4;
 
@@ -98,7 +98,7 @@ public abstract class GenLayerZQuest extends GenLayer
         GenLayerNileHills genlayerhills = new GenLayerNileHills(1000L, (GenLayer)object, genlayer1);
         genlayer = GenLayerZoom.magnify(1000L, genlayerriverinit, 2);
         genlayer = GenLayerZoom.magnify(1000L, genlayer, b0);
-        GenLayerNiliRiver genlayerriver = new GenLayerNiliRiver(1L, genlayer);
+        GenLayerRiver genlayerriver = new GenLayerRiver(1L, genlayer);
         GenLayerSmooth genlayersmooth = new GenLayerSmooth(1000L, genlayerriver);
         object = new GenLayerRareNileBiome(1001L, genlayerhills);
 
@@ -118,7 +118,7 @@ public abstract class GenLayerZQuest extends GenLayer
         }
 
         GenLayerSmooth genlayersmooth1 = new GenLayerSmooth(1000L, (GenLayer)object);
-        GenLayerNiliRiverMix genlayerrivermix = new GenLayerNiliRiverMix(100L, genlayersmooth1, genlayersmooth);
+        GenLayerNileRiverMix genlayerrivermix = new GenLayerNileRiverMix(100L, genlayersmooth1, genlayersmooth);
        // GenLayerVoronoiZoom genlayervoronoizoom = new GenLayerVoronoiZoom(10L, genlayerrivermix);
         genlayerrivermix.initWorldGenSeed(p_75901_0_);
         genlayervoronoizoom.initWorldGenSeed(p_75901_0_);

@@ -54,10 +54,6 @@ public class ModBlocks {
 	public static Block portalDarkax;
 	public static Block darkaxFire;
 	
-	public static Block nileLeaf;
-	public static Block nileLog;
-	public static Block nileSapling;
-	
 	public static void load() {
 		//Natural Blocks//
 		/*nileStone = new BlockNileStone().setBlockName("nileStone").setBlockTextureName(ZeroQuest.modid + ":" + "nileStone");
