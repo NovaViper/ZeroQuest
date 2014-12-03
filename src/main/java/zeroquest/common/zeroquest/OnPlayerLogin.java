@@ -22,7 +22,7 @@ public class OnPlayerLogin{
 	public OnPlayerLogin(String modVersion, String modName, boolean beta){
 		version = modVersion;
 		name = modName;
-		isBeta = beta; 
+		isBeta = beta;
 	}
 
 	@SubscribeEvent
@@ -42,12 +42,12 @@ public class OnPlayerLogin{
 						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + pairedString[0] + " " + version +  EnumChatFormatting.RESET + " is up to date"));
 						break;
 					}else if(isBeta == true){
-						player.addChatMessage(ChatHelper.getChatComponent("Welcome to " + EnumChatFormatting.GREEN  + pairedString[0] + EnumChatFormatting.RESET + "("+version+")" + " Beta!"));
+						player.addChatMessage(ChatHelper.getChatComponent("Welcome to " + EnumChatFormatting.GREEN  + pairedString[0] + EnumChatFormatting.RESET + "("+version+")" + " Beta for Minecraft "+EnumChatFormatting.GREEN+pairedString[2]+EnumChatFormatting.RESET+"!"));
 						player.addChatMessage(ChatHelper.getChatComponent("Thank you for beta testing!"));
 						break;						
 					}else{
-						player.addChatMessage(ChatHelper.getChatComponent("A new update: " + EnumChatFormatting.GREEN  + pairedString[0] + EnumChatFormatting.RESET + "("+pairedString[1]+")" + " is available for Minecraft 1.7.10!"));
-						player.addChatMessage(ChatHelper.getChatComponent("Download newest version at: http://minecraft.curseforge.com/mc-mods/221194-forge-zero-quest"));
+						player.addChatMessage(ChatHelper.getChatComponent("A new update: " + EnumChatFormatting.GREEN  + pairedString[0] + EnumChatFormatting.RESET + "("+pairedString[1]+")" + " is available for Minecraft "+EnumChatFormatting.GREEN+pairedString[2]+EnumChatFormatting.RESET+"!"));
+						player.addChatMessage(ChatHelper.getChatComponent("Download newest version at: http://minecraft.curseforge.com/mc-mods/221194"));
 						break;
 					}
 					

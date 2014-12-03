@@ -5,6 +5,7 @@ ZERO QUEST CHANGE LOG
 |- = Deletion    |
 |~ = Bug Fix     |
 |* = Enhancement |
+|^ = Important   |
 |================|
 
 Alpha 0.0.1
@@ -86,3 +87,8 @@ V1.2.5 - Someone's saying goodbye!
 *Altered the Nillax and Darkax Dimension
 *Inventory classes reduced for more memory!
 *Commands now ignore cases
+
+V1.2.8 - Beta: Stepping over for 1.8!
++Added version tag for update checking
+*Improved version checker
+^Beginning of conversion to Minecraft 1.8^
