@@ -6,7 +6,7 @@ import net.minecraft.inventory.IInventory;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-
+import net.minecraft.util.IChatComponent;
 import common.zeroquest.entity.EntityCustomTameable;
 
 public class InventoryPack implements IInventory {
@@ -81,7 +81,7 @@ this.inventorySlots[par1] = par2ItemStack;
 }
 
 @Override
-public String getInventoryName() {
+public String getName() {
 return "Pet Inventory";
 }
 
@@ -164,7 +164,7 @@ return succesful;
     }
     
     @Override
-public boolean hasCustomInventoryName() {
+public boolean hasCustomName() {
 return false;
 }
 
@@ -211,8 +211,37 @@ public void markDirty() {
 }
 
 @Override
-public void openInventory() {}
+public void openInventory(EntityPlayer playerIn) {}
 
 @Override
-public void closeInventory() {}
+public void closeInventory(EntityPlayer playerIn) {}
+
+@Override
+public IChatComponent getDisplayName() {
+
+	return null;
+}
+
+@Override
+public int getField(int id) {
+
+	return 0;
+}
+
+@Override
+public void setField(int id, int value) {
+	
+}
+
+@Override
+public int getFieldCount() {
+
+	return 0;
+}
+
+@Override
+public void clear() {
+	// TODO Auto-generated method stub
+	
+}
 }

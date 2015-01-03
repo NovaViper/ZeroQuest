@@ -1,21 +1,15 @@
 package common.zeroquest.world;
 
-import common.zeroquest.ModBiomes;
-import common.zeroquest.ZeroQuest;
-import common.zeroquest.world.gen.ChunkProviderDarkax;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
-import net.minecraft.util.ChunkCoordinates;
 import net.minecraft.util.MathHelper;
 import net.minecraft.util.Vec3;
 import net.minecraft.world.WorldProvider;
-import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.WorldChunkManagerHell;
 import net.minecraft.world.chunk.IChunkProvider;
-import net.minecraft.world.gen.ChunkProviderEnd;
-import net.minecraft.world.gen.ChunkProviderHell;
-import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+import common.zeroquest.ModBiomes;
+import common.zeroquest.ZeroQuest;
+import common.zeroquest.world.gen.ChunkProviderDarkax;
 
 public class WorldProviderDarkax extends WorldProvider
 {	
@@ -32,7 +26,7 @@ public class WorldProviderDarkax extends WorldProvider
 	@Override
 	public IChunkProvider createChunkGenerator()
 	{
-        return new ChunkProviderDarkax(this.worldObj, this.worldObj.getSeed(), true);
+        return new ChunkProviderDarkax(this.worldObj, this.worldObj.getSeed(), true, worldObj.getWorldInfo().getGeneratorOptions());
 	}
 
 	@Override
@@ -69,7 +63,7 @@ public class WorldProviderDarkax extends WorldProvider
         f3 *= f2 * 0.0F + 0.15F;
         f4 *= f2 * 0.0F + 0.15F;
         f5 *= f2 * 0.0F + 0.15F;
-        return Vec3.createVectorHelper((double)f3, (double)f4, (double)f5);
+        return new Vec3((double)f3, (double)f4, (double)f5);
     }
 
     @SideOnly(Side.CLIENT)
@@ -149,5 +143,11 @@ public class WorldProviderDarkax extends WorldProvider
 	public double getMovementFactor()
 	{
 		return 10.0;
+	}
+
+	@Override
+	public String getInternalNameSuffix() {
+		// TODO Auto-generated method stub
+		return "_darkax";
 	}
 }

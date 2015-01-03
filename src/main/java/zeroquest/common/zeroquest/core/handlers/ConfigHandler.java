@@ -7,13 +7,10 @@ import java.util.List;
 import net.minecraftforge.common.config.Configuration;
 import net.minecraftforge.common.config.Property;
 
-import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.Logger;
 
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.lib.Constants;
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 /**
 *
@@ -62,6 +59,14 @@ public class ConfigHandler {
    		   prop.setLanguageKey("gui.config.property.SnowStep");
    		   Constants.DEF_SNOWSTEP =  prop.getBoolean(Constants.DEF_SNOWSTEP);
            propOrder.add(prop.getName());
+           
+	   	   prop = config.get(CATEGORY_FUNCTION, "GrassStep", true);
+	   	   prop.comment = "Toggles the grass footprints of Foris Zertums";
+   		   prop.setLanguageKey("gui.config.property.GrassStep");
+   		   Constants.DEF_GRASSSTEP =  prop.getBoolean(Constants.DEF_GRASSSTEP);
+           propOrder.add(prop.getName());
+           
+   		   /*=================================Miscellaneous Configurations==========================================*/
 
     	   if(config.hasChanged()){
     		   config.save();

@@ -10,17 +10,16 @@ import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
-
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.ModBlocks;
-import common.zeroquest.ModLiquids;
 import common.zeroquest.entity.EntityForisZertum;
 import common.zeroquest.entity.EntityZertum;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BiomeGenNileSwamp extends BiomeGenBase
 {
@@ -48,43 +47,40 @@ public class BiomeGenNileSwamp extends BiomeGenBase
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySkeleton.class, 100, 4, 4));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySlime.class, 100, 4, 4));
         this.flowers.clear();
-        this.addFlower(Blocks.red_flower, 1, 10);
-        this.addFlower(ModBlocks.nilePinkFlower, 1, 20);
+        this.addFlower(Blocks.red_flower.getDefaultState(), 10);
+        this.addFlower(ModBlocks.nilePinkFlower.getDefaultState(), 20);
     }
 
-    public WorldGenAbstractTree func_150567_a(Random p_150567_1_)
+    public WorldGenAbstractTree genBigTreeChance(Random p_150567_1_)
     {
         return this.worldGeneratorSwamp;
     }
 
-    public String func_150572_a(Random p_150572_1_, int p_150572_2_, int p_150572_3_, int p_150572_4_)
+    public BlockFlower.EnumFlowerType pickRandomFlower(Random p_180623_1_, BlockPos p_180623_2_)
     {
-        return BlockFlower.field_149859_a[1];
+        return BlockFlower.EnumFlowerType.BLUE_ORCHID;
     }
-    
-    public void genTerrainBlocks(World p_150573_1_, Random p_150573_2_, Block[] p_150573_3_, byte[] p_150573_4_, int p_150573_5_, int p_150573_6_, double p_150573_7_)
+
+    public void genTerrainBlocks(World worldIn, Random p_180622_2_, ChunkPrimer p_180622_3_, int p_180622_4_, int p_180622_5_, double p_180622_6_)
     {
-        double d1 = plantNoise.func_151601_a((double)p_150573_5_ * 0.25D, (double)p_150573_6_ * 0.25D);
+        double d1 = field_180281_af.func_151601_a((double)p_180622_4_ * 0.25D, (double)p_180622_5_ * 0.25D);
 
         if (d1 > 0.0D)
         {
-            int k = p_150573_5_ & 15;
-            int l = p_150573_6_ & 15;
-            int i1 = p_150573_3_.length / 256;
+            int k = p_180622_4_ & 15;
+            int l = p_180622_5_ & 15;
 
-            for (int j1 = 255; j1 >= 0; --j1)
+            for (int i1 = 255; i1 >= 0; --i1)
             {
-                int k1 = (l * 16 + k) * i1 + j1;
-
-                if (p_150573_3_[k1] == null || p_150573_3_[k1].getMaterial() != Material.air)
+                if (p_180622_3_.getBlockState(l, i1, k).getBlock().getMaterial() != Material.air)
                 {
-                    if (j1 == 62 && p_150573_3_[k1] != Blocks.water)
+                    if (i1 == 62 && p_180622_3_.getBlockState(l, i1, k).getBlock() != Blocks.water)
                     {
-                        p_150573_3_[k1] = Blocks.water;
+                        p_180622_3_.setBlockState(l, i1, k, Blocks.water.getDefaultState());
 
                         if (d1 < 0.12D)
                         {
-                            p_150573_3_[k1 + 1] = Blocks.waterlily;
+                            p_180622_3_.setBlockState(l, i1 + 1, k, Blocks.waterlily.getDefaultState());
                         }
                     }
 
@@ -93,17 +89,20 @@ public class BiomeGenNileSwamp extends BiomeGenBase
             }
         }
 
-        this.genBiomeTerrain(p_150573_1_, p_150573_2_, p_150573_3_, p_150573_4_, p_150573_5_, p_150573_6_, p_150573_7_);
+        this.generateBiomeTerrain(worldIn, p_180622_2_, p_180622_3_, p_180622_4_, p_180622_5_, p_180622_6_);
     }
 
-    /**
-     * Provides the basic grass color based on the biome temperature and rainfall
-     */
     @SideOnly(Side.CLIENT)
-    public int getBiomeGrassColor(int p_150558_1_, int p_150558_2_, int p_150558_3_)
+    public int getGrassColorAtPos(BlockPos p_180627_1_)
     {
-        double d0 = plantNoise.func_151601_a((double)p_150558_1_ * 0.0225D, (double)p_150558_3_ * 0.0225D);
+        double d0 = field_180281_af.func_151601_a((double)p_180627_1_.getX() * 0.0225D, (double)p_180627_1_.getZ() * 0.0225D);
         return d0 < -0.1D ? 5011004 : 6975545;
+    }
+
+    @SideOnly(Side.CLIENT)
+    public int getFoliageColorAtPos(BlockPos p_180625_1_)
+    {
+        return 0x333300;
     }
 
     /**

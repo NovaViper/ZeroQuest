@@ -1,0 +1,7 @@
+{
+    "parent": "zero_quest:block/fire_nseu2",
+    "textures": {
+        "particle": "blocks/fire_layer_1",
+        "fire": "blocks/fire_layer_1"
+    }
+}

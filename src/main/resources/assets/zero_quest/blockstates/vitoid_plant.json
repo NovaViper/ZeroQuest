@@ -1,0 +1,12 @@
+{
+    "variants": {
+        "age=0": { "model": "zero_quest:vitoid_plant_stage_0" },
+        "age=1": { "model": "zero_quest:vitoid_plant_stage_1" },
+        "age=2": { "model": "zero_quest:vitoid_plant_stage_2" },
+        "age=3": { "model": "zero_quest:vitoid_plant_stage_3" },
+        "age=4": { "model": "zero_quest:vitoid_plant_stage_4" },
+        "age=5": { "model": "zero_quest:vitoid_plant_stage_5" },
+        "age=6": { "model": "zero_quest:vitoid_plant_stage_6" },
+        "age=7": { "model": "zero_quest:vitoid_plant_stage_7" }
+    }
+}

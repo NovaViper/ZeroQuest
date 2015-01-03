@@ -4,19 +4,17 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
-
+import net.minecraftforge.fml.common.network.IGuiHandler;
 import common.zeroquest.ModItems;
 import common.zeroquest.client.gui.GuiPack;
-import common.zeroquest.client.gui.NileTableGui;
 import common.zeroquest.entity.EntityCustomTameable;
-import common.zeroquest.inventory.ContainerNileTable;
+import common.zeroquest.inventory.ContainerNileWorkbench;
 import common.zeroquest.inventory.ContainerPack;
-import common.zeroquest.tileentity.TileEntityNileTable;
 
-import cpw.mods.fml.common.network.IGuiHandler;
 
 public class CommonProxy implements IGuiHandler{
 	
@@ -26,16 +24,7 @@ public class CommonProxy implements IGuiHandler{
 
 	@Override
 	public Object getServerGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) {
-		 if(ID == NileTable) {
-			TileEntity target = world.getTileEntity(x, y, z);
-			if(!(target instanceof TileEntityNileTable)) 
-				return null;
-
-			TileEntityNileTable tileNileTable = (TileEntityNileTable)target;
-			ContainerNileTable tableContainer = new ContainerNileTable(tileNileTable, player.inventory, world, x, y, z);
-			return tableContainer;
-		}
-		 else if(ID == PetPack) {
+		if(ID == PetPack) {
 			Entity target = player.worldObj.getEntityByID(x);
             if(!(target instanceof EntityCustomTameable)) {
             	return null;
@@ -50,16 +39,7 @@ public class CommonProxy implements IGuiHandler{
 
 	@Override
 	public Object getClientGuiElement(int ID, EntityPlayer player, World world, int x, int y, int z) { 
-		if(ID == NileTable) {
-			TileEntity target = world.getTileEntity(x, y, z);
-			if(!(target instanceof TileEntityNileTable)) 
-				return null;
-
-			TileEntityNileTable tileNileTable = (TileEntityNileTable)target;
-			NileTableGui tableGui = new NileTableGui(player.inventory, tileNileTable, world, x, y, z);
-			return tableGui;
-		}
-		else if(ID == PetPack) {
+		if(ID == PetPack) {
 					Entity target = player.worldObj.getEntityByID(x);
 		           if(!(target instanceof EntityCustomTameable)) {
 		           	return null;
@@ -90,6 +70,10 @@ public class CommonProxy implements IGuiHandler{
         chestGenHooksDesertChest.addItem(new WeightedRandomChestContent(new ItemStack(ModItems.nileEssence), 1, 1, 10));
         // chance == iron ingot (10/76, ca. 13%, in 2-5 slots -> 39% at least 1 egg, 0.46 eggs per chest, 1.8 eggs per temple):
         // desert temples are so rare, it should be rewarded
+        
+        ChestGenHooks chestGenHooksBonusChest = ChestGenHooks.getInfo(ChestGenHooks.BONUS_CHEST);
+        chestGenHooksBonusChest.addItem(new WeightedRandomChestContent(new ItemStack(ModItems.nileEssence), 1, 1, 10));
+        chestGenHooksBonusChest.addItem(new WeightedRandomChestContent(new ItemStack(ModItems.nileGrain), 1, 2, 10));
     }
 	
 	public void registerRenderThings() {

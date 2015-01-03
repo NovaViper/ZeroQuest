@@ -4,11 +4,9 @@ import java.util.Random;
 
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ZeroQuest;
-import common.zeroquest.client.particle.ParticleEffects;
 import common.zeroquest.dimension.TeleporterDarkax;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPortal;
-import net.minecraft.client.renderer.texture.IIconRegister;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;

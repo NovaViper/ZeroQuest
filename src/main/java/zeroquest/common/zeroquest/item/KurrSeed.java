@@ -9,11 +9,10 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import common.zeroquest.ZeroQuest;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class KurrSeed extends ItemFood{
 
@@ -32,7 +31,7 @@ public class KurrSeed extends ItemFood{
     @Override
     @SideOnly(Side.CLIENT)
     public EnumRarity getRarity(ItemStack par1ItemStack){
-    	return EnumRarity.uncommon;
+    	return EnumRarity.UNCOMMON;
     }
     
 	@Override

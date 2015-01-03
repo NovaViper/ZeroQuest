@@ -1,10 +1,9 @@
 package common.zeroquest;
 
-import net.minecraft.block.Block;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 
 public class ZeroQuestCrafting 
 {
@@ -26,7 +25,7 @@ public class ZeroQuestCrafting
 			" Z ",
 			" Z ",
 			'X', new ItemStack(ModItems.nileEssence), 'Z', Items.stick });
-		addRecipe(new ItemStack(ModItems.nileShovel), new Object[]{
+		addRecipe(new ItemStack(ModItems.nileSpade), new Object[]{
 			" X ",
 			" Z ",
 			" Z ",
@@ -59,28 +58,6 @@ public class ZeroQuestCrafting
 			" Z ",
 			"X  ",
 			'X', new ItemStack(ModItems.nileDust), 'Z', Items.bone });
-		
-		//Armor//
-		/*addRecipe(new ItemStack(ModItems.nileHelmet), new Object[]{
-			"   ",
-			"XXX",
-			"X X",
-			'X', new ItemStack(ModItems.nileEssence) });
-		addRecipe(new ItemStack(ModItems.nileChest), new Object[]{
-			"X X",
-			"XXX",
-			"XXX",
-			'X', new ItemStack(ModItems.nileEssence) });
-		addRecipe(new ItemStack(ModItems.nileLegs), new Object[]{
-			"XXX",
-			"X X",
-			"X X",
-			'X', new ItemStack(ModItems.nileEssence) });
-		addRecipe(new ItemStack(ModItems.nileBoots), new Object[]{
-			"   ",
-			"X X",
-			"X X",
-			'X', new ItemStack(ModItems.nileEssence) });*/
 		addRecipe(new ItemStack(ModBlocks.nileWorktable), new Object[]{
 			"   ",
 			"XX ",
@@ -96,11 +73,6 @@ public class ZeroQuestCrafting
 			" Z ",
 			"X  ",
 			'Z', ModItems.nileGrain, 'X', new ItemStack(Items.wheat_seeds) });
-		/*addRecipe(new ItemStack(ModItems.animalCage, 1), new Object[]{
-			" Y ",
-			"YXY",
-			" Y ",
-			'X', Item.egg, 'Y', ModItems.nileDust});*/
 		addRecipe(new ItemStack(ModItems.dogTreat), new Object[]{
 			" X ",
 			"XZX",
@@ -131,21 +103,11 @@ public class ZeroQuestCrafting
 			"XZX",
 			" X ",
 			'Z', new ItemStack(Items.bone), 'X', new ItemStack(Items.rotten_flesh) });
-		addRecipe(new ItemStack(ModItems.toy), new Object[]{
-			" X ",
-			"XZX",
-			" X ",
-			'Z', new ItemStack(Items.leather), 'X', Items.slime_ball });
 		
 		addShapelessRecipe(new ItemStack(Items.dye, 4, 15), ModItems.nileBone);
 		addShapelessRecipe(new ItemStack(ModItems.nileGrenade), ModItems.nileGrain, Items.gunpowder);		
 		addShapelessRecipe(new ItemStack(ModItems.nileSpark), ModItems.nileDust, Items.fire_charge);
 		addShapelessRecipe(new ItemStack(ModItems.nileSpark), ModItems.nileDust, Items.flint_and_steel);
-		
-		//Smelting// //TODO
-		/*addSmelting(new ItemStack(Items.water_bucket), new ItemStack(ModLiquids.niliBucket), 1.0F);
-		addSmelting(new ItemStack(Items.lava_bucket), new ItemStack(ModLiquids.acidBucket), 1.0F);*/	
-
 	}
 	
 	public static void loadDarkRecipes() 
@@ -198,7 +160,7 @@ public class ZeroQuestCrafting
 			"   ",
 			"XX ",
 			"ZX ",
-			'X', new ItemStack(ModItems.darkDust), 'Z', Blocks.crafting_table });
+			'X', new ItemStack(ModItems.darkGrain), 'Z', Blocks.crafting_table });
 		addRecipe(new ItemStack(ModItems.darkNileBone), new Object[]{
 			"  X",
 			" Z ",
@@ -209,11 +171,6 @@ public class ZeroQuestCrafting
 			"XZX",
 			"XXX",
 			'X', new ItemStack(ModItems.darkEssence), 'Z', Blocks.obsidian });
-		/*addRecipe(new ItemStack(ModItems.animalCage, 1), new Object[]{
-			" Y ",
-			"YXY",
-			" Y ",
-			'X', Item.egg, 'Y', ModItems.darkDust });*/
 		
 		addShapelessRecipe(new ItemStack(Items.dye, 4, 15), ModItems.darkNileBone);
 		addShapelessRecipe(new ItemStack(ModItems.nileGrenade), ModItems.darkGrain, Items.gunpowder);

@@ -2,7 +2,6 @@ package common.zeroquest.block.portal;
 
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ZeroQuest;
-import common.zeroquest.dimension.TeleporterNillax;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPortal;
 import net.minecraft.entity.Entity;
@@ -10,7 +9,7 @@ import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 
 public class BlockPortalNillax extends BlockPortal{
 

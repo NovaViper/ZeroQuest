@@ -1,22 +1,10 @@
 package common.zeroquest.world;
 
-import static net.minecraft.world.biome.BiomeGenBase.forest;
-import static net.minecraft.world.biome.BiomeGenBase.forestHills;
-import static net.minecraft.world.biome.BiomeGenBase.jungle;
-import static net.minecraft.world.biome.BiomeGenBase.jungleHills;
-import static net.minecraft.world.biome.BiomeGenBase.plains;
-import static net.minecraft.world.biome.BiomeGenBase.taiga;
-import static net.minecraft.world.biome.BiomeGenBase.taigaHills;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
-import common.zeroquest.ModBiomes;
-import common.zeroquest.lib.Constants;
-import common.zeroquest.world.gen.layer.GenLayerZQuest;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.world.ChunkPosition;
+
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldType;
 import net.minecraft.world.biome.BiomeCache;
@@ -24,6 +12,11 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.WorldChunkManager;
 import net.minecraft.world.gen.layer.GenLayer;
 import net.minecraft.world.gen.layer.IntCache;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
+import common.zeroquest.ModBiomes;
+import common.zeroquest.world.gen.layer.GenLayerZQuest;
 
 public class WorldChunkMangerNillax extends WorldChunkManager
 {
@@ -49,27 +42,25 @@ public class WorldChunkMangerNillax extends WorldChunkManager
 	}
 	public WorldChunkMangerNillax(World world)
 	{
-		this(world.getSeed(), world.provider.terrainType);
+		this(world.getSeed(), world.getWorldInfo().getTerrainType());
 	}
 	/**
 	 * Gets the list of valid biomes for the player to spawn in.
 	 */
-	public List getBiomesToSpawnIn()
-	{
-		return this.myBiomesToSpawnIn;
-	}
-	/**
-	 * Returns the BiomeGenBase related to the x, z position on the world.
-	 */
-	public BiomeGenBase getBiomeGenAt(int x, int z)
-	{
-		BiomeGenBase biome = this.myBiomeCache.getBiomeGenAt(x, z);
-		if (biome == null)
-		{
-			return ModBiomes.bioZone;
-		}
-		return biome;
-	}
+    public List getBiomesToSpawnIn()
+    {
+        return this.myBiomesToSpawnIn;
+    }
+
+    public BiomeGenBase getBiomeGenerator(BlockPos p_180631_1_)
+    {
+        return this.func_180300_a(p_180631_1_, (BiomeGenBase)null);
+    }
+
+    public BiomeGenBase func_180300_a(BlockPos p_180300_1_, BiomeGenBase p_180300_2_)
+    {
+        return this.myBiomeCache.func_180284_a(p_180300_1_.getX(), p_180300_1_.getZ(), p_180300_2_);
+    }
 
 	/**
 	 * Returns a list of rainfall values for the specified blocks. Args:
@@ -179,34 +170,35 @@ public class WorldChunkMangerNillax extends WorldChunkManager
 		}
 		return true;
 	}
-	
-	/**
-	 * Finds a valid position within a range, that is in one of the listed
-	 * biomes. Searches {par1,par2} +-par3 blocks. Strongly favors positive y
-	 * positions.
-	 */
-	public ChunkPosition findBiomePosition(int par1, int par2, int par3, List par4List, Random par5Random) {
-		IntCache.resetIntCache();
-		int l = par1 - par3 >> 2;
-		int i1 = par2 - par3 >> 2;
-		int j1 = par1 + par3 >> 2;
-		int k1 = par2 + par3 >> 2;
-		int l1 = j1 - l + 1;
-		int i2 = k1 - i1 + 1;
-		int[] aint = this.myGenBiomes.getInts(l, i1, l1, i2);
-		ChunkPosition chunkposition = null;
-		int j2 = 0;
-		for (int k2 = 0; k2 < l1 * i2; ++k2) {
-			int l2 = l + k2 % l1 << 2;
-			int i3 = i1 + k2 / l1 << 2;
-			BiomeGenBase biomegenbase = BiomeGenBase.getBiome(aint[k2]);
-			if (par4List.contains(biomegenbase) && (chunkposition == null || par5Random.nextInt(j2 + 1) == 0)) {
-				chunkposition = new ChunkPosition(l2, 0, i3);
-				++j2;
-			}
-		}
-		return chunkposition;
-	}
+
+    public BlockPos findBiomePosition(int x, int z, int range, List biomes, Random random)
+    {
+        IntCache.resetIntCache();
+        int l = x - range >> 2;
+        int i1 = z - range >> 2;
+        int j1 = x + range >> 2;
+        int k1 = z + range >> 2;
+        int l1 = j1 - l + 1;
+        int i2 = k1 - i1 + 1;
+        int[] aint = this.myGenBiomes.getInts(l, i1, l1, i2);
+        BlockPos blockpos = null;
+        int j2 = 0;
+
+        for (int k2 = 0; k2 < l1 * i2; ++k2)
+        {
+            int l2 = l + k2 % l1 << 2;
+            int i3 = i1 + k2 / l1 << 2;
+            BiomeGenBase biomegenbase = BiomeGenBase.getBiome(aint[k2]);
+
+            if (biomes.contains(biomegenbase) && (blockpos == null || random.nextInt(j2 + 1) == 0))
+            {
+                blockpos = new BlockPos(l2, 0, i3);
+                ++j2;
+            }
+        }
+
+        return blockpos;
+    }
 	
 	/**
 	 * Calls the WorldChunkManager's biomeCache.cleanupCache()

@@ -18,6 +18,8 @@ gui.config.property.Healing=Healing
 gui.config.property.Healing.tooltip=Toggles the Healing ability of ALL Zero Quest tameable creatures
 gui.config.property.SnowStep=Snow Footprints
 gui.config.property.SnowStep.tooltip=Toggles the snow/ice footprints of Ice Zertums
+gui.config.property.GrassStep=Grass Footprints
+gui.config.property.GrassStep.tooltip=Toggles the grass footprints of Foris Zertums
 
 tile.nileBlueFlower.name=Nile Blue Flower
 tile.nileBlackFlower.name=Nile Black Flower
@@ -117,6 +119,19 @@ entity.zero_quest.FPoisonball.name= Flaming Poisonball
 entity.zero_quest.nileGrenade.name=Nile Grenade
 entity.zero_quest.Iceball.name=Iceball
 
+zero_quest.Zertum.name=Zertum
+zero_quest.RedZertum.name=Red Zertum
+zero_quest.DarkZertum.name=Dark Zertum
+zero_quest.DestroZertum.name=Destro Zertum
+zero_quest.IceZertum.name=Ice Zertum
+zero_quest.ForisZertum.name=Foris Zertum
+zero_quest.Jakan.name=Jakan
+zero_quest.Kurr.name=Kurr
+zero_quest.Kortor.name=Kortor
+zero_quest.FPoisonball.name= Flaming Poisonball
+zero_quest.nileGrenade.name=Nile Grenade
+zero_quest.Iceball.name=Iceball
+
 achievement.NileStart=Start Zero Quest!
 achievement.NileStart.desc=Gather nile grains, dust, or essence
 achievement.TraveltoNillax=Another Overworld?
@@ -137,8 +152,8 @@ achievement.MountUp.desc=Mount on a Jakan
 achievement.TraveltoDarkax=Flipped Dimensions
 achievement.TraveltoDarkax.desc=Build a portal to the Darkax dimension
 achievement.DragonSlayer=The Dragon Slayer
-achievement.DragonSlayer.desc=Kill a Kurr
-achievement.DarkStart=Dark Quest
+achievement.DragonSlayer.desc=Slay a Kurr
+achievement.DarkStart=Start Dark Quest!
 achievement.DarkStart.desc=Gather dark grains, dust, or essence
 
 achievementpage.ZeroQuestPage=Zero Quest

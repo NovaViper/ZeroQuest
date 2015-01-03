@@ -7,8 +7,6 @@ import common.zeroquest.ZeroQuest;
 import net.minecraft.client.Minecraft;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class ItemDust extends Item
 {

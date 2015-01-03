@@ -1,29 +1,23 @@
 package common.zeroquest.biome;
 
-import java.util.Random;
-
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.init.Blocks;
-import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import common.zeroquest.ModBlocks;
-import common.zeroquest.ModLiquids;
 import common.zeroquest.entity.EntityJakan;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BiomeGenWalRockland extends BiomeGenBase
 {
     public BiomeGenWalRockland(int par1)
     {
         super(par1);
-        this.topBlock = ModBlocks.looseBedrock;
-        this.fillerBlock = Blocks.coal_block;
+        this.topBlock = ModBlocks.looseBedrock.getDefaultState();
+        this.fillerBlock = Blocks.coal_block.getDefaultState();
         this.spawnableMonsterList.clear();
         this.spawnableWaterCreatureList.clear();
         this.spawnableCaveCreatureList.clear();

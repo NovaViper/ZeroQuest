@@ -1,0 +1,49 @@
+{
+    "textures": {
+        "TablePart": "zero_quest:blocks/nileTable/part",
+        "TableTop": "zero_quest:blocks/nileTable/top",
+        "TableSide": "zero_quest:blocks/nileTable/side",
+        "particle": "zero_quest:blocks/nileTable/particle"
+    },
+    "elements": [
+        {
+            "from": [ 0, 0, 0 ],
+            "to": [ 16, 3, 16 ],
+            "__comment": "Base",
+            "faces": {
+                "north": { "uv": [ 0, 0, 16, 16 ], "texture": "#TablePart"},
+                "south": { "uv": [ 0, 0, 16, 16 ], "texture": "#TablePart"},
+                "east": { "uv": [ 0, 0, 16, 16 ], "texture": "#TablePart"},
+                "west": { "uv": [ 0, 0, 16, 16 ], "texture": "#TablePart"},
+                "up": { "uv": [ 0, 0, 16, 16 ], "texture": "#TablePart"},
+                "down": { "uv": [ 0, 0, 16, 16 ], "texture": "#TablePart"}
+            }
+        },
+        {
+            "from": [ 2, 3, 2 ],
+            "to": [ 14, 10, 14 ],
+            "__comment": "Pole",
+            "faces": {
+                "north": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"},
+                "south": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"},
+                "east": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"},
+                "west": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"},
+                "up": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"},
+                "down": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"}
+            }
+        },
+        {
+            "from": [ 0, 9, 0 ],
+            "to": [ 16, 15, 16 ],
+            "__comment": "Top",
+            "faces": {
+                "north": { "uv": [ 0, 0, 0, 0 ], "texture": "#TableSide"},
+                "south": { "uv": [ 0, 0, 0, 0 ], "texture": "#TableSide"},
+                "east": { "uv": [ 0, 0, 0, 0 ], "texture": "#TableSide"},
+                "west": { "uv": [ 0, 0, 0, 0 ], "texture": "#TableSide"},
+                "up": { "uv": [ 0, 0, 0, 0 ], "texture": "#TableTop"},
+                "down": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"}
+            }
+        }
+    ]
+}

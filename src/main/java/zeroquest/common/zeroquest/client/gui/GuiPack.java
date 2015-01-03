@@ -34,7 +34,7 @@ public class GuiPack extends GuiContainer
 
     @Override
     protected void drawGuiContainerForegroundLayer(int par1, int par2) {
-    	String s = this.entity.inventory.hasCustomInventoryName() ? this.entity.inventory.getInventoryName() : StatCollector.translateToLocal(this.entity.inventory.getInventoryName());
+    	String s = this.entity.inventory.hasCustomName() ? this.entity.inventory.getName() : StatCollector.translateToLocal(this.entity.inventory.getName());
         this.fontRendererObj.drawString(s, this.xSize / 2 - 10, 14, 4210752);
         this.fontRendererObj.drawString(StatCollector.translateToLocal("Inventory"), 8, this.ySize - 155 + 2, 4210752);
     }
@@ -66,6 +66,6 @@ public class GuiPack extends GuiContainer
     }
 
 
-    GuiInventory.func_147046_a(l + 42, i1 + 51, 30, (float)(l + 51) - xSize_wolf, (float)((i1 + 75) - 50) - ySize_wolf, this.entity);
+    GuiInventory.drawEntityOnScreen(l + 42, i1 + 51, 30, (float)(l + 51) - xSize_wolf, (float)((i1 + 75) - 50) - ySize_wolf, this.entity);
     }
 }

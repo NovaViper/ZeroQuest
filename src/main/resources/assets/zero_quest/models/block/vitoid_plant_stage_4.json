@@ -1,0 +1,6 @@
+{
+    "parent": "block/crop",
+    "textures": {
+        "crop": "zero_quest:blocks/vitoidPlant_stage_4"
+    }
+}

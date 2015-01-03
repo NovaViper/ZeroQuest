@@ -1,9 +1,8 @@
 package common.zeroquest.core.handlers;
 
-import common.zeroquest.ModItems;
-
 import net.minecraft.item.ItemStack;
-import cpw.mods.fml.common.IFuelHandler;
+import net.minecraftforge.fml.common.IFuelHandler;
+import common.zeroquest.ModItems;
 
 public class FuelHandler implements IFuelHandler {
 

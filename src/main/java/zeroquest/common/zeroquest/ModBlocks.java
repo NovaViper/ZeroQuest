@@ -2,12 +2,13 @@ package common.zeroquest;
 
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockSlab;
+import net.minecraft.block.BlockFire;
 import net.minecraft.block.material.Material;
-import net.minecraft.init.Blocks;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.Fluid;
-import net.minecraftforge.fluids.FluidRegistry;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.item.Item;
+import net.minecraftforge.fml.common.registry.GameRegistry;
 import common.zeroquest.block.BlockBedRock;
 import common.zeroquest.block.BlockDarkGrainOre;
 import common.zeroquest.block.BlockDrestroFlower;
@@ -16,24 +17,15 @@ import common.zeroquest.block.BlockNileBFlower;
 import common.zeroquest.block.BlockNileCoalOre;
 import common.zeroquest.block.BlockNileGrainOre;
 import common.zeroquest.block.BlockNilePinkFlower;
-import common.zeroquest.block.BlockNileTable;
+import common.zeroquest.block.BlockNileWorkbench;
 import common.zeroquest.block.BlockVitoid;
-import common.zeroquest.block.fluid.BlockFluidAcid;
-import common.zeroquest.block.fluid.BlockFluidNili;
 import common.zeroquest.block.portal.BlockDarkaxFire;
 import common.zeroquest.block.portal.BlockNileFire;
 import common.zeroquest.block.portal.BlockNilePortalStone;
-import common.zeroquest.block.portal.BlockPortalNillax;
 import common.zeroquest.block.portal.BlockPortalDarkax;
-import common.zeroquest.events.BucketHandler;
-import common.zeroquest.fluid.AcidFluid;
-import common.zeroquest.fluid.NiliFluid;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.LanguageRegistry;
+import common.zeroquest.block.portal.BlockPortalNillax;
 
 public class ModBlocks {
-	//public static Block nileStone;
-	//public static Block nileCobblestone;
 	public static Block looseBedrock;
 	public static Block nileCoalOre;
 	public static Block nileGrainOre;
@@ -56,55 +48,63 @@ public class ModBlocks {
 	
 	public static void load() {
 		//Natural Blocks//
-		/*nileStone = new BlockNileStone().setBlockName("nileStone").setBlockTextureName(ZeroQuest.modid + ":" + "nileStone");
-		register(nileStone, "nile_ stone");
-		nileCobblestone = new BlockNileCobblestone(Material.rock).setBlockName("nileCobblestone").setBlockTextureName(ZeroQuest.modid + ":" + "nileCobblestone");
-		register(nileCobblestone, "nile_cobblestone");*/
-		looseBedrock = new BlockBedRock().setBlockName("looseBedrock").setBlockTextureName(ZeroQuest.modid + ":" + "looseBedrock");
+		looseBedrock = new BlockBedRock().setUnlocalizedName("looseBedrock");
 		register(looseBedrock, "bedrock_loose");
+    	registerRender(looseBedrock, 0, ZeroQuest.modid + ":" + "bedrock_loose", "inventory");	
 		
 		//Basic Blocks//
-		nileWorktable = new BlockNileTable().setBlockName("nileWorktable").setBlockTextureName(ZeroQuest.modid + ":" + "nileWorktable");
+		nileWorktable = new BlockNileWorkbench().setUnlocalizedName("nileWorktable");
 		register(nileWorktable, "crafting_table_nile");
+    	registerRender(nileWorktable, 0, ZeroQuest.modid + ":" + "crafting_table_nile", "inventory");
 
 		//Flowers/Plants//
-		nileBlueFlower = new BlockNileBFlower().setBlockName("nileBlueFlower").setBlockTextureName(ZeroQuest.modid + ":" + "nileBlueFlower");
+		nileBlueFlower = new BlockNileBFlower().setUnlocalizedName("nileBlueFlower");
 		register(nileBlueFlower, "nile_flower_blue");
-		nileBlackFlower = new BlockNileB2Flower().setBlockName("nileBlackFlower").setBlockTextureName(ZeroQuest.modid + ":" + "nileBlackFlower");
+    	registerRender(nileBlueFlower, 0, ZeroQuest.modid + ":" + "nile_flower_blue", "inventory");	
+		nileBlackFlower = new BlockNileB2Flower().setUnlocalizedName("nileBlackFlower");
 		register(nileBlackFlower, "nile_flower_black");
-		nilePinkFlower = new BlockNilePinkFlower().setBlockName("nilePinkFlower").setBlockTextureName(ZeroQuest.modid + ":" + "nilePinkFlower");
+    	registerRender(nileBlackFlower, 0, ZeroQuest.modid + ":" + "nile_flower_black", "inventory");	
+		nilePinkFlower = new BlockNilePinkFlower().setUnlocalizedName("nilePinkFlower");
 		register(nilePinkFlower, "nile_flower_pink");
-		destroFlower = new BlockDrestroFlower().setBlockName("nileDestroFlower").setBlockTextureName(ZeroQuest.modid + ":" + "destroFlower");
+    	registerRender(nilePinkFlower, 0, ZeroQuest.modid + ":" + "nile_flower_pink", "inventory");	
+		destroFlower = new BlockDrestroFlower().setUnlocalizedName("nileDestroFlower");
 		register(destroFlower, "nile_flower_destro");
-		vitoidPlant = new BlockVitoid().setBlockName("vitoidPlant").setBlockTextureName(ZeroQuest.modid + ":" + "vitoidPlant");
+    	registerRender(destroFlower, 0, ZeroQuest.modid + ":" + "nile_flower_destro", "inventory");	
+		vitoidPlant = new BlockVitoid().setUnlocalizedName("vitoidPlant");
 		register(vitoidPlant, "vitoid_plant");
-
+    	registerRender(vitoidPlant, 0, ZeroQuest.modid + ":" + "vitoid_plant", "inventory");
+    	
 		//Ores//
-		nileCoalOre = new BlockNileCoalOre(Material.rock).setBlockName("nileCoalOre").setBlockTextureName(ZeroQuest.modid + ":" + "nileCoalOre");
+		nileCoalOre = new BlockNileCoalOre(Material.rock).setUnlocalizedName("nileCoalOre");
 		register(nileCoalOre, "nile_coal_ore");
-		nileGrainOre = new BlockNileGrainOre(Material.rock).setBlockName("nileGrainOre").setBlockTextureName(ZeroQuest.modid + ":" + "nileGrainOre");
+    	registerRender(nileCoalOre, 0, ZeroQuest.modid + ":" + "nile_coal_ore", "inventory");
+    	nileGrainOre = new BlockNileGrainOre(Material.rock).setUnlocalizedName("nileGrainOre");
 		register(nileGrainOre, "nile_grain_Ore");
+    	registerRender(nileGrainOre, 0, ZeroQuest.modid + ":" + "nile_grain_Ore", "inventory");	
 		
 		//Portal Parts//
-		nillaxStone = new BlockNilePortalStone(Material.rock).setBlockName("nillaxStone").setBlockTextureName(ZeroQuest.modid + ":" + "nillaxStone").setCreativeTab(ZeroQuest.ZeroTab);
+		nillaxStone = new BlockNilePortalStone(Material.rock).setUnlocalizedName("nillaxStone").setCreativeTab(ZeroQuest.ZeroTab);
 		register(nillaxStone, "nillax_stone");
-		portalNillax = new BlockPortalNillax().setBlockName("portalNillax");
+    	registerRender(nillaxStone, 0, ZeroQuest.modid + ":" + "nillax_stone", "inventory");	
+		portalNillax = new BlockPortalNillax().setUnlocalizedName("portalNillax");
 		register(portalNillax, "portal_nillax");
-		nileFire = new BlockNileFire().setBlockName("nileFire").setBlockTextureName(ZeroQuest.modid + ":" + "nileFire");
+		nileFire = new BlockNileFire().setUnlocalizedName("nileFire");
 		register(nileFire, "nile_fire");
 		}
 	   
 	   public static void loadDarkBlocks(){
 		   
-		    darkaxStone = new BlockNilePortalStone(Material.rock).setBlockName("darkaxStone").setBlockTextureName(ZeroQuest.modid + ":" + "darkaxStone").setCreativeTab(ZeroQuest.DarkTab);
+		    darkaxStone = new BlockNilePortalStone(Material.rock).setUnlocalizedName("darkaxStone").setCreativeTab(ZeroQuest.DarkTab);
 		    register(darkaxStone, "darkax_stone");
-	    	portalDarkax = new BlockPortalDarkax().setBlockName("portalDarkax");
+	    	registerRender(darkaxStone, 0, ZeroQuest.modid + ":" + "darkax_stone", "inventory");	
+	    	/*portalDarkax = new BlockPortalDarkax().setUnlocalizedName("portalDarkax");
 	    	register(portalDarkax, "portal_darkax");
-	    	darkaxFire = new BlockDarkaxFire().setBlockName("darkaxFire").setBlockTextureName(ZeroQuest.modid + ":" + "darkaxFire");
+	        registerRender(portalDarkax, 0, ZeroQuest.modid + ":" + "portal_darkax", "inventory");*/	
+	    	darkaxFire = new BlockDarkaxFire().setUnlocalizedName("darkaxFire");
 	    	register(darkaxFire, "darkax_fire");
-		   
-		   darkGrainOre = new BlockDarkGrainOre(Material.rock).setBlockName("darkGrainOre").setBlockTextureName(ZeroQuest.modid + ":" + "darkGrainOre");
-		   register(darkGrainOre, "dark_grain_ore");     	
+		   darkGrainOre = new BlockDarkGrainOre(Material.rock).setUnlocalizedName("darkGrainOre");
+		   register(darkGrainOre, "dark_grain_ore"); 
+	    	registerRender(darkGrainOre, 0, ZeroQuest.modid + ":" + "dark_grain_ore", "inventory");
 	   }
 	   
 	   public static void register(Block block, String name){
@@ -113,5 +113,9 @@ public class ModBlocks {
 	   
 	   public static void registerWithClass(Block block, Class itemClass,String name){
 		   GameRegistry.registerBlock(block, itemClass, name);
+	   }
+	   
+	   public static void registerRender(Block block, int metadata, String blockString, String location){
+		   Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), metadata, new ModelResourceLocation(blockString, location));
 	   }
 }

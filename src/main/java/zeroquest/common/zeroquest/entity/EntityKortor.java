@@ -2,6 +2,8 @@ package common.zeroquest.entity;
 
 import java.util.List;
 
+import com.google.common.base.Predicate;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.material.Material;
@@ -16,39 +18,49 @@ import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
+import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
 import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
+import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntityGhast;
+import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.passive.EntityPig;
+import net.minecraft.entity.passive.EntityRabbit;
+import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathEntity;
+import net.minecraft.pathfinding.PathNavigateGround;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.core.proxy.CommonProxy;
+import common.zeroquest.entity.ai.EntityCustomZAIBeg;
 import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class EntityKortor extends EntityCustomTameable
 {
@@ -67,20 +79,18 @@ public class EntityKortor extends EntityCustomTameable
     public static final double maxHealthBaby = 10;
     public static final double attackDamageBaby = 1;
     
-    // data value IDs
-    /** The number for taming! DO NOT CHANGE UNLESS CHANGED IN EntityCustomTameable!
-     */
+    // data value IDs TODO
+    /**DO NOT CHANGE!**/
     public static final int INDEX_TAME = 16;
-    public static final int INDEX_INTEGER = 20;
-    public static final int INDEX_BREED = 21;
-    public static final int INDEX_COLLAR_COLOR = 22;
-    public static final int INDEX_SADDLE = 23;
-	
-    public EntityKortor(World p_i1696_1_)
+    public static final int INDEX_BREED = 19;
+    public static final int INDEX_MOUTH = 20;
+    public static final int INDEX_SADDLE = 21;
+
+    public EntityKortor(World worldIn)
     {
-        super(p_i1696_1_);
-        this.setSize(2F, 2F);
-        this.getNavigator().setAvoidsWater(true);
+        super(worldIn);
+        this.setSize(0.6F, 1.5F);
+        ((PathNavigateGround)this.getNavigator()).func_179690_a(true);
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiSit);
         this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
@@ -88,15 +98,28 @@ public class EntityKortor extends EntityCustomTameable
         this.tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
         this.tasks.addTask(6, new EntityAIMate(this, 1.0D));
         this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(8, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
-        this.tasks.addTask(8, new EntityAILookIdle(this));
+        this.tasks.addTask(9, new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F));
+        this.tasks.addTask(9, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
-        this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true));
+        this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
+        this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, false, new Predicate()
+        {
+            private static final String __OBFID = "CL_00002229";
+            public boolean func_180094_a(Entity p_180094_1_)
+            {
+                return p_180094_1_ instanceof EntityPig || p_180094_1_ instanceof EntityRabbit;
+            }
+            public boolean apply(Object p_apply_1_)
+            {
+                return this.func_180094_a((Entity)p_apply_1_);
+            }
+        }));
         this.setTamed(false);
         this.inventory = new InventoryPack(this);
     }
 
+    @Override
     protected void applyEntityAttributes()
     {
         super.applyEntityAttributes();
@@ -117,16 +140,9 @@ public class EntityKortor extends EntityCustomTameable
     }
 
     /**
-     * Returns true if the newer Entity AI code should be run
-     */
-    public boolean isAIEnabled()
-    {
-        return true;
-    }
-
-    /**
      * Sets the active target the Task system uses for tracking
      */
+    @Override
     public void setAttackTarget(EntityLivingBase p_70624_1_)
     {
         super.setAttackTarget(p_70624_1_);
@@ -140,95 +156,96 @@ public class EntityKortor extends EntityCustomTameable
             this.setAngry(true);
         }
     }
-    
+    @Override
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(INDEX_INTEGER, Integer.valueOf(0));
+        this.dataWatcher.addObject(INDEX_MOUTH, Integer.valueOf(0));
         this.dataWatcher.addObject(INDEX_BREED, new Byte((byte)0));
-        this.dataWatcher.addObject(INDEX_COLLAR_COLOR, new Byte((byte)BlockColored.func_150032_b(1)));
         this.dataWatcher.addObject(INDEX_SADDLE, Byte.valueOf((byte)0));
     }
 
-    /**
-     * (abstract) Protected helper method to write subclass entity data to NBT.
-     */
-    public void writeEntityToNBT(NBTTagCompound p_70014_1_)
+    @Override
+    protected void playStepSound(BlockPos p_180429_1_, Block p_180429_2_)
     {
-        super.writeEntityToNBT(p_70014_1_);
-        p_70014_1_.setBoolean("Angry", this.isAngry());
-        p_70014_1_.setByte("CollarColor", (byte)this.getCollarColor());
-        p_70014_1_.setBoolean("Saddle", this.getSaddled());
-    }
-
-    /**
-     * (abstract) Protected helper method to read subclass entity data from NBT.
-     */
-    public void readEntityFromNBT(NBTTagCompound p_70037_1_)
-    {
-        super.readEntityFromNBT(p_70037_1_);
-        this.setAngry(p_70037_1_.getBoolean("Angry"));
-        this.setSaddled(p_70037_1_.getBoolean("Saddle"));
-
-        if (p_70037_1_.hasKey("CollarColor", 99))
-        {
-            this.setCollarColor(p_70037_1_.getByte("CollarColor"));
-        }
-    }
-
-    protected void func_145780_a(int x, int y, int z, Block block) {
         if (inWater) {
             // no sounds for underwater action
         } else if (this.isChild()) {
             // play default step sound for babies
-            super.func_145780_a(x, y, z, block);
+            super.playStepSound(p_180429_1_, p_180429_2_);
         } else {
             // play stomping for bigger dragons
             worldObj.playSoundAtEntity(this, Sound.HardStep, 0.15F, 1.0F);
         }
     }
-	
-	protected String getHurtSound()
-	{
-		this.openKortorMouth();
-		return Sound.KortorHit;	
-	}
-	
+
+    @Override
+    public void writeEntityToNBT(NBTTagCompound tagCompound)
+    {
+        super.writeEntityToNBT(tagCompound);
+        tagCompound.setBoolean("Angry", this.isAngry());
+        tagCompound.setBoolean("Saddle", this.getSaddled());
+    }
+
+    @Override
+    public void readEntityFromNBT(NBTTagCompound tagCompund)
+    {
+        super.readEntityFromNBT(tagCompund);
+        this.setAngry(tagCompund.getBoolean("Angry"));
+        this.setSaddled(tagCompund.getBoolean("Saddle"));
+    }
+
+    /**
+     * Returns the sound this mob makes while it's alive.
+     */
+    @Override
     protected String getLivingSound()
     {
-		this.openKortorMouth();
+    	this.openMouth();
         return this.canSeeCreeper ? Sound.KortorGrowl : this.isAngry() ? Sound.KortorSnarl :
         	 this.getHealth() <=10 ? Sound.KortorWhine :
         	(this.rand.nextInt(3) == 0 ? 
         			(Sound.KortorBreathe)
         					: Sound.KortorScreech);
-        }
+    }
     
     @Override
     public void playLivingSound() {
-        String sound = getLivingSound();
-        if (sound == null) {
-            return;
-        }
-        
-        if (!this.isChild()) {
-        	float volume = getSoundVolume() * 1.0f;
-        	float pitch =  getSoundPitch();
-            this.playSound(sound, volume, pitch);	
-        }else{
-        	
-            float volume = getSoundVolume() * 1.0f;
-            float pitch =  getSoundPitch() * 2;
-            this.playSound(sound, volume, pitch);	
-        }
+    	String sound = getLivingSound();
+    	if (sound == null) {
+    		return;
+    	}
+    	if (!this.isChild()) {
+    		float volume = getSoundVolume() * 1.0f;
+    		float pitch = getSoundPitch();
+    		this.playSound(sound, volume, pitch);
+    	}else{
+    		float volume = getSoundVolume() * 1.0f;
+    		float pitch = getSoundPitch() * 2;
+    		this.playSound(sound, volume, pitch);
+    	}
     }
-	
-	protected String getDeathSound()
-	{
-		this.openKortorMouth();
-		return Sound.KortorDeath;	
-	}
-	
+
+    /**
+     * Returns the sound this mob makes when it is hurt.
+     */
+    @Override
+    protected String getHurtSound()
+    {
+    	this.openMouth();
+        return Sound.KortorHit;
+    }
+
+    /**
+     * Returns the sound this mob makes on death.
+     */
+    @Override
+    protected String getDeathSound()
+    {
+    	this.openMouth();
+        return Sound.KortorDeath;
+    }
+
     /**
      * Get number of ticks, at least during which the living entity will be silent.
      */
@@ -238,8 +255,6 @@ public class EntityKortor extends EntityCustomTameable
     		return 40;
     	}else if(this.getHealth() <=10){
     		return 20;
-    	}else if(this.isAngry()){
-    		return 25;
     	}else{
     		return 200;
     	}
@@ -248,30 +263,27 @@ public class EntityKortor extends EntityCustomTameable
     /**
      * Returns the item ID for the item the mob drops on death.
      */
+	@Override
     protected void dropFewItems(boolean par1, int par2)
     {
         rare = rand.nextInt(20);
             {
                 if (this.isBurning())
                 {
-                    this.dropItem(ModItems.jakanMeatCooked, 1);
+                    this.dropItem(Items.cooked_mutton, 1);
                 }
                 else if (rare <= 12)
                 {
-                    this.dropItem(ModItems.jakanMeatRaw, 1);
+                    this.dropItem(Items.mutton, 1);
                 }
                 if(rare <= 6 && !this.isTamed())
                 {
                 	this.dropItem(ModItems.nileGrain, 1);
                 }
-                if(this.getSaddled())
+                if (this.getSaddled())
                 {
-                	this.dropItem(Items.saddle, 1);
+                    this.dropItem(Items.saddle, 1);
                 }
-                /*if(rare >= 17)
-                {
-                	this.dropItem(ModItems.darkDust.itemID, 1);
-                }*/
                 else
                 {
                 	
@@ -284,27 +296,28 @@ public class EntityKortor extends EntityCustomTameable
      * Called frequently so the entity can update its state every tick as required. For example, zombies and skeletons
      * use this to react to sunlight and start to burn.
      */
-    public void onLivingUpdate()
+	@Override
+    public void onLivingUpdate() //TODO
     {
         super.onLivingUpdate();
-        if(this.entityToAttack != null && this.entityToAttack.isDead) {
-            this.entityToAttack = null;
+        if (isServer() && this.getAttackTarget() == null && this.isAngry())
+        {
+            this.setAngry(false);
         }
         
         if(Constants.DEF_HEALING == true && !this.isChild() && this.getHealth() <=10 && this.isTamed())
         {
-       		this.addPotionEffect(new PotionEffect(10, 200));//TODO
+       		this.addPotionEffect(new PotionEffect(10, 200));
         }
         //Dying
         if(this.getHealth() <=10 && this.isTamed()){ //TODO
         	double d0 = this.rand.nextGaussian() * 0.04D;
         	double d1 = this.rand.nextGaussian() * 0.04D;
         	double d2 = this.rand.nextGaussian() * 0.04D;
-        	worldObj.spawnParticle("witchMagic", this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
+        	worldObj.spawnParticle(EnumParticleTypes.SPELL_WITCH, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
         }
-        
         if (this.getAttackTarget() == null && isTamed() && 15 > 0) {
-            List list1 = worldObj.getEntitiesWithinAABB(EntityCreeper.class, AxisAlignedBB.getBoundingBox(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(sniffRange(), 4D, sniffRange()));
+            List list1 = worldObj.getEntitiesWithinAABB(EntityCreeper.class, AxisAlignedBB.fromBounds(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(sniffRange(), 4D, sniffRange()));
 
             if (!list1.isEmpty() && !isSitting() && this.getHealth() > 1 && !this.isChild()) {
                 canSeeCreeper = true;
@@ -314,40 +327,49 @@ public class EntityKortor extends EntityCustomTameable
             }
         }
     }
+	
+	@Override
+    public void fall(float distance, float damageMultiplier)
+    {
+        if (distance > 1.0F)
+        {
+            this.playSound("damage.fallbig", 0.4F, 1.0F);
+        }
 
+        int i = MathHelper.ceiling_float_int((distance * 0.5F - 3.0F) * damageMultiplier);
+
+        if (i > 0)
+        {
+            this.attackEntityFrom(DamageSource.fall, (float)i);
+
+            if (this.riddenByEntity != null)
+            {
+                this.riddenByEntity.attackEntityFrom(DamageSource.fall, (float)i);
+            }
+
+            Block block = this.worldObj.getBlockState(new BlockPos(this.posX, this.posY - 0.2D - (double)this.prevRotationYaw, this.posZ)).getBlock();
+
+            if (block.getMaterial() != Material.air && !this.isSilent())
+            {
+                Block.SoundType soundtype = block.stepSound;
+                this.worldObj.playSoundAtEntity(this, soundtype.getStepSound(), soundtype.getVolume() * 0.5F, soundtype.getFrequency() * 0.75F);
+            }
+        }
+    }
+	
     /**
      * Called to update the entity's position/logic.
      */
+	@Override
     public void onUpdate()
     {
-        super.onUpdate();    
-        if (isClient() && this.dataWatcher.hasChanges())
-        {
-            this.dataWatcher.func_111144_e();
-            this.func_110230_cF();
-        }
-
+        super.onUpdate();
         if (this.openMouthCounter > 0 && ++this.openMouthCounter > 30)
         {
             this.openMouthCounter = 0;
             this.setHorseWatchableBoolean(128, false);
         }
-
-        if (this.field_110278_bp > 0 && ++this.field_110278_bp > 8)
-        {
-            this.field_110278_bp = 0;
-        }
-
-        if (this.field_110279_bq > 0)
-        {
-            ++this.field_110279_bq;
-
-            if (this.field_110279_bq > 300)
-            {
-                this.field_110279_bq = 0;
-            }
-        }
-
+        
         this.prevMouthOpenness = this.mouthOpenness;
 
         if (this.getHorseWatchableBoolean(128))
@@ -368,40 +390,34 @@ public class EntityKortor extends EntityCustomTameable
                 this.mouthOpenness = 0.0F;
             }
         }
-        
-        if (riddenByEntity != null) //check if there is a rider
-        {
-          //currentTarget = this;
-          this.randomYawVelocity = 0; //try not to let the horse control where to look.
-          this.rotationYaw = riddenByEntity.rotationYaw;
-        }
     }
     
-    private void setHorseWatchableBoolean(int par1, boolean par2)
+    private boolean getHorseWatchableBoolean(int p_110233_1_) //TODO
     {
-        int j = this.dataWatcher.getWatchableObjectInt(INDEX_INTEGER);
+        return (this.dataWatcher.getWatchableObjectInt(INDEX_MOUTH) & p_110233_1_) != 0;
+    }
 
-        if (par2)
+    private void setHorseWatchableBoolean(int p_110208_1_, boolean p_110208_2_)
+    {
+        int j = this.dataWatcher.getWatchableObjectInt(INDEX_MOUTH);
+
+        if (p_110208_2_)
         {
-            this.dataWatcher.updateObject(INDEX_INTEGER, Integer.valueOf(j | par1));
+            this.dataWatcher.updateObject(INDEX_MOUTH, Integer.valueOf(j | p_110208_1_));
         }
         else
         {
-            this.dataWatcher.updateObject(INDEX_INTEGER, Integer.valueOf(j & ~par1));
+            this.dataWatcher.updateObject(INDEX_MOUTH, Integer.valueOf(j & ~p_110208_1_));
         }
     }
     
-    private boolean getHorseWatchableBoolean(int par1)
+    @SideOnly(Side.CLIENT)
+    public float func_110201_q(float p_110201_1_)
     {
-        return (this.dataWatcher.getWatchableObjectInt(INDEX_INTEGER) & par1) != 0;
+        return this.prevMouthOpenness + (this.mouthOpenness - this.prevMouthOpenness) * p_110201_1_;
     }
     
-    private void func_110230_cF()
-    {
-        this.field_110286_bQ = null;
-    }
-
-    private void openKortorMouth()
+    private void openMouth()
     {
         if (!this.worldObj.isRemote)
         {
@@ -409,23 +425,13 @@ public class EntityKortor extends EntityCustomTameable
             this.setHorseWatchableBoolean(128, true);
         }
     }
-    
-    @SideOnly(Side.CLIENT)
-    public float func_110201_q(float par1)
-    {
-        return this.prevMouthOpenness + (this.mouthOpenness - this.prevMouthOpenness) * par1;
-    }
+
 
     public float getEyeHeight()
     {
         return this.height * 0.8F;
     }
 
-
-    /**
-     * The speed it takes to move the entityliving's rotationPitch through the faceEntity method. This is only currently
-     * use in wolves.
-     */
     public int getVerticalFaceSpeed()
     {
         return this.isSitting() ? 20 : super.getVerticalFaceSpeed();
@@ -434,122 +440,66 @@ public class EntityKortor extends EntityCustomTameable
     /**
      * Called when the entity is attacked.
      */
-    public boolean attackEntityFrom(DamageSource p_70097_1_, float p_70097_2_)
+    @Override
+    public boolean attackEntityFrom(DamageSource source, float amount)
     {
-        if (this.isEntityInvulnerable())
+        if (this.isEntityInvulnerable(source))
         {
             return false;
         }
         else
         {
-            Entity entity = p_70097_1_.getEntity();
+            Entity entity = source.getEntity();
             this.aiSit.setSitting(false);
 
             if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow))
             {
-                p_70097_2_ = (p_70097_2_ + 1.0F) / 2.0F;
+                amount = (amount + 1.0F) / 2.0F;
             }
 
-            return super.attackEntityFrom(p_70097_1_, p_70097_2_);
+            return super.attackEntityFrom(source, amount);
         }
     }
 
-    @Override
-    public boolean attackEntityAsMob(Entity victim) {
-        float attackDamage = (float) getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
-        int knockback = 0;
-
-        if (victim instanceof EntityLivingBase) {
-            attackDamage += EnchantmentHelper.getEnchantmentModifierLiving(this, (EntityLivingBase) victim);
-            knockback += EnchantmentHelper.getKnockbackModifier(this, (EntityLivingBase) victim);
+    public boolean attackEntityAsMob(Entity par1Entity)
+    {
+        float damage = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
+        int i = 0;
+        int critChance = 5;
+        critChance += 2;
+        
+        if (rand.nextInt(6) < critChance) { //TODO
+        	damage += (damage + 3) / 2;
+            double d0 = this.rand.nextGaussian() * 0.02D;
+            double d1 = this.rand.nextGaussian() * 0.02D;
+            double d2 = this.rand.nextGaussian() * 0.02D;
+            worldObj.spawnParticle(EnumParticleTypes.CRIT, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) -
+            		(double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + 
+            		(double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
         }
 
-        boolean attacked = victim.attackEntityFrom(DamageSource.causeMobDamage(this), attackDamage);
+        boolean flag = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), damage);
 
-        if (attacked) {
-            if (knockback > 0) {
-                double vx = -Math.sin(Math.toRadians(rotationYaw)) * knockback * 0.5;
-                double vy = 0.1;
-                double vz = Math.cos(Math.toRadians(rotationYaw)) * knockback * 0.5;
-                victim.addVelocity(vx, vy, vz);
-                
-                motionX *= 0.6;
-                motionZ *= 0.6;
-            }
-
-            int fireAspect = EnchantmentHelper.getFireAspectModifier(this);
-
-            if (fireAspect > 0) {
-                victim.setFire(fireAspect * 4);
-            }
-
-            if (victim instanceof EntityLivingBase) {
-                EnchantmentHelper.func_151384_a((EntityLivingBase) victim, this);
+        if (flag)
+        {
+            if (i > 0)
+            {
+                par1Entity.addVelocity((double)(-MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F), 0.1D, (double)(MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F));
+                this.motionX *= 0.6D;
+                this.motionZ *= 0.6D;
             }
             
-            EnchantmentHelper.func_151385_b(this, victim);
-            
-            setLastAttacker(victim);
-            
-            // play eating sound
-            this.openKortorMouth();
             float volume = getSoundVolume() * 0.7f;
             float pitch = getPitch();
             worldObj.playSoundAtEntity(this, "random.eat", volume, pitch);
         }
-
-        return attacked;
-    }
-    
-    @Override
-        protected void fall(float par1)
-        {
-
-        int i = MathHelper.ceiling_float_int(par1 * 0.5F - 3.0F);
-
-        if (i > 0)
-        {
-            this.attackEntityFrom(DamageSource.fall, (float)i);
-
-            if (this.riddenByEntity != null)
-            {
-                this.riddenByEntity.attackEntityFrom(DamageSource.fall, (float)i);
-            }
-
-            Block block = this.worldObj.getBlock(MathHelper.floor_double(this.posX), MathHelper.floor_double(this.posY - 0.2D - (double)this.prevRotationYaw), MathHelper.floor_double(this.posZ));
-
-            if (block.getMaterial() != Material.air)
-            {
-                Block.SoundType soundtype = block.stepSound;
-                this.worldObj.playSoundAtEntity(this, soundtype.getStepResourcePath(), soundtype.getVolume() * 0.5F, soundtype.getPitch() * 0.75F);
-            }
-        }
-    }
-    
-    /**
-     * Called when the mob's health reaches 0.
-     */
-    public void onDeath(DamageSource par1DamageSource) //TODO
-    {
-        super.onDeath(par1DamageSource);
-
-        if (par1DamageSource.getEntity() instanceof EntityPlayer)
-        {
-            EntityPlayer entityplayer = (EntityPlayer)par1DamageSource.getEntity();
-            {
-                entityplayer.triggerAchievement(ModAchievements.DragonSlayer);
-                if(isServer()){
-                this.dropChestItems();
-                }
-            }
-        }
+		return flag;
     }
 
     /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
      */
-    @Override
-    public boolean interact(EntityPlayer par1EntityPlayer) //TODO
+    public boolean interact(EntityPlayer par1EntityPlayer)
     {
         ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
 
@@ -563,113 +513,56 @@ public class EntityKortor extends EntityCustomTameable
                     if(getHealthRelative() < 1)
                     {
                     	itemfood = (ItemFood) ItemUtils.consumeEquipped(par1EntityPlayer, Items.fish,
-                            Items.porkchop, Items.beef, Items.chicken, Items.cooked_porkchop, Items.cooked_beef,
-                            Items.cooked_chicken, Items.cooked_fished, ModItems.jakanMeatRaw, ModItems.jakanMeatCooked, 
+                            Items.porkchop, Items.beef, Items.chicken, Items.rabbit, Items.mutton, Items.cooked_porkchop, Items.cooked_beef,
+                            Items.cooked_chicken, Items.cooked_fish, Items.cooked_rabbit, Items.cooked_mutton, ModItems.jakanMeatRaw, ModItems.jakanMeatCooked, 
                             ModItems.zertumMeatRaw, ModItems.zertumMeatCooked, ModItems.vitoidFruit);
                         if (itemfood != null) {
                         	float volume = getSoundVolume() * 1.0f;
                         	float pitch =  getPitch();
                         	worldObj.playSoundAtEntity(this, "random.eat", volume, pitch);
-                            this.heal((float)itemfood.func_150905_g(itemstack));
+                            this.heal((float)itemfood.getHealAmount(itemstack));
                         }
-
                         return true;
                     }
                 }
-                if (!this.isChild() && ItemUtils.hasEquipped(par1EntityPlayer, Items.saddle)) //TODO
+                else if(!this.isChild() && ItemUtils.hasEquipped(par1EntityPlayer, Items.saddle)) //TODO
                 {
                 	this.setSaddled(true);
-                }
-                else if (this.riddenByEntity == null && this.getSaddled() && !this.isChild() && !ItemUtils.hasEquippedUsable(par1EntityPlayer)  && itemstack.getItem() != Items.spawn_egg && itemstack.getItem() != Items.stick && itemstack.getItem() != Items.dye && !this.isBreedingItem(itemstack))
-                {
-                        par1EntityPlayer.mountEntity(this);
-                        this.aiSit.setSitting(false);
                 }
                 else if(itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer)) //TODO
                 {
                 	if(isServer()){
-                 par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
-                 this.worldObj.playSoundEffect(this.posX, this.posY + 0.5D, this.posZ, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
-                 return true;
+                		par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+                		this.worldObj.playSoundEffect(this.posX, this.posY + 0.5D, this.posZ, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+                		return true;
                 	}
                 }
-                else if (itemstack.getItem() == Items.dye)
+                else if (isServer() && this.getSaddled() && !this.isChild() && !ItemUtils.hasEquippedUsable(par1EntityPlayer)  && itemstack.getItem() != Items.spawn_egg && !this.isBreedingItem(itemstack) && this.riddenByEntity == null || this.riddenByEntity == par1EntityPlayer)
                 {
-                    int i = BlockColored.func_150032_b(itemstack.getItemDamage());
-
-                    if (i != this.getCollarColor())
-                    {
-                        this.setCollarColor(i);
-                        ItemUtils.consumeEquipped(par1EntityPlayer, Items.dye);
-                        return true;
-                    }
+                        par1EntityPlayer.mountEntity(this);
+                        par1EntityPlayer.triggerAchievement(ModAchievements.MountUp);
                 }
             }
 
             if (canInteract(par1EntityPlayer) && isServer() && !this.isBreedingItem(itemstack))
             {
-                this.aiSit.setSitting(!this.isSitting());
+            	this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
-                this.setPathToEntity((PathEntity)null);
-                this.setTarget((Entity)null);
+                this.navigator.clearPathEntity();
                 this.setAttackTarget((EntityLivingBase)null);
             }
         }
         else if (ItemUtils.consumeEquipped(par1EntityPlayer, ModItems.nileBone) && !this.isAngry())
         {
-
             if (isServer())
             {
                 tamedFor(par1EntityPlayer, rand.nextInt(3) == 0);
-            	par1EntityPlayer.triggerAchievement(ModAchievements.ZertTame);
             }
-
             return true;
         }
         return super.interact(par1EntityPlayer);
     }
     
-    /**
-     * Returns true if the pig is saddled.
-     */
-    public boolean getSaddled()
-    {
-        return (this.dataWatcher.getWatchableObjectByte(INDEX_SADDLE) & 1) != 0;
-    }
-
-    /**
-     * Set or remove the saddle of the pig.
-     */
-    public void setSaddled(boolean par1)
-    {
-        if (par1)
-        {
-            this.dataWatcher.updateObject(INDEX_SADDLE, Byte.valueOf((byte)1));
-        }
-        else
-        {
-            this.dataWatcher.updateObject(INDEX_SADDLE, Byte.valueOf((byte)0));
-        }
-    }
-    
-    public boolean canBeSteered()
-    {
-             return true;
-    }
-    
-    /**
-     * Returns true if this entity should push and be pushed by other entities when colliding.
-     */
-    public boolean canBePushed() //TODO
-    {
-        return true;
-    }
-
-    
-    /**
-     * Moves the entity based on the specified heading.  Args: strafe, forward
-     */
-    @Override
     public void moveEntityWithHeading(float p_70612_1_, float p_70612_2_) //TODO
     {
         if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase && this.getSaddled())
@@ -684,15 +577,53 @@ public class EntityKortor extends EntityCustomTameable
             if (p_70612_2_ <= 0.0F)
             {
                 p_70612_2_ *= 0.25F;
+                this.gallopTime = 0;
             }
+
+            /*if (this.onGround && this.jumpPower == 0.0F && this.isRearing() && !this.field_110294_bI)
+            {
+                p_70612_1_ = 0.0F;
+                p_70612_2_ = 0.0F;
+            }
+
+            if (this.jumpPower > 0.0F && !this.isHorseJumping() && this.onGround)
+            {
+                this.motionY = this.getHorseJumpStrength() * (double)this.jumpPower;
+
+                if (this.isPotionActive(Potion.jump))
+                {
+                    this.motionY += (double)((float)(this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F);
+                }
+
+                this.setHorseJumping(true);
+                this.isAirBorne = true;
+
+                if (p_70612_2_ > 0.0F)
+                {
+                    float f2 = MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F);
+                    float f3 = MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F);
+                    this.motionX += (double)(-0.4F * f2 * this.jumpPower);
+                    this.motionZ += (double)(0.4F * f3 * this.jumpPower);
+                    this.playSound("mob.horse.jump", 0.4F, 1.0F);
+                }
+
+                this.jumpPower = 0.0F;
+                net.minecraftforge.common.ForgeHooks.onLivingJump(this);
+            }*/
 
             this.stepHeight = 1.0F;
             this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
 
-            if (isServer())
+            if (!this.worldObj.isRemote)
             {
                 this.setAIMoveSpeed((float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
                 super.moveEntityWithHeading(p_70612_1_, p_70612_2_);
+            }
+
+            if (this.onGround)
+            {
+                this.jumpPower = 0.0F;
+                //this.setHorseJumping(false);
             }
 
             this.prevLimbSwingAmount = this.limbSwingAmount;
@@ -716,37 +647,29 @@ public class EntityKortor extends EntityCustomTameable
         }
     }
 
+
     /**
      * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
      * the animal type)
      */
-    public boolean isBreedingItem(ItemStack itemstack) //TODO
+    public boolean isBreedingItem(ItemStack itemstack)
     {
     	return itemstack == null ? false : itemstack.getItem() == ModItems.vitoidFruit;
     }
 
-    /**
-     * Will return how many at most can spawn in a chunk at once.
-     */
     public int getMaxSpawnedInChunk()
     {
         return 8;
     }
 
-    /**
-     * Determines whether this wolf is angry or not.
-     */
     public boolean isAngry()
     {
         return (this.dataWatcher.getWatchableObjectByte(INDEX_TAME) & 2) != 0;
     }
 
-    /**
-     * Sets whether this wolf is angry or not.
-     */
     public void setAngry(boolean p_70916_1_)
     {
-        byte b0 = this.dataWatcher.getWatchableObjectByte(16);
+        byte b0 = this.dataWatcher.getWatchableObjectByte(INDEX_TAME);
 
         if (p_70916_1_)
         {
@@ -758,30 +681,31 @@ public class EntityKortor extends EntityCustomTameable
         }
     }
 
-    /**
-     * Return this wolf's collar color.
-     */
-    public int getCollarColor()
+    public boolean getSaddled()
     {
-        return this.dataWatcher.getWatchableObjectByte(INDEX_COLLAR_COLOR) & 15;
+        return (this.dataWatcher.getWatchableObjectByte(INDEX_SADDLE) & 1) != 0;
     }
 
-    /**
-     * Set this wolf's collar color.
-     */
-    public void setCollarColor(int p_82185_1_)
+    public void setSaddled(boolean p_70900_1_)
     {
-        this.dataWatcher.updateObject(INDEX_COLLAR_COLOR, Byte.valueOf((byte)(p_82185_1_ & 15)));
-    }
+        if (p_70900_1_)
+        {
+            this.dataWatcher.updateObject(INDEX_SADDLE, Byte.valueOf((byte)1));
+        }
+        else
+        {
+            this.dataWatcher.updateObject(INDEX_SADDLE, Byte.valueOf((byte)0));
+        }
+    }    
     
     public EntityKortor createChild(EntityAgeable p_90011_1_)
     {
     	EntityKortor entitykortor = new EntityKortor(this.worldObj);
-        String s = this.func_152113_b();
+        String s = this.getOwnerId();
 
         if (s != null && s.trim().length() > 0)
         {
-        	entitykortor.func_152115_b(s);
+        	entitykortor.setOwnerId(s);
         	entitykortor.setTamed(true);
         }
 
@@ -836,26 +760,9 @@ public class EntityKortor extends EntityCustomTameable
     {
         return !this.isTamed() && this.ticksExisted > 2400;
     }
-
-    public boolean func_142018_a(EntityLivingBase p_142018_1_, EntityLivingBase p_142018_2_)
+    
+    public boolean allowLeashing()
     {
-        if (!(p_142018_1_ instanceof EntityCreeper) && !(p_142018_1_ instanceof EntityGhast))
-        {
-            if (p_142018_1_ instanceof EntityKortor)
-            {
-            	EntityKortor entitywolf = (EntityKortor)p_142018_1_;
-
-                if (entitywolf.isTamed() && entitywolf.getOwner() == p_142018_2_)
-                {
-                    return false;
-                }
-            }
-
-            return p_142018_1_ instanceof EntityPlayer && p_142018_2_ instanceof EntityPlayer && !((EntityPlayer)p_142018_2_).canAttackPlayer((EntityPlayer)p_142018_1_) ? false : !(p_142018_1_ instanceof EntityHorse) || !((EntityHorse)p_142018_1_).isTame();
-        }
-        else
-        {
-            return false;
-        }
+        return !this.isAngry() && super.allowLeashing();
     }
 }

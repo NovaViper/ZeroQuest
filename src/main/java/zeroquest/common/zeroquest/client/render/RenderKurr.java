@@ -1,28 +1,24 @@
 package common.zeroquest.client.render;
 
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.entity.RenderLiving;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import common.zeroquest.ZeroQuest;
-import common.zeroquest.client.model.ModelKurr;
 import common.zeroquest.entity.EntityKurr;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
 public class RenderKurr extends RenderLiving
 {
     private static final ResourceLocation kurrTexture = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/kurr.png");
 
-    public RenderKurr(ModelKurr par1ModelKurr, float par3)
-    {
-        super(par1ModelKurr, par3);
-        this.setRenderPassModel(par1ModelKurr);
+    public RenderKurr(RenderManager p_i46128_1_, ModelBase p_i46128_2_, float p_i46128_3_){
+        
+        super(p_i46128_1_, p_i46128_2_, p_i46128_3_);
     }
 
     protected ResourceLocation getTextures(EntityKurr par1EntityJakan)

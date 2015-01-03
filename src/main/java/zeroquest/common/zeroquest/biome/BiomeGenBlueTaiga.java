@@ -1,35 +1,32 @@
 package common.zeroquest.biome;
 
-import static net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType.FLOWERS;
-
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.BlockDirt;
+import net.minecraft.block.BlockDoublePlant;
+import net.minecraft.block.BlockTallGrass;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenTaiga;
+import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenBlockBlob;
-import net.minecraft.world.gen.feature.WorldGenFlowers;
 import net.minecraft.world.gen.feature.WorldGenMegaPineTree;
 import net.minecraft.world.gen.feature.WorldGenTaiga1;
 import net.minecraft.world.gen.feature.WorldGenTaiga2;
 import net.minecraft.world.gen.feature.WorldGenTallGrass;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import net.minecraftforge.event.terraingen.TerrainGen;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
-import common.zeroquest.ModBiomes;
 import common.zeroquest.ModBlocks;
-import common.zeroquest.ModLiquids;
 import common.zeroquest.entity.EntityIceZertum;
-
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BiomeGenBlueTaiga extends BiomeGenBase
 {
@@ -68,78 +65,79 @@ public class BiomeGenBlueTaiga extends BiomeGenBase
     
     @SideOnly(Side.CLIENT)
     @Override
-    public int getBiomeGrassColor(int par1, int par2, int par3){return 0x0099FF;}
+    public int getModdedBiomeGrassColor(int par1){return 0x0099FF;}
     @SideOnly(Side.CLIENT)
     @Override
-    public int getBiomeFoliageColor(int par1, int par2, int par3){return 0x0099FF;}
+    public int getModdedBiomeFoliageColor(int par1){return 0x0099FF;}
     @SideOnly(Side.CLIENT)
     @Override
     public int getSkyColorByTemp(float par1){return 0x9999FF;}
 
-    public WorldGenAbstractTree func_150567_a(Random p_150567_1_)
+    public WorldGenAbstractTree genBigTreeChance(Random p_150567_1_)
     {
         return (WorldGenAbstractTree)((this.field_150644_aH == 1 || this.field_150644_aH == 2) && p_150567_1_.nextInt(3) == 0 ? (this.field_150644_aH != 2 && p_150567_1_.nextInt(13) != 0 ? field_150641_aE : field_150642_aF) : (p_150567_1_.nextInt(3) == 0 ? field_150639_aC : field_150640_aD));
     }
 
-    /**
-     * Gets a WorldGen appropriate for this biome.
-     */
     public WorldGenerator getRandomWorldGenForGrass(Random p_76730_1_)
     {
-        return p_76730_1_.nextInt(5) > 0 ? new WorldGenTallGrass(Blocks.tallgrass, 2) : new WorldGenTallGrass(Blocks.tallgrass, 1);
+        return p_76730_1_.nextInt(5) > 0 ? new WorldGenTallGrass(BlockTallGrass.EnumType.FERN) : new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);
     }
 
-    public void decorate(World p_76728_1_, Random p_76728_2_, int p_76728_3_, int p_76728_4_)
+    public void decorate(World worldIn, Random p_180624_2_, BlockPos p_180624_3_)
     {
+        int i;
+        int j;
         int k;
         int l;
-        int i1;
-        int j1;
 
         if (this.field_150644_aH == 1 || this.field_150644_aH == 2)
         {
-            k = p_76728_2_.nextInt(3);
+            i = p_180624_2_.nextInt(3);
 
-            for (l = 0; l < k; ++l)
+            for (j = 0; j < i; ++j)
             {
-                i1 = p_76728_3_ + p_76728_2_.nextInt(16) + 8;
-                j1 = p_76728_4_ + p_76728_2_.nextInt(16) + 8;
-                int k1 = p_76728_1_.getHeightValue(i1, j1);
-                field_150643_aG.generate(p_76728_1_, p_76728_2_, i1, k1, j1);
+                k = p_180624_2_.nextInt(16) + 8;
+                l = p_180624_2_.nextInt(16) + 8;
+                BlockPos blockpos1 = worldIn.getHorizon(p_180624_3_.add(k, 0, l));
+                field_150643_aG.generate(worldIn, p_180624_2_, blockpos1);
             }
         }
 
-        genTallFlowers.func_150548_a(3);
+        DOUBLE_PLANT_GENERATOR.func_180710_a(BlockDoublePlant.EnumPlantType.FERN);
 
-        for (k = 0; k < 7; ++k)
+        for (i = 0; i < 7; ++i)
         {
-            l = p_76728_3_ + p_76728_2_.nextInt(16) + 8;
-            i1 = p_76728_4_ + p_76728_2_.nextInt(16) + 8;
-            j1 = p_76728_2_.nextInt(p_76728_1_.getHeightValue(l, i1) + 32);
-            genTallFlowers.generate(p_76728_1_, p_76728_2_, l, j1, i1);
-        }
-        
-    	WorldGenFlowers blueFlowerGenerator = new WorldGenFlowers(ModBlocks.nileBlueFlower);
-    	
-        boolean doGen = TerrainGen.decorate(p_76728_1_, p_76728_2_, p_76728_3_, p_76728_4_, FLOWERS);
-        for (int j = 0; doGen && j < 30; ++j)
-        {
-            int k2 = p_76728_3_ + p_76728_2_.nextInt(16) + 8;
-            int l2 = p_76728_2_.nextInt(128);
-            int i2 = p_76728_4_ + p_76728_2_.nextInt(16) + 8;
-            blueFlowerGenerator.generate(p_76728_1_, p_76728_2_, k2, l2, i2);
+            j = p_180624_2_.nextInt(16) + 8;
+            k = p_180624_2_.nextInt(16) + 8;
+            l = p_180624_2_.nextInt(worldIn.getHorizon(p_180624_3_.add(j, 0, k)).getY() + 32);
+            DOUBLE_PLANT_GENERATOR.generate(worldIn, p_180624_2_, p_180624_3_.add(j, l, k));
         }
 
-        super.decorate(p_76728_1_, p_76728_2_, p_76728_3_, p_76728_4_);
+        super.decorate(worldIn, p_180624_2_, p_180624_3_);
     }
 
-    /**
-     * Creates a mutated version of the biome and places it into the biomeList with an index equal to the original plus
-     * 128
-     */
-    public BiomeGenBase createMutation()
+    public void genTerrainBlocks(World worldIn, Random p_180622_2_, ChunkPrimer p_180622_3_, int p_180622_4_, int p_180622_5_, double p_180622_6_)
     {
-        return this.biomeID == ModBiomes.blueMegaTaiga.biomeID ? (new BiomeGenBlueTaiga(this.biomeID + 128, 2)).func_150557_a(5858897, true).setBiomeName("Mega Spruce Blue Taiga").func_76733_a(5159473).setTemperatureRainfall(0.25F, 0.8F).setHeight(new BiomeGenBase.Height(this.rootHeight, this.heightVariation)) : super.createMutation();
+        if (this.field_150644_aH == 1 || this.field_150644_aH == 2)
+        {
+            this.topBlock = Blocks.grass.getDefaultState();
+            this.fillerBlock = Blocks.dirt.getDefaultState();
+
+            if (p_180622_6_ > 1.75D)
+            {
+                this.topBlock = Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.COARSE_DIRT);
+            }
+            else if (p_180622_6_ > -0.95D)
+            {
+                this.topBlock = Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.PODZOL);
+            }
+        }
+
+        this.generateBiomeTerrain(worldIn, p_180622_2_, p_180622_3_, p_180622_4_, p_180622_5_, p_180622_6_);
     }
-	
+
+    public BiomeGenBase createMutatedBiome(int p_180277_1_)
+    {
+        return this.biomeID == BiomeGenBase.megaTaiga.biomeID ? (new BiomeGenTaiga(p_180277_1_, 2)).func_150557_a(5858897, true).setBiomeName("Mega Spruce Taiga").setFillerBlockMetadata(5159473).setTemperatureRainfall(0.25F, 0.8F).setHeight(new BiomeGenBase.Height(this.minHeight, this.maxHeight)) : super.createMutatedBiome(p_180277_1_);
+    }
 }

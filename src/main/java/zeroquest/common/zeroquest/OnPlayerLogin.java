@@ -6,12 +6,13 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import common.zeroquest.core.helper.ChatHelper;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
+import net.minecraftforge.fml.common.FMLLog;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+
+import common.zeroquest.core.helper.ChatHelper;
 
 public class OnPlayerLogin{
 
@@ -50,7 +51,6 @@ public class OnPlayerLogin{
 						player.addChatMessage(ChatHelper.getChatComponent("Download newest version at: http://minecraft.curseforge.com/mc-mods/221194"));
 						break;
 					}
-					
 				}
 			}
 			in.close();

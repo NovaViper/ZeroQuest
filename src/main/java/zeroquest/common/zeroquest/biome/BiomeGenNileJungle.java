@@ -2,15 +2,15 @@ package common.zeroquest.biome;
 
 import java.util.Random;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
+import net.minecraft.block.BlockPlanks;
+import net.minecraft.block.BlockTallGrass;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityChicken;
 import net.minecraft.entity.passive.EntityOcelot;
-import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
@@ -21,13 +21,11 @@ import net.minecraft.world.gen.feature.WorldGenTallGrass;
 import net.minecraft.world.gen.feature.WorldGenTrees;
 import net.minecraft.world.gen.feature.WorldGenVines;
 import net.minecraft.world.gen.feature.WorldGenerator;
-import common.zeroquest.ModBlocks;
-import common.zeroquest.ModLiquids;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import common.zeroquest.entity.EntityForisZertum;
 import common.zeroquest.entity.EntityKortor;
-import common.zeroquest.entity.EntityZertum;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BiomeGenNileJungle extends BiomeGenBase
 {
@@ -66,41 +64,38 @@ public class BiomeGenNileJungle extends BiomeGenBase
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityForisZertum.class, 100, 3, 4));
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityKortor.class, 50, 2, 3));
     }
-
-    public WorldGenAbstractTree func_150567_a(Random p_150567_1_)
-    {
-        return (WorldGenAbstractTree)(p_150567_1_.nextInt(10) == 0 ? this.worldGeneratorBigTree : (p_150567_1_.nextInt(2) == 0 ? new WorldGenShrub(3, 0) : (!this.field_150614_aC && p_150567_1_.nextInt(3) == 0 ? new WorldGenMegaJungle(false, 10, 20, 3, 3) : new WorldGenTrees(false, 4 + p_150567_1_.nextInt(7), 3, 3, true))));
-    }
     
     @SideOnly(Side.CLIENT)
     @Override
-    public int getBiomeFoliageColor(int par1, int par2, int par3){return 0x99FF99;}
+    public int getModdedBiomeFoliageColor(int par1){return 0x99FF99;}
 
-    /**
-     * Gets a WorldGen appropriate for this biome.
-     */
-    public WorldGenerator getRandomWorldGenForGrass(Random p_76730_1_)
+    public WorldGenAbstractTree genBigTreeChance(Random p_150567_1_)
     {
-        return p_76730_1_.nextInt(4) == 0 ? new WorldGenTallGrass(Blocks.tallgrass, 2) : new WorldGenTallGrass(Blocks.tallgrass, 1);
+        return (WorldGenAbstractTree)(p_150567_1_.nextInt(10) == 0 ? this.worldGeneratorBigTree : (p_150567_1_.nextInt(2) == 0 ? new WorldGenShrub(BlockPlanks.EnumType.JUNGLE.getMetadata(), BlockPlanks.EnumType.OAK.getMetadata()) : (!this.field_150614_aC && p_150567_1_.nextInt(3) == 0 ? new WorldGenMegaJungle(false, 10, 20, BlockPlanks.EnumType.JUNGLE.getMetadata(), BlockPlanks.EnumType.JUNGLE.getMetadata()) : new WorldGenTrees(false, 4 + p_150567_1_.nextInt(7), BlockPlanks.EnumType.JUNGLE.getMetadata(), BlockPlanks.EnumType.JUNGLE.getMetadata(), true))));
     }
 
-    public void decorate(World p_76728_1_, Random p_76728_2_, int p_76728_3_, int p_76728_4_)
+    public WorldGenerator getRandomWorldGenForGrass(Random p_76730_1_)
     {
-        super.decorate(p_76728_1_, p_76728_2_, p_76728_3_, p_76728_4_);
-        int k = p_76728_3_ + p_76728_2_.nextInt(16) + 8;
-        int l = p_76728_4_ + p_76728_2_.nextInt(16) + 8;
-        int height = p_76728_1_.getHeightValue(k, l) * 2; //This was the original input for the nextInt below.  But it could == 0, which crashes nextInt
+        return p_76730_1_.nextInt(4) == 0 ? new WorldGenTallGrass(BlockTallGrass.EnumType.FERN) : new WorldGenTallGrass(BlockTallGrass.EnumType.GRASS);
+    }
+
+    public void decorate(World worldIn, Random p_180624_2_, BlockPos p_180624_3_)
+    {
+        super.decorate(worldIn, p_180624_2_, p_180624_3_);
+        int i = p_180624_2_.nextInt(16) + 8;
+        int j = p_180624_2_.nextInt(16) + 8;
+        int height = worldIn.getHorizon(p_180624_3_.add(i, 0, j)).getY() * 2; // could == 0, which crashes nextInt
         if (height < 1) height = 1;
-        int i1 = p_76728_2_.nextInt(height);
-        (new WorldGenMelon()).generate(p_76728_1_, p_76728_2_, k, i1, l);
+        int k = p_180624_2_.nextInt(height);
+        (new WorldGenMelon()).generate(worldIn, p_180624_2_, p_180624_3_.add(i, k, j));
         WorldGenVines worldgenvines = new WorldGenVines();
 
-        for (l = 0; l < 50; ++l)
+        for (j = 0; j < 50; ++j)
         {
-            i1 = p_76728_3_ + p_76728_2_.nextInt(16) + 8;
-            short short1 = 128;
-            int j1 = p_76728_4_ + p_76728_2_.nextInt(16) + 8;
-            worldgenvines.generate(p_76728_1_, p_76728_2_, i1, short1, j1);
+            k = p_180624_2_.nextInt(16) + 8;
+            boolean flag = true;
+            int l = p_180624_2_.nextInt(16) + 8;
+            worldgenvines.generate(worldIn, p_180624_2_, p_180624_3_.add(k, 128, l));
         }
     }
 }

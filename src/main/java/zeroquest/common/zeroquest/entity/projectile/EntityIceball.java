@@ -1,14 +1,17 @@
 package common.zeroquest.entity.projectile;
 
-import common.zeroquest.client.particle.ParticleEffects;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
+import net.minecraftforge.fml.client.FMLClientHandler;
+
+import common.zeroquest.client.particle.EntityIceDustFX;
 
 public class EntityIceball extends EntityThrowable
 {
@@ -32,7 +35,8 @@ public class EntityIceball extends EntityThrowable
     @Override
     public void onUpdate()
     {
-        ParticleEffects.spawnParticle("icedust", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+    	EntityIceDustFX var20 = new EntityIceDustFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+    	FMLClientHandler.instance().getClient().effectRenderer.addEffect(var20);
         
         super.onUpdate();
     }
@@ -40,55 +44,36 @@ public class EntityIceball extends EntityThrowable
     /**
      * Called when this EntityThrowable hits a block or entity.
      */
-    protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
+    protected void onImpact(MovingObjectPosition movingObject)
     {   
-        if (par1MovingObjectPosition.entityHit != null)
+        if (movingObject.entityHit != null)
         {
-            byte b0 = 3;
+            byte b0 = 0;
 
-            if (par1MovingObjectPosition.entityHit instanceof EntityBlaze)
+            if (movingObject.entityHit instanceof EntityBlaze)
             {
                 b0 = 3;
             }
 
-            par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), (float)b0);
-        }
-        else
-        {
-        	int i = par1MovingObjectPosition.blockX;
-        	int j = par1MovingObjectPosition.blockY;
-        	int k = par1MovingObjectPosition.blockZ;
+            movingObject.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), (float)b0);
+        }else{
+        	
+            BlockPos blockpos =  movingObject.getBlockPos().offset(movingObject.sideHit);
 
-        	switch (par1MovingObjectPosition.sideHit)
+        	if (this.worldObj.isAirBlock(blockpos))
         	{
-            	case 0:
-                --j;
-                break;
-            case 1:
-                ++j;
-                break;
-            case 2:
-                --k;
-                break;
-            case 3:
-                ++k;
-                break;
-            case 4:
-                --i;
-                break;
-            case 5:
-                ++i;
-        }
-
-        	if (this.worldObj.isAirBlock(i, j, k))
-        	{
-        		this.worldObj.setBlock(i, j, k, Blocks.ice);
+        		this.worldObj.setBlockState(blockpos, Blocks.ice.getDefaultState());
         	}
         }
 
         for (int i = 0; i < 8; ++i)
         {
-            this.worldObj.spawnParticle("snowballpoof", this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
+            this.worldObj.spawnParticle(EnumParticleTypes.SNOWBALL, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D, new int[0]);
+        }
+
+        for (int i = 0; i < 8; ++i)
+        {
+            this.worldObj.spawnParticle(EnumParticleTypes.SNOWBALL, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
         }
 
         if (!this.worldObj.isRemote)

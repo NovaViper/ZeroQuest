@@ -6,9 +6,12 @@ import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 public class BlockDarkGrainOre extends Block
@@ -24,7 +27,7 @@ public class BlockDarkGrainOre extends Block
     }
     
     @Override
-    public Item getItemDropped(int metadata, Random par2Random, int fortune){
+    public Item getItemDropped(IBlockState state, Random rand, int fortune){
         return ModItems.darkGrain;
     }
     /**
@@ -46,7 +49,7 @@ public class BlockDarkGrainOre extends Block
     }
 
     @Override
-    public void dropBlockAsItemWithChance(World world, int par2, int par3, int par4, int par5, float par6, int par7){
-    	super.dropBlockAsItemWithChance(world, par2, par3, par4, par5, par6, par7);
+    public void dropBlockAsItemWithChance(World worldIn, BlockPos pos, IBlockState state, float chance, int fortune){
+    	super.dropBlockAsItemWithChance(worldIn, pos, state, chance, fortune);
     	}
 }

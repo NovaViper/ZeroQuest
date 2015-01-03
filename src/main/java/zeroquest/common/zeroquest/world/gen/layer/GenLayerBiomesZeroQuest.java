@@ -11,7 +11,7 @@ import common.zeroquest.lib.Constants;
 
 public class GenLayerBiomesZeroQuest extends GenLayer {
 
-	protected BiomeGenBase[] allowedBiomes = {ModBiomes.bioZone, ModBiomes.blueTaiga, ModBiomes.blueTaigaHills, ModBiomes.blueColdTaiga, ModBiomes.blueColdTaigaHills, ModBiomes.blueMegaTaiga, ModBiomes.blueMegaTaigaHills, ModBiomes.redSeed, ModBiomes.pinkZone, ModBiomes.destroZone, ModBiomes.destroZoneHills, ModBiomes.walRockland, ModBiomes.nileSavanna, ModBiomes.nileSavannaPlateau, ModBiomes.nileJungle, ModBiomes.nileJungleHills, ModBiomes.nileJungleEdge, ModBiomes.nileSwampland, ModBiomes.nileMountains, ModBiomes.nileMountainsEdge, ModBiomes.nileMountainsPlus, ModBiomes.nileMesa, ModBiomes.nileMesaPlateau, ModBiomes.nileMesaPlateau_F};
+	protected BiomeGenBase[] allowedBiomes = ModBiomes.biomes;
 
 	public GenLayerBiomesZeroQuest(long seed, GenLayer genlayer, WorldType worldType) {
 		super(seed);

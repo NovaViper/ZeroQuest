@@ -3,22 +3,22 @@ package common.zeroquest.world.gen;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.state.IBlockState;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraft.world.gen.feature.WorldGenMinable;
-
+import net.minecraftforge.fml.common.IWorldGenerator;
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.lib.Constants;
 
-import cpw.mods.fml.common.IWorldGenerator;
-
 public class WorldGenZQuest implements IWorldGenerator {
 
 	@Override
-	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
        
-		switch(world.provider.dimensionId){
+		switch(world.provider.getDimensionId()){
 			case -1:
 				generateNether(world, random, chunkX*16, chunkZ*16);
 			case 0:
@@ -35,10 +35,10 @@ public class WorldGenZQuest implements IWorldGenerator {
 	}
 
 	private void generateSurface(World world, Random random, int x, int y) {
-		this.addOreSpawn(ModBlocks.nileGrainOre, world, random, x, y, 20, 20, 3+random.nextInt(5), 80, 3, 90);
+		this.addOreSpawn(ModBlocks.nileGrainOre.getDefaultState(), world, random, x, y, 20, 20, 3+random.nextInt(5), 80, 3, 90);
 		
 		if(Constants.DEF_DARKLOAD == true){
-			this.addOreSpawn(ModBlocks.darkGrainOre, world, random, x, y, 16, 16, 2+random.nextInt(5), 60, 0, 97);
+			this.addOreSpawn(ModBlocks.darkGrainOre.getDefaultState(), world, random, x, y, 16, 16, 2+random.nextInt(5), 60, 0, 97);
 		}
 	}
 	
@@ -50,15 +50,15 @@ public class WorldGenZQuest implements IWorldGenerator {
 	}
 	
 	private void generateNillaxDimension(World world, Random random, int x, int y) {		
-		this.addOreSpawn(ModBlocks.nileGrainOre, world, random, x, y, 20, 20, 3+random.nextInt(5), 80, 3, 90);
-		this.addOreSpawn(ModBlocks.nileCoalOre, world, random, x, y, 16, 16, 4+random.nextInt(5), 100, 0, 97);
+		this.addOreSpawn(ModBlocks.nileGrainOre.getDefaultState(), world, random, x, y, 20, 20, 3+random.nextInt(5), 80, 3, 90);
+		this.addOreSpawn(ModBlocks.nileCoalOre.getDefaultState(), world, random, x, y, 16, 16, 4+random.nextInt(5), 100, 0, 97);
 	}
 	
 	private void generateDarkaxDimension(World world, Random random, int x, int y){
-		this.addOreSpawn(ModBlocks.darkGrainOre, world, random, x, y, 16, 16, 2+random.nextInt(5), 60, 0, 97);
+		this.addOreSpawn(ModBlocks.darkGrainOre.getDefaultState(), world, random, x, y, 16, 16, 2+random.nextInt(5), 60, 0, 97);
 	}
 	
-	public void addOreSpawn(Block block, World world, Random random, int blockXPos, int blockZPos, int maxX, int maxZ, int maxVeinSize, int chancesToSpawn, int minY, int maxY)
+	public void addOreSpawn(IBlockState block, World world, Random random, int blockXPos, int blockZPos, int maxX, int maxZ, int maxVeinSize, int chancesToSpawn, int minY, int maxY)
 	{
         assert maxY > minY : "The maximum Y must be greater than the Minimum Y";
         assert maxX > 0 && maxX <= 16 : "addOreSpawn: The Maximum X must be greater than 0 and less than 16";
@@ -72,7 +72,7 @@ public class WorldGenZQuest implements IWorldGenerator {
             int posX = blockXPos + random.nextInt(maxX);
             int posY = minY + random.nextInt(diffBtwnMinMaxY);
             int posZ = blockZPos + random.nextInt(maxZ);
-            (new WorldGenMinable(block, maxVeinSize)).generate(world, random, posX, posY, posZ);
+            (new WorldGenMinable(block, maxVeinSize)).generate(world, random, new BlockPos(posX, posY, posZ));
         }
 	}
 }

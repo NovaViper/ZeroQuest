@@ -1,75 +1,66 @@
 package common.zeroquest;
 
 import java.io.File;
-import java.io.IOException;
+
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.ItemModelMesher;
+import net.minecraft.client.resources.model.ModelBakery;
+import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.command.ServerCommandManager;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
+import net.minecraft.item.Item.ToolMaterial;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.world.WorldProvider;
+import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.util.EnumHelper;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.Mod.EventHandler;
+import net.minecraftforge.fml.common.Mod.Instance;
+import net.minecraftforge.fml.common.SidedProxy;
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
+import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import common.zeroquest.*;
-import common.zeroquest.lib.*;
 import common.zeroquest.core.command.CommandZeroQuest;
-import common.zeroquest.core.handlers.*;
-import common.zeroquest.core.proxy.*;
-import common.zeroquest.creativetab.*;
-import common.zeroquest.events.*;
-import common.zeroquest.world.*;
-import common.zeroquest.world.gen.*;
-import net.minecraft.command.ICommandManager;
-import net.minecraft.command.ServerCommandManager;
-import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Items;
-import net.minecraft.item.Item;
-import net.minecraft.item.Item.ToolMaterial;
-import net.minecraft.item.ItemArmor.ArmorMaterial;
-import net.minecraft.item.ItemStack;
-import net.minecraft.server.MinecraftServer;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.world.WorldProvider;
-import net.minecraft.world.WorldType;
-import net.minecraftforge.client.MinecraftForgeClient;
-import net.minecraftforge.common.BiomeDictionary;
-import net.minecraftforge.common.DimensionManager;
-import net.minecraftforge.common.MinecraftForge;
-import net.minecraftforge.fluids.FluidContainerRegistry;
-import net.minecraftforge.fluids.FluidRegistry;
-import cpw.mods.fml.client.registry.ClientRegistry;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.common.FMLLog;
-import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.Mod.Instance;
-import cpw.mods.fml.common.SidedProxy;
-import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLInterModComms;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
-import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.event.FMLServerStartingEvent;
-import cpw.mods.fml.common.network.NetworkRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.relauncher.Side;
-import net.minecraftforge.common.util.EnumHelper;
+import common.zeroquest.core.handlers.ConfigHandler;
+import common.zeroquest.core.handlers.FuelHandler;
+import common.zeroquest.core.proxy.CommonProxy;
+import common.zeroquest.creativetab.DarkQuestTab;
+import common.zeroquest.creativetab.ZeroQuestTab;
+import common.zeroquest.events.AchievementEvents;
+import common.zeroquest.events.ConfigEvent;
+import common.zeroquest.lib.Constants;
+import common.zeroquest.lib.OreDic;
+import common.zeroquest.world.WorldProviderDarkax;
+import common.zeroquest.world.WorldProviderNillax;
+import common.zeroquest.world.gen.WorldGenZQuest;
 
-@Mod(modid = ZeroQuest.modid, name = "Zero Quest", version = ZeroQuest.version, useMetadata = true, guiFactory = "common.zeroquest.client.gui.config.GuiFactory")
+@Mod(modid = ZeroQuest.modid, name = "Zero Quest", version = Constants.version, useMetadata = true, guiFactory = "common.zeroquest.client.gui.config.GuiFactory")
 public class ZeroQuest 
 {
 	@Instance("zero_quest")
 	public static ZeroQuest instance;
 	public static final String modid = "zero_quest";
-	public static final String version = "v1.2.8";
 	public static final Logger Log = LogManager.getFormatterLogger("Zero Quest");
     public static final String channel = modid;
 	
 	@SidedProxy(clientSide = "common.zeroquest.core.proxy.ClientProxy", serverSide = "common.zeroquest.core.proxy.CommonProxy")
 	public static CommonProxy proxy;
-
-	//Put custom particles in ParticleEffects (Get regular particles from RenderGlobal)// //TODO
-	//Put Sounds in sounds.json//
+	
+	//Put sounds from Sound in sounds.json //TODO
 	
 	public static ToolMaterial nileEssence;
-	public static ArmorMaterial nileEssenceArmor;
 	public static ToolMaterial darkEssence;
-	public static ArmorMaterial darkEssenceArmor;
 	
 	public static final int NillaxID = 2;
 	public static final int DarkaxID = 3;
@@ -83,7 +74,7 @@ public class ZeroQuest
         ConfigHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + channel + File.separator + modid.toLowerCase() + ".cfg"));
         FMLCommonHandler.instance().bus().register(new ConfigEvent());
    		
-        FMLCommonHandler.instance().bus().register(new OnPlayerLogin(version, "ZeroQuest", true));	    	
+        FMLCommonHandler.instance().bus().register(new OnPlayerLogin(Constants.version, "ZeroQuest", false));	    	
     	Log.info("-----PRE-CONTENT LOAD INITATING-----");
     	Log.info("Loading Main Stuff...");
         this.ZeroTab = new ZeroQuestTab(CreativeTabs.getNextID());
@@ -100,14 +91,12 @@ public class ZeroQuest
 	{			
 		Log.info("-----CONTENT LOAD INITATING-----");
     	nileEssence = EnumHelper.addToolMaterial("NileEssence", 4, 4000, 20.0F, 4.0F, 30);
-    	nileEssenceArmor = EnumHelper.addArmorMaterial("NileEssenceArmor", 40, new int[]{4, 9, 7, 4}, 25);  
     	
     	Log.info("Loading Block, Recipes and Items...");
     	ModBlocks.load();
     	ModItems.load();
        	ZeroQuestCrafting.loadRecipes();
     	Log.info("Blocks, Recipes and Items Loaded Successfully!");
-
 		
     	Log.info("Loading Entities and Ore Dictionary...");
     	ModEntities.loadCreatures();
@@ -126,7 +115,6 @@ public class ZeroQuest
     	Log.warn("Dark Elemental Load is ENABLED!");	
     	Log.info("Initating Dark Elemental Load!");
     		darkEssence = EnumHelper.addToolMaterial("DarkEssence", 4, 4000, 21.0F, 5.0F, 40);
-        	darkEssenceArmor = EnumHelper.addArmorMaterial("DarkEssenceArmor", 41, new int[]{5, 10, 8, 1}, 30);  
         	ModItems.loadDarkItems();
         	ModBlocks.loadDarkBlocks();
       		ZeroQuestCrafting.loadDarkRecipes();
@@ -160,7 +148,10 @@ public class ZeroQuest
 	@EventHandler
 	public void PostInt(FMLPostInitializationEvent event)
 	{
-		
+    	Log.info("-----POST-CONTENT LOAD INITATING-----");
+    	Log.info("Nothing to be loaded as of now!");
+        Log.info("-----POST-CONTENT LOAD FINSHED-----");
+    	
 	}
 	
     @EventHandler //TODO

@@ -3,11 +3,13 @@ package common.zeroquest.entity.projectile;
 import common.zeroquest.ModBlocks;
 import common.zeroquest.inventory.InventoryPack;
 import net.minecraft.block.Block;
+import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.init.Blocks;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
@@ -32,58 +34,54 @@ public class EntityFlamingPoisonball extends EntityFireball
         super(par1World, par2, par4, par6, par8, par10, par12);
         this.setSize(0.5F, 0.5F);
     }
-
+    
     /**
      * Called when this EntityFireball hits a block or entity.
      */
-    protected void onImpact(MovingObjectPosition par1MovingObjectPosition)
+    protected void onImpact(MovingObjectPosition movingObject)
     {
         if (!this.worldObj.isRemote)
         {
-            if (par1MovingObjectPosition.entityHit != null)
+            boolean flag;
+
+            if (movingObject.entityHit != null)
             {
-                if (par1MovingObjectPosition.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 9.0F))
+                flag = movingObject.entityHit.attackEntityFrom(DamageSource.causeFireballDamage(this, this.shootingEntity), 5.0F);
+
+                if (flag)
                 {
-                    par1MovingObjectPosition.entityHit.setFire(5);                   
+                    this.func_174815_a(this.shootingEntity, movingObject.entityHit);
+
+                    if (!movingObject.entityHit.isImmuneToFire())
+                    {
+                        movingObject.entityHit.setFire(5);
+                    }
                 }
             }
             else
             {
-                int i = par1MovingObjectPosition.blockX;
-                int j = par1MovingObjectPosition.blockY;
-                int k = par1MovingObjectPosition.blockZ;
+                flag = true;
 
-                switch (par1MovingObjectPosition.sideHit)
+                if (this.shootingEntity != null && this.shootingEntity instanceof EntityLiving)
                 {
-                    case 0:
-                        --j;
-                        break;
-                    case 1:
-                        ++j;
-                        break;
-                    case 2:
-                        --k;
-                        break;
-                    case 3:
-                        ++k;
-                        break;
-                    case 4:
-                        --i;
-                        break;
-                    case 5:
-                        ++i;
+                    flag = this.worldObj.getGameRules().getGameRuleBooleanValue("mobGriefing");
                 }
 
-                if (this.worldObj.isAirBlock(i, j, k))
+                if (flag)
                 {
-                    this.worldObj.setBlock(i, j, k, Blocks.fire);
+                    BlockPos blockpos = movingObject.getBlockPos().offset(movingObject.sideHit);
+
+                    if (this.worldObj.isAirBlock(blockpos))
+                    {
+                        this.worldObj.setBlockState(blockpos, Blocks.fire.getDefaultState());
+                    }
                 }
             }
 
             this.setDead();
         }
     }
-
+    
     /**
      * Returns true if other Entities should be prevented from moving through this Entity.
      */

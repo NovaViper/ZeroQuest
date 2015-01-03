@@ -1,10 +1,13 @@
 package common.zeroquest.client.particle;
 
 import net.minecraft.client.particle.EntityFX;
+import net.minecraft.client.particle.IParticleFactory;
 import net.minecraft.client.renderer.Tessellator;
+import net.minecraft.client.renderer.WorldRenderer;
+import net.minecraft.entity.Entity;
 import net.minecraft.world.World;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 @SideOnly(Side.CLIENT)
 public class EntityDarkPortalFX extends EntityFX
@@ -15,35 +18,33 @@ public class EntityDarkPortalFX extends EntityFX
     private double portalPosZ;
     private static final String __OBFID = "CL_00000921";
 
-    public EntityDarkPortalFX(World p_i1222_1_, double p_i1222_2_, double p_i1222_4_, double p_i1222_6_, double p_i1222_8_, double p_i1222_10_, double p_i1222_12_)
+    protected EntityDarkPortalFX(World worldIn, double p_i46351_2_, double p_i46351_4_, double p_i46351_6_, double p_i46351_8_, double p_i46351_10_, double p_i46351_12_)
     {
-        super(p_i1222_1_, p_i1222_2_, p_i1222_4_, p_i1222_6_, p_i1222_8_, p_i1222_10_, p_i1222_12_);
-        this.motionX = p_i1222_8_;
-        this.motionY = p_i1222_10_;
-        this.motionZ = p_i1222_12_;
-        this.portalPosX = this.posX = p_i1222_2_;
-        this.portalPosY = this.posY = p_i1222_4_;
-        this.portalPosZ = this.posZ = p_i1222_6_;
+        super(worldIn, p_i46351_2_, p_i46351_4_, p_i46351_6_, p_i46351_8_, p_i46351_10_, p_i46351_12_);
+        this.motionX = p_i46351_8_;
+        this.motionY = p_i46351_10_;
+        this.motionZ = p_i46351_12_;
+        this.portalPosX = this.posX = p_i46351_2_;
+        this.portalPosY = this.posY = p_i46351_4_;
+        this.portalPosZ = this.posZ = p_i46351_6_;
         float f = this.rand.nextFloat() * 0.6F + 0.4F;
         this.portalParticleScale = this.particleScale = this.rand.nextFloat() * 0.2F + 0.5F;
         //this.particleRed = this.particleGreen = this.particleBlue = 1.0F * f;
-        this.particleRed = f;
-        this.particleGreen *= 0.1F;
-        this.particleRed *= 0.1F;
-        this.particleBlue *= 0.1F;
+        this.particleGreen *= 0.3F;
+        this.particleRed *= 0.9F;
         this.particleMaxAge = (int)(Math.random() * 10.0D) + 40;
         this.noClip = true;
         this.setParticleTextureIndex((int)(Math.random() * 8.0D));
     }
 
-    public void renderParticle(Tessellator p_70539_1_, float p_70539_2_, float p_70539_3_, float p_70539_4_, float p_70539_5_, float p_70539_6_, float p_70539_7_)
+    public void func_180434_a(WorldRenderer p_180434_1_, Entity p_180434_2_, float p_180434_3_, float p_180434_4_, float p_180434_5_, float p_180434_6_, float p_180434_7_, float p_180434_8_)
     {
-        float f6 = ((float)this.particleAge + p_70539_2_) / (float)this.particleMaxAge;
+        float f6 = ((float)this.particleAge + p_180434_3_) / (float)this.particleMaxAge;
         f6 = 1.0F - f6;
         f6 *= f6;
         f6 = 1.0F - f6;
         this.particleScale = this.portalParticleScale * f6;
-        super.renderParticle(p_70539_1_, p_70539_2_, p_70539_3_, p_70539_4_, p_70539_5_, p_70539_6_, p_70539_7_);
+        super.func_180434_a(p_180434_1_, p_180434_2_, p_180434_3_, p_180434_4_, p_180434_5_, p_180434_6_, p_180434_7_, p_180434_8_);
     }
 
     public int getBrightnessForRender(float p_70070_1_)
@@ -64,9 +65,6 @@ public class EntityDarkPortalFX extends EntityFX
         return j | k << 16;
     }
 
-    /**
-     * Gets how bright this entity is.
-     */
     public float getBrightness(float p_70013_1_)
     {
         float f1 = super.getBrightness(p_70013_1_);
@@ -75,9 +73,6 @@ public class EntityDarkPortalFX extends EntityFX
         return f1 * (1.0F - f2) + f2;
     }
 
-    /**
-     * Called to update the entity's position/logic.
-     */
     public void onUpdate()
     {
         this.prevPosX = this.posX;
@@ -96,4 +91,15 @@ public class EntityDarkPortalFX extends EntityFX
             this.setDead();
         }
     }
+
+    @SideOnly(Side.CLIENT)
+    public static class Factory implements IParticleFactory
+        {
+            private static final String __OBFID = "CL_00002590";
+
+            public EntityFX getEntityFX(int p_178902_1_, World worldIn, double p_178902_3_, double p_178902_5_, double p_178902_7_, double p_178902_9_, double p_178902_11_, double p_178902_13_, int ... p_178902_15_)
+            {
+                return new EntityDarkPortalFX(worldIn, p_178902_3_, p_178902_5_, p_178902_7_, p_178902_9_, p_178902_11_, p_178902_13_);
+            }
+        }
 }

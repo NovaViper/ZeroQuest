@@ -1,79 +1,61 @@
 package common.zeroquest.client.render;
 
-import org.lwjgl.opengl.GL11;
+import net.minecraft.client.model.ModelBase;
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.entity.RenderLiving;
+import net.minecraft.client.renderer.entity.RenderManager;
+import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import common.zeroquest.ZeroQuest;
-import common.zeroquest.client.model.ModelIceZertum;
+import common.zeroquest.client.render.layers.LayerIceZertumCollarDying;
 import common.zeroquest.entity.EntityIceZertum;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.client.renderer.entity.Render;
-import net.minecraft.client.renderer.entity.RenderLiving;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntitySheep;
-import net.minecraft.util.ResourceLocation;
 
 @SideOnly(Side.CLIENT)
 public class RenderIceZertum extends RenderLiving
 {
-    private static final ResourceLocation IceZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/izertum.png");
+    private static final ResourceLocation iceZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/izertum.png");
     private static final ResourceLocation tamedIceZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/izertum_tame.png");
-    private static final ResourceLocation anrgyIceZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/izertum_angry.png");
-    private static final ResourceLocation ZertumCollarTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_collar.png");
-    private static final ResourceLocation ZertumDyingTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_dying.png");
-
-    public RenderIceZertum(ModelIceZertum par1ModelZertum, float par3)
-    {
-        super(par1ModelZertum, par3);
-        this.setRenderPassModel(par1ModelZertum);
+    private static final ResourceLocation angryIceZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/izertum_angry.png");
+    
+    public RenderIceZertum(RenderManager p_i46128_1_, ModelBase p_i46128_2_, float p_i46128_3_){
+    
+        super(p_i46128_1_, p_i46128_2_, p_i46128_3_);
+        this.addLayer(new LayerIceZertumCollarDying(this));
     }
 
-    protected int func_82447_a(EntityIceZertum par1EntityZertum, int par2, float par3)
+    public void func_177135_a(EntityIceZertum p_177135_1_, double p_177135_2_, double p_177135_4_, double p_177135_6_, float p_177135_8_, float p_177135_9_)
     {
-        if (par2 == 0 && par1EntityZertum.getWolfShaking())
+        if (p_177135_1_.isWolfWet())
         {
-            float f1 = par1EntityZertum.getBrightness(par3) * par1EntityZertum.getShadingWhileShaking(par3);
-            this.bindTexture(IceZertumTextures);
-            GL11.glColor3f(f1, f1, f1);
-            return 1;
+            float f2 = p_177135_1_.getBrightness(p_177135_9_) * p_177135_1_.getShadingWhileWet(p_177135_9_);
+            GlStateManager.color(f2, f2, f2);
         }
-        else if (par2 == 1 && par1EntityZertum.isTamed())
-        {
-            this.bindTexture(ZertumCollarTextures);
-            int j = par1EntityZertum.getCollarColor();
-            GL11.glColor3f(EntitySheep.fleeceColorTable[j][0], EntitySheep.fleeceColorTable[j][1], EntitySheep.fleeceColorTable[j][2]);
-            return 1;
-        }
-        else if (par2 == 0 && par1EntityZertum.getHealth() <=10 &&  par1EntityZertum.isTamed())
-        {
-            this.bindTexture(ZertumDyingTextures);
-            return 1;
-        }
-        else
-        {
-            return -1;
-        }
+
+        super.doRender((EntityLiving)p_177135_1_, p_177135_2_, p_177135_4_, p_177135_6_, p_177135_8_, p_177135_9_);
     }
 
-    protected ResourceLocation func_110914_a(EntityIceZertum par1Entityzertum)
+    protected ResourceLocation getEntityTexture(EntityIceZertum p_110775_1_)
     {
-        return par1Entityzertum.isTamed() ? tamedIceZertumTextures : (par1Entityzertum.isAngry() ? anrgyIceZertumTextures : IceZertumTextures);
+        return p_110775_1_.isTamed() ? tamedIceZertumTextures : (p_110775_1_.isAngry() ? angryIceZertumTextures : iceZertumTextures);
     }
 
-    /**
-     * Queries whether should render the specified pass or not.
-     */
-    protected int shouldRenderPass(EntityLivingBase par1EntityLivingBase, int par2, float par3)
+    public void doRender(EntityLiving p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
     {
-        return this.func_82447_a((EntityIceZertum)par1EntityLivingBase, par2, par3);
+        this.func_177135_a((EntityIceZertum)p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
     }
 
-    /**
-     * Returns the location of an entity's texture. Doesn't seem to be called unless you call Render.bindEntityTexture.
-     */
-    protected ResourceLocation getEntityTexture(Entity par1Entity)
+    public void doRender(EntityLivingBase p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
     {
-        return this.func_110914_a((EntityIceZertum)par1Entity);
+        this.func_177135_a((EntityIceZertum)p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
+    }
+
+    protected ResourceLocation getEntityTexture(Entity p_110775_1_)
+    {
+        return this.getEntityTexture((EntityIceZertum)p_110775_1_);
     }
 }

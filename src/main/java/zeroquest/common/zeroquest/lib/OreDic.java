@@ -10,7 +10,7 @@ import common.zeroquest.ModItems;
 public class OreDic {
 
 	   public static void load() {
-		//OreDictionary.registerOre("ingotCoal", Items.coal);
+		OreDictionary.registerOre("ingotCoal", Items.coal);
 		
 		OreDictionary.registerOre("oreNCoal", ModBlocks.nileCoalOre);
 		OreDictionary.registerOre("ignotNCoal", ModItems.nileCoal);

@@ -2,23 +2,19 @@ package common.zeroquest.biome;
 
 import java.util.Random;
 
-import common.zeroquest.ModBlocks;
-import common.zeroquest.ModLiquids;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.monster.EntitySkeleton;
-import net.minecraft.entity.monster.EntitySlime;
-import net.minecraft.entity.monster.EntitySpider;
-import net.minecraft.entity.monster.EntityZombie;
+import net.minecraft.block.BlockSilverfish;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.biome.BiomeGenHills;
+import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenMinable;
 import net.minecraft.world.gen.feature.WorldGenTaiga2;
 import net.minecraft.world.gen.feature.WorldGenerator;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 public class BiomeGenNileMountains extends BiomeGenBase
 {
@@ -33,17 +29,12 @@ public class BiomeGenNileMountains extends BiomeGenBase
     public BiomeGenNileMountains(int p_i45373_1_, boolean p_i45373_2_)
     {
         super(p_i45373_1_);
-        this.theWorldGenerator = new WorldGenMinable(Blocks.monster_egg, 8);
+        this.theWorldGenerator = new WorldGenMinable(Blocks.monster_egg.getDefaultState().withProperty(BlockSilverfish.VARIANT, BlockSilverfish.EnumType.STONE), 9);
         this.field_150634_aD = new WorldGenTaiga2(false);
         this.field_150635_aE = 0;
         this.field_150636_aF = 1;
         this.field_150637_aG = 2;
         this.field_150638_aH = this.field_150635_aE;
-        this.spawnableMonsterList.clear();
-        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySpider.class, 100, 4, 4));
-        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityZombie.class, 100, 4, 4));
-        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySkeleton.class, 100, 4, 4));
-        this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySlime.class, 100, 4, 4));
 
         if (p_i45373_2_)
         {
@@ -52,69 +43,82 @@ public class BiomeGenNileMountains extends BiomeGenBase
         }
     }
 
-    public WorldGenAbstractTree func_150567_a(Random p_150567_1_)
+    public WorldGenAbstractTree genBigTreeChance(Random p_150567_1_)
     {
-        return (WorldGenAbstractTree)(p_150567_1_.nextInt(3) > 0 ? this.field_150634_aD : super.func_150567_a(p_150567_1_));
+        return (WorldGenAbstractTree)(p_150567_1_.nextInt(3) > 0 ? this.field_150634_aD : super.genBigTreeChance(p_150567_1_));
     }
 
-    public void decorate(World p_76728_1_, Random p_76728_2_, int p_76728_3_, int p_76728_4_)
+    public void decorate(World worldIn, Random p_180624_2_, BlockPos p_180624_3_)
     {
-        super.decorate(p_76728_1_, p_76728_2_, p_76728_3_, p_76728_4_);
-        int k = 3 + p_76728_2_.nextInt(6);
+        super.decorate(worldIn, p_180624_2_, p_180624_3_);
+        int i = 3 + p_180624_2_.nextInt(6);
+        int j;
+        int k;
         int l;
-        int i1;
-        int j1;
 
-        for (l = 0; l < k; ++l)
+        for (j = 0; j < i; ++j)
         {
-            i1 = p_76728_3_ + p_76728_2_.nextInt(16);
-            j1 = p_76728_2_.nextInt(28) + 4;
-            int k1 = p_76728_4_ + p_76728_2_.nextInt(16);
+            k = p_180624_2_.nextInt(16);
+            l = p_180624_2_.nextInt(28) + 4;
+            int i1 = p_180624_2_.nextInt(16);
+            BlockPos blockpos1 = p_180624_3_.add(k, l, i1);
 
-            if (p_76728_1_.getBlock(i1, j1, k1).isReplaceableOreGen(p_76728_1_, i1, j1, k1, Blocks.stone))
+            if (worldIn.getBlockState(blockpos1).getBlock().isReplaceableOreGen(worldIn, blockpos1, net.minecraft.block.state.pattern.BlockHelper.forBlock(Blocks.stone)))
             {
-                p_76728_1_.setBlock(i1, j1, k1, Blocks.emerald_ore, 0, 2);
+                worldIn.setBlockState(blockpos1, Blocks.emerald_ore.getDefaultState(), 2);
             }
         }
 
-        for (k = 0; k < 7; ++k)
+        for (i = 0; i < 7; ++i)
         {
-            l = p_76728_3_ + p_76728_2_.nextInt(16);
-            i1 = p_76728_2_.nextInt(64);
-            j1 = p_76728_4_ + p_76728_2_.nextInt(16);
-            this.theWorldGenerator.generate(p_76728_1_, p_76728_2_, l, i1, j1);
+            j = p_180624_2_.nextInt(16);
+            k = p_180624_2_.nextInt(64);
+            l = p_180624_2_.nextInt(16);
+            this.theWorldGenerator.generate(worldIn, p_180624_2_, p_180624_3_.add(j, k, l));
         }
     }
-	
-    @SideOnly(Side.CLIENT)
-    @Override
-    public int getBiomeGrassColor(int par1, int par2, int par3){return 0x99FFCC;}
-    @SideOnly(Side.CLIENT)
-    @Override
-    public int getBiomeFoliageColor(int par1, int par2, int par3){return 0x99FFCC;}
-    @SideOnly(Side.CLIENT)
-    @Override
-    public int getSkyColorByTemp(float par1){return 0x99FF33;}
 
-    /**
-     * this creates a mutation specific to Hills biomes
-     */
+    public void genTerrainBlocks(World worldIn, Random p_180622_2_, ChunkPrimer p_180622_3_, int p_180622_4_, int p_180622_5_, double p_180622_6_)
+    {
+        this.topBlock = Blocks.grass.getDefaultState();
+        this.fillerBlock = Blocks.dirt.getDefaultState();
+
+        if ((p_180622_6_ < -1.0D || p_180622_6_ > 2.0D) && this.field_150638_aH == this.field_150637_aG)
+        {
+            this.topBlock = Blocks.gravel.getDefaultState();
+            this.fillerBlock = Blocks.gravel.getDefaultState();
+        }
+        else if (p_180622_6_ > 1.0D && this.field_150638_aH != this.field_150636_aF)
+        {
+            this.topBlock = Blocks.stone.getDefaultState();
+            this.fillerBlock = Blocks.stone.getDefaultState();
+        }
+
+        this.generateBiomeTerrain(worldIn, p_180622_2_, p_180622_3_, p_180622_4_, p_180622_5_, p_180622_6_);
+    }
+
     public BiomeGenNileMountains mutateHills(BiomeGenBase p_150633_1_)
     {
         this.field_150638_aH = this.field_150637_aG;
         this.func_150557_a(p_150633_1_.color, true);
         this.setBiomeName(p_150633_1_.biomeName + " M");
-        this.setHeight(new BiomeGenBase.Height(p_150633_1_.rootHeight, p_150633_1_.heightVariation));
+        this.setHeight(new BiomeGenBase.Height(p_150633_1_.minHeight, p_150633_1_.maxHeight));
         this.setTemperatureRainfall(p_150633_1_.temperature, p_150633_1_.rainfall);
         return this;
     }
 
-    /**
-     * Creates a mutated version of the biome and places it into the biomeList with an index equal to the original plus
-     * 128
-     */
-    public BiomeGenBase createMutation()
+    public BiomeGenBase createMutatedBiome(int p_180277_1_)
     {
-        return (new BiomeGenNileMountains(this.biomeID + 128, false)).mutateHills(this);
+        return (new BiomeGenNileMountains(p_180277_1_, false)).mutateHills(this);
     }
+    
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int getModdedBiomeGrassColor(int par1){return 0x99FFCC;}
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int getModdedBiomeFoliageColor(int par1){return 0x99FFCC;}
+    @SideOnly(Side.CLIENT)
+    @Override
+    public int getSkyColorByTemp(float par1){return 0x99FF33;}
 }

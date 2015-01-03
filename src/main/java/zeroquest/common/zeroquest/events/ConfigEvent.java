@@ -1,10 +1,9 @@
 package common.zeroquest.events;
 
+import net.minecraftforge.fml.client.event.ConfigChangedEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.core.handlers.ConfigHandler;
-
-import cpw.mods.fml.client.event.ConfigChangedEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
 
 public class ConfigEvent {
 	

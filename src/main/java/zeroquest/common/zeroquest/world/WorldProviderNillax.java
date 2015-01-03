@@ -3,10 +3,11 @@ package common.zeroquest.world;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
+
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.world.gen.ChunkProviderNillax;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class WorldProviderNillax extends WorldProvider
 {	
@@ -17,7 +18,7 @@ public class WorldProviderNillax extends WorldProvider
 	public void registerWorldChunkManager()
 	{
 		/** tells Minecraft to use our new WorldChunkManager **/
-		this.worldChunkMgr = new WorldChunkMangerNillax(worldObj.getSeed(), terrainType);
+		this.worldChunkMgr = new WorldChunkMangerNillax(worldObj.getSeed(), worldObj.getWorldInfo().getTerrainType());
 		this.hasNoSky = false;
 		this.dimensionId = ZeroQuest.NillaxID;
 	}
@@ -26,7 +27,7 @@ public class WorldProviderNillax extends WorldProvider
 	@Override
 	public IChunkProvider createChunkGenerator()
 	{
-		return new ChunkProviderNillax(this.worldObj, this.worldObj.getSeed(), true);
+		return new ChunkProviderNillax(this.worldObj, this.worldObj.getSeed(), true, worldObj.getWorldInfo().getGeneratorOptions());
 	}
 	
 	/** Get Provider for dimension **/
@@ -97,5 +98,12 @@ public class WorldProviderNillax extends WorldProvider
 	public double getMovementFactor()
 	{
 		return 10.0;
+	}
+
+
+	@Override
+	public String getInternalNameSuffix() {
+		// TODO Auto-generated method stub
+		return "_nillax";
 	}
 }

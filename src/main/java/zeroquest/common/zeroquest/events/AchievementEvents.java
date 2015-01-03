@@ -1,14 +1,14 @@
 package common.zeroquest.events;
 
 import net.minecraft.block.Block;
-import net.minecraftforge.event.entity.player.EntityItemPickupEvent;
+import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.gameevent.PlayerEvent;
+
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.lib.Constants;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.PlayerEvent;
 
 public class AchievementEvents{
 

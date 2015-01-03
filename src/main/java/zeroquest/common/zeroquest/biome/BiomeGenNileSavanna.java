@@ -5,6 +5,8 @@ import static net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.Ev
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockDirt;
+import net.minecraft.block.BlockDoublePlant;
 import net.minecraft.block.material.Material;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -14,20 +16,19 @@ import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.biome.BiomeGenMutated;
 import net.minecraft.world.biome.BiomeGenSavanna;
+import net.minecraft.world.chunk.ChunkPrimer;
 import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraft.world.gen.feature.WorldGenFlowers;
 import net.minecraft.world.gen.feature.WorldGenSavannaTree;
 import net.minecraftforge.event.terraingen.TerrainGen;
 import common.zeroquest.ModBlocks;
-import common.zeroquest.ModLiquids;
 import common.zeroquest.entity.EntityKortor;
 import common.zeroquest.entity.EntityZertum;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
 
 public class BiomeGenNileSavanna extends BiomeGenBase
 {
@@ -52,37 +53,33 @@ public class BiomeGenNileSavanna extends BiomeGenBase
        	this.waterColorMultiplier = 0x0099cc;
     }
 
-    public WorldGenAbstractTree func_150567_a(Random p_150567_1_)
+    public WorldGenAbstractTree genBigTreeChance(Random p_150567_1_)
     {
         return (WorldGenAbstractTree)(p_150567_1_.nextInt(5) > 0 ? field_150627_aC : this.worldGeneratorTrees);
     }
 
-    /**
-     * Creates a mutated version of the biome and places it into the biomeList with an index equal to the original plus
-     * 128
-     */
-    public BiomeGenBase createMutation()
+    public BiomeGenBase createMutatedBiome(int p_180277_1_)
     {
-        BiomeGenNileSavanna.Mutated mutated = new BiomeGenNileSavanna.Mutated(this.biomeID + 128, this);
+        BiomeGenSavanna.Mutated mutated = new BiomeGenSavanna.Mutated(p_180277_1_, this);
         mutated.temperature = (this.temperature + 1.0F) * 0.5F;
-        mutated.rootHeight = this.rootHeight * 0.5F + 0.3F;
-        mutated.heightVariation = this.heightVariation * 0.5F + 1.2F;
+        mutated.minHeight = this.minHeight * 0.5F + 0.3F;
+        mutated.maxHeight = this.maxHeight * 0.5F + 1.2F;
         return mutated;
     }
 
-    public void decorate(World p_76728_1_, Random p_76728_2_, int p_76728_3_, int p_76728_4_)
+    public void decorate(World worldIn, Random p_180624_2_, BlockPos p_180624_3_)
     {
-        genTallFlowers.func_150548_a(2);
+        DOUBLE_PLANT_GENERATOR.func_180710_a(BlockDoublePlant.EnumPlantType.GRASS);
 
-        for (int k = 0; k < 7; ++k)
+        for (int i = 0; i < 7; ++i)
         {
-            int l = p_76728_3_ + p_76728_2_.nextInt(16) + 8;
-            int i1 = p_76728_4_ + p_76728_2_.nextInt(16) + 8;
-            int j1 = p_76728_2_.nextInt(p_76728_1_.getHeightValue(l, i1) + 32);
-            genTallFlowers.generate(p_76728_1_, p_76728_2_, l, j1, i1);
+            int j = p_180624_2_.nextInt(16) + 8;
+            int k = p_180624_2_.nextInt(16) + 8;
+            int l = p_180624_2_.nextInt(worldIn.getHorizon(p_180624_3_.add(j, 0, k)).getY() + 32);
+            DOUBLE_PLANT_GENERATOR.generate(worldIn, p_180624_2_, p_180624_3_.add(j, l, k));
         }
 
-        super.decorate(p_76728_1_, p_76728_2_, p_76728_3_, p_76728_4_);
+        super.decorate(worldIn, p_180624_2_, p_180624_3_);
     }
 
     public static class Mutated extends BiomeGenMutated
@@ -97,29 +94,27 @@ public class BiomeGenNileSavanna extends BiomeGenBase
                 this.theBiomeDecorator.grassPerChunk = 5;
             }
 
-            public void genTerrainBlocks(World p_150573_1_, Random p_150573_2_, Block[] p_150573_3_, byte[] p_150573_4_, int p_150573_5_, int p_150573_6_, double p_150573_7_)
+            public void genTerrainBlocks(World worldIn, Random p_180622_2_, ChunkPrimer p_180622_3_, int p_180622_4_, int p_180622_5_, double p_180622_6_)
             {
-                this.topBlock = Blocks.grass;
-                this.field_150604_aj = 0;
-                this.fillerBlock = Blocks.dirt;
+                this.topBlock = Blocks.grass.getDefaultState();
+                this.fillerBlock = Blocks.dirt.getDefaultState();
 
-                if (p_150573_7_ > 1.75D)
+                if (p_180622_6_ > 1.75D)
                 {
-                    this.topBlock = Blocks.stone;
-                    this.fillerBlock = Blocks.stone;
+                    this.topBlock = Blocks.stone.getDefaultState();
+                    this.fillerBlock = Blocks.stone.getDefaultState();
                 }
-                else if (p_150573_7_ > -0.5D)
+                else if (p_180622_6_ > -0.5D)
                 {
-                    this.topBlock = Blocks.dirt;
-                    this.field_150604_aj = 1;
+                    this.topBlock = Blocks.dirt.getDefaultState().withProperty(BlockDirt.VARIANT, BlockDirt.DirtType.COARSE_DIRT);
                 }
 
-                this.genBiomeTerrain(p_150573_1_, p_150573_2_, p_150573_3_, p_150573_4_, p_150573_5_, p_150573_6_, p_150573_7_);
+                this.generateBiomeTerrain(worldIn, p_180622_2_, p_180622_3_, p_180622_4_, p_180622_5_, p_180622_6_);
             }
 
-            public void decorate(World p_76728_1_, Random p_76728_2_, int p_76728_3_, int p_76728_4_)
+            public void decorate(World worldIn, Random p_180624_2_, BlockPos p_180624_3_)
             {
-                this.theBiomeDecorator.decorateChunk(p_76728_1_, p_76728_2_, this, p_76728_3_, p_76728_4_);
+                this.theBiomeDecorator.decorate(worldIn, p_180624_2_, this, p_180624_3_);
             }
         }
 }

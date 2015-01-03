@@ -2,6 +2,10 @@ package common.zeroquest;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.projectile.EntityFireball;
+import net.minecraftforge.fml.common.registry.EntityRegistry;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
 import common.zeroquest.entity.EntityDarkZertum;
 import common.zeroquest.entity.EntityDestroZertum;
 import common.zeroquest.entity.EntityForisZertum;
@@ -11,13 +15,10 @@ import common.zeroquest.entity.EntityKortor;
 import common.zeroquest.entity.EntityKurr;
 import common.zeroquest.entity.EntityRedZertum;
 import common.zeroquest.entity.EntityZertum;
-import common.zeroquest.entity.projectile.EntityFireball;
 import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
 import common.zeroquest.entity.projectile.EntityGrenade;
 import common.zeroquest.entity.projectile.EntityIceball;
-import common.zeroquest.tileentity.TileEntityNileTable;
-import cpw.mods.fml.common.registry.EntityRegistry;
-import cpw.mods.fml.common.registry.GameRegistry;
+import common.zeroquest.tileentity.TileEntityNileWorkbench;
 
 
 public class ModEntities {
@@ -52,7 +53,7 @@ public class ModEntities {
 	   }
 	   
 	   public static void loadOthers() {
-		   registerTileEntity(TileEntityNileTable.class, "Nile Worktable");
+		   registerTileEntity(TileEntityNileWorkbench.class, "Nile Worktable");
 		   registerProjectileEntity(EntityFlamingPoisonball.class, "FPoisonball", 400);
 		   EntityRegistry.registerModEntity(EntityGrenade.class, "Grenade", 401, ZeroQuest.instance, 80, 3, true);
 		   registerProjectileEntity(EntityIceball.class, "Iceball", 402);
@@ -63,11 +64,11 @@ public class ModEntities {
 			EntityRegistry.registerModEntity(entityClass, saveName, id, ZeroQuest.instance, 120, 1, true);
 		}
 
-		public static void registerEntityEgg(Class<? extends Entity> entity, int backgroundEggColor, int foregroundEggColor) 
+		public static void registerEntityEgg(Class<? extends Entity> entity, int main, int spots) 
 		{
 			int id = getUniqueEntityId();
-			EntityList.IDtoClassMapping.put(id, entity);
-			EntityList.entityEggs.put(id, new EntityList.EntityEggInfo(id, backgroundEggColor, foregroundEggColor));
+			EntityList.idToClassMapping.put(id, entity);
+			EntityList.entityEggs.put(id, new EntityList.EntityEggInfo(id, main, spots));
 		}
 		
 		public static void registerTileEntity(Class entityTileClass, String saveName){

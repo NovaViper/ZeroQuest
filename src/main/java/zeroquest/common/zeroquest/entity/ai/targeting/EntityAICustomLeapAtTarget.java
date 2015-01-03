@@ -7,24 +7,18 @@ import net.minecraft.util.MathHelper;
 
 public class EntityAICustomLeapAtTarget extends EntityAIBase
 {
-    /** The entity that is leaping. */
     EntityLiving leaper;
-    /** The entity that the leaper is leaping towards. */
     EntityLivingBase leapTarget;
-    /** The entity's motionY after leaping. */
     float leapMotionY;
     private static final String __OBFID = "CL_00001591";
 
-    public EntityAICustomLeapAtTarget(EntityLiving p_i1630_1_, float p_i1630_2_)
+    public EntityAICustomLeapAtTarget(EntityLiving leapingEntity, float p_i1630_2_)
     {
-        this.leaper = p_i1630_1_;
+        this.leaper = leapingEntity;
         this.leapMotionY = p_i1630_2_;
         this.setMutexBits(8);
     }
 
-    /**
-     * Returns whether the EntityAIBase should begin execution.
-     */
     public boolean shouldExecute()
     {
         this.leapTarget = this.leaper.getAttackTarget();
@@ -40,17 +34,11 @@ public class EntityAICustomLeapAtTarget extends EntityAIBase
         }
     }
 
-    /**
-     * Returns whether an in-progress EntityAIBase should continue executing
-     */
     public boolean continueExecuting()
     {
         return !this.leaper.onGround;
     }
 
-    /**
-     * Execute a one shot task or start executing a continuous task
-     */
     public void startExecuting()
     {
         double d0 = this.leapTarget.posX - this.leaper.posX;
