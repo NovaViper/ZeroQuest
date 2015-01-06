@@ -13,7 +13,7 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.IChatComponent;
-
+import common.zeroquest.core.helper.ChatHelper;
 import common.zeroquest.inventory.ContainerNileWorkbench;
 
 public class TileEntityNileWorkbench extends TileEntity implements IInventory
@@ -21,7 +21,6 @@ public class TileEntityNileWorkbench extends TileEntity implements IInventory
 	private ItemStack[] inventory;
     public IInventory craftResult = new InventoryCraftResult();
 	public ItemStack[] craftMatrixInventory;
-	public BlockPos pos;
     
     public TileEntityNileWorkbench() {
         super();
@@ -38,6 +37,28 @@ public class TileEntityNileWorkbench extends TileEntity implements IInventory
 	@Override
 	public ItemStack getStackInSlot(int i) {
 		return this.inventory[i];
+	}
+	
+	@Override
+	public IChatComponent getDisplayName() {
+		return ChatHelper.getChatComponent(getName());
+	}	
+	
+	@Override
+	public String getName() {
+		return "Nile Table";
+	}
+
+
+	@Override
+	public boolean hasCustomName() {
+		return false;
+	}
+
+
+	@Override
+	public int getInventoryStackLimit() {
+		return 64;
 	}
 
     @Override
@@ -81,35 +102,10 @@ public class TileEntityNileWorkbench extends TileEntity implements IInventory
 		markDirty();
 	}
 
-
 	@Override
-	public String getName() {
-		return "Nile Table";
+	public boolean isUseableByPlayer(EntityPlayer entityplayer) {
+		return entityplayer.getDistanceSq(this.pos.getX() + 0.5, this.pos.getY() + 0.5, this.pos.getZ() + 0.5) <= 64;
 	}
-
-
-	@Override
-	public boolean hasCustomName() {
-		return false;
-	}
-
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-	
-	@Override
-	public IChatComponent getDisplayName() {
-		return null;
-	}
-
-	@Override
-    public boolean isUseableByPlayer(EntityPlayer player)
-    {
-        return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
-    }
-
 
 	@Override
 	public void openInventory(EntityPlayer playerIn) {}
@@ -123,46 +119,71 @@ public class TileEntityNileWorkbench extends TileEntity implements IInventory
 		return true;
 	}
 
-    public void readFromNBT(NBTTagCompound compound)
-    {
-        super.readFromNBT(compound);
-        NBTTagList nbttaglist = compound.getTagList("Items", 10);
-        this.inventory = new ItemStack[this.getSizeInventory()];
+    @Override
+    public void readFromNBT(NBTTagCompound nbtTagCompound) {
 
-        for (int i = 0; i < nbttaglist.tagCount(); ++i)
-        {
-            NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
-            int j = nbttagcompound1.getByte("Slot") & 255;
+        super.readFromNBT(nbtTagCompound);
 
-            if (j >= 0 && j < this.inventory.length)
-            {
-                this.inventory[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+        // Read in the ItemStacks in the inventory from NBT
+        NBTTagList tagList = nbtTagCompound.getTagList("Items", 10);
+        inventory = new ItemStack[this.getSizeInventory()];
+        for (int i = 0; i < tagList.tagCount(); ++i) {
+            NBTTagCompound tagCompound = (NBTTagCompound) tagList.getCompoundTagAt(i);
+            byte slot = tagCompound.getByte("Slot");
+            if (slot >= 0 && slot < inventory.length) {
+                inventory[slot] = ItemStack.loadItemStackFromNBT(tagCompound);
             }
         }
-    }
-
-    public void writeToNBT(NBTTagCompound compound)
-    {
-        super.writeToNBT(compound);
-        NBTTagList nbttaglist = new NBTTagList();
-
-        for (int i = 0; i < this.inventory.length; ++i)
-        {
-            if (this.inventory[i] != null)
-            {
-                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                nbttagcompound1.setByte("Slot", (byte)i);
-                this.inventory[i].writeToNBT(nbttagcompound1);
-                nbttaglist.appendTag(nbttagcompound1);
+        
+     // Read in the Crafting Matrix from NBT
+        NBTTagList craftingTag = nbtTagCompound.getTagList("CraftingMatrix", 10);
+        craftMatrixInventory = new ItemStack[9]; //TODO: magic number
+        for (int i = 0; i < craftingTag.tagCount(); ++i) {
+            NBTTagCompound tagCompound = (NBTTagCompound) craftingTag.getCompoundTagAt(i);
+            byte slot = tagCompound.getByte("Slot");
+            if (slot >= 0 && slot < craftMatrixInventory.length) {
+                craftMatrixInventory[slot] = ItemStack.loadItemStackFromNBT(tagCompound);
             }
         }
 
-        compound.setTag("Items", nbttaglist);
+        // Read craftingResult from NBT
+        NBTTagCompound tagCraftResult = nbtTagCompound.getCompoundTag("CraftingResult");
+        craftResult.setInventorySlotContents(0, ItemStack.loadItemStackFromNBT(tagCraftResult));
     }
-    
-    public Container createContainer(InventoryPlayer playerInventory, EntityPlayer playerIn)
-    {
-        return new ContainerNileWorkbench(playerInventory, craftResult, this.worldObj, pos);
+
+
+    @Override
+    public void writeToNBT(NBTTagCompound nbtTagCompound) {
+
+        super.writeToNBT(nbtTagCompound);
+
+        // Write the ItemStacks in the inventory to NBT
+        NBTTagList tagList = new NBTTagList();
+        for (int currentIndex = 0; currentIndex < inventory.length; ++currentIndex) {
+            if (inventory[currentIndex] != null) {
+                NBTTagCompound tagCompound = new NBTTagCompound();
+                tagCompound.setByte("Slot", (byte) currentIndex);
+                inventory[currentIndex].writeToNBT(tagCompound);
+                tagList.appendTag(tagCompound);
+            }
+        }
+        nbtTagCompound.setTag("Items", tagList);
+        
+        // Write Crafting Matrix to NBT
+        NBTTagList craftingTag = new NBTTagList();
+        for (int currentIndex = 0; currentIndex < craftMatrixInventory.length; ++currentIndex) {
+            if (craftMatrixInventory[currentIndex] != null) {
+                NBTTagCompound tagCompound = new NBTTagCompound();
+                tagCompound.setByte("Slot", (byte) currentIndex);
+                craftMatrixInventory[currentIndex].writeToNBT(tagCompound);
+                craftingTag.appendTag(tagCompound);
+            }
+        }
+        nbtTagCompound.setTag("CraftingMatrix", craftingTag);
+        
+        // Write craftingResult to NBT
+        if (craftResult.getStackInSlot(0) != null)
+            nbtTagCompound.setTag("CraftingResult", craftResult.getStackInSlot(0).writeToNBT(new NBTTagCompound()));
     }
 
     public int getField(int id)
@@ -183,5 +204,5 @@ public class TileEntityNileWorkbench extends TileEntity implements IInventory
         {
             this.inventory[i] = null;
         }
-    }	
+    }
 }

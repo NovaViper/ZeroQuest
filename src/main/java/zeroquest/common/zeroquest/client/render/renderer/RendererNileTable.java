@@ -1,10 +1,11 @@
-package common.zeroquest.client.renderer;
+package common.zeroquest.client.render.renderer;
 
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
 import common.zeroquest.ZeroQuest;
-import common.zeroquest.client.renderer.model.ModelNileTable;
+import common.zeroquest.client.render.renderer.model.ModelNileTable;
+import common.zeroquest.lib.Constants;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;
@@ -13,7 +14,7 @@ public class RendererNileTable extends TileEntitySpecialRenderer{
 
 	private ModelNileTable model;
 	
-	private static final ResourceLocation texture = new ResourceLocation(ZeroQuest.modid + ":" + "textures/models/nileWorktable.png");
+	private static final ResourceLocation texture = new ResourceLocation(Constants.modid + ":" + "textures/models/nileWorktable.png");
 	
 	public RendererNileTable(){
 		this.model = new ModelNileTable();

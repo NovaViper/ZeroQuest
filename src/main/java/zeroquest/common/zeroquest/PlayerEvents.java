@@ -14,13 +14,13 @@ import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 
 import common.zeroquest.core.helper.ChatHelper;
 
-public class OnPlayerLogin{
+public class PlayerEvents{
 
 	private String version;
 	private String name;
 	private boolean isBeta;
 
-	public OnPlayerLogin(String modVersion, String modName, boolean beta){
+	public PlayerEvents(String modVersion, String modName, boolean beta){
 		version = modVersion;
 		name = modName;
 		isBeta = beta;

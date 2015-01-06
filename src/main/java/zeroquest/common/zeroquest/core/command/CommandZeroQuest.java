@@ -244,7 +244,6 @@ public class CommandZeroQuest extends CommandBase {
        public void modify(EntityCustomTameable entity) {
     	   if(entity.isTamed()){
     	   		entity.setGrowingAge(age);
-    	   		entity.spawnAgeParticles(true);
     	   }
 	   		System.out.println("Age set!");
        }
@@ -258,7 +257,6 @@ public class CommandZeroQuest extends CommandBase {
        public void modify(EntityCustomTameable entity) {
     	   if(entity.isTamed()){
     	   		entity.setHealth(entity.getMaxHealth());
-    	   		entity.spawnHealParticles(true);
        		}
     	   System.out.println("Healed!");
        }

@@ -9,15 +9,16 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import common.zeroquest.ZeroQuest;
+
 import common.zeroquest.client.render.RenderRedZertum;
 import common.zeroquest.entity.EntityRedZertum;
+import common.zeroquest.lib.Constants;
 
 @SideOnly(Side.CLIENT)
 public class LayerRedZertumCollarDying implements LayerRenderer
 {
-    private static final ResourceLocation field_177147_a = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_collar.png");
-    private static final ResourceLocation ZertumDyingTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_dying.png");
+    private static final ResourceLocation field_177147_a = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum_collar.png");
+    private static final ResourceLocation ZertumDyingTextures = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum_dying.png");
     private final RenderRedZertum field_177146_b;
     private static final String __OBFID = "CL_00002405";
 

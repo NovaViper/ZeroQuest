@@ -1,7 +1,5 @@
 package common.zeroquest.lib;
 
-import common.zeroquest.ZeroQuest;
-
 public class Constants {
 	
 	   public static boolean DEF_DARKLOAD = false;
@@ -13,4 +11,5 @@ public class Constants {
 	   public static String DEF_JAVA = "8";
 	   public static String DEF_RELEASETYPE = "Release";
 	   public static final String version = "v1.3.0";
+	   public static final String modid = "zero_quest";
 }

@@ -10,16 +10,14 @@ import net.minecraft.client.resources.I18n;
 import net.minecraftforge.common.ForgeModContainer;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.fml.client.IModGuiFactory;
-import net.minecraftforge.fml.client.IModGuiFactory.RuntimeOptionCategoryElement;
-import net.minecraftforge.fml.client.IModGuiFactory.RuntimeOptionGuiHandler;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
 import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.GuiConfigEntries;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.CategoryEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
 
-import common.zeroquest.ZeroQuest;
 import common.zeroquest.core.handlers.ConfigHandler;
+import common.zeroquest.lib.Constants;
 
 
 public class GuiFactory implements IModGuiFactory
@@ -50,7 +48,7 @@ public class GuiFactory implements IModGuiFactory
 
 		public ModGuiConfig(GuiScreen guiScreen){
 			super(guiScreen, 
-					getConfigElements(), ZeroQuest.modid, false, false, I18n.format("gui.config.title"));
+					getConfigElements(), Constants.modid, false, false, I18n.format("gui.config.title"));
 		}
 		
 	    private static List<IConfigElement> getConfigElements()

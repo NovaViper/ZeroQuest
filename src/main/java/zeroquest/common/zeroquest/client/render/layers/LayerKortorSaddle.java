@@ -1,19 +1,19 @@
 package common.zeroquest.client.render.layers;
 
-import common.zeroquest.ZeroQuest;
-import common.zeroquest.client.render.RenderKortor;
-import common.zeroquest.client.render.model.ModelKortor;
-import common.zeroquest.entity.EntityKortor;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import common.zeroquest.client.render.RenderKortor;
+import common.zeroquest.entity.EntityKortor;
+import common.zeroquest.lib.Constants;
+
 @SideOnly(Side.CLIENT)
 public class LayerKortorSaddle implements LayerRenderer
 {
-	private static final ResourceLocation TEXTURE = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/kortor/kortor_saddle.png");
+	private static final ResourceLocation TEXTURE = new ResourceLocation(Constants.modid + ":" + "textures/entity/kortor/kortor_saddle.png");
     private final RenderKortor field_177146_b;
     private static final String __OBFID = "CL_00002414";
 

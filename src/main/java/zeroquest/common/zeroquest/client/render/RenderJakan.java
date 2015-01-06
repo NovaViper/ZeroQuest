@@ -8,15 +8,15 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import common.zeroquest.ZeroQuest;
 import common.zeroquest.client.render.layers.LayerJakanSaddle;
 import common.zeroquest.entity.EntityJakan;
+import common.zeroquest.lib.Constants;
 
 @SideOnly(Side.CLIENT)
 public class RenderJakan extends RenderLiving
 {	
-    private static final ResourceLocation jakanTexture = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/jakan/jakan.png");
-    private static final ResourceLocation jakanTextureTamed = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/jakan/jakan_tamed.png");
+    private static final ResourceLocation jakanTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/jakan/jakan.png");
+    private static final ResourceLocation jakanTextureTamed = new ResourceLocation(Constants.modid + ":" + "textures/entity/jakan/jakan_tamed.png");
     
     public RenderJakan(RenderManager p_i46128_1_, ModelBase p_i46128_2_, float p_i46128_3_){
         

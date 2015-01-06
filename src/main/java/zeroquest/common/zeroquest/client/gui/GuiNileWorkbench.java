@@ -3,9 +3,6 @@ package common.zeroquest.client.gui;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.ContainerFurnace;
-import net.minecraft.inventory.ContainerWorkbench;
-import net.minecraft.inventory.IInventory;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
@@ -15,22 +12,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 
-import common.zeroquest.ZeroQuest;
 import common.zeroquest.inventory.ContainerNileWorkbench;
+import common.zeroquest.lib.Constants;
+import common.zeroquest.tileentity.TileEntityNileWorkbench;
 
 
 @SideOnly(Side.CLIENT)
 public class GuiNileWorkbench extends GuiContainer{
 
-	private static final ResourceLocation field_110422_t = new ResourceLocation(ZeroQuest.modid + ":" + "textures/gui/niletable.png");
-    private IInventory tileTable;
-    private final InventoryPlayer playerInventory;
+	private static final ResourceLocation field_110422_t = new ResourceLocation(Constants.modid + ":" + "textures/gui/niletable.png");
     
-    public GuiNileWorkbench(InventoryPlayer playerInv , IInventory furnaceInv, World worldIn, BlockPos blockPosition)
+    public GuiNileWorkbench(InventoryPlayer playerInv, TileEntityNileWorkbench tileTable, World worldIn, BlockPos blockPosition)
     {
-        super(new ContainerNileWorkbench(playerInv, furnaceInv, worldIn, blockPosition));
-        this.playerInventory = playerInv;
-        this.tileTable = furnaceInv;
+        super(new ContainerNileWorkbench(tileTable, playerInv, worldIn, blockPosition));
     }
 
 	/**

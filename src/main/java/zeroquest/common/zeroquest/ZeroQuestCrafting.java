@@ -138,11 +138,11 @@ public class ZeroQuestCrafting
 			" Z ",
 			" Z ",
 			'X', new ItemStack(ModItems.darkEssence), 'Z', Items.stick });
-		/*addRecipe(new ItemStack(ModItems.nileBow), new Object[]{
+		addRecipe(new ItemStack(ModItems.darkBow), new Object[]{
 			" XZ",
 			"Y Z",
 			" XZ",
-			'Y', Item.stick, 'X', new ItemStack(ModItems.darkEssence), 'Z', Item.silk });*/
+			'Y', Items.stick, 'X', new ItemStack(ModItems.darkEssence), 'Z', Items.string });
 		
 		//Dark Nile Substances//
 		addRecipe(new ItemStack(ModItems.darkEssence, 2), new Object[]{
@@ -161,18 +161,23 @@ public class ZeroQuestCrafting
 			"XX ",
 			"ZX ",
 			'X', new ItemStack(ModItems.darkGrain), 'Z', Blocks.crafting_table });
-		addRecipe(new ItemStack(ModItems.darkNileBone), new Object[]{
+		addRecipe(new ItemStack(ModItems.darkBone), new Object[]{
 			"  X",
 			" Z ",
 			"X  ",
 			'X', new ItemStack(ModItems.darkDust), 'Z', ModItems.nileBone });
+		addRecipe(new ItemStack(ModItems.darkBone), new Object[]{
+			"  X",
+			" Z ",
+			"X  ",
+			'X', new ItemStack(ModItems.darkDust), 'Z', Items.bone });
 		addRecipe(new ItemStack(ModBlocks.darkaxStone, 2), new Object[]{ //TODO
 			"XXX",
 			"XZX",
 			"XXX",
 			'X', new ItemStack(ModItems.darkEssence), 'Z', Blocks.obsidian });
 		
-		addShapelessRecipe(new ItemStack(Items.dye, 4, 15), ModItems.darkNileBone);
+		addShapelessRecipe(new ItemStack(Items.dye, 4, 15), ModItems.darkBone);
 		addShapelessRecipe(new ItemStack(ModItems.nileGrenade), ModItems.darkGrain, Items.gunpowder);
 		addShapelessRecipe(new ItemStack(ModItems.darkSpark), ModItems.darkDust, Items.fire_charge);
 		addShapelessRecipe(new ItemStack(ModItems.darkSpark), ModItems.darkDust, Items.flint_and_steel);
@@ -181,8 +186,6 @@ public class ZeroQuestCrafting
 	public static void addSmelting(ItemStack input, ItemStack output, float xp){
 		GameRegistry.addSmelting(input, output, xp);
 	}
-	
-	
 	
 	public static void addShapedRecipe(ItemStack output, Object... params){
 		GameRegistry.addShapedRecipe(output, params);

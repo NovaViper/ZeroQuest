@@ -285,6 +285,11 @@ public class EntityDarkZertum extends EntityCustomTameable
     public void onLivingUpdate() //TODO
     {
         super.onLivingUpdate();
+        double d0 = this.rand.nextGaussian() * 0.04D;
+        double d1 = this.rand.nextGaussian() * 0.04D;
+        double d2 = this.rand.nextGaussian() * 0.04D;
+        worldObj.spawnParticle(EnumParticleTypes.TOWN_AURA, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
+        
         if (isServer() && this.isWet && !this.isShaking && !this.hasPath() && this.onGround)
         {
             this.isShaking = true;
@@ -561,7 +566,7 @@ public class EntityDarkZertum extends EntityCustomTameable
                 this.setAttackTarget((EntityLivingBase)null);
             }
         }
-        else if (ItemUtils.consumeEquipped(par1EntityPlayer, ModItems.nileBone) && !this.isAngry())
+        else if (ItemUtils.consumeEquipped(par1EntityPlayer, ModItems.darkBone) && !this.isAngry())
         {
             if (isServer())
             {

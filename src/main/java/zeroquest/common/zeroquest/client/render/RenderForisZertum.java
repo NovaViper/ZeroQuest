@@ -11,16 +11,16 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import common.zeroquest.ZeroQuest;
 import common.zeroquest.client.render.layers.LayerForisZertumCollarDying;
 import common.zeroquest.entity.EntityForisZertum;
+import common.zeroquest.lib.Constants;
 
 @SideOnly(Side.CLIENT)
 public class RenderForisZertum extends RenderLiving
 {
-    private static final ResourceLocation forisZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/fzertum.png");
-    private static final ResourceLocation tamedForisZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/fzertum_tame.png");
-    private static final ResourceLocation angryForisZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/fzertum_angry.png");
+    private static final ResourceLocation forisZertumTextures = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/fzertum.png");
+    private static final ResourceLocation tamedForisZertumTextures = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/fzertum_tame.png");
+    private static final ResourceLocation angryForisZertumTextures = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/fzertum_angry.png");
     
     public RenderForisZertum(RenderManager p_i46128_1_, ModelBase p_i46128_2_, float p_i46128_3_)
     {

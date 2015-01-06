@@ -1,9 +1,9 @@
 package common.zeroquest.events;
 
 import net.minecraft.block.Block;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ModItems;
@@ -23,7 +23,7 @@ public class AchievementEvents{
 		if(event.crafting.getItem() == ModItems.nileSword){
 			event.player.addStat(ModAchievements.buildNileSword, 1);		
 		}
-		if(Block.getBlockFromItem(event.crafting.getItem()).equals(ModBlocks.nileWorktable)){
+		if(event.crafting.getItem() == Item.getItemFromBlock(ModBlocks.nileWorktable)){
 			event.player.addStat(ModAchievements.buildNWorkBench, 1);		
 		}	
 		if(event.crafting.getItem() == ModItems.nileBone){
@@ -37,13 +37,7 @@ public class AchievementEvents{
 			if(event.crafting.getItem() == ModItems.darkDust){
 				event.player.addStat(ModAchievements.DarkStart, 1);		
 			}
-			/*if(event.crafting.getItem() == ModItems.darkSword){
-			event.player.addStat(ModAchievements.buildNileSword, 1);		
 		}
-		if(event.crafting.getItem() == ModItems.darkNileBone){
-			event.player.addStat(ModAchievements.buildBone, 1);		
-		}*/
-	}
 }
 
 	@SubscribeEvent

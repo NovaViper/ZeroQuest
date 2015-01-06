@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "zero_quest:items/nileDarkBone"
+        "layer0": "zero_quest:items/darkBone"
     },
     "display": {
         "thirdperson": {

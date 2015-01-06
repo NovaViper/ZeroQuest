@@ -8,13 +8,13 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import common.zeroquest.ZeroQuest;
 import common.zeroquest.entity.EntityKurr;
+import common.zeroquest.lib.Constants;
 
 @SideOnly(Side.CLIENT)
 public class RenderKurr extends RenderLiving
 {
-    private static final ResourceLocation kurrTexture = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/kurr.png");
+    private static final ResourceLocation kurrTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/kurr.png");
 
     public RenderKurr(RenderManager p_i46128_1_, ModelBase p_i46128_2_, float p_i46128_3_){
         

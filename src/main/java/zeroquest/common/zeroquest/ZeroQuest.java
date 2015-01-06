@@ -45,14 +45,13 @@ import common.zeroquest.world.WorldProviderDarkax;
 import common.zeroquest.world.WorldProviderNillax;
 import common.zeroquest.world.gen.WorldGenZQuest;
 
-@Mod(modid = ZeroQuest.modid, name = "Zero Quest", version = Constants.version, useMetadata = true, guiFactory = "common.zeroquest.client.gui.config.GuiFactory")
+@Mod(modid = Constants.modid, name = "Zero Quest", version = Constants.version, useMetadata = true, guiFactory = "common.zeroquest.client.gui.config.GuiFactory")
 public class ZeroQuest 
 {
 	@Instance("zero_quest")
 	public static ZeroQuest instance;
-	public static final String modid = "zero_quest";
 	public static final Logger Log = LogManager.getFormatterLogger("Zero Quest");
-    public static final String channel = modid;
+    public static final String channel = Constants.modid;
 	
 	@SidedProxy(clientSide = "common.zeroquest.core.proxy.ClientProxy", serverSide = "common.zeroquest.core.proxy.CommonProxy")
 	public static CommonProxy proxy;
@@ -71,17 +70,17 @@ public class ZeroQuest
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event){
-        ConfigHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + channel + File.separator + modid.toLowerCase() + ".cfg"));
+        ConfigHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + channel + File.separator + Constants.modid.toLowerCase() + ".cfg"));
         FMLCommonHandler.instance().bus().register(new ConfigEvent());
    		
-        FMLCommonHandler.instance().bus().register(new OnPlayerLogin(Constants.version, "ZeroQuest", false));	    	
+        FMLCommonHandler.instance().bus().register(new PlayerEvents(Constants.version, "ZeroQuest", false));	    	
     	Log.info("-----PRE-CONTENT LOAD INITATING-----");
     	Log.info("Loading Main Stuff...");
         this.ZeroTab = new ZeroQuestTab(CreativeTabs.getNextID());
     	if(Constants.DEF_DARKLOAD == true){
    		this.DarkTab = new DarkQuestTab(CreativeTabs.getNextID());
     	}
-		NetworkRegistry.INSTANCE.registerGuiHandler(ZeroQuest.modid, proxy);
+		NetworkRegistry.INSTANCE.registerGuiHandler(Constants.modid, proxy);
     	Log.info("Load Stuff Loaded Successfully!");		
     	Log.info("-----PRE-CONTENT LOAD FINISHED-----");
     	}

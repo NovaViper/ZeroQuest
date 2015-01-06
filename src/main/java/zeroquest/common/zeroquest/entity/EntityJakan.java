@@ -76,6 +76,7 @@ public class EntityJakan extends EntityCustomTameable /*implements IRangedAttack
     {
         super(worldIn);
         this.setSize(2.6F, 2.6F);
+        this.isImmuneToFire = true;
         ((PathNavigateGround)this.getNavigator()).func_179690_a(true);
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiSit);

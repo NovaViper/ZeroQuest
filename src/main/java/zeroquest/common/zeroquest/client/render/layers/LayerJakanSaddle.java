@@ -5,15 +5,15 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import common.zeroquest.ZeroQuest;
+
 import common.zeroquest.client.render.RenderJakan;
-import common.zeroquest.client.render.model.ModelJakan;
 import common.zeroquest.entity.EntityJakan;
+import common.zeroquest.lib.Constants;
 
 @SideOnly(Side.CLIENT)
 public class LayerJakanSaddle implements LayerRenderer
 {
-    private static final ResourceLocation TEXTURE = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/jakan/jakan_saddle.png");
+    private static final ResourceLocation TEXTURE = new ResourceLocation(Constants.modid + ":" + "textures/entity/jakan/jakan_saddle.png");
     private final RenderJakan field_177146_b;
     private static final String __OBFID = "CL_00002414";
 

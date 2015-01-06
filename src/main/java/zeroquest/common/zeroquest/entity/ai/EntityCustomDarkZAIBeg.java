@@ -75,6 +75,6 @@ public class EntityCustomDarkZAIBeg extends EntityAIBase
     private boolean hasPlayerGotBoneInHand(EntityPlayer p_75382_1_)
     {
         ItemStack itemstack = p_75382_1_.inventory.getCurrentItem();
-        return itemstack == null ? false : (!this.theWolf.isTamed() && itemstack.getItem() == ModItems.darkNileBone ? true : this.theWolf.isBreedingItem(itemstack));
+        return itemstack == null ? false : (!this.theWolf.isTamed() && itemstack.getItem() == ModItems.darkBone ? true : this.theWolf.isBreedingItem(itemstack));
     }
 }

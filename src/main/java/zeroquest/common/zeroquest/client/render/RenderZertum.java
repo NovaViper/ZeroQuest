@@ -1,11 +1,5 @@
 package common.zeroquest.client.render;
 
-import org.lwjgl.opengl.GL11;
-
-import common.zeroquest.ZeroQuest;
-import common.zeroquest.client.render.layers.LayerZertumCollarDying;
-import common.zeroquest.client.render.model.ModelZertum;
-import common.zeroquest.entity.EntityZertum;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.entity.RenderLiving;
@@ -13,17 +7,20 @@ import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
+import common.zeroquest.client.render.layers.LayerZertumCollarDying;
+import common.zeroquest.entity.EntityZertum;
+import common.zeroquest.lib.Constants;
+
 @SideOnly(Side.CLIENT)
 public class RenderZertum extends RenderLiving
 {
-    private static final ResourceLocation zertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum.png");
-    private static final ResourceLocation tamedZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_tame.png");
-    private static final ResourceLocation angryZertumTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_angry.png");
+    private static final ResourceLocation zertumTextures = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum.png");
+    private static final ResourceLocation tamedZertumTextures = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum_tame.png");
+    private static final ResourceLocation angryZertumTextures = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum_angry.png");
     
     public RenderZertum(RenderManager p_i46128_1_, ModelBase p_i46128_2_, float p_i46128_3_){
     

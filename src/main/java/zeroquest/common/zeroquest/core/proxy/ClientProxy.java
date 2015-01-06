@@ -30,7 +30,7 @@ import common.zeroquest.client.render.model.ModelKortor;
 import common.zeroquest.client.render.model.ModelKurr;
 import common.zeroquest.client.render.model.ModelRedZertum;
 import common.zeroquest.client.render.model.ModelZertum;
-import common.zeroquest.client.renderer.RendererNileTable;
+import common.zeroquest.client.render.renderer.RendererNileTable;
 import common.zeroquest.entity.EntityDarkZertum;
 import common.zeroquest.entity.EntityDestroZertum;
 import common.zeroquest.entity.EntityForisZertum;

@@ -1,4 +1,4 @@
-package common.zeroquest.client.renderer.model;
+package common.zeroquest.client.render.renderer.model;
 
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;

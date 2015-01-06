@@ -1,17 +1,16 @@
 package common.zeroquest.client.gui;
 
-import org.lwjgl.opengl.GL11;
-
-import common.zeroquest.ZeroQuest;
-import common.zeroquest.entity.EntityCustomTameable;
-import common.zeroquest.inventory.ContainerPack;
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;
-import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
+
+import org.lwjgl.opengl.GL11;
+
+import common.zeroquest.entity.EntityCustomTameable;
+import common.zeroquest.inventory.ContainerPack;
+import common.zeroquest.lib.Constants;
 
 public class GuiPack extends GuiContainer
 {
@@ -20,7 +19,7 @@ public class GuiPack extends GuiContainer
     private EntityCustomTameable entity;
     private boolean mouseWasDown;
     
-    private static final ResourceLocation gui = new ResourceLocation(ZeroQuest.modid + ":" + "textures/gui/petInventory.png");
+    private static final ResourceLocation gui = new ResourceLocation(Constants.modid + ":" + "textures/gui/petInventory.png");
 
 
     public GuiPack(InventoryPlayer inventoryplayer, EntityCustomTameable entityCustomTameable) {

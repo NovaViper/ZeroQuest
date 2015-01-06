@@ -1,10 +1,9 @@
 package common.zeroquest.lib;
 
-import common.zeroquest.ZeroQuest;
 
 public class Sound {
 
-    private static final String SOUND_PREFIX = ZeroQuest.modid + ":";
+    private static final String SOUND_PREFIX = Constants.modid + ":";
 	
     //Jakan Sounds\\
     public static final String JakanBreathe = SOUND_PREFIX + "jakan.breathe";

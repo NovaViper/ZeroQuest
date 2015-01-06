@@ -1,8 +1,9 @@
 package common.zeroquest.inventory;
 
+import common.zeroquest.ModBlocks;
+import common.zeroquest.tileentity.TileEntityNileWorkbench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
-import net.minecraft.init.Blocks;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.inventory.InventoryCraftResult;
@@ -17,19 +18,25 @@ import net.minecraft.world.World;
 public class ContainerNileWorkbench extends Container
 {
     public InventoryCrafting craftMatrix = new InventoryCrafting(this, 3, 3);
-    public IInventory craftResult = new InventoryCraftResult();
+    //public IInventory craftResult = new InventoryCraftResult();
     private World worldObj;
     private BlockPos field_178145_h;
+	public TileEntityNileWorkbench tileEntity;
+	 private SlotNileCrafting slotCraft;
     private static final String __OBFID = "CL_00001744";
 
-    public ContainerNileWorkbench(InventoryPlayer playerInventory, IInventory inven, World worldIn, BlockPos p_i45800_3_)
+    public ContainerNileWorkbench(TileEntityNileWorkbench tileTable, InventoryPlayer playerInventory, World worldIn, BlockPos p_i45800_3_)
     {
         this.worldObj = worldIn;
         this.field_178145_h = p_i45800_3_;
-        this.addSlotToContainer(new SlotCrafting(playerInventory.player, this.craftMatrix, this.craftResult, 0, 124, 35));
+    	slotCraft = new SlotNileCrafting(playerInventory.player, this.craftMatrix, tileTable.craftResult, 0, 124, 35);
+        this.addSlotToContainer(slotCraft);   
         int i;
         int j;
-
+    	tileEntity = tileTable;
+    	
+        updateCraftingMatrix();
+        
         for (i = 0; i < 3; ++i)
         {
             for (j = 0; j < 3; ++j)
@@ -53,34 +60,36 @@ public class ContainerNileWorkbench extends Container
 
         this.onCraftMatrixChanged(this.craftMatrix);
     }
+    
+    private void updateCraftingMatrix() {
+    	for (int i = 0; i < craftMatrix.getSizeInventory(); i++) {
+    		craftMatrix.setInventorySlotContents(i, tileEntity.craftMatrixInventory[i]);
+    	}
+    }
 
     public void onCraftMatrixChanged(IInventory inventoryIn)
     {
-        this.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
+    	tileEntity.craftResult.setInventorySlotContents(0, CraftingManager.getInstance().findMatchingRecipe(this.craftMatrix, this.worldObj));
     }
-
-    public void onContainerClosed(EntityPlayer playerIn)
+    
+    @Override
+    public void onContainerClosed(EntityPlayer par1EntityPlayer)
     {
-        super.onContainerClosed(playerIn);
-
-        if (!this.worldObj.isRemote)
-        {
-            for (int i = 0; i < 9; ++i)
-            {
-                ItemStack itemstack = this.craftMatrix.getStackInSlotOnClosing(i);
-
-                if (itemstack != null)
-                {
-                    playerIn.dropPlayerItemWithRandomChoice(itemstack, false);
-                }
-            }
-        }
+    	super.onContainerClosed(par1EntityPlayer);
+    	saveCraftingMatrix();
+    }
+    
+    private void saveCraftingMatrix() {
+    	for (int i = 0; i < craftMatrix.getSizeInventory(); i++) {
+    		tileEntity.craftMatrixInventory[i] = craftMatrix.getStackInSlot(i);
+    	}
     }
 
-    public boolean canInteractWith(EntityPlayer playerIn)
-    {
-        return this.worldObj.getBlockState(this.field_178145_h).getBlock() != Blocks.crafting_table ? false : playerIn.getDistanceSq((double)this.field_178145_h.getX() + 0.5D, (double)this.field_178145_h.getY() + 0.5D, (double)this.field_178145_h.getZ() + 0.5D) <= 64.0D;
-    }
+	@Override
+	public boolean canInteractWith(EntityPlayer entityPlayer)
+	{
+		return tileEntity.isUseableByPlayer(entityPlayer);
+	}
 
     public ItemStack transferStackInSlot(EntityPlayer playerIn, int index)
     {
@@ -142,6 +151,6 @@ public class ContainerNileWorkbench extends Container
 
     public boolean canMergeSlot(ItemStack p_94530_1_, Slot p_94530_2_)
     {
-        return p_94530_2_.inventory != this.craftResult && super.canMergeSlot(p_94530_1_, p_94530_2_);
+        return p_94530_2_.inventory != tileEntity.craftResult && super.canMergeSlot(p_94530_1_, p_94530_2_);
     }
 }

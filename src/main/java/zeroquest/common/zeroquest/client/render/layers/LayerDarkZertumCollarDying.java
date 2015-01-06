@@ -1,7 +1,6 @@
 package common.zeroquest.client.render.layers;
 
 import net.minecraft.client.renderer.GlStateManager;
-import net.minecraft.client.renderer.entity.RenderWolf;
 import net.minecraft.client.renderer.entity.layers.LayerRenderer;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.passive.EntitySheep;
@@ -9,15 +8,16 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import common.zeroquest.ZeroQuest;
+
 import common.zeroquest.client.render.RenderDarkZertum;
 import common.zeroquest.entity.EntityDarkZertum;
+import common.zeroquest.lib.Constants;
 
 @SideOnly(Side.CLIENT)
 public class LayerDarkZertumCollarDying implements LayerRenderer
 {
-    private static final ResourceLocation field_177147_a = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_collar.png");
-    private static final ResourceLocation ZertumDyingTextures = new ResourceLocation(ZeroQuest.modid + ":" + "textures/entity/zertum/zertum_dying.png");
+    private static final ResourceLocation field_177147_a = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum_collar.png");
+    private static final ResourceLocation ZertumDyingTextures = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum_dying.png");
     private final RenderDarkZertum field_177146_b;
     private static final String __OBFID = "CL_00002405";
 
