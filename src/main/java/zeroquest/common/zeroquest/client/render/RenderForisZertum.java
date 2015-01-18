@@ -10,7 +10,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import common.zeroquest.client.render.layers.LayerForisZertumCollarDying;
 import common.zeroquest.entity.EntityForisZertum;
 import common.zeroquest.lib.Constants;

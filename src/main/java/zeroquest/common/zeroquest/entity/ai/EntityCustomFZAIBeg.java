@@ -4,7 +4,6 @@ import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-
 import common.zeroquest.ModItems;
 import common.zeroquest.entity.EntityForisZertum;
 

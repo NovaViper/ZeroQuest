@@ -15,9 +15,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.client.particle.EntityDustFX;
 
-public class BlockNileBFlower extends BlockBush{
+public class BlockNileBlueFlower extends BlockBush{
 
-	public BlockNileBFlower() {
+	public BlockNileBlueFlower() {
 		super();
 		this.setCreativeTab(ZeroQuest.ZeroTab);
 		this.setLightLevel(0.4F);

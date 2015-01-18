@@ -2,7 +2,6 @@ package common.zeroquest.entity.ai;
 
 import common.zeroquest.ModItems;
 import common.zeroquest.entity.EntityDestroZertum;
-
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;

@@ -5,7 +5,6 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import common.zeroquest.entity.EntityDarkZertum;
 import common.zeroquest.entity.EntityDestroZertum;
 import common.zeroquest.entity.EntityForisZertum;
@@ -18,7 +17,7 @@ import common.zeroquest.entity.EntityZertum;
 import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
 import common.zeroquest.entity.projectile.EntityGrenade;
 import common.zeroquest.entity.projectile.EntityIceball;
-import common.zeroquest.tileentity.TileEntityNileWorkbench;
+import common.zeroquest.entity.tileentity.TileEntityNileWorkbench;
 
 
 public class ModEntities {

@@ -25,6 +25,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.google.common.collect.Maps;
+
 import common.zeroquest.ModBlocks;
 
 public class BlockNileFire extends Block
@@ -82,41 +83,41 @@ public class BlockNileFire extends Block
 
     public static void init()
     {
-        Blocks.fire.setFireInfo(Blocks.planks, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.double_wooden_slab, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.wooden_slab, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.oak_fence_gate, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.spruce_fence_gate, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.birch_fence_gate, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.jungle_fence_gate, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.dark_oak_fence_gate, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.acacia_fence_gate, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.oak_fence, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.spruce_fence, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.birch_fence, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.jungle_fence, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.dark_oak_fence, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.acacia_fence, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.oak_stairs, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.birch_stairs, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.spruce_stairs, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.jungle_stairs, 5, 20);
-        Blocks.fire.setFireInfo(Blocks.log, 5, 5);
-        Blocks.fire.setFireInfo(Blocks.log2, 5, 5);
-        Blocks.fire.setFireInfo(Blocks.leaves, 30, 60);
-        Blocks.fire.setFireInfo(Blocks.leaves2, 30, 60);
-        Blocks.fire.setFireInfo(Blocks.bookshelf, 30, 20);
-        Blocks.fire.setFireInfo(Blocks.tnt, 15, 100);
-        Blocks.fire.setFireInfo(Blocks.tallgrass, 60, 100);
-        Blocks.fire.setFireInfo(Blocks.double_plant, 60, 100);
-        Blocks.fire.setFireInfo(Blocks.yellow_flower, 60, 100);
-        Blocks.fire.setFireInfo(Blocks.red_flower, 60, 100);
-        Blocks.fire.setFireInfo(Blocks.deadbush, 60, 100);
-        Blocks.fire.setFireInfo(Blocks.wool, 30, 60);
-        Blocks.fire.setFireInfo(Blocks.vine, 15, 100);
-        Blocks.fire.setFireInfo(Blocks.coal_block, 5, 5);
-        Blocks.fire.setFireInfo(Blocks.hay_block, 60, 20);
-        Blocks.fire.setFireInfo(Blocks.carpet, 60, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.planks, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.double_wooden_slab, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.wooden_slab, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.oak_fence_gate, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.spruce_fence_gate, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.birch_fence_gate, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.jungle_fence_gate, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.dark_oak_fence_gate, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.acacia_fence_gate, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.oak_fence, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.spruce_fence, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.birch_fence, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.jungle_fence, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.dark_oak_fence, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.acacia_fence, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.oak_stairs, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.birch_stairs, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.spruce_stairs, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.jungle_stairs, 5, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.log, 5, 5);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.log2, 5, 5);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.leaves, 30, 60);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.leaves2, 30, 60);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.bookshelf, 30, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.tnt, 15, 100);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.tallgrass, 60, 100);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.double_plant, 60, 100);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.yellow_flower, 60, 100);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.red_flower, 60, 100);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.deadbush, 60, 100);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.wool, 30, 60);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.vine, 15, 100);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.coal_block, 5, 5);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.hay_block, 60, 20);
+        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.carpet, 60, 20);
     }
 
     public void setFireInfo(Block blockIn, int encouragement, int flammability)

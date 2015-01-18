@@ -1,4 +1,4 @@
-package common.zeroquest.biome;
+package common.zeroquest.world.biome;
 
 import java.util.Random;
 

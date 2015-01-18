@@ -1,4 +1,4 @@
-package common.zeroquest.biome;
+package common.zeroquest.world.biome;
 
 import static net.minecraftforge.event.terraingen.DecorateBiomeEvent.Decorate.EventType.FLOWERS;
 
@@ -16,7 +16,6 @@ import net.minecraft.world.gen.feature.WorldGenFlowers;
 import net.minecraftforge.event.terraingen.TerrainGen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import common.zeroquest.ModBlocks;
 import common.zeroquest.entity.EntityDestroZertum;
 

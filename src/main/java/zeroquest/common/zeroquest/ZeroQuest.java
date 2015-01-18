@@ -31,7 +31,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import common.zeroquest.core.command.CommandZeroQuest;
+import common.zeroquest.command.CommandZeroQuest;
 import common.zeroquest.core.handlers.ConfigHandler;
 import common.zeroquest.core.handlers.FuelHandler;
 import common.zeroquest.core.proxy.CommonProxy;
@@ -108,7 +108,6 @@ public class ZeroQuest
    		FMLCommonHandler.instance().bus().register(new AchievementEvents());
     	ModBiomes.loadBiomes();
     	Log.info("Achievements and Biomes Loaded Successfully!");
-
 		
     	if(Constants.DEF_DARKLOAD == true){
     	Log.warn("Dark Elemental Load is ENABLED!");	

@@ -12,9 +12,9 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 
+import common.zeroquest.entity.tileentity.TileEntityNileWorkbench;
 import common.zeroquest.inventory.ContainerNileWorkbench;
 import common.zeroquest.lib.Constants;
-import common.zeroquest.tileentity.TileEntityNileWorkbench;
 
 
 @SideOnly(Side.CLIENT)

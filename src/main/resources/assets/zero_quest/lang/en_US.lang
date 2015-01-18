@@ -11,6 +11,8 @@ gui.config.function=Functions Settings
 gui.config.function.tooltip=Manage all the entity and mod functions.
 gui.config.load=Load Settings
 gui.config.load.tooltip=Manage what the mod loads into the game
+gui.config.misc=Miscellaneous Settings
+gui.config.misc.tooltip=Manage the mod's miscellaneous functions
 
 gui.config.property.DarkElements=Dark Elements
 gui.config.property.DarkElements.tooltip=Toggles the Dark Elemental Load
@@ -24,7 +26,7 @@ gui.config.property.GrassStep.tooltip=Toggles the grass footprints of Foris Zert
 tile.nileBlueFlower.name=Nile Blue Flower
 tile.nileBlackFlower.name=Nile Black Flower
 tile.nilePinkFlower.name=Nile Pink Flower
-tile.nileDestroFlower.name=Nile Destro Flower
+tile.destroFlower.name=Destro Flower
 tile.nileCoalOre.name=Nile Coal Ore
 tile.nileGrainOre.name=Nile Grain Ore
 tile.darkGrainOre.name=Dark Grain Ore
@@ -34,7 +36,7 @@ tile.portalNillax.name=Nillax Portal
 tile.nileWorktable.name=Nile Crafting Table
 tile.nileFire.name=Nile Fire
 
-tile.darkaxFire.name=Darkax Fire
+tile.darkFire.name=Dark Fire
 tile.darkaxStone.name=Darkax Stone
 tile.portalDarkax.name=Darkax Portal
 

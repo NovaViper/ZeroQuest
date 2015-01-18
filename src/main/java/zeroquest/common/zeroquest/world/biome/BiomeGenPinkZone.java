@@ -1,4 +1,4 @@
-package common.zeroquest.biome;
+package common.zeroquest.world.biome;
 
 import java.util.Random;
 
@@ -10,7 +10,6 @@ import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import common.zeroquest.entity.EntityZertum;
 
 public class BiomeGenPinkZone extends BiomeGenBase {

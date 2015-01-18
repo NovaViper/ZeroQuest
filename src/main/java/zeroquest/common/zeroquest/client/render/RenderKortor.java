@@ -7,7 +7,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import common.zeroquest.client.render.layers.LayerKortorSaddle;
 import common.zeroquest.entity.EntityKortor;
 import common.zeroquest.lib.Constants;

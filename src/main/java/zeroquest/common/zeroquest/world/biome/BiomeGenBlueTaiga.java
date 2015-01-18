@@ -1,4 +1,4 @@
-package common.zeroquest.biome;
+package common.zeroquest.world.biome;
 
 import java.util.Random;
 
@@ -24,7 +24,6 @@ import net.minecraft.world.gen.feature.WorldGenTallGrass;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import common.zeroquest.ModBlocks;
 import common.zeroquest.entity.EntityIceZertum;
 

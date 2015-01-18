@@ -1,4 +1,4 @@
-package common.zeroquest.tileentity;
+package common.zeroquest.entity.tileentity;
 
 
 import net.minecraft.entity.player.EntityPlayer;

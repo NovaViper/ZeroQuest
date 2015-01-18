@@ -1,4 +1,4 @@
-package common.zeroquest.core.command;
+package common.zeroquest.command;
 
 import java.util.ArrayList;
 import java.util.List;

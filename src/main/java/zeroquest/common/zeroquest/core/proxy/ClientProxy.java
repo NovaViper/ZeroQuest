@@ -43,7 +43,7 @@ import common.zeroquest.entity.EntityZertum;
 import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
 import common.zeroquest.entity.projectile.EntityGrenade;
 import common.zeroquest.entity.projectile.EntityIceball;
-import common.zeroquest.tileentity.TileEntityNileWorkbench;
+import common.zeroquest.entity.tileentity.TileEntityNileWorkbench;
 
 public class ClientProxy extends CommonProxy{
 	

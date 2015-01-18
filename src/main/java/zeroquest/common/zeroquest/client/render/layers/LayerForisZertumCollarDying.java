@@ -8,7 +8,6 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import common.zeroquest.client.render.RenderForisZertum;
 import common.zeroquest.entity.EntityForisZertum;
 import common.zeroquest.lib.Constants;

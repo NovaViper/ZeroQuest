@@ -8,6 +8,7 @@ import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -44,7 +45,7 @@ public class VitoidFruit extends ItemFood{
      */
 	@Override
     public void addInformation(ItemStack itemstack, EntityPlayer player, List list, boolean boal) {
-    	//list.add("");
+		//list.add("");
     	//list.add("Gives a " + EnumChatFormatting.AQUA + "boost of speed ");
     	//list.add("but causes " + EnumChatFormatting.RED + "damage");
     }

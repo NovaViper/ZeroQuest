@@ -1,6 +1,6 @@
 {
     "parent": "block/cross",
     "textures": {
-        "cross": "zero_quest:blocks/nileDestroFlower"
+        "cross": "zero_quest:blocks/destroFlower"
     }
 }

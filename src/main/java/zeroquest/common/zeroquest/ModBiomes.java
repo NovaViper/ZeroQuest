@@ -2,19 +2,18 @@ package common.zeroquest;
 
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeManager;
-
-import common.zeroquest.biome.BiomeGenBioZone;
-import common.zeroquest.biome.BiomeGenBlueTaiga;
-import common.zeroquest.biome.BiomeGenDarkLand;
-import common.zeroquest.biome.BiomeGenDestroZone;
-import common.zeroquest.biome.BiomeGenNileJungle;
-import common.zeroquest.biome.BiomeGenNileMesa;
-import common.zeroquest.biome.BiomeGenNileMountains;
-import common.zeroquest.biome.BiomeGenNileSavanna;
-import common.zeroquest.biome.BiomeGenNileSwamp;
-import common.zeroquest.biome.BiomeGenPinkZone;
-import common.zeroquest.biome.BiomeGenRedSeed;
-import common.zeroquest.biome.BiomeGenWalRockland;
+import common.zeroquest.world.biome.BiomeGenBioZone;
+import common.zeroquest.world.biome.BiomeGenBlueTaiga;
+import common.zeroquest.world.biome.BiomeGenDarkLand;
+import common.zeroquest.world.biome.BiomeGenDestroZone;
+import common.zeroquest.world.biome.BiomeGenNileJungle;
+import common.zeroquest.world.biome.BiomeGenNileMesa;
+import common.zeroquest.world.biome.BiomeGenNileMountains;
+import common.zeroquest.world.biome.BiomeGenNileSavanna;
+import common.zeroquest.world.biome.BiomeGenNileSwamp;
+import common.zeroquest.world.biome.BiomeGenPinkZone;
+import common.zeroquest.world.biome.BiomeGenRedSeed;
+import common.zeroquest.world.biome.BiomeGenWalRockland;
 
 public class ModBiomes 
 {
@@ -67,7 +66,7 @@ public class ModBiomes
 			nileMountainsPlus};
     
 	public static void loadBiomes() {
-		//Put biomes in GenLayerBiomesZeroQuest/WorldChunkManager//
+		//Put biomes in biomes list//
 		   bioZone = new BiomeGenBioZone(110).setBiomeName("Bio Zone").setHeight(height_MidHills).setTemperatureRainfall(0.8F, 0.4F);	       
 	       redSeed = new BiomeGenRedSeed(111).setBiomeName("Red Seed").setHeight(height_LowPlains).setTemperatureRainfall(0.8F, 0.4F);	       
 	       blueTaiga = new BiomeGenBlueTaiga(112, 0).setBiomeName("Blue Taiga").setFillerBlockMetadata(5159473).setTemperatureRainfall(0.25F, 0.8F).setHeight(height_MidPlains);

@@ -11,14 +11,18 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import common.zeroquest.block.BlockBedRock;
 import common.zeroquest.block.BlockDarkGrainOre;
 import common.zeroquest.block.BlockDrestroFlower;
-import common.zeroquest.block.BlockNileB2Flower;
-import common.zeroquest.block.BlockNileBFlower;
+import common.zeroquest.block.BlockNileBlackFlower;
+import common.zeroquest.block.BlockNileBlueFlower;
 import common.zeroquest.block.BlockNileCoalOre;
 import common.zeroquest.block.BlockNileGrainOre;
 import common.zeroquest.block.BlockNilePinkFlower;
 import common.zeroquest.block.BlockNileWorkbench;
 import common.zeroquest.block.BlockVitoid;
+import common.zeroquest.block.portal.BlockDarkFire;
+import common.zeroquest.block.portal.BlockNileFire;
 import common.zeroquest.block.portal.BlockNilePortalStone;
+import common.zeroquest.block.portal.BlockPortalDarkax;
+import common.zeroquest.block.portal.BlockPortalNillax;
 import common.zeroquest.lib.Constants;
 
 public class ModBlocks {
@@ -40,7 +44,7 @@ public class ModBlocks {
 	public static Block nileFire;
 	public static Block darkaxStone;
 	public static Block portalDarkax;
-	public static Block darkaxFire;
+	public static Block darkFire;
 	
 	public static void load() {
 		//Natural Blocks//
@@ -54,18 +58,18 @@ public class ModBlocks {
     	registerRender(nileWorktable, 0, Constants.modid + ":" + "crafting_table_nile", "inventory");
 
 		//Flowers/Plants//
-		nileBlueFlower = new BlockNileBFlower().setUnlocalizedName("nileBlueFlower");
+		nileBlueFlower = new BlockNileBlueFlower().setUnlocalizedName("nileBlueFlower");
 		register(nileBlueFlower, "nile_flower_blue");
     	registerRender(nileBlueFlower, 0, Constants.modid + ":" + "nile_flower_blue", "inventory");	
-		nileBlackFlower = new BlockNileB2Flower().setUnlocalizedName("nileBlackFlower");
+		nileBlackFlower = new BlockNileBlackFlower().setUnlocalizedName("nileBlackFlower");
 		register(nileBlackFlower, "nile_flower_black");
     	registerRender(nileBlackFlower, 0, Constants.modid + ":" + "nile_flower_black", "inventory");	
 		nilePinkFlower = new BlockNilePinkFlower().setUnlocalizedName("nilePinkFlower");
 		register(nilePinkFlower, "nile_flower_pink");
     	registerRender(nilePinkFlower, 0, Constants.modid + ":" + "nile_flower_pink", "inventory");	
-		destroFlower = new BlockDrestroFlower().setUnlocalizedName("nileDestroFlower");
-		register(destroFlower, "nile_flower_destro");
-    	registerRender(destroFlower, 0, Constants.modid + ":" + "nile_flower_destro", "inventory");	
+		destroFlower = new BlockDrestroFlower().setUnlocalizedName("destroFlower");
+		register(destroFlower, "destro_flower");
+    	registerRender(destroFlower, 0, Constants.modid + ":" + "destro_flower", "inventory");	
 		vitoidPlant = new BlockVitoid().setUnlocalizedName("vitoidPlant");
 		register(vitoidPlant, "vitoid_plant");
     	registerRender(vitoidPlant, 0, Constants.modid + ":" + "vitoid_plant", "inventory");
@@ -82,11 +86,12 @@ public class ModBlocks {
 		nillaxStone = new BlockNilePortalStone(Material.rock).setUnlocalizedName("nillaxStone").setCreativeTab(ZeroQuest.ZeroTab);
 		register(nillaxStone, "nillax_stone");
     	registerRender(nillaxStone, 0, Constants.modid + ":" + "nillax_stone", "inventory");	
-		/*portalNillax = new BlockPortalNillax().setUnlocalizedName("portalNillax");
+		portalNillax = new BlockPortalNillax().setUnlocalizedName("portalNillax");
 		register(portalNillax, "portal_nillax");
+        registerRender(portalNillax, 0, Constants.modid + ":" + "portal_nillax", "inventory");
 		nileFire = new BlockNileFire().setUnlocalizedName("nileFire");
 		register(nileFire, "nile_fire");
-    	registerRender(nileFire, 0, Constants.modid + ":" + "nile_fire", "inventory");*/
+    	registerRender(nileFire, 0, Constants.modid + ":" + "nile_fire", "inventory");
 		}
 	   
 	   public static void loadDarkBlocks(){
@@ -97,10 +102,10 @@ public class ModBlocks {
 	    	/*portalDarkax = new BlockPortalDarkax().setUnlocalizedName("portalDarkax");
 	    	register(portalDarkax, "portal_darkax");
 	        registerRender(portalDarkax, 0, Constants.modid + ":" + "portal_darkax", "inventory");
-	    	darkaxFire = new BlockDarkaxFire().setUnlocalizedName("darkaxFire");
-	    	register(darkaxFire, "darkax_fire");*/	
-		   darkGrainOre = new BlockDarkGrainOre(Material.rock).setUnlocalizedName("darkGrainOre");
-		   register(darkGrainOre, "dark_grain_ore"); 
+	    	darkFire = new BlockDarkFire().setUnlocalizedName("darkFire");
+	    	register(darkFire, "dark_fire");*/
+	    	darkGrainOre = new BlockDarkGrainOre(Material.rock).setUnlocalizedName("darkGrainOre");
+	    	register(darkGrainOre, "dark_grain_ore"); 
 	    	registerRender(darkGrainOre, 0, Constants.modid + ":" + "dark_grain_ore", "inventory");
 	   }
 	   

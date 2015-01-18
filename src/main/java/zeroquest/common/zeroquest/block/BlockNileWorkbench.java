@@ -15,10 +15,9 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.core.proxy.CommonProxy;
-import common.zeroquest.tileentity.TileEntityNileWorkbench;
+import common.zeroquest.entity.tileentity.TileEntityNileWorkbench;
 
 public class BlockNileWorkbench extends BlockContainer{
 

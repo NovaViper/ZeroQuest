@@ -98,7 +98,7 @@ public class BlockPortalDarkax extends BlockPortal{
                                 return false;
                             }
                         }
-                        else if (!isAirBlock && j1 != ModBlocks.darkaxFire)
+                        else if (!isAirBlock && j1 != ModBlocks.nileFire)
                         {
                             return false;
                         }

@@ -1,7 +1,7 @@
 package common.zeroquest.inventory;
 
 import common.zeroquest.ModBlocks;
-import common.zeroquest.tileentity.TileEntityNileWorkbench;
+import common.zeroquest.entity.tileentity.TileEntityNileWorkbench;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.inventory.Container;

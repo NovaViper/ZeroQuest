@@ -12,7 +12,7 @@
   "credits": "Made by QueenViper21 AKA NViper21",
   "parent": "",
   "screenshots": [],
-  "requiredMods": [ "Forge" ],
+  "requiredMods": ["Forge"],
   "dependencies": [],
   "dependants": [],
   "useDependencyInformation": "true"

@@ -13,9 +13,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.ZeroQuest;
 
-public class BlockNileB2Flower extends BlockBush{
+public class BlockNileBlackFlower extends BlockBush{
 
-	public BlockNileB2Flower() {
+	public BlockNileBlackFlower() {
 		super();
 		this.setCreativeTab(ZeroQuest.ZeroTab);
 		this.setLightLevel(0F);

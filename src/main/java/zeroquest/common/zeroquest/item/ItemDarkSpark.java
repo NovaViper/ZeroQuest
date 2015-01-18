@@ -32,7 +32,7 @@ public class ItemDarkSpark extends Item{
             if (worldIn.isAirBlock(pos))
             {
                 worldIn.playSoundEffect((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, "fire.ignite", 1.0F, itemRand.nextFloat() * 0.4F + 0.8F);
-                worldIn.setBlockState(pos, ModBlocks.darkaxFire.getDefaultState());
+                worldIn.setBlockState(pos, ModBlocks.darkFire.getDefaultState());
             }
 
             stack.damageItem(1, playerIn);

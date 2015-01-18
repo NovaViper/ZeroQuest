@@ -5,8 +5,6 @@ import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemHoe;
-import net.minecraft.item.ItemSword;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import common.zeroquest.item.ItemDarkSpark;
 import common.zeroquest.item.ItemDogTreat;
@@ -19,10 +17,12 @@ import common.zeroquest.item.ItemNileBone;
 import common.zeroquest.item.ItemNileBow;
 import common.zeroquest.item.ItemNileCoal;
 import common.zeroquest.item.ItemNileGrenade;
+import common.zeroquest.item.ItemNileHoe;
 import common.zeroquest.item.ItemNilePickaxe;
 import common.zeroquest.item.ItemNileSeed;
 import common.zeroquest.item.ItemNileSpade;
 import common.zeroquest.item.ItemNileSpark;
+import common.zeroquest.item.ItemNileSword;
 import common.zeroquest.item.KurrSeed;
 import common.zeroquest.item.VitoidFruit;
 import common.zeroquest.item.ZQFood;
@@ -50,7 +50,6 @@ public class ModItems {
 	public static Item nileDust;
 	public static Item nileGrain;
 	public static Item nileCoal;
-	public static Item animalCage;
 	public static Item nileSpark;
 	public static Item nileBone;
 	
@@ -74,7 +73,7 @@ public class ModItems {
 	
 	public static void load() {    	
     	//Tools/Weapons//
-    	nileSword = new ItemSword(ZeroQuest.nileEssence).setUnlocalizedName("nileSword").setCreativeTab(ZeroQuest.ZeroTab);
+    	nileSword = new ItemNileSword(ZeroQuest.nileEssence).setUnlocalizedName("nileSword").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nileSword, "nile_sword");
     	registerRender(nileSword, 0, Constants.modid + ":" + "nile_sword", "inventory");
     	nileAxe = new ItemNileAxe(ZeroQuest.nileEssence).setUnlocalizedName("nileAxe").setCreativeTab(ZeroQuest.ZeroTab);
@@ -86,7 +85,7 @@ public class ModItems {
     	nileSpade = new ItemNileSpade(ZeroQuest.nileEssence).setUnlocalizedName("nileShovel").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nileSpade, "nile_shovel");
     	registerRender(nileSpade, 0, Constants.modid + ":" + "nile_shovel", "inventory");
-    	nileHoe = new ItemHoe(ZeroQuest.nileEssence).setUnlocalizedName("nileHoe").setCreativeTab(ZeroQuest.ZeroTab);
+    	nileHoe = new ItemNileHoe(ZeroQuest.nileEssence).setUnlocalizedName("nileHoe").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nileHoe, "nile_hoe");
     	registerRender(nileHoe, 0, Constants.modid + ":" + "nile_hoe", "inventory");
     	nileBow = new ItemNileBow("nile").setUnlocalizedName("nileBow").setCreativeTab(ZeroQuest.ZeroTab).setMaxDamage(484);
@@ -150,7 +149,7 @@ public class ModItems {
 	
 	public static void loadDarkItems(){
 		
-		darkSword = new ItemSword(ZeroQuest.darkEssence).setUnlocalizedName("darkSword").setCreativeTab(ZeroQuest.DarkTab);
+		darkSword = new ItemNileSword(ZeroQuest.darkEssence).setUnlocalizedName("darkSword").setCreativeTab(ZeroQuest.DarkTab);
 		register(darkSword, "dark_sword");
     	registerRender(darkSword, 0, Constants.modid + ":" + "dark_sword", "inventory");
 		darkAxe = new ItemNileAxe(ZeroQuest.darkEssence).setUnlocalizedName("darkAxe").setCreativeTab(ZeroQuest.DarkTab);
@@ -162,7 +161,7 @@ public class ModItems {
 		darkShovel = new ItemNileSpade(ZeroQuest.darkEssence).setUnlocalizedName("darkShovel").setCreativeTab(ZeroQuest.DarkTab);
 		register(darkShovel, "dark_shovel");
     	registerRender(darkShovel, 0, Constants.modid + ":" + "dark_shovel", "inventory");
-		darkHoe = new ItemHoe(ZeroQuest.darkEssence).setUnlocalizedName("darkHoe").setCreativeTab(ZeroQuest.DarkTab);
+		darkHoe = new ItemNileHoe(ZeroQuest.darkEssence).setUnlocalizedName("darkHoe").setCreativeTab(ZeroQuest.DarkTab);
 		register(darkHoe, "dark_hoe");
     	registerRender(darkHoe, 0, Constants.modid + ":" + "dark_hoe", "inventory");
     	darkBow = new ItemNileBow("dark").setUnlocalizedName("darkBow").setCreativeTab(ZeroQuest.DarkTab).setMaxDamage(525);
