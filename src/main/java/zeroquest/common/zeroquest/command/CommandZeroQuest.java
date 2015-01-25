@@ -112,7 +112,7 @@ public class CommandZeroQuest extends CommandBase {
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"---------------------------------------------------"));
            } else {
                // console can't tame nile entities
-               throw new CommandException("You can't use this command from console!");
+               throw new CommandException("commands.zeroquest.cantuse");
            }
        }
        
@@ -130,7 +130,7 @@ public class CommandZeroQuest extends CommandBase {
            
            } else {
                // console can't tame nile entities
-               throw new CommandException("You can't use this command from console!");
+               throw new CommandException("commands.zeroquest.cantuse");
            }
        }
        

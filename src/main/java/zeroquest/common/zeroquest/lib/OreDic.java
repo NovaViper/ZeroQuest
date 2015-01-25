@@ -16,10 +16,12 @@ public class OreDic {
 		OreDictionary.registerOre("ignotNCoal", ModItems.nileCoal);
    		OreDictionary.registerOre("oreNGrain", ModBlocks.nileGrainOre);
    		OreDictionary.registerOre("ingotNGrain", ModItems.nileGrain);
+   		OreDictionary.registerOre("blockNEssence", ModBlocks.blockNileEssence);
 
 	}
 	   public static void loadDarkOre(){
 		OreDictionary.registerOre("oreDGrain", ModBlocks.darkGrainOre);
 		OreDictionary.registerOre("ingotDGrain", ModItems.darkGrain);
+   		OreDictionary.registerOre("blockDEssence", ModBlocks.blockDarkEssence);
 	   }
 }

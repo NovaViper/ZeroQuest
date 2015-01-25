@@ -18,6 +18,7 @@ import net.minecraft.world.WorldServer;
 import com.google.common.collect.Lists;
 
 import common.zeroquest.ModBlocks;
+import common.zeroquest.ZeroQuest;
 
 public class TeleporterNillax extends Teleporter
 {
@@ -37,7 +38,7 @@ public class TeleporterNillax extends Teleporter
     @Override
     public void placeInPortal(Entity entityIn, float rotationYaw)
     {
-        if (this.worldServerInstance.provider.getDimensionId() != 1)
+        if (this.worldServerInstance.provider.getDimensionId() != ZeroQuest.NillaxID)
         {
             if (!this.placeInExistingPortal(entityIn, rotationYaw))
             {

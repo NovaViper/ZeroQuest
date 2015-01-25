@@ -1,7 +1,5 @@
 package common.zeroquest.item;
 
-import common.zeroquest.ModBlocks;
-import common.zeroquest.ZeroQuest;
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.player.EntityPlayer;
@@ -11,21 +9,18 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 
-public class ItemNileSpark extends Item
-{
-    public ItemNileSpark()
-    {
-        super();
-        this.maxStackSize = 1;
-        this.setMaxDamage(64);
-        this.setCreativeTab(ZeroQuest.ZeroTab);
-    }
+import common.zeroquest.ModBlocks;
+import common.zeroquest.ZeroQuest;
 
-    /**
-     * Callback for item usage. If the item does something special on right clicking, he will have one of those. Return
-     * True if something happen and false if it don't. This is for ITEMS, not BLOCKS
-     */
-    @Override
+public class ItemNileSpark extends Item{
+	
+	public ItemNileSpark() {
+		super();
+		this.maxStackSize = 1;
+		this.setMaxDamage(25);
+		this.setCreativeTab(ZeroQuest.ZeroTab);
+	}
+	
     public boolean onItemUse(ItemStack stack, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ)
     {
         pos = pos.offset(side);

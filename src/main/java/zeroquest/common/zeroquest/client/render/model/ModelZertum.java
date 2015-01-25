@@ -33,7 +33,7 @@ public class ModelZertum extends ModelBase
     ModelRenderer Tail2;
     ModelRenderer Neck;
     private float rightLegStartingRotation = -0.2974289F;
-    private float lightLegStartingRotation = -0.2974289F;
+    private float leftLegStartingRotation = -0.2974289F;
   
   public ModelZertum()
   {
@@ -240,7 +240,7 @@ public class ModelZertum extends ModelBase
           Tail1.rotateAngleX = 1.315962F;
           
           this.RightHindLeg1.rotateAngleX = rightLegStartingRotation + MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
-          this.LeftHindLeg1.rotateAngleX = lightLegStartingRotation + MathHelper.cos(par2 * 0.6662F + (float)Math.PI) * 1.4F * par3;
+          this.LeftHindLeg1.rotateAngleX = leftLegStartingRotation + MathHelper.cos(par2 * 0.6662F + (float)Math.PI) * 1.4F * par3;
           this.RightLeg.rotateAngleX = MathHelper.cos(par2 * 0.6662F + (float)Math.PI) * 1.4F * par3;
           this.LeftLeg.rotateAngleX = MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
       }

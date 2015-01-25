@@ -96,16 +96,22 @@ V1.2.8 - Beta: Stepping over for 1.8!
 v1.3.0 - The 1.8 Crossover
 +Added more command aliases
 +Added Dark Bow
++Added Grass Footprints configuration for Foris Zertum
++Added Block of Dark Essence
++Added Block of Nile Essence
++Added FOV zoom on bows
 -^Due to new texturing code, the following objects will NOT have a texture/complete texture:^
-	-Nile Fire
-	-Dark Fire
+    -Nile Fire
+    -Dark Fire
 -Removed Toy
 -Removed unused code
 *Renamed Dark Nile Bone to Dark Bone
 *Altered textures for Nile Bow, Nile Bone, Nile Sword, Dark Sword, and Dark Bone
 *Dark Bone can now be with using Dark Dust and regular bones
-*Nile Essence can now appear in Bonus Chests
+*Nile Essence and Nile Dust can now appear in Bonus Chests
 *Rewritted everything for 1.8
 *Kortor now drops mutton
 *Foris Zertums can now make dirt into grass in light AND darkness
 *Moved certain elements to the Constants file
+*Ores now use a super class!
+*Made ores glow again!

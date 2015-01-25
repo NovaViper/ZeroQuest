@@ -6,6 +6,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
 import common.zeroquest.item.ItemDarkSpark;
 import common.zeroquest.item.ItemDogTreat;
 import common.zeroquest.item.ItemDust;
@@ -88,10 +89,10 @@ public class ModItems {
     	nileHoe = new ItemNileHoe(ZeroQuest.nileEssence).setUnlocalizedName("nileHoe").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nileHoe, "nile_hoe");
     	registerRender(nileHoe, 0, Constants.modid + ":" + "nile_hoe", "inventory");
-    	nileBow = new ItemNileBow("nile").setUnlocalizedName("nileBow").setCreativeTab(ZeroQuest.ZeroTab).setMaxDamage(484);
+    	nileBow = new ItemNileBow("nile", 484).setUnlocalizedName("nileBow").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nileBow, "nile_bow");
-    	registerRender(nileBow, 0, Constants.modid + ":" + "nile_bow", "inventory");
     	addVariant(ModItems.nileBow, new String[] {Constants.modid + ":nile_bow", Constants.modid + ":nile_bow_pulling_0", Constants.modid + ":nile_bow_pulling_1", Constants.modid + ":nile_bow_pulling_2"});
+    	registerRender(ModItems.nileBow, 0, Constants.modid + ":nile_bow", "inventory");
     	nileGrenade = new ItemNileGrenade().setUnlocalizedName("nileGrenade");
     	register(nileGrenade, "nile_grenade");
     	registerRender(nileGrenade, 0, Constants.modid + ":" + "nile_grenade", "inventory");
@@ -127,10 +128,10 @@ public class ModItems {
     	registerRender(FPoisonball, 0, Constants.modid + ":" + "flaming_poisonball", "inventory");
 
     	//Food/Crops//
-    	zertumMeatRaw = new ZQFood(3, 1.5F, true).setUnlocalizedName("zertumMeatRaw");
+    	zertumMeatRaw = new ZQFood(3, 1.5F, true, ZeroQuest.ZeroTab).setUnlocalizedName("zertumMeatRaw");
     	register(zertumMeatRaw, "zertum_meat_raw");
     	registerRender(zertumMeatRaw, 0, Constants.modid + ":" + "zertum_meat_raw", "inventory");
-    	zertumMeatCooked = new ZQFood(5, 2.5F, true).setUnlocalizedName("zertumMeatCooked");
+    	zertumMeatCooked = new ZQFood(5, 2.5F, true, ZeroQuest.ZeroTab).setUnlocalizedName("zertumMeatCooked");
     	register(zertumMeatCooked, "zertum_meat_cooked");
     	registerRender(zertumMeatCooked, 0, Constants.modid + ":" + "zertum_meat_cooked", "inventory");
     	vitoidSeed = new ItemNileSeed(ModBlocks.vitoidPlant, Blocks.farmland).setUnlocalizedName("vitoidSeed");
@@ -139,10 +140,10 @@ public class ModItems {
     	vitoidFruit = new VitoidFruit(2, 0.5F, false).setUnlocalizedName("vitoidFruit");
     	register(vitoidFruit, "vitoid_fruit");
     	registerRender(vitoidFruit, 0, Constants.modid + ":" + "vitoid_fruit", "inventory");
-    	jakanMeatRaw = new ZQFood(4, 1.7F, true).setUnlocalizedName("jakanMeatRaw");
+    	jakanMeatRaw = new ZQFood(4, 1.7F, true, ZeroQuest.ZeroTab).setUnlocalizedName("jakanMeatRaw");
     	register(jakanMeatRaw, "jakan_meat_raw");
     	registerRender(jakanMeatRaw, 0, Constants.modid + ":" + "jakan_meat_raw", "inventory");
-    	jakanMeatCooked = new ZQFood(5, 2.7F, true).setUnlocalizedName("jakanMeatCooked");
+    	jakanMeatCooked = new ZQFood(5, 2.7F, true, ZeroQuest.ZeroTab).setUnlocalizedName("jakanMeatCooked");
     	register(jakanMeatCooked, "jakan_meat_cooked");
     	registerRender(jakanMeatCooked, 0, Constants.modid + ":" + "jakan_meat_cooked", "inventory");
 	}
@@ -164,11 +165,10 @@ public class ModItems {
 		darkHoe = new ItemNileHoe(ZeroQuest.darkEssence).setUnlocalizedName("darkHoe").setCreativeTab(ZeroQuest.DarkTab);
 		register(darkHoe, "dark_hoe");
     	registerRender(darkHoe, 0, Constants.modid + ":" + "dark_hoe", "inventory");
-    	darkBow = new ItemNileBow("dark").setUnlocalizedName("darkBow").setCreativeTab(ZeroQuest.DarkTab).setMaxDamage(525);
+    	darkBow = new ItemNileBow("dark", 584).setUnlocalizedName("darkBow").setCreativeTab(ZeroQuest.DarkTab);
     	register(darkBow, "dark_bow");
     	registerRender(darkBow, 0, Constants.modid + ":" + "dark_bow", "inventory");
     	addVariant(darkBow, new String[] {Constants.modid + ":dark_bow", Constants.modid + ":dark_bow_pulling_0", Constants.modid + ":dark_bow_pulling_1", Constants.modid + ":dark_bow_pulling_2"});
-		
     	darkSpark = new ItemDarkSpark().setUnlocalizedName("darkSpark");
     	register(darkSpark, "dark_spark");
     	registerRender(darkSpark, 0, Constants.modid + ":" + "dark_spark", "inventory");

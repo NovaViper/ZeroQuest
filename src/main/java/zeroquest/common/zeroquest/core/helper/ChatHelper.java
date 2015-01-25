@@ -9,10 +9,10 @@ import net.minecraft.util.ChatComponentTranslation;
 public class ChatHelper {
 
 public static ChatComponentTranslation getChatComponentTranslation(String message, Object... format) {
-return new ChatComponentTranslation(message, format);
+	return new ChatComponentTranslation(message, format);
 }
 
 public static ChatComponentText getChatComponent(String message) {
-return new ChatComponentText(message);
-}
+	return new ChatComponentText(message);
+	}
 }

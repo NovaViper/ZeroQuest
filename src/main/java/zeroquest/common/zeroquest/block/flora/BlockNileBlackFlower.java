@@ -1,4 +1,4 @@
-package common.zeroquest.block;
+package common.zeroquest.block.flora;
 
 import java.util.Random;
 
@@ -9,18 +9,17 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.ZeroQuest;
-import common.zeroquest.client.particle.EntityDustFX;
 
-public class BlockNileBlueFlower extends BlockBush{
+public class BlockNileBlackFlower extends BlockBush{
 
-	public BlockNileBlueFlower() {
+	public BlockNileBlackFlower() {
 		super();
 		this.setCreativeTab(ZeroQuest.ZeroTab);
-		this.setLightLevel(0.4F);
+		this.setLightLevel(0F);
 		this.setStepSound(soundTypeGrass);
 	}
 	
@@ -40,8 +39,13 @@ public class BlockNileBlueFlower extends BlockBush{
 
         if (rand.nextInt(10) == 0)
         {
-        	EntityDustFX entityFX = new EntityDustFX(worldIn, (double)((float)pos.getX() + rand.nextFloat()), (double)((float)pos.getY() + 1.1F), (double)((float)pos.getZ() + rand.nextFloat()), 0.0D, 0.0D, 0.0D);
-        	FMLClientHandler.instance().getClient().effectRenderer.addEffect(entityFX);
-    	}
+            worldIn.spawnParticle(EnumParticleTypes.TOWN_AURA, (double)((float)pos.getX() + rand.nextFloat()), (double)((float)pos.getY() + 1.1F), (double)((float)pos.getZ() + rand.nextFloat()), 0.0D, 0.0D, 0.0D, new int[0]);
+        }
+    }
+    
+    @Override
+    public EnumPlantType getPlantType(net.minecraft.world.IBlockAccess world, BlockPos pos)
+    {
+        return EnumPlantType.Plains;
     }
 }

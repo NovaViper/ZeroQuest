@@ -165,6 +165,23 @@ public abstract class EntityCustomTameable extends EntityTameable
         }
     }
     
+    public boolean hasItemsinChest() //TODO
+    {
+        if (this.inventory != null && !this.worldObj.isRemote)
+        {
+            for (int i = 0; i < inventory.getSizeInventory(); ++i)
+            {
+                ItemStack itemstack = inventory.getStackInSlot(i);
+
+                if (itemstack != null)
+                {
+            		return true;
+                }
+            }
+        }
+		return false;
+    }
+    
     /**
      * Called when the mob's health reaches 0.
      */

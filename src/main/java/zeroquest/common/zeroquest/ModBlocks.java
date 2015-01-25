@@ -7,17 +7,15 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import common.zeroquest.block.BlockBedRock;
-import common.zeroquest.block.BlockDarkGrainOre;
-import common.zeroquest.block.BlockDrestroFlower;
-import common.zeroquest.block.BlockNileBlackFlower;
-import common.zeroquest.block.BlockNileBlueFlower;
-import common.zeroquest.block.BlockNileCoalOre;
-import common.zeroquest.block.BlockNileGrainOre;
-import common.zeroquest.block.BlockNilePinkFlower;
+import common.zeroquest.block.BlockNileBlock;
+import common.zeroquest.block.BlockNileOre;
 import common.zeroquest.block.BlockNileWorkbench;
-import common.zeroquest.block.BlockVitoid;
+import common.zeroquest.block.flora.BlockDrestroFlower;
+import common.zeroquest.block.flora.BlockNileBlackFlower;
+import common.zeroquest.block.flora.BlockNileBlueFlower;
+import common.zeroquest.block.flora.BlockNilePinkFlower;
+import common.zeroquest.block.flora.BlockVitoidCrop;
 import common.zeroquest.block.portal.BlockDarkFire;
 import common.zeroquest.block.portal.BlockNileFire;
 import common.zeroquest.block.portal.BlockNilePortalStone;
@@ -30,6 +28,9 @@ public class ModBlocks {
 	public static Block nileCoalOre;
 	public static Block nileGrainOre;
 	public static Block darkGrainOre;	
+	public static Block blockNileEssence;
+	public static Block blockDarkEssence;
+	
 	public static Block nileBlueFlower;
 	public static Block nilePinkFlower;
 	public static Block nileBlackFlower;
@@ -70,17 +71,20 @@ public class ModBlocks {
 		destroFlower = new BlockDrestroFlower().setUnlocalizedName("destroFlower");
 		register(destroFlower, "destro_flower");
     	registerRender(destroFlower, 0, Constants.modid + ":" + "destro_flower", "inventory");	
-		vitoidPlant = new BlockVitoid().setUnlocalizedName("vitoidPlant");
+		vitoidPlant = new BlockVitoidCrop().setUnlocalizedName("vitoidPlant");
 		register(vitoidPlant, "vitoid_plant");
     	registerRender(vitoidPlant, 0, Constants.modid + ":" + "vitoid_plant", "inventory");
     	
 		//Ores//
-		nileCoalOre = new BlockNileCoalOre(Material.rock).setUnlocalizedName("nileCoalOre");
+		nileCoalOre = new BlockNileOre(ZeroQuest.ZeroTab, 3.0F, 5.0F, 0.6F).setUnlocalizedName("nileCoalOre");
 		register(nileCoalOre, "nile_coal_ore");
     	registerRender(nileCoalOre, 0, Constants.modid + ":" + "nile_coal_ore", "inventory");
-    	nileGrainOre = new BlockNileGrainOre(Material.rock).setUnlocalizedName("nileGrainOre");
+    	nileGrainOre = new BlockNileOre(ZeroQuest.ZeroTab, 3.5F, 5.2F, 0.6F).setUnlocalizedName("nileGrainOre");
 		register(nileGrainOre, "nile_grain_Ore");
     	registerRender(nileGrainOre, 0, Constants.modid + ":" + "nile_grain_Ore", "inventory");	
+    	blockNileEssence = new BlockNileBlock(ZeroQuest.ZeroTab, 5.0F, 30.0F, 0F).setUnlocalizedName("blockNileEssence");
+		register(blockNileEssence, "nile_essence_block");
+    	registerRender(blockNileEssence, 0, Constants.modid + ":" + "nile_essence_block", "inventory");
 		
 		//Portal Parts//
 		nillaxStone = new BlockNilePortalStone(Material.rock).setUnlocalizedName("nillaxStone").setCreativeTab(ZeroQuest.ZeroTab);
@@ -104,9 +108,12 @@ public class ModBlocks {
 	        registerRender(portalDarkax, 0, Constants.modid + ":" + "portal_darkax", "inventory");
 	    	darkFire = new BlockDarkFire().setUnlocalizedName("darkFire");
 	    	register(darkFire, "dark_fire");*/
-	    	darkGrainOre = new BlockDarkGrainOre(Material.rock).setUnlocalizedName("darkGrainOre");
+	    	darkGrainOre = new BlockNileOre(ZeroQuest.DarkTab, 3.5F, 5.2F, 0.6F).setUnlocalizedName("darkGrainOre");
 	    	register(darkGrainOre, "dark_grain_ore"); 
 	    	registerRender(darkGrainOre, 0, Constants.modid + ":" + "dark_grain_ore", "inventory");
+	    	blockDarkEssence = new BlockNileBlock(ZeroQuest.DarkTab, 5.0F, 30.0F, 0F).setUnlocalizedName("blockDarkEssence");
+			register(blockDarkEssence, "dark_essence_block");
+	    	registerRender(blockDarkEssence, 0, Constants.modid + ":" + "dark_essence_block", "inventory");
 	   }
 	   
 	   public static void register(Block block, String name){

@@ -30,6 +30,8 @@ tile.destroFlower.name=Destro Flower
 tile.nileCoalOre.name=Nile Coal Ore
 tile.nileGrainOre.name=Nile Grain Ore
 tile.darkGrainOre.name=Dark Grain Ore
+tile.blockNileEssence.name=Block of Nile Essence
+tile.blockDarkEssence.name=Block of Dark Essence
 tile.nillaxStone.name=Nillax Stone
 tile.looseBedrock.name=Loose Bedrock
 tile.portalNillax.name=Nillax Portal
@@ -93,8 +95,8 @@ key.categories.zeroquest=Zero Quest
 
 commands.zeroquest.notameable=There are no nile creatures nearby!
 commands.zeroquest.canttame=Consoles cannot tame these creatures!
-Commands.zeroquest.cantheal=Consoles cannot heal these creatures!
-
+commands.zeroquest.cantheal=Consoles cannot heal these creatures!
+commands.zeroquest.cantuse=You can't use this command from console!
 
 attribute.name.generic.movementSpeedAir=Flying Speed
 

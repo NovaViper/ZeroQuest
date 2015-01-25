@@ -3,7 +3,6 @@ package common.zeroquest;
 import java.io.File;
 
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.command.ServerCommandManager;
@@ -13,6 +12,7 @@ import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldProvider;
 import net.minecraftforge.common.DimensionManager;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.common.util.EnumHelper;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.common.Mod;
@@ -25,8 +25,6 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -39,6 +37,7 @@ import common.zeroquest.creativetab.DarkQuestTab;
 import common.zeroquest.creativetab.ZeroQuestTab;
 import common.zeroquest.events.AchievementEvents;
 import common.zeroquest.events.ConfigEvent;
+import common.zeroquest.events.FOVEvent;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.OreDic;
 import common.zeroquest.world.WorldProviderDarkax;
@@ -73,7 +72,7 @@ public class ZeroQuest
         ConfigHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + channel + File.separator + Constants.modid.toLowerCase() + ".cfg"));
         FMLCommonHandler.instance().bus().register(new ConfigEvent());
    		
-        FMLCommonHandler.instance().bus().register(new PlayerEvents(Constants.version, "ZeroQuest", false));	    	
+        FMLCommonHandler.instance().bus().register(new PlayerEvents(Constants.version, "ZeroQuest", false));
     	Log.info("-----PRE-CONTENT LOAD INITATING-----");
     	Log.info("Loading Main Stuff...");
         this.ZeroTab = new ZeroQuestTab(CreativeTabs.getNextID());
@@ -93,6 +92,7 @@ public class ZeroQuest
     	
     	Log.info("Loading Block, Recipes and Items...");
     	ModBlocks.load();
+    	MinecraftForge.EVENT_BUS.register(new FOVEvent());
     	ModItems.load();
        	ZeroQuestCrafting.loadRecipes();
     	Log.info("Blocks, Recipes and Items Loaded Successfully!");
@@ -112,7 +112,7 @@ public class ZeroQuest
     	if(Constants.DEF_DARKLOAD == true){
     	Log.warn("Dark Elemental Load is ENABLED!");	
     	Log.info("Initating Dark Elemental Load!");
-    		darkEssence = EnumHelper.addToolMaterial("DarkEssence", 4, 4000, 21.0F, 5.0F, 40);
+    		darkEssence = EnumHelper.addToolMaterial("DarkEssence", 4, 5000, 21.0F, 5.0F, 40);
         	ModItems.loadDarkItems();
         	ModBlocks.loadDarkBlocks();
       		ZeroQuestCrafting.loadDarkRecipes();
@@ -172,4 +172,12 @@ public class ZeroQuest
     public void registerDimension(int id, int providerType){
         DimensionManager.registerDimension(id, providerType);
     }
+    
+	   public static void registerRender(Item item, int metadata, String itemString, String location){
+		   Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, metadata, new ModelResourceLocation(itemString, location));
+	   }
+	   
+	   public static void addVariant(Item item, String... names){
+		   ModelBakery.addVariantName(item, names);
+	   }
 }

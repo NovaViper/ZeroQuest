@@ -40,7 +40,12 @@ public class ZeroQuestCrafting
 			"Y Z",
 			" XZ",
 			'Y', Items.stick, 'X', new ItemStack(ModItems.nileEssence), 'Z', Items.string });
-		
+		//Nile Blocks//
+		addRecipe(new ItemStack(ModBlocks.blockNileEssence), new Object[]{
+			"XXX",
+			"XXX",
+			"XXX",
+			'X', new ItemStack(ModItems.nileEssence) });
 		//Nile Substances//
 		addRecipe(new ItemStack(ModItems.nileEssence, 2), new Object[]{
 			"   ",
@@ -143,8 +148,13 @@ public class ZeroQuestCrafting
 			"Y Z",
 			" XZ",
 			'Y', Items.stick, 'X', new ItemStack(ModItems.darkEssence), 'Z', Items.string });
-		
-		//Dark Nile Substances//
+		//Dark Blocks//
+		addRecipe(new ItemStack(ModBlocks.blockDarkEssence), new Object[]{
+			"XXX",
+			"XXX",
+			"XXX",
+			'X', new ItemStack(ModItems.darkEssence) });
+		//Dark Substances//
 		addRecipe(new ItemStack(ModItems.darkEssence, 2), new Object[]{
 			"   ",
 			"XXX",
