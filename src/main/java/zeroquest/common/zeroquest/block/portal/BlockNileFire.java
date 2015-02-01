@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.Random;
 
 import net.minecraft.block.Block;
+import net.minecraft.block.BlockFire;
 import net.minecraft.block.BlockTNT;
 import net.minecraft.block.material.MapColor;
 import net.minecraft.block.material.Material;
@@ -28,7 +29,7 @@ import com.google.common.collect.Maps;
 
 import common.zeroquest.ModBlocks;
 
-public class BlockNileFire extends Block
+public class BlockNileFire extends BlockFire
 {
     public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
     public static final PropertyBool FLIP = PropertyBool.create("flip");
@@ -75,7 +76,7 @@ public class BlockNileFire extends Block
 
     public BlockNileFire()
     {
-        super(Material.fire);
+        super();
         this.setDefaultState(this.blockState.getBaseState().withProperty(AGE, Integer.valueOf(0)).withProperty(FLIP, Boolean.valueOf(false)).withProperty(ALT, Boolean.valueOf(false)).withProperty(NORTH, Boolean.valueOf(false)).withProperty(EAST, Boolean.valueOf(false)).withProperty(SOUTH, Boolean.valueOf(false)).withProperty(WEST, Boolean.valueOf(false)).withProperty(UPPER, Integer.valueOf(0)));
         this.setTickRandomly(true);
         this.enableStats = false;
@@ -386,6 +387,7 @@ public class BlockNileFire extends Block
         }
     }
 
+    @Override
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
         if ((worldIn.getBlockState(pos) != ModBlocks.nillaxStone) || (!((BlockPortalNillax)ModBlocks.portalNillax).func_176548_d(worldIn, pos)))

@@ -92,9 +92,13 @@ public class ZeroQuest
     	
     	Log.info("Loading Block, Recipes and Items...");
     	ModBlocks.load();
-    	MinecraftForge.EVENT_BUS.register(new FOVEvent());
     	ModItems.load();
+    	MinecraftForge.EVENT_BUS.register(new FOVEvent());
        	ZeroQuestCrafting.loadRecipes();
+    	if(event.getSide().isClient()){
+    		ModBlocks.loadRenderers();
+    		ModItems.loadRenderers();
+    	}
     	Log.info("Blocks, Recipes and Items Loaded Successfully!");
 		
     	Log.info("Loading Entities and Ore Dictionary...");
@@ -115,6 +119,10 @@ public class ZeroQuest
     		darkEssence = EnumHelper.addToolMaterial("DarkEssence", 4, 5000, 21.0F, 5.0F, 40);
         	ModItems.loadDarkItems();
         	ModBlocks.loadDarkBlocks();
+        	if(event.getSide().isClient()){
+        		ModItems.loadDarkRenderers();
+        		ModBlocks.loadDarkRenderers();
+        	}
       		ZeroQuestCrafting.loadDarkRecipes();
     		ModEntities.loadDarkCreatures();
     		ModBiomes.loadDarkBiomes();
@@ -172,12 +180,4 @@ public class ZeroQuest
     public void registerDimension(int id, int providerType){
         DimensionManager.registerDimension(id, providerType);
     }
-    
-	   public static void registerRender(Item item, int metadata, String itemString, String location){
-		   Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, metadata, new ModelResourceLocation(itemString, location));
-	   }
-	   
-	   public static void addVariant(Item item, String... names){
-		   ModelBakery.addVariantName(item, names);
-	   }
 }

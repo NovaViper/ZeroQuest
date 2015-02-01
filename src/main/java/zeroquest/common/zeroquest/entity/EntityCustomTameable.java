@@ -45,12 +45,13 @@ public abstract class EntityCustomTameable extends EntityTameable
      * Play the taming effect, will either be hearts or smoke depending on status
      */
     @Override
+    @SideOnly(Side.CLIENT)
     protected void playTameEffect(boolean p_70908_1_)
     {
         double d0 = this.rand.nextGaussian() * 0.02D;
         double d1 = this.rand.nextGaussian() * 0.02D;
         double d2 = this.rand.nextGaussian() * 0.02D;
-    	
+    	if(isClient()){
         EntityFX entityFX = new EntityHeart2FX(this.worldObj, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
 
         if (!p_70908_1_)
@@ -60,9 +61,10 @@ public abstract class EntityCustomTameable extends EntityTameable
 
         for (int i = 0; i < 7; ++i)
         {
-        	FMLClientHandler.instance().getClient().effectRenderer.addEffect(entityFX);
+        		FMLClientHandler.instance().getClient().effectRenderer.addEffect(entityFX);
         }
         
+    	}
     }
     
     /**

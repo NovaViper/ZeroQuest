@@ -100,6 +100,7 @@ v1.3.0 - The 1.8 Crossover
 +Added Block of Dark Essence
 +Added Block of Nile Essence
 +Added FOV zoom on bows
+*^Due to major updates, Nile and Dark sparks are now used for traveling to the Nillax/Darkax Dimensions^
 -^Due to new texturing code, the following objects will NOT have a texture/complete texture:^
     -Nile Fire
     -Dark Fire

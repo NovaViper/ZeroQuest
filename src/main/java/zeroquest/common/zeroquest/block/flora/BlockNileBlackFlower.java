@@ -42,10 +42,4 @@ public class BlockNileBlackFlower extends BlockBush{
             worldIn.spawnParticle(EnumParticleTypes.TOWN_AURA, (double)((float)pos.getX() + rand.nextFloat()), (double)((float)pos.getY() + 1.1F), (double)((float)pos.getZ() + rand.nextFloat()), 0.0D, 0.0D, 0.0D, new int[0]);
         }
     }
-    
-    @Override
-    public EnumPlantType getPlantType(net.minecraft.world.IBlockAccess world, BlockPos pos)
-    {
-        return EnumPlantType.Plains;
-    }
 }

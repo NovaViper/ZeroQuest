@@ -59,11 +59,11 @@ public class ModBiomes
     public static BiomeGenBase nileMountainsEdge;
     public static BiomeGenBase nileMountainsPlus;
 	
-	public static BiomeGenBase[] biomes = {bioZone, redSeed, blueTaiga, blueTaigaHills, blueColdTaiga, 
+	/*public static BiomeGenBase[] biomes = {bioZone, redSeed, blueTaiga, blueTaigaHills, blueColdTaiga, 
 			blueColdTaigaHills, blueMegaTaiga, blueMegaTaigaHills, pinkZone, destroZone, destroZoneHills,
 			walRockland, nileSavanna, nileSavannaPlateau, nileJungle, nileJungleHills, nileJungleEdge,
 			nileSwampland, nileMesa, nileMesaPlateau_F, nileMesaPlateau, nileMountains, nileMountainsEdge,
-			nileMountainsPlus};
+			nileMountainsPlus};*/
     
 	public static void loadBiomes() {
 		//Put biomes in biomes list//

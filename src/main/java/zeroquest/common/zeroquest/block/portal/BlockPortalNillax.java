@@ -43,10 +43,10 @@ public class BlockPortalNillax extends BlockPortal{
 				player.timeUntilPortal = 10;
 			}else if(player.dimension != ZeroQuest.NillaxID){
 				player.timeUntilPortal = 10;
-				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, ZeroQuest.NillaxID, new TeleporterNillax(server.worldServerForDimension(ZeroQuest.NillaxID)));
+				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, ZeroQuest.NillaxID, new TeleporterNillax(server.worldServerForDimension(ZeroQuest.NillaxID), false));
 			}else{
 				player.timeUntilPortal = 10;
-				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0, new TeleporterNillax(server.worldServerForDimension(0)));
+				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0, new TeleporterNillax(server.worldServerForDimension(0), false));
 			}
 		}
 	}

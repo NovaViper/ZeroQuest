@@ -97,7 +97,9 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiSit);
         this.tasks.addTask(3, new EntityAICustomLeapAtTarget(this, 0.4F));
-        this.tasks.addTask(4, new EntityAICustomArrowAttack(this, 0.1, 60, 10.0F));
+        if(cooldown == 0){
+        	this.tasks.addTask(4, new EntityAICustomArrowAttack(this, 1.0D, 20, 60, 15.0F));
+        }
         this.tasks.addTask(5, new EntityAIAttackOnCollide(this, 1.0D, true));
         this.tasks.addTask(6, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
         this.tasks.addTask(7, new EntityAIMate(this, 1.0D));
@@ -293,10 +295,14 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
 	@Override
     public void onLivingUpdate() //TODO
     {
-		if (isServer() && this.cooldown > 0) {
-			cooldown--;
+		if (isServer()) {
+			if(this.cooldown > 0){
+				this.cooldown--;
+				//System.out.println(this.cooldown);
+			}
 		}
     	
+		
         super.onLivingUpdate();
         
     	for (int l = 0; l < 4; l++) 
@@ -525,11 +531,10 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
 	        entityIceball.setThrowableHeading(d0, d1 + (double)f1, d2, 1.6F, 12.0F);
 	        this.worldObj.playAuxSFXAtEntity((EntityPlayer)null, 1014, new BlockPos(this), 0);
 	        this.worldObj.spawnEntityInWorld(entityIceball);
-			cooldown = 20;
+			cooldown = 100;
 
 		} else {
-	         this.tasks.addTask(3, new EntityAICustomLeapAtTarget(this, 0.4F));
-			 //this.attackEntity(p_82196_1_, p_82196_2_);
+			this.tasks.addTask(3, new EntityAICustomLeapAtTarget(this, 0.4F));
 			 this.attackEntityAsMob(p_82196_1_);
 		}
 	}

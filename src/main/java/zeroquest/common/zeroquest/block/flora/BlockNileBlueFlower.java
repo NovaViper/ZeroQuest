@@ -45,10 +45,4 @@ public class BlockNileBlueFlower extends BlockBush{
         	FMLClientHandler.instance().getClient().effectRenderer.addEffect(entityFX);
     	}
     }
-    
-    @Override
-    public EnumPlantType getPlantType(net.minecraft.world.IBlockAccess world, BlockPos pos)
-    {
-        return EnumPlantType.Plains;
-    }
 }

@@ -6,6 +6,7 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockDirt;
 import net.minecraft.block.BlockDirt.DirtType;
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
@@ -45,6 +46,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -54,6 +56,7 @@ import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.client.particle.EntityForisDustFX;
+import common.zeroquest.core.proxy.ClientProxy;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.ai.EntityCustomFZAIBeg;
 import common.zeroquest.entity.ai.targeting.EntityAICustomLeapAtTarget;
@@ -292,6 +295,7 @@ public class EntityForisZertum extends EntityCustomTameable
     public void onLivingUpdate()
     {
         super.onLivingUpdate();
+        if(worldObj.isRemote) {ClientProxy.spawnForisParticle(this);}
         
     	for(int l = 0; l <= 4; ++l) //TODO
         {
@@ -312,15 +316,9 @@ public class EntityForisZertum extends EntityCustomTameable
             		this.worldObj.setBlockState(pos, footprint.getDefaultState());
             	}
             }
-        }
-    	
-      	double d0 = this.rand.nextGaussian() * 0.04D; //TODO
-    	double d1 = this.rand.nextGaussian() * 0.04D;
-    	double d2 = this.rand.nextGaussian() * 0.04D;
-    	EntityForisDustFX var20 = new EntityForisDustFX(this.worldObj, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
-    	FMLClientHandler.instance().getClient().effectRenderer.addEffect(var20);
-              
-        if (isServer() && this.isWet && !this.isShaking && !this.hasPath() && this.onGround)
+        }    
+        
+    	if (isServer() && this.isWet && !this.isShaking && !this.hasPath() && this.onGround)
         {
             this.isShaking = true;
             this.timeWolfIsShaking = 0.0F;

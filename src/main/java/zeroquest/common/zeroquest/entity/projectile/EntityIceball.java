@@ -9,9 +9,8 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.client.FMLClientHandler;
 
-import common.zeroquest.client.particle.EntityIceDustFX;
+import common.zeroquest.core.proxy.ClientProxy;
 
 public class EntityIceball extends EntityThrowable
 {
@@ -35,9 +34,7 @@ public class EntityIceball extends EntityThrowable
     @Override
     public void onUpdate()
     {
-    	EntityIceDustFX var20 = new EntityIceDustFX(this.worldObj, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
-    	FMLClientHandler.instance().getClient().effectRenderer.addEffect(var20);
-        
+        if(worldObj.isRemote) {ClientProxy.spawnIceParticle(this);}
         super.onUpdate();
     }
 

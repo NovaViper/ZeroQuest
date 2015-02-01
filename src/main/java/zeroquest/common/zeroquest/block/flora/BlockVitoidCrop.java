@@ -23,10 +23,4 @@ public class BlockVitoidCrop extends BlockCrops{
 	public Item getCrop(){
 		return ModItems.vitoidFruit;
 	}
-	
-    @Override
-    public EnumPlantType getPlantType(net.minecraft.world.IBlockAccess world, BlockPos pos)
-    {
-        return EnumPlantType.Crop;
-    }
 }

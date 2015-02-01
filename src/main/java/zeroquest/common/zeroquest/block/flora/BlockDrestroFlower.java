@@ -30,10 +30,4 @@ public class BlockDrestroFlower extends BlockBush{
 				|| par1 == Blocks.sand 
 				|| par1 == Blocks.sandstone;
     }
-	
-    @Override
-    public EnumPlantType getPlantType(net.minecraft.world.IBlockAccess world, BlockPos pos)
-    {
-    	return EnumPlantType.Desert;
-    }
 }
