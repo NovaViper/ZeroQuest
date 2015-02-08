@@ -72,7 +72,7 @@ public class ModBlocks {
 		nileCoalOre = new BlockNileOre(ZeroQuest.ZeroTab, 3.0F, 5.0F, 0.6F).setUnlocalizedName("nileCoalOre");
 		register(nileCoalOre, "nile_coal_ore");
     	nileGrainOre = new BlockNileOre(ZeroQuest.ZeroTab, 3.5F, 5.2F, 0.6F).setUnlocalizedName("nileGrainOre");
-		register(nileGrainOre, "nile_grain_Ore");	
+		register(nileGrainOre, "nile_grain_ore");	
     	blockNileEssence = new BlockNileBlock(ZeroQuest.ZeroTab, 5.0F, 30.0F, 0F).setUnlocalizedName("blockNileEssence");
 		register(blockNileEssence, "nile_essence_block");
 		
@@ -109,7 +109,7 @@ public class ModBlocks {
 	    	registerRender(destroFlower, 0, Constants.modid + ":" + "destro_flower", "inventory");	
 	    	registerRender(vitoidPlant, 0, Constants.modid + ":" + "vitoid_plant", "inventory");
 	    	registerRender(nileCoalOre, 0, Constants.modid + ":" + "nile_coal_ore", "inventory");
-	    	registerRender(nileGrainOre, 0, Constants.modid + ":" + "nile_grain_Ore", "inventory");
+	    	registerRender(nileGrainOre, 0, Constants.modid + ":" + "nile_grain_ore", "inventory");
 	    	registerRender(blockNileEssence, 0, Constants.modid + ":" + "nile_essence_block", "inventory");
 	    	
 	    	registerRender(darkaxStone, 0, Constants.modid + ":" + "nillax_stone", "inventory");	
