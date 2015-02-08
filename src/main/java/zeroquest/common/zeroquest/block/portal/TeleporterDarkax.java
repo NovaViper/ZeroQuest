@@ -11,12 +11,12 @@ import net.minecraft.world.WorldServer;
 import net.minecraftforge.fml.common.FMLCommonHandler;
 import net.minecraftforge.fml.relauncher.Side;
 
-public class TeleporterNillax extends Teleporter {
+public class TeleporterDarkax extends Teleporter {
 
 	private final WorldServer worldServerInstance;
 	private boolean topBlock;
 
-	public TeleporterNillax(WorldServer world, boolean topBlock) {
+	public TeleporterDarkax(WorldServer world, boolean topBlock) {
 		super(world);
 		this.worldServerInstance = world;
 		this.topBlock = topBlock;
@@ -33,10 +33,10 @@ public class TeleporterNillax extends Teleporter {
 
 		int height = 100;
 		if (topBlock) {
-			//height = this.worldServerInstance.getHeight();// spawn Player on top block
+			height = this.worldServerInstance.getHeight() - 20;// spawn Player on top block
 			
 		} else {
-			height = j + 6;// spawn Player on same height
+			height = j + 10;// spawn Player on same height
 		}
 
 		entityIn.setPosition(i, height, k);
@@ -51,7 +51,7 @@ public class TeleporterNillax extends Teleporter {
 				EntityPlayerMP playerMP = (EntityPlayerMP) player;
 				if (player.ridingEntity == null && player.riddenByEntity == null && player instanceof EntityPlayer) {
 					FMLCommonHandler.instance().getMinecraftServerInstance();
-					playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dim, new TeleporterNillax(mServer.worldServerForDimension(dim), topBlock));
+					playerMP.mcServer.getConfigurationManager().transferPlayerToDimension(playerMP, dim, new TeleporterDarkax(mServer.worldServerForDimension(dim), topBlock));
 
 				}
 

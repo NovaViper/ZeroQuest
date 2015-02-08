@@ -77,12 +77,12 @@ public class ModBlocks {
 		register(blockNileEssence, "nile_essence_block");
 		
 		//Portal Parts//
-		nillaxStone = new BlockNilePortalStone(Material.rock).setUnlocalizedName("nillaxStone").setCreativeTab(ZeroQuest.ZeroTab);
-		register(nillaxStone, "nillax_stone");
-		portalNillax = new BlockPortalNillax().setUnlocalizedName("portalNillax");
+		darkaxStone = new BlockNilePortalStone(Material.rock).setUnlocalizedName("nillaxStone").setCreativeTab(ZeroQuest.ZeroTab);
+		register(darkaxStone, "nillax_stone");
+		/*portalNillax = new BlockPortalNillax().setUnlocalizedName("portalNillax");
 		register(portalNillax, "portal_nillax");
 		nileFire = new BlockNileFire().setUnlocalizedName("nileFire");
-		register(nileFire, "nile_fire");
+		register(nileFire, "nile_fire");*/
 		}
 	   
 	   public static void loadDarkBlocks(){
@@ -112,9 +112,9 @@ public class ModBlocks {
 	    	registerRender(nileGrainOre, 0, Constants.modid + ":" + "nile_grain_Ore", "inventory");
 	    	registerRender(blockNileEssence, 0, Constants.modid + ":" + "nile_essence_block", "inventory");
 	    	
-	    	registerRender(nillaxStone, 0, Constants.modid + ":" + "nillax_stone", "inventory");	
-	        registerRender(portalNillax, 0, Constants.modid + ":" + "portal_nillax", "inventory");
-	    	registerRender(nileFire, 0, Constants.modid + ":" + "nile_fire", "inventory");
+	    	registerRender(darkaxStone, 0, Constants.modid + ":" + "nillax_stone", "inventory");	
+	        //registerRender(portalNillax, 0, Constants.modid + ":" + "portal_nillax", "inventory");
+	    	//registerRender(nileFire, 0, Constants.modid + ":" + "nile_fire", "inventory");
 	   }
 	   
 	  public static void loadDarkRenderers(){

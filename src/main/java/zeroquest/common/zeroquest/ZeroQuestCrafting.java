@@ -68,7 +68,7 @@ public class ZeroQuestCrafting
 			"XX ",
 			"ZX ",
 			'X', new ItemStack(ModItems.nileGrain), 'Z', Blocks.crafting_table });
-		addRecipe(new ItemStack(ModBlocks.nillaxStone, 2), new Object[]{
+		addRecipe(new ItemStack(ModBlocks.darkaxStone, 2), new Object[]{
 			"XXX",
 			"XXX",
 			"XXX",

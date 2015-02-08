@@ -1,4 +1,4 @@
-package common.zeroquest.item;
+package common.zeroquest.item.materials;
 
 import common.zeroquest.ZeroQuest;
 import net.minecraft.item.Item;

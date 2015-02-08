@@ -1,4 +1,4 @@
-package common.zeroquest.item;
+package common.zeroquest.item.tools;
 
 import common.zeroquest.ZeroQuest;
 

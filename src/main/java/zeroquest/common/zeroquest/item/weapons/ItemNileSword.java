@@ -1,4 +1,4 @@
-package common.zeroquest.item;
+package common.zeroquest.item.weapons;
 
 import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;

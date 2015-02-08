@@ -1,4 +1,4 @@
-package common.zeroquest.item;
+package common.zeroquest.item.weapons;
 
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.entity.player.EntityPlayer;

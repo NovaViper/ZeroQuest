@@ -272,14 +272,6 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
                 {
                 	this.dropItem(ModItems.nileGrain, 1);
                 }
-                /*if(this.hasRadarCollar())
-                {
-                	this.dropItem(ModItems.radioCollar, 1);
-                }*/
-                /*if(rare >= 17)
-                {
-                	this.dropItem(ModItems.darkDust.itemID, 1);
-                }*/
                 else
                 {
                 	
@@ -534,7 +526,7 @@ public class EntityIceZertum extends EntityCustomTameable implements IRangedAtta
 			cooldown = 100;
 
 		} else {
-			this.tasks.addTask(3, new EntityAICustomLeapAtTarget(this, 0.4F));
+			 this.tasks.addTask(3, new EntityAICustomLeapAtTarget(this, 0.4F));
 			 this.attackEntityAsMob(p_82196_1_);
 		}
 	}

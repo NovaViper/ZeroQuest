@@ -1,4 +1,4 @@
-package common.zeroquest.item;
+package common.zeroquest.item.tools;
 
 import net.minecraft.block.Block;
 import net.minecraft.creativetab.CreativeTabs;
@@ -26,9 +26,9 @@ public class ItemNileSpark extends Item{
     {
     	if(!worldIn.isRemote){
     		if(playerIn.dimension != ZeroQuest.NillaxID){
-    			TeleporterNillax.teleport(playerIn, ZeroQuest.NillaxID, true);
+    			TeleporterNillax.teleport(playerIn, ZeroQuest.NillaxID, false);
     		}else{
-    			TeleporterNillax.teleport(playerIn, 0, true);    			
+    			TeleporterNillax.teleport(playerIn, 0, false);    			
     		}
     	}
         return true;

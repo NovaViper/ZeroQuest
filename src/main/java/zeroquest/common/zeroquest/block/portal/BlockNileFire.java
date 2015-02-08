@@ -84,41 +84,41 @@ public class BlockNileFire extends BlockFire
 
     public static void init()
     {
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.planks, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.double_wooden_slab, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.wooden_slab, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.oak_fence_gate, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.spruce_fence_gate, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.birch_fence_gate, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.jungle_fence_gate, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.dark_oak_fence_gate, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.acacia_fence_gate, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.oak_fence, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.spruce_fence, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.birch_fence, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.jungle_fence, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.dark_oak_fence, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.acacia_fence, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.oak_stairs, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.birch_stairs, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.spruce_stairs, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.jungle_stairs, 5, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.log, 5, 5);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.log2, 5, 5);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.leaves, 30, 60);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.leaves2, 30, 60);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.bookshelf, 30, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.tnt, 15, 100);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.tallgrass, 60, 100);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.double_plant, 60, 100);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.yellow_flower, 60, 100);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.red_flower, 60, 100);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.deadbush, 60, 100);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.wool, 30, 60);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.vine, 15, 100);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.coal_block, 5, 5);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.hay_block, 60, 20);
-        ((BlockNileFire)ModBlocks.nileFire).setFireInfo(Blocks.carpet, 60, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.planks, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.double_wooden_slab, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.wooden_slab, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.oak_fence_gate, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.spruce_fence_gate, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.birch_fence_gate, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.jungle_fence_gate, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.dark_oak_fence_gate, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.acacia_fence_gate, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.oak_fence, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.spruce_fence, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.birch_fence, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.jungle_fence, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.dark_oak_fence, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.acacia_fence, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.oak_stairs, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.birch_stairs, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.spruce_stairs, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.jungle_stairs, 5, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.log, 5, 5);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.log2, 5, 5);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.leaves, 30, 60);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.leaves2, 30, 60);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.bookshelf, 30, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.tnt, 15, 100);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.tallgrass, 60, 100);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.double_plant, 60, 100);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.yellow_flower, 60, 100);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.red_flower, 60, 100);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.deadbush, 60, 100);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.wool, 30, 60);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.vine, 15, 100);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.coal_block, 5, 5);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.hay_block, 60, 20);
+        ((BlockNileFire)ModBlocks.darkFire).setFireInfo(Blocks.carpet, 60, 20);
     }
 
     public void setFireInfo(Block blockIn, int encouragement, int flammability)
@@ -390,7 +390,7 @@ public class BlockNileFire extends BlockFire
     @Override
     public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state)
     {
-        if ((worldIn.getBlockState(pos) != ModBlocks.nillaxStone) || (!((BlockPortalNillax)ModBlocks.portalNillax).func_176548_d(worldIn, pos)))
+        if ((worldIn.getBlockState(pos) != ModBlocks.darkaxStone) || (!((BlockPortalNillax)ModBlocks.portalDarkax).func_176548_d(worldIn, pos)))
         {
             if (!World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && !this.canNeighborCatchFire(worldIn, pos))
             {
@@ -416,9 +416,9 @@ public class BlockNileFire extends BlockFire
         double d1;
         double d2;
 
-        if (!World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && !((BlockNileFire)ModBlocks.nileFire).canCatchFire(worldIn, pos.down(), EnumFacing.UP))
+        if (!World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && !((BlockNileFire)ModBlocks.darkFire).canCatchFire(worldIn, pos.down(), EnumFacing.UP))
         {
-            if (((BlockNileFire)ModBlocks.nileFire).canCatchFire(worldIn, pos.west(), EnumFacing.EAST))
+            if (((BlockNileFire)ModBlocks.darkFire).canCatchFire(worldIn, pos.west(), EnumFacing.EAST))
             {
                 for (i = 0; i < 2; ++i)
                 {
@@ -429,7 +429,7 @@ public class BlockNileFire extends BlockFire
                 }
             }
 
-            if (((BlockNileFire)ModBlocks.nileFire).canCatchFire(worldIn, pos.east(), EnumFacing.WEST))
+            if (((BlockNileFire)ModBlocks.darkFire).canCatchFire(worldIn, pos.east(), EnumFacing.WEST))
             {
                 for (i = 0; i < 2; ++i)
                 {
@@ -440,7 +440,7 @@ public class BlockNileFire extends BlockFire
                 }
             }
 
-            if (((BlockNileFire)ModBlocks.nileFire).canCatchFire(worldIn, pos.north(), EnumFacing.SOUTH))
+            if (((BlockNileFire)ModBlocks.darkFire).canCatchFire(worldIn, pos.north(), EnumFacing.SOUTH))
             {
                 for (i = 0; i < 2; ++i)
                 {
@@ -451,7 +451,7 @@ public class BlockNileFire extends BlockFire
                 }
             }
 
-            if (((BlockNileFire)ModBlocks.nileFire).canCatchFire(worldIn, pos.south(), EnumFacing.NORTH))
+            if (((BlockNileFire)ModBlocks.darkFire).canCatchFire(worldIn, pos.south(), EnumFacing.NORTH))
             {
                 for (i = 0; i < 2; ++i)
                 {
@@ -462,7 +462,7 @@ public class BlockNileFire extends BlockFire
                 }
             }
 
-            if (((BlockNileFire)ModBlocks.nileFire).canCatchFire(worldIn, pos.up(), EnumFacing.DOWN))
+            if (((BlockNileFire)ModBlocks.darkFire).canCatchFire(worldIn, pos.up(), EnumFacing.DOWN))
             {
                 for (i = 0; i < 2; ++i)
                 {

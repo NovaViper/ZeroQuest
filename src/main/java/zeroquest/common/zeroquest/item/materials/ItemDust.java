@@ -1,4 +1,4 @@
-package common.zeroquest.item;
+package common.zeroquest.item.materials;
 
 import java.util.Random;
 

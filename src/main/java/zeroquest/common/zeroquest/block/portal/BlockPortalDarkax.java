@@ -2,19 +2,20 @@ package common.zeroquest.block.portal;
 
 import java.util.Random;
 
-import common.zeroquest.ModBlocks;
-import common.zeroquest.ZeroQuest;
-import common.zeroquest.dimension.TeleporterDarkax;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockPortal;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
-import cpw.mods.fml.common.FMLCommonHandler;
-import cpw.mods.fml.relauncher.Side;
-import cpw.mods.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import common.zeroquest.ModBlocks;
+import common.zeroquest.ZeroQuest;
 
 public class BlockPortalDarkax extends BlockPortal{
 
@@ -24,13 +25,10 @@ public class BlockPortalDarkax extends BlockPortal{
 	}
 	
 	 @Override
-	 public int getLightValue(IBlockAccess world, int x, int y, int z)
-	 {
-		 return 14;
-	 }
+	 public int getLightValue(IBlockAccess world, BlockPos pos){ return 14; }
 	
 	@Override
-	public void onEntityCollidedWithBlock(World world, int x, int y, int z, Entity entity){
+	public void onEntityCollidedWithBlock(World world, BlockPos pos, Entity entity){
 		if(entity.ridingEntity == null && entity.riddenByEntity == null && entity instanceof EntityPlayerMP){
 			EntityPlayerMP player = (EntityPlayerMP) entity;
 			FMLCommonHandler.instance().getMinecraftServerInstance();
@@ -38,29 +36,32 @@ public class BlockPortalDarkax extends BlockPortal{
 			
 			if(player.timeUntilPortal > 0){
 				player.timeUntilPortal = 10;
-			}else if(player.dimension != ZeroQuest.DarkaxID){
+			}else if(player.dimension != ZeroQuest.NillaxID){
 				player.timeUntilPortal = 10;
-				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, ZeroQuest.DarkaxID, new TeleporterDarkax(server.worldServerForDimension(ZeroQuest.DarkaxID)));
+				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, ZeroQuest.DarkaxID, new TeleporterNillax(server.worldServerForDimension(ZeroQuest.DarkaxID), false));
 			}else{
 				player.timeUntilPortal = 10;
-				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0, new TeleporterDarkax(server.worldServerForDimension(0)));
+				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0, new TeleporterNillax(server.worldServerForDimension(0), false));
 			}
 		}
 	}
 	
-
-    @Override
-    public boolean func_150000_e(World par1World, int par2, int par3, int par4)
+	@Override
+    public boolean func_176548_d(World par1World, BlockPos blockPos) //func_176548_d
     {
         byte b0 = 0;
         byte b1 = 0;
+        
+        int par2= blockPos.getX();
+        int par3= blockPos.getY();
+        int par4= blockPos.getZ();
  
-        if (par1World.getBlock(par2 - 1, par3, par4) == ModBlocks.darkaxStone || par1World.getBlock(par2 + 1, par3, par4) == ModBlocks.darkaxStone)
+        if (par1World.getBlockState(new BlockPos(par2 - 1, par3, par4)).getBlock() == ModBlocks.darkaxStone || par1World.getBlockState(new BlockPos(par2 + 1, par3, par4)).getBlock() == ModBlocks.darkaxStone)
         {
             b0 = 1;
         }
  
-        if (par1World.getBlock(par2, par3, par4 - 1) == ModBlocks.darkaxStone || par1World.getBlock(par2, par3, par4 + 1) == ModBlocks.darkaxStone)
+        if (par1World.getBlockState(new BlockPos(par2, par3, par4 - 1)).getBlock() == ModBlocks.darkaxStone || par1World.getBlockState(new BlockPos(par2, par3, par4 + 1)).getBlock() == ModBlocks.darkaxStone)
         {
             b1 = 1;
         }
@@ -71,7 +72,7 @@ public class BlockPortalDarkax extends BlockPortal{
         }
         else
         {
-            if (par1World.isAirBlock(par2 - b0, par3, par4 - b1))
+            if (par1World.isAirBlock(new BlockPos(par2 - b0, par3, par4 - b1)))
             {
                 par2 -= b0;
                 par4 -= b1;
@@ -88,8 +89,8 @@ public class BlockPortalDarkax extends BlockPortal{
  
                     if (l != -1 && l != 2 || i1 != -1 && i1 != 3)
                     {
-                        Block j1 = par1World.getBlock(par2 + b0 * l, par3 + i1, par4 + b1 * l);
-                        boolean isAirBlock = par1World.isAirBlock(par2 + b0 * l, par3 + i1, par4 + b1 * l);
+                        Block j1 = par1World.getBlockState(new BlockPos(par2 + b0 * l, par3 + i1, par4 + b1 * l)).getBlock();
+                        boolean isAirBlock = par1World.isAirBlock(new BlockPos(par2 + b0 * l, par3 + i1, par4 + b1 * l));
  
                         if (flag)
                         {
@@ -98,7 +99,7 @@ public class BlockPortalDarkax extends BlockPortal{
                                 return false;
                             }
                         }
-                        else if (!isAirBlock && j1 != ModBlocks.nileFire)
+                        else if (!isAirBlock && j1 != ModBlocks.darkFire)
                         {
                             return false;
                         }
@@ -110,61 +111,62 @@ public class BlockPortalDarkax extends BlockPortal{
             {
                 for (i1 = 0; i1 < 3; ++i1)
                 {
-                    par1World.setBlock(par2 + b0 * l, par3 + i1, par4 + b1 * l, this, 0, 2);
+                    par1World.setBlockState(new BlockPos(par2 + b0 * l, par3 + i1, par4 + b1 * l), ModBlocks.portalDarkax.getDefaultState());
                 }
             }
  
             return true;
         }
     }
-    
-    /**
-     * A randomly called display update to be able to add particles or other items for display
-     */
-    @SideOnly(Side.CLIENT)
     @Override
-    public void randomDisplayTick(World par1World, int par2, int par3, int par4, Random par5Random)
+    public void randomDisplayTick(World worldIn, BlockPos pos, IBlockState state, Random rand)
     {
-        if (par5Random.nextInt(100) == 0)
+    	
+        int par2= pos.getX();
+        int par3= pos.getY();
+        int par4= pos.getZ();
+    	
+        if (rand.nextInt(100) == 0)
         {
-        	par1World.playSound((double)par2 + 0.5D, (double)par3 + 0.5D, (double)par4 + 0.5D, "portal.portal", 0.5F, par5Random.nextFloat() * 0.4F + 0.8F, false);
+        	worldIn.playSound((double)pos.getX() + 0.5D, (double)pos.getY() + 0.5D, (double)pos.getZ() + 0.5D, "portal.portal", 0.5F, rand.nextFloat() * 0.4F + 0.8F, false);
         }
 
-        for (int l = 0; l < 4; ++l)
+        for (int i = 0; i < 4; ++i)
         {
-            double d0 = (double)((float)par2 + par5Random.nextFloat());
-            double d1 = (double)((float)par3 + par5Random.nextFloat());
-            double d2 = (double)((float)par4 + par5Random.nextFloat());
-            double d3 = 0.0D;
-            double d4 = 0.0D;
-            double d5 = 0.0D;
-            int i1 = par5Random.nextInt(2) * 2 - 1;
-            d3 = ((double)par5Random.nextFloat() - 0.5D) * 0.5D;
-            d4 = ((double)par5Random.nextFloat() - 0.5D) * 0.5D;
-            d5 = ((double)par5Random.nextFloat() - 0.5D) * 0.5D;
+            double d0 = (double)((float)pos.getX() + rand.nextFloat());
+            double d1 = (double)((float)pos.getY() + rand.nextFloat());
+            double d2 = (double)((float)pos.getZ() + rand.nextFloat());
+            double d3 = ((double)rand.nextFloat() - 0.5D) * 0.5D;
+            double d4 = ((double)rand.nextFloat() - 0.5D) * 0.5D;
+            double d5 = ((double)rand.nextFloat() - 0.5D) * 0.5D;
+            int j = rand.nextInt(2) * 2 - 1;
 
-            if (par1World.getBlock(par2 - 1, par3, par4) != this && par1World.getBlock(par2 + 1, par3, par4) != this)
+            if (worldIn.getBlockState(pos.west()).getBlock() != this && worldIn.getBlockState(pos.east()).getBlock() != this)
             {
-                d0 = (double)par2 + 0.5D + 0.25D * (double)i1;
-                d3 = (double)(par5Random.nextFloat() * 2.0F * (float)i1);
+                d0 = (double)pos.getX() + 0.5D + 0.25D * (double)j;
+                d3 = (double)(rand.nextFloat() * 2.0F * (float)j);
             }
             else
             {
-                d2 = (double)par4 + 0.5D + 0.25D * (double)i1;
-                d5 = (double)(par5Random.nextFloat() * 2.0F * (float)i1);
+                d2 = (double)pos.getZ() + 0.5D + 0.25D * (double)j;
+                d5 = (double)(rand.nextFloat() * 2.0F * (float)j);
             }
 
-            ParticleEffects.spawnParticle("portal", d0, d1, d2, d3, d4, d5);
+            worldIn.spawnParticle(EnumParticleTypes.PORTAL, d0, d1, d2, d3, d4, d5, new int[0]);
         }
     }
 
-      @Override
-	  public void onNeighborBlockChange(World par1World, int par2, int par3, int par4, Block par5Block)
-	    {
-	        byte b0 = 0;
-	        byte b1 = 1;
+    @Override
+	public void onNeighborBlockChange(World par1World, BlockPos blockPos, IBlockState state, Block neighborBlock)
+    	{
+        byte b0 = 0;
+        byte b1 = 1;
+        
+        int par2= blockPos.getX();
+        int par3= blockPos.getY();
+        int par4= blockPos.getZ();
 
-	        if (par1World.getBlock(par2 - 1, par3, par4) == this || par1World.getBlock(par2 + 1, par3, par4) == this)
+	        if (par1World.getBlockState(new BlockPos(par2 - 1, par3, par4)) == this || par1World.getBlockState(new BlockPos(par2 + 1, par3, par4)) == this)
 	        {
 	            b0 = 1;
 	            b1 = 0;
@@ -172,52 +174,45 @@ public class BlockPortalDarkax extends BlockPortal{
 
 	        int i1;
 
-	        for (i1 = par3; par1World.getBlock(par2, i1 - 1, par4) == this; --i1)
+	        for (i1 = par3; par1World.getBlockState(new BlockPos(par2, i1 - 1, par4)) == this; --i1)
 	        {
 	            ;
 	        }
 
-	        if (par1World.getBlock(par2, i1 - 1, par4) != ModBlocks.darkaxStone)
+	        if (par1World.getBlockState(new BlockPos(par2, i1 - 1, par4)) != ModBlocks.darkaxStone)
 	        {
-	            par1World.setBlockToAir(par2, par3, par4);
+	            par1World.setBlockToAir(new BlockPos(par2, par3, par4));
 	        }
 	        else
 	        {
 	            int j1;
 
-	            for (j1 = 1; j1 < 4 && par1World.getBlock(par2, i1 + j1, par4) == this; ++j1)
+	            for (j1 = 1; j1 < 4 && par1World.getBlockState(new BlockPos(par2, i1 + j1, par4)) == this; ++j1)
 	            {
 	                ;
 	            }
 
-	            if (j1 == 3 && par1World.getBlock(par2, i1 + j1, par4) == ModBlocks.darkaxStone)
+	            if (j1 == 3 && par1World.getBlockState(new BlockPos(par2, i1 + j1, par4)) == ModBlocks.darkaxStone)
 	            {
-	                boolean flag = par1World.getBlock(par2 - 1, par3, par4) == this || par1World.getBlock(par2 + 1, par3, par4) == this;
-	                boolean flag1 = par1World.getBlock(par2, par3, par4 - 1) == this || par1World.getBlock(par2, par3, par4 + 1) == this;
+	                boolean flag = par1World.getBlockState(new BlockPos(par2 - 1, par3, par4)) == this || par1World.getBlockState(new BlockPos(par2 + 1, par3, par4)) == this;
+	                boolean flag1 = par1World.getBlockState(new BlockPos(par2, par3, par4 - 1)) == this || par1World.getBlockState(new BlockPos(par2, par3, par4 + 1)) == this;
 
 	                if (flag && flag1)
 	                {
-	                    par1World.setBlockToAir(par2, par3, par4);
+	                    par1World.setBlockToAir(new BlockPos(par2, par3, par4));
 	                }
 	                else
 	                {
-	                    if ((par1World.getBlock(par2 + b0, par3, par4 + b1) != ModBlocks.darkaxStone || par1World.getBlock(par2 - b0, par3, par4 - b1) != this) && (par1World.getBlock(par2 - b0, par3, par4 - b1) != ModBlocks.darkaxStone || par1World.getBlock(par2 + b0, par3, par4 + b1) != this))
+	                    if ((par1World.getBlockState(new BlockPos(par2 + b0, par3, par4 + b1)) != ModBlocks.darkaxStone || par1World.getBlockState(new BlockPos(par2 - b0, par3, par4 - b1)) != this) && (par1World.getBlockState(new BlockPos(par2 - b0, par3, par4 - b1)) != ModBlocks.darkaxStone || par1World.getBlockState(new BlockPos(par2 + b0, par3, par4 + b1)) != this))
 	                    {
-	                        par1World.setBlockToAir(par2, par3, par4);
+	                        par1World.setBlockToAir(new BlockPos(par2, par3, par4));
 	                    }
 	                }
 	            }
 	            else
 	            {
-	                par1World.setBlockToAir(par2, par3, par4);
+	                par1World.setBlockToAir(new BlockPos(par2, par3, par4));
 	            }
 	        }
 	    }
-      
-	  @SideOnly(Side.CLIENT)
-	  @Override
-	  public void registerBlockIcons(IIconRegister par1IconRegister)
-	      {
-	          this.blockIcon = par1IconRegister.registerIcon(ZeroQuest.modid + ":" + "portalDarkax");
-	      }
 }

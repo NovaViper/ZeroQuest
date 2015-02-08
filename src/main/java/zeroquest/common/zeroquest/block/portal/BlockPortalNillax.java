@@ -61,12 +61,12 @@ public class BlockPortalNillax extends BlockPortal{
         int par3= blockPos.getY();
         int par4= blockPos.getZ();
  
-        if (par1World.getBlockState(new BlockPos(par2 - 1, par3, par4)).getBlock() == ModBlocks.nillaxStone || par1World.getBlockState(new BlockPos(par2 + 1, par3, par4)).getBlock() == ModBlocks.nillaxStone)
+        if (par1World.getBlockState(new BlockPos(par2 - 1, par3, par4)).getBlock() == ModBlocks.darkaxStone || par1World.getBlockState(new BlockPos(par2 + 1, par3, par4)).getBlock() == ModBlocks.darkaxStone)
         {
             b0 = 1;
         }
  
-        if (par1World.getBlockState(new BlockPos(par2, par3, par4 - 1)).getBlock() == ModBlocks.nillaxStone || par1World.getBlockState(new BlockPos(par2, par3, par4 + 1)).getBlock() == ModBlocks.nillaxStone)
+        if (par1World.getBlockState(new BlockPos(par2, par3, par4 - 1)).getBlock() == ModBlocks.darkaxStone || par1World.getBlockState(new BlockPos(par2, par3, par4 + 1)).getBlock() == ModBlocks.darkaxStone)
         {
             b1 = 1;
         }
@@ -99,12 +99,12 @@ public class BlockPortalNillax extends BlockPortal{
  
                         if (flag)
                         {
-                            if (j1 != ModBlocks.nillaxStone)
+                            if (j1 != ModBlocks.darkaxStone)
                             {
                                 return false;
                             }
                         }
-                        else if (!isAirBlock && j1 != ModBlocks.nileFire)
+                        else if (!isAirBlock && j1 != ModBlocks.darkFire)
                         {
                             return false;
                         }
@@ -116,7 +116,7 @@ public class BlockPortalNillax extends BlockPortal{
             {
                 for (i1 = 0; i1 < 3; ++i1)
                 {
-                    par1World.setBlockState(new BlockPos(par2 + b0 * l, par3 + i1, par4 + b1 * l), ModBlocks.portalNillax.getDefaultState());
+                    par1World.setBlockState(new BlockPos(par2 + b0 * l, par3 + i1, par4 + b1 * l), ModBlocks.portalDarkax.getDefaultState());
                 }
             }
  
@@ -184,7 +184,7 @@ public class BlockPortalNillax extends BlockPortal{
 	            ;
 	        }
 
-	        if (par1World.getBlockState(new BlockPos(par2, i1 - 1, par4)) != ModBlocks.nillaxStone)
+	        if (par1World.getBlockState(new BlockPos(par2, i1 - 1, par4)) != ModBlocks.darkaxStone)
 	        {
 	            par1World.setBlockToAir(new BlockPos(par2, par3, par4));
 	        }
@@ -197,7 +197,7 @@ public class BlockPortalNillax extends BlockPortal{
 	                ;
 	            }
 
-	            if (j1 == 3 && par1World.getBlockState(new BlockPos(par2, i1 + j1, par4)) == ModBlocks.nillaxStone)
+	            if (j1 == 3 && par1World.getBlockState(new BlockPos(par2, i1 + j1, par4)) == ModBlocks.darkaxStone)
 	            {
 	                boolean flag = par1World.getBlockState(new BlockPos(par2 - 1, par3, par4)) == this || par1World.getBlockState(new BlockPos(par2 + 1, par3, par4)) == this;
 	                boolean flag1 = par1World.getBlockState(new BlockPos(par2, par3, par4 - 1)) == this || par1World.getBlockState(new BlockPos(par2, par3, par4 + 1)) == this;
@@ -208,7 +208,7 @@ public class BlockPortalNillax extends BlockPortal{
 	                }
 	                else
 	                {
-	                    if ((par1World.getBlockState(new BlockPos(par2 + b0, par3, par4 + b1)) != ModBlocks.nillaxStone || par1World.getBlockState(new BlockPos(par2 - b0, par3, par4 - b1)) != this) && (par1World.getBlockState(new BlockPos(par2 - b0, par3, par4 - b1)) != ModBlocks.nillaxStone || par1World.getBlockState(new BlockPos(par2 + b0, par3, par4 + b1)) != this))
+	                    if ((par1World.getBlockState(new BlockPos(par2 + b0, par3, par4 + b1)) != ModBlocks.darkaxStone || par1World.getBlockState(new BlockPos(par2 - b0, par3, par4 - b1)) != this) && (par1World.getBlockState(new BlockPos(par2 - b0, par3, par4 - b1)) != ModBlocks.darkaxStone || par1World.getBlockState(new BlockPos(par2 + b0, par3, par4 + b1)) != this))
 	                    {
 	                        par1World.setBlockToAir(new BlockPos(par2, par3, par4));
 	                    }
