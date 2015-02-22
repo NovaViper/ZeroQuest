@@ -23,6 +23,7 @@ import common.zeroquest.lib.Constants;
 public class GuiFactory implements IModGuiFactory
 {
 	//Get Examples from ForgeGuiFactory\\ TODO
+	//Properties are in ConfigHandler\\
 
 	@Override
 	public void initialize(Minecraft minecraftInstance) {}
@@ -47,7 +48,7 @@ public class GuiFactory implements IModGuiFactory
 	        List<IConfigElement> list = new ArrayList<IConfigElement>();
 	        list.add(new DummyCategoryElement("function", "gui.config.function", FunctionEntry.class));
 	        list.add(new DummyCategoryElement("load", "gui.config.load", LoadEntry.class));
-	        //list.add(new DummyCategoryElement("misc", "gui.config.misc", MiscEntry.class));
+	        list.add(new DummyCategoryElement("misc", "gui.config.misc", MiscEntry.class));
 	        return list;
 	    }
 	    

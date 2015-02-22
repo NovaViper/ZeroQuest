@@ -30,9 +30,29 @@ public class Sound {
     public static final String KortorSnarl = SOUND_PREFIX + "kortor.snarl";
     public static final String KortorHit = SOUND_PREFIX + "kortor.hit";
     
+    //Riggator Sounds\\
+    public static final String RiggatorHiss = SOUND_PREFIX + "riggator.hiss";
+    public static final String RiggatorHit = SOUND_PREFIX + "riggator.hit";
+    public static final String RiggatorWarn = SOUND_PREFIX + "riggator.warn";
+    public static final String RiggatorDeath = SOUND_PREFIX + "riggator.death";
+    public static final String RiggatorWhine = SOUND_PREFIX + "riggator.whine";
+    
     //Action Sounds\\
     public static final String Land = SOUND_PREFIX + "action.land";
     public static final String Step = SOUND_PREFIX + "action.step";
     public static final String HardStep = SOUND_PREFIX + "action.hardstep";
     public static final String Chew = SOUND_PREFIX + "action.chew";
+    
+    //Zertum Sounds\\
+    public static final String ZertumHowl = SOUND_PREFIX + "zertum.howl";
+    public static final String MetalZertumStep = SOUND_PREFIX + "metalzertum.step";
+    public static final String MetalZertumBark = SOUND_PREFIX + "metalzertum.bark";
+    public static final String MetalZertumRoar = SOUND_PREFIX + "metalzertum.roar";
+    public static final String MetalZertumGrowl = SOUND_PREFIX + "metalzertum.growl";
+    public static final String MetalZertumWhine = SOUND_PREFIX + "metalzertum.whine";
+    public static final String MetalZertumPant = SOUND_PREFIX + "metalzertum.pant";
+    public static final String MetalZertumDeath = SOUND_PREFIX + "metalzertum.death";
+    public static final String MetalZertumHurt = SOUND_PREFIX + "metalzertum.hurt";
+    public static final String MetalZertumHowl = SOUND_PREFIX + "metalzertum.howl";
+    
 }

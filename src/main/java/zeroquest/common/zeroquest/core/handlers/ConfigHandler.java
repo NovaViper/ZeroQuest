@@ -12,12 +12,9 @@ import org.apache.logging.log4j.Logger;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.lib.Constants;
 
-/**
-*
-* @author Nico Bergemann <barracuda415 at yahoo.de>
-*/
 public class ConfigHandler {
 	
+		//Add more Categories for GuiFactory\\
 	   private static final Logger L = ZeroQuest.Log;
 	   public static Configuration config;
 	   public static final String CATEGORY_LOAD = "load";
@@ -67,7 +64,12 @@ public class ConfigHandler {
            propOrder.add(prop.getName());
            
    		   /*=================================Miscellaneous Configurations==========================================*/
-
+	   	   prop = config.get(CATEGORY_MISC, "Howl", true);
+	   	   prop.comment = "Toggles the howling function on Zertums";
+   		   prop.setLanguageKey("gui.config.property.Howl");
+   		   Constants.DEF_HOWL =  prop.getBoolean(Constants.DEF_HOWL);
+           propOrder.add(prop.getName());
+           
     	   if(config.hasChanged()){
     		   config.save();
     	   }

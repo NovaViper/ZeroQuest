@@ -1,8 +1,7 @@
 package common.zeroquest.core.proxy;
 
-import java.util.Random;
-
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
 import net.minecraft.init.Items;
@@ -22,16 +21,14 @@ import common.zeroquest.client.render.RenderIceball;
 import common.zeroquest.client.render.RenderJakan;
 import common.zeroquest.client.render.RenderKortor;
 import common.zeroquest.client.render.RenderKurr;
+import common.zeroquest.client.render.RenderMetalZertum;
 import common.zeroquest.client.render.RenderRedZertum;
+import common.zeroquest.client.render.RenderRiggator;
 import common.zeroquest.client.render.RenderZertum;
-import common.zeroquest.client.render.model.ModelDarkZertum;
-import common.zeroquest.client.render.model.ModelDestroZertum;
-import common.zeroquest.client.render.model.ModelForisZertum;
-import common.zeroquest.client.render.model.ModelIceZertum;
 import common.zeroquest.client.render.model.ModelJakan;
 import common.zeroquest.client.render.model.ModelKortor;
 import common.zeroquest.client.render.model.ModelKurr;
-import common.zeroquest.client.render.model.ModelRedZertum;
+import common.zeroquest.client.render.model.ModelRiggator;
 import common.zeroquest.client.render.model.ModelZertum;
 import common.zeroquest.client.render.renderer.RendererNileTable;
 import common.zeroquest.entity.EntityCustomTameable;
@@ -42,7 +39,9 @@ import common.zeroquest.entity.EntityIceZertum;
 import common.zeroquest.entity.EntityJakan;
 import common.zeroquest.entity.EntityKortor;
 import common.zeroquest.entity.EntityKurr;
+import common.zeroquest.entity.EntityMetalZertum;
 import common.zeroquest.entity.EntityRedZertum;
+import common.zeroquest.entity.EntityRiggator;
 import common.zeroquest.entity.EntityZertum;
 import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
 import common.zeroquest.entity.projectile.EntityGrenade;
@@ -52,23 +51,28 @@ import common.zeroquest.entity.tileentity.TileEntityNileWorkbench;
 public class ClientProxy extends CommonProxy{
 	
 	public void registerRenderThings() {
-	   	RenderingRegistry.registerEntityRenderingHandler(EntityZertum.class, new RenderZertum(Minecraft.getMinecraft().getRenderManager(), new ModelZertum(), 0.5F));
-	   	RenderingRegistry.registerEntityRenderingHandler(EntityRedZertum.class, new RenderRedZertum(Minecraft.getMinecraft().getRenderManager(), new ModelRedZertum(), 0.5F));
-	   	RenderingRegistry.registerEntityRenderingHandler(EntityDarkZertum.class, new RenderDarkZertum(Minecraft.getMinecraft().getRenderManager(), new ModelDarkZertum(), 0.5F));
-	   	RenderingRegistry.registerEntityRenderingHandler(EntityDestroZertum.class, new RenderDestroZertum(Minecraft.getMinecraft().getRenderManager(), new ModelDestroZertum(), 0.5F));
-	   	RenderingRegistry.registerEntityRenderingHandler(EntityJakan.class, new RenderJakan(Minecraft.getMinecraft().getRenderManager(), new ModelJakan(), 1.0F));
-	   	RenderingRegistry.registerEntityRenderingHandler(EntityIceZertum.class, new RenderIceZertum(Minecraft.getMinecraft().getRenderManager(), new ModelIceZertum(), 0.5F));
-	   	RenderingRegistry.registerEntityRenderingHandler(EntityForisZertum.class, new RenderForisZertum(Minecraft.getMinecraft().getRenderManager(), new ModelForisZertum(), 0.5F));
+		registerRender(EntityZertum.class, new RenderZertum(Minecraft.getMinecraft().getRenderManager(), new ModelZertum(), 0.5F));
+		registerRender(EntityRedZertum.class, new RenderRedZertum(Minecraft.getMinecraft().getRenderManager(), new ModelZertum(), 0.5F));
+		registerRender(EntityDarkZertum.class, new RenderDarkZertum(Minecraft.getMinecraft().getRenderManager(), new ModelZertum(), 0.5F));
+		registerRender(EntityDestroZertum.class, new RenderDestroZertum(Minecraft.getMinecraft().getRenderManager(), new ModelZertum(), 0.5F));
+		registerRender(EntityIceZertum.class, new RenderIceZertum(Minecraft.getMinecraft().getRenderManager(), new ModelZertum(), 0.5F));
+		registerRender(EntityForisZertum.class, new RenderForisZertum(Minecraft.getMinecraft().getRenderManager(), new ModelZertum(), 0.5F));
+		registerRender(EntityMetalZertum.class, new RenderMetalZertum(Minecraft.getMinecraft().getRenderManager(), new ModelZertum(), 1.0F));
+		registerRender(EntityJakan.class, new RenderJakan(Minecraft.getMinecraft().getRenderManager(), new ModelJakan(), 1.0F));
+		registerRender(EntityKurr.class, new RenderKurr(Minecraft.getMinecraft().getRenderManager(), new ModelKurr(), 1.0F));
+		registerRender(EntityKortor.class, new RenderKortor(Minecraft.getMinecraft().getRenderManager(), new ModelKortor(), 1.0F));
+		registerRender(EntityRiggator.class, new RenderRiggator(Minecraft.getMinecraft().getRenderManager(), new ModelRiggator(), 1.0F));
 	   	
-	   	RenderingRegistry.registerEntityRenderingHandler(EntityKurr.class, new RenderKurr(Minecraft.getMinecraft().getRenderManager(), new ModelKurr(), 1.0F));
-	   	RenderingRegistry.registerEntityRenderingHandler(EntityKortor.class, new RenderKortor(Minecraft.getMinecraft().getRenderManager(), new ModelKortor(), 1.0F));
-	   	
-	   	RenderingRegistry.registerEntityRenderingHandler(EntityFlamingPoisonball.class, new RenderFPoisonball(Minecraft.getMinecraft().getRenderManager(), ModItems.FPoisonball, Minecraft.getMinecraft().getRenderItem()));
-	   	RenderingRegistry.registerEntityRenderingHandler(EntityIceball.class, new RenderIceball(Minecraft.getMinecraft().getRenderManager(), Items.snowball, Minecraft.getMinecraft().getRenderItem()));
-	   	RenderingRegistry.registerEntityRenderingHandler(EntityGrenade.class, new RenderGrenade(Minecraft.getMinecraft().getRenderManager(), ModItems.nileGrenade, Minecraft.getMinecraft().getRenderItem()));
+		registerRender(EntityFlamingPoisonball.class, new RenderFPoisonball(Minecraft.getMinecraft().getRenderManager(), ModItems.FPoisonball, Minecraft.getMinecraft().getRenderItem()));
+		registerRender(EntityIceball.class, new RenderIceball(Minecraft.getMinecraft().getRenderManager(), Items.snowball, Minecraft.getMinecraft().getRenderItem()));
+		registerRender(EntityGrenade.class, new RenderGrenade(Minecraft.getMinecraft().getRenderManager(), ModItems.nileGrenade, Minecraft.getMinecraft().getRenderItem()));
 	   	
 	   	TileEntitySpecialRenderer render = new RendererNileTable();
 	   	ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNileWorkbench.class, render);
+	}
+	
+	public void registerRender(Class entityClass, Render render){
+		RenderingRegistry.registerEntityRenderingHandler(entityClass, render);
 	}
 	
 	public static void spawnForisParticle(EntityCustomTameable entity){

@@ -5,6 +5,7 @@ import net.minecraft.entity.EntityList;
 import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
 import common.zeroquest.entity.EntityDarkZertum;
 import common.zeroquest.entity.EntityDestroZertum;
 import common.zeroquest.entity.EntityForisZertum;
@@ -12,7 +13,9 @@ import common.zeroquest.entity.EntityIceZertum;
 import common.zeroquest.entity.EntityJakan;
 import common.zeroquest.entity.EntityKortor;
 import common.zeroquest.entity.EntityKurr;
+import common.zeroquest.entity.EntityMetalZertum;
 import common.zeroquest.entity.EntityRedZertum;
+import common.zeroquest.entity.EntityRiggator;
 import common.zeroquest.entity.EntityZertum;
 import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
 import common.zeroquest.entity.projectile.EntityGrenade;
@@ -39,10 +42,14 @@ public class ModEntities {
 	       	registerEntityEgg(EntityIceZertum.class, 0xCCCCCC, 0x6699FF);
 	       	registerEntity(EntityForisZertum.class, "ForisZertum", 4);
 	       	registerEntityEgg(EntityForisZertum.class, 0xCCCCCC, 0x33CC33);
+	       	registerEntity(EntityMetalZertum.class, "MetalZertum", 5);
+	       	registerEntityEgg(EntityMetalZertum.class, 0xCCCCCC, 0x666699);
 	       	registerEntity(EntityJakan.class, "Jakan", 30);
 	       	registerEntityEgg(EntityJakan.class, 0x0033CC, 0x00CCFF);
 	       	registerEntity(EntityKortor.class, "Kortor", 31);
 	       	registerEntityEgg(EntityKortor.class, 0x6699FF, 0xD1E0FF);
+	       	registerEntity(EntityRiggator.class, "Riggator", 32);
+	       	registerEntityEgg(EntityRiggator.class, 0x1D302C, 0x671734);
 	}
 	   public static void loadDarkCreatures(){
 	       	registerEntity(EntityDarkZertum.class, "DarkZertum", 40);

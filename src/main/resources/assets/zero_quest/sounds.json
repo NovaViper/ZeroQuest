@@ -22,7 +22,21 @@
 "kurr.growl": {"category": "hostile", "sounds": ["kurr/growl1", "kurr/growl2", "kurr/growl3", "kurr/growl4"]},
 "kurr.hiss": {"category": "hostile", "sounds": ["kurr/hiss"]},
 "kurr.roar": {"category": "hostile", "sounds": ["kurr/roar"]},
-"kurr.whine": {"category": "hostile", "sounds": ["kurr/whine"]}
-
+"kurr.whine": {"category": "hostile", "sounds": ["kurr/whine"]},
+"riggator.death": {"category": "hostile", "sounds": ["riggator/death"]},
+"riggator.hiss": {"category": "hostile", "sounds": ["riggator/hiss1", "riggator/hiss2"]},
+"riggator.warn": {"category": "hostile", "sounds": ["riggator/warn1", "riggator/warn2"]},
+"riggator.whine": {"category": "hostile", "sounds": ["riggator/whine"]},
+"riggator.hit": {"category": "hostile", "sounds": ["riggator/hit"]},
+"zertum.howl": {"category": "neutral", "sounds": ["zertum/howl"]},
+"metalzertum.step": {"category": "neutral", "sounds": ["metalzertum/step1", "metalzertum/step2"]},
+"metalzertum.bark": {"category": "neutral", "sounds": ["metalzertum/bark1", "metalzertum/bark2", "metalzertum/bark3"]},
+"metalzertum.death": {"category": "neutral", "sounds": ["metalzertum/death"]},
+"metalzertum.growl": {"category": "neutral", "sounds": ["metalzertum/growl1", "metalzertum/growl2", "metalzertum/growl3"]},
+"metalzertum.roar": {"category": "neutral", "sounds": ["metalzertum/roar1", "metalzertum/roar2"]},
+"metalzertum.hurt": {"category": "neutral", "sounds": ["metalzertum/hurt1", "metalzertum/hurt2", "metalzertum/hurt3"]},
+"metalzertum.pant": {"category": "neutral", "sounds": ["metalzertum/panting"]},
+"metalzertum.howl": {"category": "neutral", "sounds": ["metalzertum/howl"]},
+"metalzertum.whine": {"category": "neutral", "sounds": ["metalzertum/whine"]}
 
 }

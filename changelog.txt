@@ -113,3 +113,10 @@ v1.3.0 - The 1.8 Crossover
 *Moved certain elements to the Constants file
 *Ores now use a super class!
 *Made ores glow again!
+
+v1.4.0 - Fixes and New Stuff!
++Added Riggator
++Added Metal Zertum
+*All types of Zertums can now howl at night!
+~Zertums all now use a super class file!
+~Fixed a simple, but possibly problematic error when registering the Nillax and Darkax Stone

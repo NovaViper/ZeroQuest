@@ -25,6 +25,7 @@ import common.zeroquest.inventory.InventoryPack;
 public abstract class EntityCustomTameable extends EntityTameable
 {
     protected boolean canSeeCreeper;
+    protected boolean wantToHowl;
     public int rare;
     /**Cooldown for Ranged Attack**/
 	protected int cooldown;
@@ -33,10 +34,18 @@ public abstract class EntityCustomTameable extends EntityTameable
     protected float jumpPower;
     /**For Ridable Entities***/
     protected int gallopTime;
+    
+    public static final int INDEX_BREED = 18;
 
     public EntityCustomTameable(World p_i1604_1_)
     {
         super(p_i1604_1_);
+    }
+    
+    protected void entityInit()
+    {
+        super.entityInit();
+        this.dataWatcher.addObject(INDEX_BREED, new Byte((byte)0));
     }
     
     /*=======================================================UNIVERSAL=======================================================*/
@@ -209,5 +218,22 @@ public abstract class EntityCustomTameable extends EntityTameable
     
     public boolean didWolfCook() {
         return rand.nextInt(15) < 4 * 2;
+    }
+    
+    public void func_70918_i(boolean p_70918_1_)
+    {
+        if (p_70918_1_)
+        {
+            this.dataWatcher.updateObject(INDEX_BREED, Byte.valueOf((byte)1));
+        }
+        else
+        {
+            this.dataWatcher.updateObject(INDEX_BREED, Byte.valueOf((byte)0));
+        }
+    }
+    
+    public boolean func_70922_bv()
+    {
+        return this.dataWatcher.getWatchableObjectByte(INDEX_BREED) == 1;
     }
 }

@@ -56,7 +56,7 @@ import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.core.proxy.CommonProxy;
-import common.zeroquest.entity.ai.EntityCustomZAIBeg;
+import common.zeroquest.entity.ai.EntityCustomAIBeg;
 import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
@@ -82,9 +82,8 @@ public class EntityKortor extends EntityCustomTameable
     // data value IDs TODO
     /**DO NOT CHANGE!**/
     public static final int INDEX_TAME = 16;
-    public static final int INDEX_BREED = 19;
-    public static final int INDEX_MOUTH = 20;
-    public static final int INDEX_SADDLE = 21;
+    public static final int INDEX_MOUTH = 19;
+    public static final int INDEX_SADDLE = 20;
 
     public EntityKortor(World worldIn)
     {
@@ -161,7 +160,6 @@ public class EntityKortor extends EntityCustomTameable
     {
         super.entityInit();
         this.dataWatcher.addObject(INDEX_MOUTH, Integer.valueOf(0));
-        this.dataWatcher.addObject(INDEX_BREED, new Byte((byte)0));
         this.dataWatcher.addObject(INDEX_SADDLE, Byte.valueOf((byte)0));
     }
 
@@ -712,18 +710,6 @@ public class EntityKortor extends EntityCustomTameable
         return entitykortor;
     }
 
-    public void func_70918_i(boolean p_70918_1_)
-    {
-        if (p_70918_1_)
-        {
-            this.dataWatcher.updateObject(INDEX_BREED, Byte.valueOf((byte)1));
-        }
-        else
-        {
-            this.dataWatcher.updateObject(INDEX_BREED, Byte.valueOf((byte)0));
-        }
-    }
-
     /**
      * Returns true if the mob is currently able to mate with the specified mob.
      */
@@ -746,11 +732,6 @@ public class EntityKortor extends EntityCustomTameable
         	EntityKortor entitywolf = (EntityKortor)p_70878_1_;
             return !entitywolf.isTamed() ? false : (entitywolf.isSitting() ? false : this.isInLove() && entitywolf.isInLove());
         }
-    }
-
-    public boolean func_70922_bv()
-    {
-        return this.dataWatcher.getWatchableObjectByte(INDEX_BREED) == 1;
     }
 
     /**

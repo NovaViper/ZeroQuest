@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 
-import common.zeroquest.entity.EntityZertum;
+import common.zeroquest.entity.EntityZertumEntity;
 
 @SideOnly(Side.CLIENT)
 public class ModelZertum extends ModelBase
@@ -34,6 +34,8 @@ public class ModelZertum extends ModelBase
     ModelRenderer Neck;
     private float rightLegStartingRotation = -0.2974289F;
     private float leftLegStartingRotation = -0.2974289F;
+    private float mane2StartingRotation = -0.34653F;
+    private float neckStartingRotation = -0.6015813F;
   
   public ModelZertum()
   {
@@ -194,7 +196,7 @@ public class ModelZertum extends ModelBase
   @Override
   public void setLivingAnimations(EntityLivingBase par1EntityLivingBase, float par2, float par3, float par4)
   {
-      EntityZertum entityzertum = (EntityZertum)par1EntityLivingBase;
+	  EntityZertumEntity entityzertum = (EntityZertumEntity)par1EntityLivingBase;
       
       if (entityzertum.isAngry())
       {
@@ -265,6 +267,8 @@ public class ModelZertum extends ModelBase
     super.setRotationAngles(par1, par2, par3, par4, par5, par6, par7Entity);
     this.Head.rotateAngleX = par5 / (280F / (float)Math.PI);
     this.Head.rotateAngleY = par4 / (180F / (float)Math.PI);
+    this.Neck.rotateAngleX = neckStartingRotation + par5 / (280F / (float)Math.PI);
+    this.Mane2.rotateAngleX = mane2StartingRotation + par5 / (280F / (float)Math.PI);
     this.Mane1.rotateAngleY = par4 / (180F / (float)Math.PI);
   }
 }

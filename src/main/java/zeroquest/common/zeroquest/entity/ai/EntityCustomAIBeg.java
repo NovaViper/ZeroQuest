@@ -5,18 +5,19 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import common.zeroquest.ModItems;
-import common.zeroquest.entity.EntityForisZertum;
+import common.zeroquest.entity.EntityZertumEntity;
+import common.zeroquest.entity.EntityDarkZertum;
 
-public class EntityCustomFZAIBeg extends EntityAIBase
+public class EntityCustomAIBeg extends EntityAIBase
 {
-    private EntityForisZertum theWolf;
+    private EntityZertumEntity theWolf;
     private EntityPlayer thePlayer;
     private World worldObject;
     private float minPlayerDistance;
     private int field_75384_e;
     private static final String __OBFID = "CL_00001576";
 
-    public EntityCustomFZAIBeg(EntityForisZertum p_i1617_1_, float p_i1617_2_)
+    public EntityCustomAIBeg(EntityZertumEntity p_i1617_1_, float p_i1617_2_)
     {
         this.theWolf = p_i1617_1_;
         this.worldObject = p_i1617_1_.worldObj;
@@ -74,6 +75,6 @@ public class EntityCustomFZAIBeg extends EntityAIBase
     private boolean hasPlayerGotBoneInHand(EntityPlayer p_75382_1_)
     {
         ItemStack itemstack = p_75382_1_.inventory.getCurrentItem();
-        return itemstack == null ? false : (!this.theWolf.isTamed() && itemstack.getItem() == ModItems.nileBone ? true : this.theWolf.isBreedingItem(itemstack));
+        return itemstack == null ? false : (!this.theWolf.isTamed() && !(this.theWolf instanceof EntityDarkZertum) && itemstack.getItem() == ModItems.nileBone ? true : !this.theWolf.isTamed() && this.theWolf instanceof EntityDarkZertum && itemstack.getItem() == ModItems.darkBone ? true : this.theWolf.isBreedingItem(itemstack));
     }
 }

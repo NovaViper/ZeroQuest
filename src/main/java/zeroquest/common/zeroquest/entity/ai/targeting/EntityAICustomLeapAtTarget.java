@@ -16,7 +16,7 @@ public class EntityAICustomLeapAtTarget extends EntityAIBase
     {
         this.leaper = leapingEntity;
         this.leapMotionY = p_i1630_2_;
-        this.setMutexBits(3);
+        this.setMutexBits(5);
     }
 
     public boolean shouldExecute()

@@ -42,7 +42,7 @@ public class EntityAICustomArrowAttack extends EntityAIBase
             this.maxRangedAttackTime = p_i1650_5_;
             this.field_96562_i = p_i1650_6_;
             this.maxAttackDistance = p_i1650_6_ * p_i1650_6_;
-            this.setMutexBits(6);
+            this.setMutexBits(4);
         }
     }
 
