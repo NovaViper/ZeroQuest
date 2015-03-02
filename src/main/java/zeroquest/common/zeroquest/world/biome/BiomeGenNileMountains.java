@@ -2,6 +2,8 @@ package common.zeroquest.world.biome;
 
 import java.util.Random;
 
+import common.zeroquest.lib.Constants;
+
 import net.minecraft.block.BlockSilverfish;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;

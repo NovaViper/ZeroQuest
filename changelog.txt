@@ -117,6 +117,13 @@ v1.3.0 - The 1.8 Crossover
 v1.4.0 - Fixes and New Stuff!
 +Added Riggator
 +Added Metal Zertum
++Added Howling function and configurations
 *All types of Zertums can now howl at night!
-~Zertums all now use a super class file!
+*Dimmed down some biome colors
+*Made Nile Coal burn longer
+*Made Nile Coal Ore and Nile Grain Ore spawn less often
+*Rearranged some code again
+*Zertums all now use a super class file!
+*Altered Nile Coal Ore texture
+^The author's name has changed from NViper21/QueenViper21 to NovaViper! See details on http://zeroquest.wikia.com/wiki/User_blog:NovaViper/Switching_Names_on_Websites^
 ~Fixed a simple, but possibly problematic error when registering the Nillax and Darkax Stone

@@ -41,8 +41,8 @@ public class EntityRiggator extends EntityCustomMob
     
     public static final int INDEX_MOUTH = 20;
     
-    public static final double maxHealth = 30;
-    public static final double attackDamage = 4;
+    public static final double maxHealth = 40;
+    public static final double attackDamage = 5;
     public static final double speed = 0.30000001192092896;
     public static final double maxHealthBaby = 10;
     public static final double attackDamageBaby = 2;
@@ -97,7 +97,7 @@ public class EntityRiggator extends EntityCustomMob
     	this.openMouth();
         return this.getHealth() <=10 ? Sound.RiggatorWhine :
         	(this.rand.nextInt(3) == 0 ? 
-        			(Sound.RiggatorWarn)
+        			(Sound.RiggatorGrowl)
         					: Sound.RiggatorHiss);
     }
     
@@ -164,7 +164,7 @@ public class EntityRiggator extends EntityCustomMob
                 }
                 else if (rare <= 12)
                 {
-                    this.dropItem(Items.mutton, 1);
+                    this.dropItem(Items.beef, 1);
                 }
                 if(rare <= 6)
                 {
@@ -205,7 +205,7 @@ public class EntityRiggator extends EntityCustomMob
 
         if (par1Entity instanceof EntityLivingBase)
         {
-            ((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(Potion.weakness.id, 200));
+            ((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(Potion.weakness.id, 200, 2));
             //knockback += EnchantmentHelper.getKnockbackModifier(this, (EntityLivingBase) par1Entity);
         }
 
@@ -290,9 +290,9 @@ public class EntityRiggator extends EntityCustomMob
     
     private void openMouth() //TODO
     {
-        if (!this.worldObj.isRemote)
+        if (this.isServer())
         {
-            this.openMouthCounter = 2;
+            this.openMouthCounter = 1;
             this.setWatchableBoolean(128, true);
         }
     }

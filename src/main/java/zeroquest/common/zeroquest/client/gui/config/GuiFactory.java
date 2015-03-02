@@ -7,7 +7,11 @@ import java.util.Set;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.resources.I18n;
+import net.minecraftforge.client.gui.ForgeGuiFactory.ForgeConfigGui.AddModOverrideEntry;
+import net.minecraftforge.client.gui.ForgeGuiFactory.ForgeConfigGui.ModOverridesEntry;
+import net.minecraftforge.common.ForgeChunkManager;
 import net.minecraftforge.common.ForgeModContainer;
+import net.minecraftforge.common.config.ConfigCategory;
 import net.minecraftforge.common.config.ConfigElement;
 import net.minecraftforge.fml.client.IModGuiFactory;
 import net.minecraftforge.fml.client.config.DummyConfigElement.DummyCategoryElement;
@@ -15,7 +19,6 @@ import net.minecraftforge.fml.client.config.GuiConfig;
 import net.minecraftforge.fml.client.config.GuiConfigEntries;
 import net.minecraftforge.fml.client.config.GuiConfigEntries.CategoryEntry;
 import net.minecraftforge.fml.client.config.IConfigElement;
-
 import common.zeroquest.core.handlers.ConfigHandler;
 import common.zeroquest.lib.Constants;
 
@@ -106,12 +109,35 @@ public class GuiFactory implements IModGuiFactory
 	        @Override
 	        protected GuiScreen buildChildScreen()
 	        {
-	            return new GuiConfig(this.owningScreen,
-	                    (new ConfigElement(ConfigHandler.config.getCategory(ConfigHandler.CATEGORY_MISC)).getChildElements()), 
-	                    this.owningScreen.modID, ConfigHandler.CATEGORY_MISC, this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart, 
-	                    this.configElement.requiresMcRestart() || this.owningScreen.allRequireMcRestart,
+                List<IConfigElement> list = new ArrayList<IConfigElement>();
+                //list.add(new DummyCategoryElement("terrain", "gui.config.terrain", TerrainEntry.class));
+                list.addAll((new ConfigElement(ConfigHandler.config.getCategory(ConfigHandler.CATEGORY_MISC))).getChildElements());
+	        	
+                return new GuiConfig(this.owningScreen, list, this.owningScreen.modID, ConfigHandler.CATEGORY_MISC,
+                        this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart,
+                        this.configElement.requiresMcRestart() || this.owningScreen.allRequireMcRestart,
                 		I18n.format("gui.config.misc"),
                 		I18n.format("gui.config.misc.tooltip"));
+	        }
+	    }
+	    
+	    public static class TerrainEntry extends CategoryEntry //Miscellaneous Entry
+	    {
+	        public TerrainEntry(GuiConfig owningScreen, GuiConfigEntries owningEntryList, IConfigElement prop)
+	        {
+	            super(owningScreen, owningEntryList, prop);
+	        }
+	        
+	        @Override
+	        protected GuiScreen buildChildScreen()
+	        {
+	        	
+	            return new GuiConfig(this.owningScreen,
+	                    (new ConfigElement(ConfigHandler.config.getCategory(ConfigHandler.CATEGORY_TERRAIN)).getChildElements()), 
+	                    this.owningScreen.modID, ConfigHandler.CATEGORY_TERRAIN, this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart, 
+	                    this.configElement.requiresMcRestart() || this.owningScreen.allRequireMcRestart,
+                		I18n.format("gui.config.terrain"),
+                		I18n.format("gui.config.terrain.tooltip"));
 	        }
 	    }
 	}

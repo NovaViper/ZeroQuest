@@ -2,10 +2,12 @@ package common.zeroquest;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityList;
+import net.minecraft.entity.EntityLiving;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.entity.projectile.EntityFireball;
+import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import common.zeroquest.entity.EntityDarkZertum;
 import common.zeroquest.entity.EntityDestroZertum;
 import common.zeroquest.entity.EntityForisZertum;
@@ -21,6 +23,7 @@ import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
 import common.zeroquest.entity.projectile.EntityGrenade;
 import common.zeroquest.entity.projectile.EntityIceball;
 import common.zeroquest.entity.tileentity.TileEntityNileWorkbench;
+import common.zeroquest.lib.Constants;
 
 
 public class ModEntities {
@@ -43,7 +46,7 @@ public class ModEntities {
 	       	registerEntity(EntityForisZertum.class, "ForisZertum", 4);
 	       	registerEntityEgg(EntityForisZertum.class, 0xCCCCCC, 0x33CC33);
 	       	registerEntity(EntityMetalZertum.class, "MetalZertum", 5);
-	       	registerEntityEgg(EntityMetalZertum.class, 0xCCCCCC, 0x666699);
+	       	registerEntityEgg(EntityMetalZertum.class, 0xCCCCCC, 0x666699);      	
 	       	registerEntity(EntityJakan.class, "Jakan", 30);
 	       	registerEntityEgg(EntityJakan.class, 0x0033CC, 0x00CCFF);
 	       	registerEntity(EntityKortor.class, "Kortor", 31);
@@ -58,6 +61,23 @@ public class ModEntities {
 	       	registerEntityEgg(EntityKurr.class, 0xFF0000, 0x660000);
 	   }
 	   
+	   public static void loadSpawns(){
+	       	addSpawn(EntityZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.bioZone, ModBiomes.nileSavanna, ModBiomes.nileSavannaPlateau, ModBiomes.nileSwampland, ModBiomes.pinkZone);
+	       	addSpawn(EntityRedZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.redSeed);
+	       	addSpawn(EntityDestroZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.destroZone, ModBiomes.destroZoneHills);
+	       	addSpawn(EntityIceZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.blueTaiga, ModBiomes.blueTaigaHills, ModBiomes.blueColdTaiga, ModBiomes.blueColdTaigaHills);
+	       	addSpawn(EntityForisZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.nileJungle, ModBiomes.nileJungleHills, ModBiomes.nileJungleEdge, ModBiomes.nileSwampland);
+	       	addSpawn(EntityMetalZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.walRockland);	 
+	       	addSpawn(EntityJakan.class, 100, 2, 3, EnumCreatureType.CREATURE, ModBiomes.walRockland);
+	       	addSpawn(EntityKortor.class, 100, 2, 3, EnumCreatureType.CREATURE, ModBiomes.nileSavanna, ModBiomes.nileSavannaPlateau, ModBiomes.nileJungle, ModBiomes.nileJungleEdge, ModBiomes.nileJungleHills);
+	       	addSpawn(EntityRiggator.class, 100, 2, 3, EnumCreatureType.MONSTER, ModBiomes.bioZone, ModBiomes.nileSwampland, ModBiomes.nileMesa, ModBiomes.nileMesaPlateau, ModBiomes.nileMesaPlateau_F);
+	   }
+	   
+	   public static void loadDarkSpawns(){
+	       	addSpawn(EntityDarkZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.darkWasteland);
+	       	addSpawn(EntityKurr.class, 100, 2, 3, EnumCreatureType.MONSTER, ModBiomes.darkWasteland);
+	   }
+	   
 	   public static void loadOthers() {
 		   registerTileEntity(TileEntityNileWorkbench.class, "Nile Worktable");
 		   registerProjectileEntity(EntityFlamingPoisonball.class, "FPoisonball", 400);
@@ -65,6 +85,10 @@ public class ModEntities {
 		   registerProjectileEntity(EntityIceball.class, "Iceball", 402);
 		   registerProjectileEntity(EntityFireball.class, "Fireball", 403);
 	   }
+	   
+		public static void addSpawn(Class entityClass, int weightedProb, int min, int max, EnumCreatureType typeOfCreature, BiomeGenBase... biomes){
+			EntityRegistry.addSpawn(entityClass, weightedProb, min, max, typeOfCreature, biomes);
+		}
 	   
 		public static void registerEntity(Class entityClass, String saveName, int id) {
 			EntityRegistry.registerModEntity(entityClass, saveName, id, ZeroQuest.instance, 120, 1, true);
@@ -84,7 +108,6 @@ public class ModEntities {
 		public static void registerProjectileEntity(Class entityClass, String saveName, int id) {
 		    EntityRegistry.registerModEntity(entityClass, saveName, id, ZeroQuest.instance, 128, 1, true);
 		}
-		
 		
 		public static int getUniqueEntityId() 
 		{

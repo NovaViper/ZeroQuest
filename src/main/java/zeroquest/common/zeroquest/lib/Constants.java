@@ -1,6 +1,8 @@
 package common.zeroquest.lib;
 
 public class Constants {
+	//Put some in ConfigHandler
+	
 	
 	   public static boolean DEF_DARKLOAD = false;
 	   public static boolean DEF_HEALING = false;

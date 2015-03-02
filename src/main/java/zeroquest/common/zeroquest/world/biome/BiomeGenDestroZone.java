@@ -33,7 +33,6 @@ public class BiomeGenDestroZone extends BiomeGenBase
         this.theBiomeDecorator.cactiPerChunk = 10;
         this.addFlower(ModBlocks.destroFlower.getDefaultState(), 90);
         this.spawnableMonsterList.clear();
-        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityDestroZertum.class, 100, 4, 4));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySpider.class, 100, 4, 4));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityZombie.class, 100, 4, 4));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySkeleton.class, 100, 4, 4));

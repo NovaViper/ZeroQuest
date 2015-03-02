@@ -72,6 +72,18 @@ public class EntityDarkZertum extends EntityZertumEntity
     public EntityDarkZertum(World worldIn)
     {
         super(worldIn);
+        this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, false, new Predicate()
+        {
+            private static final String __OBFID = "CL_00002229";
+            public boolean func_180094_a(Entity p_180094_1_)
+            {
+                return p_180094_1_ instanceof EntitySheep || p_180094_1_ instanceof EntityRabbit || p_180094_1_ instanceof EntityZertum;
+            }
+            public boolean apply(Object p_apply_1_)
+            {
+                return this.func_180094_a((Entity)p_apply_1_);
+            }
+        }));
     }
 
     @Override

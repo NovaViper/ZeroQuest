@@ -13,6 +13,8 @@ gui.config.load=Load Settings
 gui.config.load.tooltip=Manage what the mod loads into the game
 gui.config.misc=Miscellaneous Settings
 gui.config.misc.tooltip=Manage the mod's miscellaneous functions
+gui.config.terrain=Terrain Settings
+gui.config.terrain.tooltip=Manage the mod's terrain factors
 
 gui.config.property.DarkElements=Dark Elements
 gui.config.property.DarkElements.tooltip=Toggles the Dark Elemental Load
@@ -24,6 +26,8 @@ gui.config.property.GrassStep=Grass Footprints
 gui.config.property.GrassStep.tooltip=Toggles the grass footprints of Foris Zertums
 gui.config.property.Howl=Howl
 gui.config.property.Howl.tooltip=Toggles the howling function on Zertums
+gui.config.property.NileCoalLoad=Nile Coal Load
+gui.config.property.NileCoalLoad.tooltip=Toggles the generation of Nile Coal Ore
 
 tile.nileBlueFlower.name=Nile Blue Flower
 tile.nileBlackFlower.name=Nile Black Flower

@@ -46,7 +46,6 @@ public class BiomeGenBlueTaiga extends BiomeGenBase
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityZombie.class, 100, 4, 4));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySkeleton.class, 100, 4, 4));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySlime.class, 100, 4, 4));
-        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityIceZertum.class, 20, 3, 4));
         this.theBiomeDecorator.treesPerChunk = 10;
 
         if (p_i45385_2_ != 1 && p_i45385_2_ != 2)

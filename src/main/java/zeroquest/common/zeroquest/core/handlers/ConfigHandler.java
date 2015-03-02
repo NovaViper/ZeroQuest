@@ -20,6 +20,7 @@ public class ConfigHandler {
 	   public static final String CATEGORY_LOAD = "load";
 	   public static final String CATEGORY_FUNCTION = "function";
 	   public static final String CATEGORY_MISC = "miscellaneous";
+	   public static final String CATEGORY_TERRAIN = "terrain";
 	   
 	   public static void init(File file)
 	   {	   
@@ -70,6 +71,9 @@ public class ConfigHandler {
    		   Constants.DEF_HOWL =  prop.getBoolean(Constants.DEF_HOWL);
            propOrder.add(prop.getName());
            
+   		   /*=================================Terrain Configurations==========================================*/
+
+
     	   if(config.hasChanged()){
     		   config.save();
     	   }

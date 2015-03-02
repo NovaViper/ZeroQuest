@@ -81,7 +81,19 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
         super(worldIn);
         this.tasks.removeTask(this.aiLeap);
         this.tasks.addTask(3, new EntityAICustomLeapAtTarget(this, 0.4F));
-        this.tasks.addTask(4, new EntityAICustomArrowAttack(this, 1.0D, 10, 20, 15.0F));
+        this.tasks.addTask(4, new EntityAICustomArrowAttack(this, 1.0D, 10, 30, 15.0F));
+        this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, false, new Predicate()
+        {
+            private static final String __OBFID = "CL_00002229";
+            public boolean func_180094_a(Entity p_180094_1_)
+            {
+                return p_180094_1_ instanceof EntitySheep || p_180094_1_ instanceof EntityRabbit;
+            }
+            public boolean apply(Object p_apply_1_)
+            {
+                return this.func_180094_a((Entity)p_apply_1_);
+            }
+        }));
     }
 
     @Override

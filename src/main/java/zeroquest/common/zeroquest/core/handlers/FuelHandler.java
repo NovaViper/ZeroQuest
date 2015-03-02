@@ -8,7 +8,7 @@ public class FuelHandler implements IFuelHandler {
 
 	@Override
 	public int getBurnTime(ItemStack fuel) {
-		if(fuel.getItem() == ModItems.nileCoal) return 200;
+		if(fuel.getItem() == ModItems.nileCoal) return 2000;
 		
 		return 0;
 	}

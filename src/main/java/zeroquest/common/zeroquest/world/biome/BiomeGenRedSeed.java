@@ -3,7 +3,6 @@ package common.zeroquest.world.biome;
 import java.util.Random;
 
 import net.minecraft.block.BlockDoublePlant;
-import net.minecraft.block.BlockFlower;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.monster.EntitySpider;
 import net.minecraft.entity.monster.EntityZombie;
@@ -15,11 +14,12 @@ import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.biome.BiomeGenPlains;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import common.zeroquest.ModBlocks;
 import common.zeroquest.entity.EntityRedZertum;
+import common.zeroquest.lib.Constants;
 
 public class BiomeGenRedSeed extends BiomeGenBase {
     
@@ -35,10 +35,9 @@ public class BiomeGenRedSeed extends BiomeGenBase {
         this.theBiomeDecorator.grassPerChunk = 10;
         this.flowers.clear();
         this.addFlower(Blocks.red_flower.getDefaultState(), 4);
-        this.addFlower(ModBlocks.nileBlackFlower.getDefaultState(), 30);
+        this.addFlower(ModBlocks.nileBlackFlower.getDefaultState(), 90);
         this.spawnableMonsterList.clear();
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityHorse.class, 5, 2, 6));
-        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityRedZertum.class, 100, 4, 4));
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityChicken.class, 5, 1, 5));
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityCow.class, 5, 1, 5));
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityPig.class, 5, 1, 5)); 
@@ -49,7 +48,7 @@ public class BiomeGenRedSeed extends BiomeGenBase {
     
     @SideOnly(Side.CLIENT)
     @Override
-    public int getModdedBiomeGrassColor(int par1){return 0xFF0033;}
+    public int getModdedBiomeGrassColor(int par1){return 0xB20024;}
     @SideOnly(Side.CLIENT)
     @Override
     public int getModdedBiomeFoliageColor(int par1){return 0xFF0033;}

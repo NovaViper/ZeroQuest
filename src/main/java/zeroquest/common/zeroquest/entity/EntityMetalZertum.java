@@ -1,55 +1,33 @@
 package common.zeroquest.entity;
 
-import java.util.List;
-
 import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
-import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
-import net.minecraft.entity.ai.EntityAIHurtByTarget;
-import net.minecraft.entity.ai.EntityAILeapAtTarget;
-import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
-import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
-import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAITargetNonTamed;
-import net.minecraft.entity.ai.EntityAIWander;
-import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.ai.attributes.IAttribute;
+import net.minecraft.entity.ai.attributes.RangedAttribute;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityRabbit;
-import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathNavigateGround;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.google.common.base.Predicate;
-
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.core.proxy.CommonProxy;
-import common.zeroquest.entity.ai.EntityCustomAIBeg;
-import common.zeroquest.inventory.InventoryPack;
-import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
 
@@ -63,10 +41,24 @@ public class EntityMetalZertum extends EntityZertumEntity
     public static final double attackDamageTamed = 8;
     public static final double maxHealthBaby = 10;
     public static final double attackDamageBaby = 2;
-
+    
+    public static final IAttribute blastResist = (new RangedAttribute((IAttribute)null, "generic.blastResist", 1.0D, 0.1D, 50D)).setDescription("Explosion Resistance").setShouldWatch(true);
+    
     public EntityMetalZertum(World worldIn)
     {
         super(worldIn);
+        this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, false, new Predicate()
+        {
+            private static final String __OBFID = "CL_00002229";
+            public boolean func_180094_a(Entity p_180094_1_)
+            {
+                return p_180094_1_ instanceof EntityWolf;
+            }
+            public boolean apply(Object p_apply_1_)
+            {
+                return this.func_180094_a((Entity)p_apply_1_);
+            }
+        }));
     }
 
     @Override
@@ -76,6 +68,8 @@ public class EntityMetalZertum extends EntityZertumEntity
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealth);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamage);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speed);
+        this.getEntityAttribute(SharedMonsterAttributes.knockbackResistance).setBaseValue(1.0F);
+        this.getAttributeMap().registerAttribute(blastResist).setBaseValue(5.0D);
 
         if (this.isTamed())
         {
@@ -133,6 +127,15 @@ public class EntityMetalZertum extends EntityZertumEntity
     protected float getSoundVolume()
     {
         return 2.5F;
+    }
+    
+    public void onLivingUpdate() //TODO
+    {
+        super.onLivingUpdate();
+        if(!this.isChild() && this.getHealth() <=10 && this.isTamed())
+        {
+       		this.addPotionEffect(new PotionEffect(Potion.resistance.id, 200));
+        }
     }
 
     public boolean attackEntityAsMob(Entity par1Entity)

@@ -38,6 +38,7 @@ import common.zeroquest.creativetab.ZeroQuestTab;
 import common.zeroquest.events.AchievementEvents;
 import common.zeroquest.events.ConfigEvent;
 import common.zeroquest.events.FOVEvent;
+import common.zeroquest.events.LivingEvents;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.OreDic;
 import common.zeroquest.world.WorldProviderDarkax;
@@ -90,16 +91,17 @@ public class ZeroQuest
 		Log.info("-----CONTENT LOAD INITATING-----");
     	nileEssence = EnumHelper.addToolMaterial("NileEssence", 4, 4000, 20.0F, 4.0F, 30);
     	
-    	Log.info("Loading Block, Recipes and Items...");
+    	Log.info("Loading Block, Recipes, Events and Items...");
     	ModBlocks.load();
     	ModItems.load();
-    	MinecraftForge.EVENT_BUS.register(new FOVEvent());
-       	ZeroQuestCrafting.loadRecipes();
     	if(event.getSide().isClient()){
     		ModBlocks.loadRenderers();
     		ModItems.loadRenderers();
     	}
-    	Log.info("Blocks, Recipes and Items Loaded Successfully!");
+    	MinecraftForge.EVENT_BUS.register(new FOVEvent());
+    	MinecraftForge.EVENT_BUS.register(new LivingEvents()); //TODO
+       	ZeroQuestCrafting.loadRecipes();
+    	Log.info("Blocks, Recipes, Events and Items Loaded Successfully!");
 		
     	Log.info("Loading Entities and Ore Dictionary...");
     	ModEntities.loadCreatures();
@@ -136,7 +138,10 @@ public class ZeroQuest
     		Log.info("Skipping Dark Elemental Load");
 
     	}
-		
+    	ModEntities.loadSpawns();
+    	if(Constants.DEF_DARKLOAD == true){
+        	ModEntities.loadDarkSpawns();
+    	}
     	Log.info("Loading Crucial Stuff...");
        	proxy.registerRenderThings();
        	proxy.registerChestItems();

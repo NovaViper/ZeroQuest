@@ -8,6 +8,7 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import common.zeroquest.block.BlockBedRock;
+import common.zeroquest.block.BlockLooseBedrockStairs;
 import common.zeroquest.block.BlockNileBlock;
 import common.zeroquest.block.BlockNileOre;
 import common.zeroquest.block.BlockNileWorkbench;
@@ -25,6 +26,7 @@ import common.zeroquest.lib.Constants;
 
 public class ModBlocks {
 	public static Block looseBedrock;
+	//public static Block looseBedrockStairs;
 	public static Block nileCoalOre;
 	public static Block nileGrainOre;
 	public static Block darkGrainOre;	
@@ -51,7 +53,10 @@ public class ModBlocks {
 		//Natural Blocks//
 		looseBedrock = new BlockBedRock().setUnlocalizedName("looseBedrock");
 		register(looseBedrock, "bedrock_loose");
-    	
+		//looseBedrockStairs = new BlockLooseBedrockStairs(looseBedrockStairs.getDefaultState());
+		//register(looseBedrockStairs, "bedrock_loose_stairs");
+
+		
 		//Basic Blocks//
 		nileWorktable = new BlockNileWorkbench().setUnlocalizedName("nileWorktable");
 		register(nileWorktable, "crafting_table_nile");
@@ -102,6 +107,7 @@ public class ModBlocks {
 	   public static void loadRenderers(){
 		   
 	    	registerRender(looseBedrock, 0, Constants.modid + ":" + "bedrock_loose", "inventory");
+	    	//registerRender(looseBedrockStairs, 0, Constants.modid + ":" + "bedrock_loose_stairs", "inventory");
 	    	registerRender(nileWorktable, 0, Constants.modid + ":" + "crafting_table_nile", "inventory");
 	    	registerRender(nileBlueFlower, 0, Constants.modid + ":" + "nile_flower_blue", "inventory");	
 	    	registerRender(nileBlackFlower, 0, Constants.modid + ":" + "nile_flower_black", "inventory");	

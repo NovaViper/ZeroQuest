@@ -19,7 +19,9 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.ModBlocks;
 import common.zeroquest.entity.EntityForisZertum;
+import common.zeroquest.entity.EntityRiggator;
 import common.zeroquest.entity.EntityZertum;
+import common.zeroquest.lib.Constants;
 
 public class BiomeGenNileSwamp extends BiomeGenBase
 {
@@ -40,8 +42,6 @@ public class BiomeGenNileSwamp extends BiomeGenBase
         this.theBiomeDecorator.grassPerChunk = 5;
         this.waterColorMultiplier = 14745518;
         this.spawnableMonsterList.clear();
-        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityZertum.class, 100, 3, 4));
-        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityForisZertum.class, 20, 3, 4));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySpider.class, 100, 4, 4));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityZombie.class, 100, 4, 4));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySkeleton.class, 100, 4, 4));
@@ -100,6 +100,7 @@ public class BiomeGenNileSwamp extends BiomeGenBase
     }
 
     @SideOnly(Side.CLIENT)
+    @Override
     public int getFoliageColorAtPos(BlockPos p_180625_1_)
     {
         return 0x333300;
@@ -109,7 +110,8 @@ public class BiomeGenNileSwamp extends BiomeGenBase
      * Provides the basic foliage color based on the biome temperature and rainfall
      */
     @SideOnly(Side.CLIENT)
-    public int getBiomeFoliageColor(int p_150571_1_, int p_150571_2_, int p_150571_3_)
+    @Override
+    public int getModdedBiomeFoliageColor(int p_150571_1_)
     {
         return 0x333300;
     }

@@ -37,6 +37,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.pathfinding.PathNavigateGround;
+import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -60,7 +61,7 @@ import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
 
 
-public class EntityZertumEntity extends EntityCustomTameable
+public abstract class EntityZertumEntity extends EntityCustomTameable
 {   
     public float headRotationCourse;
     public float headRotationCourseOld;
@@ -104,18 +105,6 @@ public class EntityZertumEntity extends EntityCustomTameable
         this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
         this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
-        this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, false, new Predicate()
-        {
-            private static final String __OBFID = "CL_00002229";
-            public boolean func_180094_a(Entity p_180094_1_)
-            {
-                return p_180094_1_ instanceof EntitySheep || p_180094_1_ instanceof EntityRabbit;
-            }
-            public boolean apply(Object p_apply_1_)
-            {
-                return this.func_180094_a((Entity)p_apply_1_);
-            }
-        }));
         this.setTamed(false);
         this.inventory = new InventoryPack(this);
     }
@@ -297,7 +286,7 @@ public class EntityZertumEntity extends EntityCustomTameable
         
         if(Constants.DEF_HEALING == true && !this.isChild() && this.getHealth() <=10 && this.isTamed())
         {
-       		this.addPotionEffect(new PotionEffect(10, 200));
+       		this.addPotionEffect(new PotionEffect(Potion.regeneration.id, 200));
         }
         
         if (this.getAttackTarget() == null && isTamed() && 15 > 0) {
@@ -573,60 +562,6 @@ public class EntityZertumEntity extends EntityCustomTameable
     public void setCollarColor(EnumDyeColor collarcolor)
     {
         this.dataWatcher.updateObject(INDEX_COLLAR, Byte.valueOf((byte)(collarcolor.getDyeDamage() & 15)));
-    }
-
-    /**
-     * This function is used when two same-species animals in 'love mode' breed to generate the new baby animal.
-     */
- 	 public EntityCustomTameable spawnBabyAnimal(EntityAgeable par1EntityAgeable)
- 	 {
- 		 double chance = Math.random();
-
- 		 if (chance < 0.5){
- 			 EntityZertumEntity var3 = new EntityZertumEntity(this.worldObj);
- 			 var3.setOwnerId(this.getOwnerId());
- 			 var3.setTamed(true);
- 			 return var3;
- 		 }else if (chance < 0.7){
- 			EntityRedZertum var4 = new EntityRedZertum(this.worldObj);
- 			 var4.setOwnerId(this.getOwnerId());
- 			 var4.setTamed(true);
- 			 return var4;
- 		 }else{
- 			EntityDestroZertum var2 = new EntityDestroZertum(this.worldObj);
- 			 var2.setOwnerId(this.getOwnerId());
- 			 var2.setTamed(true);
- 			 return var2;
- 		 }
- 	 }
- 	 
-		@Override
-		public EntityAgeable createChild(EntityAgeable entityageable) {
-			return spawnBabyAnimal(entityageable);
-		}
-
-    /**
-     * Returns true if the mob is currently able to mate with the specified mob.
-     */
-    public boolean canMateWith(EntityAnimal p_70878_1_)
-    {
-        if (p_70878_1_ == this)
-        {
-            return false;
-        }
-        else if (!this.isTamed())
-        {
-            return false;
-        }
-        else if (!(p_70878_1_ instanceof EntityZertumEntity))
-        {
-            return false;
-        }
-        else
-        {
-            EntityZertumEntity entitywolf = (EntityZertumEntity)p_70878_1_;
-            return !entitywolf.isTamed() ? false : (entitywolf.isSitting() ? false : this.isInLove() && entitywolf.isInLove());
-        }
     }
 
     /**

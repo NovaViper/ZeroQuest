@@ -72,7 +72,18 @@ public class EntityZertum extends EntityZertumEntity
     public EntityZertum(World worldIn)
     {
         super(worldIn);
-        this.setSize(0.6F, 1.5F);
+        this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, false, new Predicate()
+        {
+            private static final String __OBFID = "CL_00002229";
+            public boolean func_180094_a(Entity p_180094_1_)
+            {
+                return p_180094_1_ instanceof EntitySheep || p_180094_1_ instanceof EntityRabbit;
+            }
+            public boolean apply(Object p_apply_1_)
+            {
+                return this.func_180094_a((Entity)p_apply_1_);
+            }
+        }));
     }
 
     @Override
@@ -168,5 +179,60 @@ public class EntityZertum extends EntityZertumEntity
             return true;
         }
         return super.interact(par1EntityPlayer);
+    }
+    
+
+    /**
+     * This function is used when two same-species animals in 'love mode' breed to generate the new baby animal.
+     */
+ 	 public EntityCustomTameable spawnBabyAnimal(EntityAgeable par1EntityAgeable)
+ 	 {
+ 		 double chance = Math.random();
+
+ 		 if (chance < 0.5){
+ 			 EntityZertum var3 = new EntityZertum(this.worldObj);
+ 			 var3.setOwnerId(this.getOwnerId());
+ 			 var3.setTamed(true);
+ 			 return var3;
+ 		 }else if (chance < 0.7){
+ 			EntityRedZertum var4 = new EntityRedZertum(this.worldObj);
+ 			 var4.setOwnerId(this.getOwnerId());
+ 			 var4.setTamed(true);
+ 			 return var4;
+ 		 }else{
+ 			EntityDestroZertum var2 = new EntityDestroZertum(this.worldObj);
+ 			 var2.setOwnerId(this.getOwnerId());
+ 			 var2.setTamed(true);
+ 			 return var2;
+ 		 }
+ 	 }
+ 	 
+		@Override
+		public EntityAgeable createChild(EntityAgeable entityageable) {
+			return spawnBabyAnimal(entityageable);
+		}
+
+    /**
+     * Returns true if the mob is currently able to mate with the specified mob.
+     */
+    public boolean canMateWith(EntityAnimal p_70878_1_)
+    {
+        if (p_70878_1_ == this)
+        {
+            return false;
+        }
+        else if (!this.isTamed())
+        {
+            return false;
+        }
+        else if (!(p_70878_1_ instanceof EntityZertum))
+        {
+            return false;
+        }
+        else
+        {
+        	EntityZertum entitywolf = (EntityZertum)p_70878_1_;
+            return !entitywolf.isTamed() ? false : (entitywolf.isSitting() ? false : this.isInLove() && entitywolf.isInLove());
+        }
     }
 }

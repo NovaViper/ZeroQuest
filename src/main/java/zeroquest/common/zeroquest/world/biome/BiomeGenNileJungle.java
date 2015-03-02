@@ -56,12 +56,9 @@ public class BiomeGenNileJungle extends BiomeGenBase
         if (!p_i45379_2_)
         {
             this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntityOcelot.class, 2, 1, 1));
-            this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityForisZertum.class, 100, 3, 4));
         }
 
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityChicken.class, 10, 4, 4));
-        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityForisZertum.class, 100, 3, 4));
-        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityKortor.class, 50, 2, 3));
     }
     
     @SideOnly(Side.CLIENT)

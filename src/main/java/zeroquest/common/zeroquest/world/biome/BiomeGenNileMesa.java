@@ -3,6 +3,8 @@ package common.zeroquest.world.biome;
 import java.util.Arrays;
 import java.util.Random;
 
+import common.zeroquest.entity.EntityRiggator;
+import common.zeroquest.lib.Constants;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockColored;
 import net.minecraft.block.BlockDirt;
@@ -46,7 +48,6 @@ public class BiomeGenNileMesa extends BiomeGenBase
         this.theBiomeDecorator.reedsPerChunk = 3;
         this.theBiomeDecorator.cactiPerChunk = 5;
         this.theBiomeDecorator.flowersPerChunk = 0;
-        this.spawnableCreatureList.clear();
 
         if (p_i45380_3_)
         {

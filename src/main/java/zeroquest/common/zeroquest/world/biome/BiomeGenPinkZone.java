@@ -11,6 +11,7 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.entity.EntityZertum;
+import common.zeroquest.lib.Constants;
 
 public class BiomeGenPinkZone extends BiomeGenBase {
     
@@ -21,7 +22,6 @@ public class BiomeGenPinkZone extends BiomeGenBase {
         this.theBiomeDecorator.generateLakes = true;
         this.theBiomeDecorator.treesPerChunk = 10;
         this.spawnableMonsterList.clear();
-        this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityZertum.class, 90, 4, 4));
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityChicken.class, 5, 1, 5));
         this.spawnableCreatureList.add(new BiomeGenBase.SpawnListEntry(EntityCow.class, 5, 1, 5));
         this.spawnableMonsterList.add(new BiomeGenBase.SpawnListEntry(EntitySpider.class, 100, 4, 4));
@@ -31,11 +31,11 @@ public class BiomeGenPinkZone extends BiomeGenBase {
     
 @SideOnly(Side.CLIENT)
 @Override
-public int getModdedBiomeGrassColor(int par1){return 0xff66ff;}
+public int getModdedBiomeGrassColor(int par1){return 0xFF66FF;}
 @SideOnly(Side.CLIENT)
 @Override
-public int getModdedBiomeFoliageColor(int par1){return 0xff66ff;}
+public int getModdedBiomeFoliageColor(int par1){return 0xCC52CC;}
 @SideOnly(Side.CLIENT)
 @Override
-public int getSkyColorByTemp(float par1){return 0xcc66ff;}
+public int getSkyColorByTemp(float par1){return 0xCC66FF;}
 }

@@ -33,7 +33,7 @@ public class Sound {
     //Riggator Sounds\\
     public static final String RiggatorHiss = SOUND_PREFIX + "riggator.hiss";
     public static final String RiggatorHit = SOUND_PREFIX + "riggator.hit";
-    public static final String RiggatorWarn = SOUND_PREFIX + "riggator.warn";
+    public static final String RiggatorGrowl = SOUND_PREFIX + "riggator.growl";
     public static final String RiggatorDeath = SOUND_PREFIX + "riggator.death";
     public static final String RiggatorWhine = SOUND_PREFIX + "riggator.whine";
     
