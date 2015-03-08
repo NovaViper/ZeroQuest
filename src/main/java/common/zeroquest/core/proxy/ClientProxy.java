@@ -2,13 +2,20 @@ package common.zeroquest.core.proxy;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.entity.Render;
+import net.minecraft.client.renderer.entity.RenderSnowball;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
+import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import common.zeroquest.ModBlocks;
 import common.zeroquest.ModItems;
+import common.zeroquest.client.model.Modeller;
 import common.zeroquest.client.particle.EntityForisDustFX;
 import common.zeroquest.client.particle.EntityIceDustFX;
 import common.zeroquest.client.render.RenderDarkZertum;
@@ -51,24 +58,29 @@ import common.zeroquest.entity.tileentity.TileEntityNileWorkbench;
 public class ClientProxy extends CommonProxy{
 	
 	public void registerRenderThings() {
-		registerRender(EntityZertum.class, new RenderZertum(Minecraft.getMinecraft().getRenderManager(), new ModelZertum(), 0.5F));
-		registerRender(EntityRedZertum.class, new RenderRedZertum(Minecraft.getMinecraft().getRenderManager(), new ModelZertum(), 0.5F));
-		registerRender(EntityDarkZertum.class, new RenderDarkZertum(Minecraft.getMinecraft().getRenderManager(), new ModelZertum(), 0.5F));
-		registerRender(EntityDestroZertum.class, new RenderDestroZertum(Minecraft.getMinecraft().getRenderManager(), new ModelZertum(), 0.5F));
-		registerRender(EntityIceZertum.class, new RenderIceZertum(Minecraft.getMinecraft().getRenderManager(), new ModelZertum(), 0.5F));
-		registerRender(EntityForisZertum.class, new RenderForisZertum(Minecraft.getMinecraft().getRenderManager(), new ModelZertum(), 0.5F));
-		registerRender(EntityMetalZertum.class, new RenderMetalZertum(Minecraft.getMinecraft().getRenderManager(), new ModelZertum(), 1.0F));
-		registerRender(EntityJakan.class, new RenderJakan(Minecraft.getMinecraft().getRenderManager(), new ModelJakan(), 1.0F));
-		registerRender(EntityKurr.class, new RenderKurr(Minecraft.getMinecraft().getRenderManager(), new ModelKurr(), 1.0F));
-		registerRender(EntityKortor.class, new RenderKortor(Minecraft.getMinecraft().getRenderManager(), new ModelKortor(), 1.0F));
-		registerRender(EntityRiggator.class, new RenderRiggator(Minecraft.getMinecraft().getRenderManager(), new ModelRiggator(), 1.0F));
+		Minecraft mc = Minecraft.getMinecraft();
+		registerRender(EntityZertum.class, new RenderZertum(mc.getRenderManager(), new ModelZertum(), 0.5F));
+		registerRender(EntityRedZertum.class, new RenderRedZertum(mc.getRenderManager(), new ModelZertum(), 0.5F));
+		registerRender(EntityDarkZertum.class, new RenderDarkZertum(mc.getRenderManager(), new ModelZertum(), 0.5F));
+		registerRender(EntityDestroZertum.class, new RenderDestroZertum(mc.getRenderManager(), new ModelZertum(), 0.5F));
+		registerRender(EntityIceZertum.class, new RenderIceZertum(mc.getRenderManager(), new ModelZertum(), 0.5F));
+		registerRender(EntityForisZertum.class, new RenderForisZertum(mc.getRenderManager(), new ModelZertum(), 0.5F));
+		registerRender(EntityMetalZertum.class, new RenderMetalZertum(mc.getRenderManager(), new ModelZertum(), 1.0F));
+		registerRender(EntityJakan.class, new RenderJakan(mc.getRenderManager(), new ModelJakan(), 1.0F));
+		registerRender(EntityKurr.class, new RenderKurr(mc.getRenderManager(), new ModelKurr(), 1.0F));
+		registerRender(EntityKortor.class, new RenderKortor(mc.getRenderManager(), new ModelKortor(), 1.0F));
+		registerRender(EntityRiggator.class, new RenderRiggator(mc.getRenderManager(), new ModelRiggator(), 1.0F));
 	   	
-		registerRender(EntityFlamingPoisonball.class, new RenderFPoisonball(Minecraft.getMinecraft().getRenderManager(), ModItems.FPoisonball, Minecraft.getMinecraft().getRenderItem()));
-		registerRender(EntityIceball.class, new RenderIceball(Minecraft.getMinecraft().getRenderManager(), Items.snowball, Minecraft.getMinecraft().getRenderItem()));
-		registerRender(EntityGrenade.class, new RenderGrenade(Minecraft.getMinecraft().getRenderManager(), ModItems.nileGrenade, Minecraft.getMinecraft().getRenderItem()));
+		registerRender(EntityFlamingPoisonball.class, new RenderFPoisonball(mc.getRenderManager(), ModItems.FPoisonball, Minecraft.getMinecraft().getRenderItem()));
+		registerRender(EntityIceball.class, new RenderIceball(mc.getRenderManager(), Items.snowball, Minecraft.getMinecraft().getRenderItem()));
+		registerRender(EntityGrenade.class, new RenderGrenade(mc.getRenderManager(), ModItems.nileGrenade, Minecraft.getMinecraft().getRenderItem()));
 	   	
 	   	TileEntitySpecialRenderer render = new RendererNileTable();
 	   	ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNileWorkbench.class, render);
+	}
+	
+	public void registerMoreThings(){
+
 	}
 	
 	public void registerRender(Class entityClass, Render render){
@@ -91,4 +103,8 @@ public class ClientProxy extends CommonProxy{
     		EntityIceDustFX var20 = new EntityIceDustFX(entity.worldObj, entity.posX, entity.posY, entity.posZ, 0.0D, 0.0D, 0.0D);
     		FMLClientHandler.instance().getClient().effectRenderer.addEffect(var20);
 	}
+	
+	@Override
+	public EntityPlayer getClientPlayer() {return FMLClientHandler.instance().getClientPlayerEntity();}
+	
 }

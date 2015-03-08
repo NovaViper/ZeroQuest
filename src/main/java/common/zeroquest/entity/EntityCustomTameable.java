@@ -55,7 +55,7 @@ public abstract class EntityCustomTameable extends EntityTameable
      */
     @Override
     @SideOnly(Side.CLIENT)
-    protected void playTameEffect(boolean p_70908_1_)
+	public void playTameEffect(boolean p_70908_1_)
     {
         double d0 = this.rand.nextGaussian() * 0.02D;
         double d1 = this.rand.nextGaussian() * 0.02D;

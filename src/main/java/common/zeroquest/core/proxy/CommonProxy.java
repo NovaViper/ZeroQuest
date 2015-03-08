@@ -9,6 +9,7 @@ import net.minecraft.util.WeightedRandomChestContent;
 import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.fml.common.network.IGuiHandler;
+
 import common.zeroquest.ModItems;
 import common.zeroquest.client.gui.GuiNileWorkbench;
 import common.zeroquest.client.gui.GuiPack;
@@ -43,7 +44,7 @@ public class CommonProxy implements IGuiHandler{
             EntityCustomTameable entity = (EntityCustomTameable)target;
 			ContainerPack packContainer = new ContainerPack(player.inventory, entity);
 			return packContainer;
-		} 
+		}
 		return null;
 	}
 
@@ -67,7 +68,7 @@ public class CommonProxy implements IGuiHandler{
 		           EntityCustomTameable dog = (EntityCustomTameable)target;
 					GuiPack packGui = new GuiPack(player.inventory, dog);
 					return packGui;
-			 	}
+		}
 		return null;
 	}
 	
@@ -96,7 +97,9 @@ public class CommonProxy implements IGuiHandler{
         chestGenHooksBonusChest.addItem(new WeightedRandomChestContent(new ItemStack(ModItems.nileGrain), 1, 2, 10));
     }
 	
-	public void registerRenderThings() {
-		
-	}
+	public void registerRenderThings() {}
+
+	public EntityPlayer getClientPlayer() {return null;}
+	
+	public void registerMoreThings() {}
 }

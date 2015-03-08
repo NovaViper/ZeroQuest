@@ -26,7 +26,7 @@ import common.zeroquest.lib.Constants;
 
 public class CommandZeroQuest extends CommandBase {
 
-	public static final Logger Log = ZeroQuest.Log;
+	//public static final Logger Log = ZeroQuest.Log;
 	
    @Override
    public String getName() {
@@ -106,9 +106,9 @@ public class CommandZeroQuest extends CommandBase {
                EntityPlayerMP player = (EntityPlayerMP) sender;
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"---------------------------------------------------"));
                player.addChatMessage(ChatHelper.getChatComponent("Zero Quest - "+EnumChatFormatting.GREEN+Constants.version));
-               player.addChatMessage(ChatHelper.getChatComponent("File Type: "+EnumChatFormatting.AQUA+Constants.DEF_RELEASETYPE));
-               player.addChatMessage(ChatHelper.getChatComponent("Minecraft Version: "+EnumChatFormatting.RED+Constants.DEF_MCVERSION));
-               player.addChatMessage(ChatHelper.getChatComponent("Java Version: "+EnumChatFormatting.BLUE+Constants.DEF_JAVA));
+               player.addChatMessage(ChatHelper.getChatComponent("File Type: "+EnumChatFormatting.AQUA+Constants.releaseType));
+               player.addChatMessage(ChatHelper.getChatComponent("Minecraft Version: "+EnumChatFormatting.RED+Constants.mcVersion));
+               player.addChatMessage(ChatHelper.getChatComponent("Java Version: "+EnumChatFormatting.BLUE+Constants.java));
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"---------------------------------------------------"));
            } else {
                // console can't tame nile entities

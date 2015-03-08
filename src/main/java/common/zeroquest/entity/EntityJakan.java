@@ -2,12 +2,8 @@ package common.zeroquest.entity;
 
 import java.util.List;
 
-import com.google.common.base.Predicate;
-
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockColored;
 import net.minecraft.block.material.Material;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
@@ -26,23 +22,18 @@ import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityGhast;
 import net.minecraft.entity.monster.EntitySkeleton;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityHorse;
+import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.pathfinding.PathNavigateGround;
-import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -50,45 +41,41 @@ import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.google.common.base.Predicate;
+
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.core.proxy.CommonProxy;
-import common.zeroquest.entity.ai.EntityCustomAIBeg;
 import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
 
-public class EntityKortor extends EntityCustomTameable
+
+
+public class EntityJakan extends EntityCustomTameable /*implements IRangedAttackMob*/
 {
-    private float mouthOpenness;
-    private float prevMouthOpenness;
-    public int field_110278_bp;
-    public int field_110279_bq;
-    private String field_110286_bQ;
-    private int openMouthCounter;
     
-    public static final double maxHealth = 25;
-    public static final double attackDamage = 3;
-    public static final double speed = 0.25;
-    public static final double maxHealthTamed = 30;
-    public static final double attackDamageTamed = 6;
+    public static final double maxHealth = 50;
+    public static final double attackDamage = 6;
+    public static final double speed = 0.30000001192092896;
+    public static final double maxHealthTamed = 60;
+    public static final double attackDamageTamed = 8;
     public static final double maxHealthBaby = 10;
-    public static final double attackDamageBaby = 1;
+    public static final double attackDamageBaby = 2;
     
     // data value IDs TODO
     /**DO NOT CHANGE!**/
     public static final int INDEX_TAME = 16;
-    public static final int INDEX_MOUTH = 19;
-    public static final int INDEX_SADDLE = 20;
+    public static final int INDEX_SADDLE = 19;
 
-    public EntityKortor(World worldIn)
+    public EntityJakan(World worldIn)
     {
         super(worldIn);
-        this.setSize(0.6F, 1.5F);
+        this.setSize(2.6F, 2.6F);
+        this.isImmuneToFire = true;
         ((PathNavigateGround)this.getNavigator()).func_179690_a(true);
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(2, this.aiSit);
@@ -107,7 +94,7 @@ public class EntityKortor extends EntityCustomTameable
             private static final String __OBFID = "CL_00002229";
             public boolean func_180094_a(Entity p_180094_1_)
             {
-                return p_180094_1_ instanceof EntityPig || p_180094_1_ instanceof EntityRabbit;
+                return p_180094_1_ instanceof EntitySheep || p_180094_1_ instanceof EntityPig || p_180094_1_ instanceof EntityCow;
             }
             public boolean apply(Object p_apply_1_)
             {
@@ -159,7 +146,6 @@ public class EntityKortor extends EntityCustomTameable
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(INDEX_MOUTH, Integer.valueOf(0));
         this.dataWatcher.addObject(INDEX_SADDLE, Byte.valueOf((byte)0));
     }
 
@@ -173,7 +159,7 @@ public class EntityKortor extends EntityCustomTameable
             super.playStepSound(p_180429_1_, p_180429_2_);
         } else {
             // play stomping for bigger dragons
-            worldObj.playSoundAtEntity(this, Sound.HardStep, 0.15F, 1.0F);
+            worldObj.playSoundAtEntity(this, Sound.Step, 0.15F, 1.0F);
         }
     }
 
@@ -199,13 +185,12 @@ public class EntityKortor extends EntityCustomTameable
     @Override
     protected String getLivingSound()
     {
-    	this.openMouth();
-        return this.canSeeCreeper ? Sound.KortorGrowl : this.isAngry() ? Sound.KortorSnarl :
-        	 this.getHealth() <=10 ? Sound.KortorWhine :
+        return this.canSeeCreeper ? Sound.JakanGrowl : this.isAngry() ? Sound.JakanSnarl :
+        	 this.getHealth() <=10 ? Sound.JakanWhine :
         	(this.rand.nextInt(3) == 0 ? 
-        			(Sound.KortorBreathe)
-        					: Sound.KortorScreech);
-    }
+        			(Sound.JakanBreathe)
+        					: Sound.JakanRoar);
+        }
     
     @Override
     public void playLivingSound() {
@@ -230,8 +215,7 @@ public class EntityKortor extends EntityCustomTameable
     @Override
     protected String getHurtSound()
     {
-    	this.openMouth();
-        return Sound.KortorHit;
+        return "mob.enderdragon.hit";
     }
 
     /**
@@ -240,8 +224,7 @@ public class EntityKortor extends EntityCustomTameable
     @Override
     protected String getDeathSound()
     {
-    	this.openMouth();
-        return Sound.KortorDeath;
+        return Sound.JakanDeath;
     }
 
     /**
@@ -268,11 +251,11 @@ public class EntityKortor extends EntityCustomTameable
             {
                 if (this.isBurning())
                 {
-                    this.dropItem(Items.cooked_mutton, 1);
+                    this.dropItem(ModItems.jakanMeatCooked, 1);
                 }
                 else if (rare <= 12)
                 {
-                    this.dropItem(Items.mutton, 1);
+                    this.dropItem(ModItems.jakanMeatRaw, 1);
                 }
                 if(rare <= 6 && !this.isTamed())
                 {
@@ -355,76 +338,6 @@ public class EntityKortor extends EntityCustomTameable
         }
     }
 	
-    /**
-     * Called to update the entity's position/logic.
-     */
-	@Override
-    public void onUpdate()
-    {
-        super.onUpdate();
-        if (this.openMouthCounter > 0 && ++this.openMouthCounter > 30)
-        {
-            this.openMouthCounter = 0;
-            this.setHorseWatchableBoolean(128, false);
-        }
-        
-        this.prevMouthOpenness = this.mouthOpenness;
-
-        if (this.getHorseWatchableBoolean(128))
-        {
-            this.mouthOpenness += (1.0F - this.mouthOpenness) * 0.7F + 0.05F;
-
-            if (this.mouthOpenness > 1.0F)
-            {
-                this.mouthOpenness = 1.0F;
-            }
-        }
-        else
-        {
-            this.mouthOpenness += (0.0F - this.mouthOpenness) * 0.7F - 0.05F;
-
-            if (this.mouthOpenness < 0.0F)
-            {
-                this.mouthOpenness = 0.0F;
-            }
-        }
-    }
-    
-    private boolean getHorseWatchableBoolean(int p_110233_1_) //TODO
-    {
-        return (this.dataWatcher.getWatchableObjectInt(INDEX_MOUTH) & p_110233_1_) != 0;
-    }
-
-    private void setHorseWatchableBoolean(int p_110208_1_, boolean p_110208_2_)
-    {
-        int j = this.dataWatcher.getWatchableObjectInt(INDEX_MOUTH);
-
-        if (p_110208_2_)
-        {
-            this.dataWatcher.updateObject(INDEX_MOUTH, Integer.valueOf(j | p_110208_1_));
-        }
-        else
-        {
-            this.dataWatcher.updateObject(INDEX_MOUTH, Integer.valueOf(j & ~p_110208_1_));
-        }
-    }
-    
-    @SideOnly(Side.CLIENT)
-    public float func_110201_q(float p_110201_1_)
-    {
-        return this.prevMouthOpenness + (this.mouthOpenness - this.prevMouthOpenness) * p_110201_1_;
-    }
-    
-    private void openMouth()
-    {
-        if (!this.worldObj.isRemote)
-        {
-            this.openMouthCounter = 1;
-            this.setHorseWatchableBoolean(128, true);
-        }
-    }
-
-
     public float getEyeHeight()
     {
         return this.height * 0.8F;
@@ -561,90 +474,70 @@ public class EntityKortor extends EntityCustomTameable
         return super.interact(par1EntityPlayer);
     }
     
-    public void moveEntityWithHeading(float p_70612_1_, float p_70612_2_) //TODO
-    {
-        if (this.riddenByEntity != null && this.riddenByEntity instanceof EntityLivingBase && this.getSaddled())
-        {
+    @Override
+    public void moveEntityWithHeading(float strafe, float forward) {
+        if (this.riddenByEntity instanceof EntityPlayer) {
             this.prevRotationYaw = this.rotationYaw = this.riddenByEntity.rotationYaw;
             this.rotationPitch = this.riddenByEntity.rotationPitch * 0.5F;
             this.setRotation(this.rotationYaw, this.rotationPitch);
             this.rotationYawHead = this.renderYawOffset = this.rotationYaw;
-            p_70612_1_ = ((EntityLivingBase)this.riddenByEntity).moveStrafing * 0.5F;
-            p_70612_2_ = ((EntityLivingBase)this.riddenByEntity).moveForward;
+            strafe = ((EntityPlayer)this.riddenByEntity).moveStrafing * 0.5F;
+            forward = ((EntityPlayer)this.riddenByEntity).moveForward;
 
-            if (p_70612_2_ <= 0.0F)
-            {
-                p_70612_2_ *= 0.25F;
-                this.gallopTime = 0;
-            }
+            if (forward <= 0.0F)
+                forward *= 0.25F;
 
-            /*if (this.onGround && this.jumpPower == 0.0F && this.isRearing() && !this.field_110294_bI)
-            {
-                p_70612_1_ = 0.0F;
-                p_70612_2_ = 0.0F;
-            }
-
-            if (this.jumpPower > 0.0F && !this.isHorseJumping() && this.onGround)
-            {
-                this.motionY = this.getHorseJumpStrength() * (double)this.jumpPower;
-
-                if (this.isPotionActive(Potion.jump))
-                {
-                    this.motionY += (double)((float)(this.getActivePotionEffect(Potion.jump).getAmplifier() + 1) * 0.1F);
-                }
-
-                this.setHorseJumping(true);
-                this.isAirBorne = true;
-
-                if (p_70612_2_ > 0.0F)
-                {
+            if (this.onGround) {
+                if (forward > 0.0F) {
                     float f2 = MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F);
                     float f3 = MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F);
-                    this.motionX += (double)(-0.4F * f2 * this.jumpPower);
-                    this.motionZ += (double)(0.4F * f3 * this.jumpPower);
-                    this.playSound("mob.horse.jump", 0.4F, 1.0F);
+                    this.motionX += (double)(-0.4F * f2 * 0.15F); // May change
+                    this.motionZ += (double)(0.4F * f3 * 0.15F);
                 }
-
-                this.jumpPower = 0.0F;
-                net.minecraftforge.common.ForgeHooks.onLivingJump(this);
-            }*/
-
-            this.stepHeight = 1.0F;
-            this.jumpMovementFactor = this.getAIMoveSpeed() * 0.1F;
-
-            if (!this.worldObj.isRemote)
-            {
-                this.setAIMoveSpeed((float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue());
-                super.moveEntityWithHeading(p_70612_1_, p_70612_2_);
             }
 
-            if (this.onGround)
-            {
-                this.jumpPower = 0.0F;
-                //this.setHorseJumping(false);
+            this.stepHeight = 1.0F;
+            this.jumpMovementFactor = this.getAIMoveSpeed() * 0.2F;
+
+            if (!this.worldObj.isRemote)  {
+                this.setAIMoveSpeed((float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() / 4);
+                super.moveEntityWithHeading(strafe, forward);
+            }
+
+            if (this.onGround) {
+                //this.jumpPower = 0.0F;
+               // this.setHorseJumping(false);
             }
 
             this.prevLimbSwingAmount = this.limbSwingAmount;
-            double d1 = this.posX - this.prevPosX;
-            double d0 = this.posZ - this.prevPosZ;
-            float f4 = MathHelper.sqrt_double(d1 * d1 + d0 * d0) * 4.0F;
+            double d0 = this.posX - this.prevPosX;
+            double d1 = this.posZ - this.prevPosZ;
+            float f4 = MathHelper.sqrt_double(d0 * d0 + d1 * d1) * 4.0F;
 
             if (f4 > 1.0F)
-            {
                 f4 = 1.0F;
-            }
 
             this.limbSwingAmount += (f4 - this.limbSwingAmount) * 0.4F;
             this.limbSwing += this.limbSwingAmount;
         }
-        else
-        {
+        else {
             this.stepHeight = 0.5F;
             this.jumpMovementFactor = 0.02F;
-            super.moveEntityWithHeading(p_70612_1_, p_70612_2_);
+            super.moveEntityWithHeading(strafe, forward);
         }
     }
-
+    
+    @Override
+    public float getAIMoveSpeed() {
+    	double speed = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
+    	
+    	speed += 0.2;
+    	
+    	if((!(this.getAttackTarget() instanceof EntityJakan) && !(this.getAttackTarget() instanceof EntityPlayer)) || this.riddenByEntity instanceof EntityPlayer)
+    			speed /= 4;
+    	
+        return (float)speed;
+    }
 
     /**
      * Checks if the parameter is an item which this animal can be fed to breed it (wheat, carrots or seeds depending on
@@ -696,20 +589,20 @@ public class EntityKortor extends EntityCustomTameable
         }
     }    
     
-    public EntityKortor createChild(EntityAgeable p_90011_1_)
+    public EntityJakan createChild(EntityAgeable p_90011_1_)
     {
-    	EntityKortor entitykortor = new EntityKortor(this.worldObj);
+    	EntityJakan entityJakan = new EntityJakan(this.worldObj);
         String s = this.getOwnerId();
 
         if (s != null && s.trim().length() > 0)
         {
-        	entitykortor.setOwnerId(s);
-        	entitykortor.setTamed(true);
+        	entityJakan.setOwnerId(s);
+        	entityJakan.setTamed(true);
         }
 
-        return entitykortor;
+        return entityJakan;
     }
-
+    
     /**
      * Returns true if the mob is currently able to mate with the specified mob.
      */
@@ -723,17 +616,17 @@ public class EntityKortor extends EntityCustomTameable
         {
             return false;
         }
-        else if (!(p_70878_1_ instanceof EntityKortor))
+        else if (!(p_70878_1_ instanceof EntityJakan))
         {
             return false;
         }
         else
         {
-        	EntityKortor entitywolf = (EntityKortor)p_70878_1_;
+        	EntityJakan entitywolf = (EntityJakan)p_70878_1_;
             return !entitywolf.isTamed() ? false : (entitywolf.isSitting() ? false : this.isInLove() && entitywolf.isInLove());
         }
     }
-
+    
     /**
      * Determines if an entity can be despawned, used on idle far away entities
      */

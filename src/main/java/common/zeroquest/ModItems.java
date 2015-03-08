@@ -101,7 +101,7 @@ public class ModItems {
     	register(dogTreat, "dog_treat");
     	nileBone = new ItemNileBone().setUnlocalizedName("nileBone").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nileBone, "nile_bone");
-    	
+		
     	//Portal Sparks//
     	nileSpark = new ItemNileSpark().setUnlocalizedName("nileSpark");
     	register(nileSpark, "nile_spark");

@@ -41,9 +41,9 @@ public class EntityRiggator extends EntityCustomMob
     
     public static final int INDEX_MOUTH = 20;
     
-    public static final double maxHealth = 40;
-    public static final double attackDamage = 5;
-    public static final double speed = 0.30000001192092896;
+    public static final double maxHealth = 50;
+    public static final double attackDamage = 8;
+    public static final double speed = 0.40000001192092896;
     public static final double maxHealthBaby = 10;
     public static final double attackDamageBaby = 2;
 	
@@ -52,6 +52,7 @@ public class EntityRiggator extends EntityCustomMob
         super(p_i1696_1_);
         this.setSize(0.6F, 2.6F);
         this.stepHeight = 1;
+        this.isImmuneToFire = true;
         ((PathNavigateGround)this.getNavigator()).func_179688_b(true);
         this.tasks.addTask(1, new EntityAISwimming(this));
         this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
@@ -160,7 +161,7 @@ public class EntityRiggator extends EntityCustomMob
             {
                 if (this.isBurning())
                 {
-                    this.dropItem(Items.cooked_mutton, 1);
+                    this.dropItem(Items.cooked_beef, 1);
                 }
                 else if (rare <= 12)
                 {
@@ -201,11 +202,12 @@ public class EntityRiggator extends EntityCustomMob
     public boolean attackEntityAsMob(Entity par1Entity) //TODO
     {
         float damage = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
-        int knockback = 0;
+        int knockback = 2;
 
         if (par1Entity instanceof EntityLivingBase)
         {
             ((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(Potion.weakness.id, 200, 2));
+            ((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(Potion.poison.id, 200));
             //knockback += EnchantmentHelper.getKnockbackModifier(this, (EntityLivingBase) par1Entity);
         }
 
@@ -220,10 +222,6 @@ public class EntityRiggator extends EntityCustomMob
                 this.motionZ *= 0.6D;
             }
         }
-        
-        float volume = getSoundVolume() * 0.7f;
-        float pitch = getPitch();
-        worldObj.playSoundAtEntity(this, "random.eat", volume, pitch);
         
 		return flag;
     }

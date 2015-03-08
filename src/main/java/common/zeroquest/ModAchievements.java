@@ -24,7 +24,7 @@ public class ModAchievements
 
 	public static void load() {
    		NileStart = new Achievement("achievement.NileStart", "NileStart", 0, 0, ModItems.nileGrain, (Achievement)null).setIndependent().func_180788_c();
-   		TraveltoNillax = new Achievement("achievement.TraveltoNillax", "TraveltoNillax", 2, 1, ModBlocks.darkaxStone, NileStart).func_180788_c();
+   		TraveltoNillax = new Achievement("achievement.TraveltoNillax", "TraveltoNillax", 2, 1, ModBlocks.nillaxStone, NileStart).func_180788_c();
    		buildNWorkBench = new Achievement("achievement.buildNWorkBench", "buildNWorkBench", 4, -1, ModBlocks.nileWorktable, TraveltoNillax).func_180788_c();
    		buildNileSword = new Achievement("achievement.buildNileSword", "buildNileSword", 6, -1, ModItems.nileSword, buildNWorkBench).func_180788_c();
    		ZertKill = new Achievement("achievement.ZertKill", "ZertKill", 8, -1, Items.bone, buildNileSword).func_180788_c();

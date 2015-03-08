@@ -2,12 +2,8 @@ package common.zeroquest;
 
 import java.io.File;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.command.ServerCommandManager;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.item.Item;
 import net.minecraft.item.Item.ToolMaterial;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.world.WorldProvider;
@@ -26,12 +22,10 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import common.zeroquest.command.CommandZeroQuest;
 import common.zeroquest.core.handlers.ConfigHandler;
 import common.zeroquest.core.handlers.FuelHandler;
+import common.zeroquest.core.helper.LogHelper;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.creativetab.DarkQuestTab;
 import common.zeroquest.creativetab.ZeroQuestTab;
@@ -48,12 +42,10 @@ import common.zeroquest.world.gen.WorldGenZQuest;
 @Mod(modid = Constants.modid, name = "Zero Quest", version = Constants.version, useMetadata = true, guiFactory = "common.zeroquest.client.gui.config.GuiFactory")
 public class ZeroQuest 
 {
-	@Instance("zero_quest")
+	@Instance(value = Constants.modid)
 	public static ZeroQuest instance;
-	public static final Logger Log = LogManager.getFormatterLogger("Zero Quest");
-    public static final String channel = Constants.modid;
 	
-	@SidedProxy(clientSide = "common.zeroquest.core.proxy.ClientProxy", serverSide = "common.zeroquest.core.proxy.CommonProxy")
+	@SidedProxy(clientSide = Constants.clientProxy, serverSide = Constants.serverProxy)
 	public static CommonProxy proxy;
 	
 	//Put sounds from Sound in sounds.json //TODO
@@ -70,28 +62,29 @@ public class ZeroQuest
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event){
-        ConfigHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + channel + File.separator + Constants.modid.toLowerCase() + ".cfg"));
+        ConfigHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + Constants.channel + File.separator + Constants.modid.toLowerCase() + ".cfg"));
         FMLCommonHandler.instance().bus().register(new ConfigEvent());
    		
         FMLCommonHandler.instance().bus().register(new PlayerEvents(Constants.version, "ZeroQuest", false));
-    	Log.info("-----PRE-CONTENT LOAD INITATING-----");
-    	Log.info("Loading Main Stuff...");
+    	LogHelper.info("-----PRE-CONTENT LOAD INITATING-----");
+    	LogHelper.info("Loading Main Stuff...");
         this.ZeroTab = new ZeroQuestTab(CreativeTabs.getNextID());
     	if(Constants.DEF_DARKLOAD == true){
    		this.DarkTab = new DarkQuestTab(CreativeTabs.getNextID());
     	}
 		NetworkRegistry.INSTANCE.registerGuiHandler(Constants.modid, proxy);
-    	Log.info("Load Stuff Loaded Successfully!");		
-    	Log.info("-----PRE-CONTENT LOAD FINISHED-----");
+		proxy.registerMoreThings();
+    	LogHelper.info("Load Stuff Loaded Successfully!");		
+    	LogHelper.info("-----PRE-CONTENT LOAD FINISHED-----");
     	}
 	
 	@EventHandler
     public void load(FMLInitializationEvent event)
 	{			
-		Log.info("-----CONTENT LOAD INITATING-----");
+		LogHelper.info("-----CONTENT LOAD INITATING-----");
     	nileEssence = EnumHelper.addToolMaterial("NileEssence", 4, 4000, 20.0F, 4.0F, 30);
     	
-    	Log.info("Loading Block, Recipes, Events and Items...");
+    	LogHelper.info("Loading Block, Recipes, Events and Items...");
     	ModBlocks.load();
     	ModItems.load();
     	if(event.getSide().isClient()){
@@ -101,23 +94,23 @@ public class ZeroQuest
     	MinecraftForge.EVENT_BUS.register(new FOVEvent());
     	MinecraftForge.EVENT_BUS.register(new LivingEvents()); //TODO
        	ZeroQuestCrafting.loadRecipes();
-    	Log.info("Blocks, Recipes, Events and Items Loaded Successfully!");
+    	LogHelper.info("Blocks, Recipes, Events and Items Loaded Successfully!");
 		
-    	Log.info("Loading Entities and Ore Dictionary...");
+    	LogHelper.info("Loading Entities and Ore Dictionary...");
     	ModEntities.loadCreatures();
     	ModEntities.loadOthers();
    		OreDic.load();
-   		Log.info("Entities and Ore Dictionary Loaded Successfully!");
+   		LogHelper.info("Entities and Ore Dictionary Loaded Successfully!");
 		
-   		Log.info("Loading Achievements and Biomes...");
+   		LogHelper.info("Loading Achievements and Biomes...");
    		ModAchievements.load();
    		FMLCommonHandler.instance().bus().register(new AchievementEvents());
     	ModBiomes.loadBiomes();
-    	Log.info("Achievements and Biomes Loaded Successfully!");
+    	LogHelper.info("Achievements and Biomes Loaded Successfully!");
 		
     	if(Constants.DEF_DARKLOAD == true){
-    	Log.warn("Dark Elemental Load is ENABLED!");	
-    	Log.info("Initating Dark Elemental Load!");
+    	LogHelper.warn("Dark Elemental Load is ENABLED!");	
+    	LogHelper.info("Initating Dark Elemental Load!");
     		darkEssence = EnumHelper.addToolMaterial("DarkEssence", 4, 5000, 21.0F, 5.0F, 40);
         	ModItems.loadDarkItems();
         	ModBlocks.loadDarkBlocks();
@@ -132,49 +125,49 @@ public class ZeroQuest
     		OreDic.loadDarkOre();
            	registerProviderType(DarkaxID, WorldProviderDarkax.class, false);
             registerDimension(DarkaxID, DarkaxID);
-            Log.info("Dark Elements Loaded Successfully!");
+            LogHelper.info("Dark Elements Loaded Successfully!");
     	}else{
-    		Log.warn("Dark Elemental Load is not ENABLED! Change configurations to enable!");
-    		Log.info("Skipping Dark Elemental Load");
+    		LogHelper.warn("Dark Elemental Load is not ENABLED! Change configurations to enable!");
+    		LogHelper.info("Skipping Dark Elemental Load");
 
     	}
     	ModEntities.loadSpawns();
     	if(Constants.DEF_DARKLOAD == true){
         	ModEntities.loadDarkSpawns();
     	}
-    	Log.info("Loading Crucial Stuff...");
+    	LogHelper.info("Loading Crucial Stuff...");
        	proxy.registerRenderThings();
        	proxy.registerChestItems();
     	GameRegistry.registerFuelHandler(new FuelHandler());
        	GameRegistry.registerWorldGenerator(new WorldGenZQuest(), 0);
-       	Log.info("The Crucial Stuff Loaded Successfully!");
+       	LogHelper.info("The Crucial Stuff Loaded Successfully!");
 		
-       	Log.info("Loading Dimensions...");
+       	LogHelper.info("Loading Dimensions...");
        	registerProviderType(NillaxID, WorldProviderNillax.class, false);
        	registerDimension(NillaxID, NillaxID);
-    	Log.info("Dimensions Loaded Successfully!");
-        Log.info("-----CONTENT LOAD FINSHED-----");
+    	LogHelper.info("Dimensions Loaded Successfully!");
+        LogHelper.info("-----CONTENT LOAD FINSHED-----");
 	}
 	
 	@EventHandler
 	public void PostInt(FMLPostInitializationEvent event)
 	{
-    	Log.info("-----POST-CONTENT LOAD INITATING-----");
-    	Log.info("Nothing to be loaded as of now!");
-        Log.info("-----POST-CONTENT LOAD FINSHED-----");
+    	LogHelper.info("-----POST-CONTENT LOAD INITATING-----");
+        LogHelper.info("Nothing to be loaded as of now!");    		
+        LogHelper.info("-----POST-CONTENT LOAD FINSHED-----");
     	
 	}
 	
     @EventHandler //TODO
     public void serverStart(FMLServerStartingEvent event)        
     {   
-    	Log.info("-----SERVER CONTENT LOAD INITATING-----");
-    	Log.info("Loading Commands...");     
+    	LogHelper.info("-----SERVER CONTENT LOAD INITATING-----");
+    	LogHelper.info("Loading Commands...");     
         MinecraftServer server = MinecraftServer.getServer();
         ServerCommandManager cmdman = (ServerCommandManager) server.getCommandManager(); 
         cmdman.registerCommand(new CommandZeroQuest());
-    	Log.info("Commands Loaded Successfully!");  
-    	Log.info("-----SERVER CONTENT LOAD FINSHED-----");
+    	LogHelper.info("Commands Loaded Successfully!");  
+    	LogHelper.info("-----SERVER CONTENT LOAD FINSHED-----");
     	
     }
     

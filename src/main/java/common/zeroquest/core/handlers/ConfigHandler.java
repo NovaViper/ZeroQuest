@@ -15,7 +15,6 @@ import common.zeroquest.lib.Constants;
 public class ConfigHandler {
 	
 		//Add more Categories for GuiFactory\\
-	   private static final Logger L = ZeroQuest.Log;
 	   public static Configuration config;
 	   public static final String CATEGORY_LOAD = "load";
 	   public static final String CATEGORY_FUNCTION = "function";
@@ -52,6 +51,11 @@ public class ConfigHandler {
    		   Constants.DEF_HEALING =  prop.getBoolean(Constants.DEF_HEALING);
            propOrder.add(prop.getName());
            
+	   	   /*prop = config.get(CATEGORY_FUNCTION, "isHungerOn", true);
+   		   prop.setLanguageKey("gui.config.property.isHungerOn");
+   		   Constants.IS_HUNGER_ON =  prop.getBoolean(Constants.IS_HUNGER_ON);
+           propOrder.add(prop.getName());*/
+           
 	   	   prop = config.get(CATEGORY_FUNCTION, "SnowStep", true);
 	   	   prop.comment = "Toggles the snow/ice footprints of Ice Zertums";
    		   prop.setLanguageKey("gui.config.property.SnowStep");
@@ -70,7 +74,6 @@ public class ConfigHandler {
    		   prop.setLanguageKey("gui.config.property.Howl");
    		   Constants.DEF_HOWL =  prop.getBoolean(Constants.DEF_HOWL);
            propOrder.add(prop.getName());
-           
    		   /*=================================Terrain Configurations==========================================*/
 
 

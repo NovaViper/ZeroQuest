@@ -8,8 +8,10 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.ai.attributes.IAttribute;
 import net.minecraft.entity.ai.attributes.RangedAttribute;
+import net.minecraft.entity.monster.EntityMob;
+import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityWolf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
@@ -47,12 +49,12 @@ public class EntityMetalZertum extends EntityZertumEntity
     public EntityMetalZertum(World worldIn)
     {
         super(worldIn);
-        this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, false, new Predicate()
+        this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityMob.class, false, new Predicate()
         {
             private static final String __OBFID = "CL_00002229";
             public boolean func_180094_a(Entity p_180094_1_)
             {
-                return p_180094_1_ instanceof EntityWolf;
+                return p_180094_1_ instanceof EntityZombie || p_180094_1_ instanceof EntitySkeleton;
             }
             public boolean apply(Object p_apply_1_)
             {

@@ -83,7 +83,6 @@ public class ModEntities {
 		   registerProjectileEntity(EntityFlamingPoisonball.class, "FPoisonball", 400);
 		   EntityRegistry.registerModEntity(EntityGrenade.class, "Grenade", 401, ZeroQuest.instance, 80, 3, true);
 		   registerProjectileEntity(EntityIceball.class, "Iceball", 402);
-		   registerProjectileEntity(EntityFireball.class, "Fireball", 403);
 	   }
 	   
 		public static void addSpawn(Class entityClass, int weightedProb, int min, int max, EnumCreatureType typeOfCreature, BiomeGenBase... biomes){

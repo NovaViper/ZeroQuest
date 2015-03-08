@@ -7,8 +7,8 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+
 import common.zeroquest.block.BlockBedRock;
-import common.zeroquest.block.BlockLooseBedrockStairs;
 import common.zeroquest.block.BlockNileBlock;
 import common.zeroquest.block.BlockNileOre;
 import common.zeroquest.block.BlockNileWorkbench;
@@ -17,11 +17,7 @@ import common.zeroquest.block.flora.BlockNileBlackFlower;
 import common.zeroquest.block.flora.BlockNileBlueFlower;
 import common.zeroquest.block.flora.BlockNilePinkFlower;
 import common.zeroquest.block.flora.BlockVitoidCrop;
-import common.zeroquest.block.portal.BlockDarkFire;
-import common.zeroquest.block.portal.BlockNileFire;
 import common.zeroquest.block.portal.BlockNilePortalStone;
-import common.zeroquest.block.portal.BlockPortalDarkax;
-import common.zeroquest.block.portal.BlockPortalNillax;
 import common.zeroquest.lib.Constants;
 
 public class ModBlocks {
