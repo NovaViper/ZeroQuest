@@ -1,9 +1,9 @@
 {
     "textures": {
-        "particle": "doggytalents:blocks/foodBottom",
-        "bottom": "doggytalents:blocks/foodBottom",
-        "top": "doggytalents:blocks/foodTop",
-        "side": "doggytalents:blocks/foodSide"
+        "bottom": "zero_quest:blocks/foodBowl/foodBottom",
+        "top": "zero_quest:blocks/foodBowl/foodTop",
+        "side": "zero_quest:blocks/foodBowl/foodSide",
+        "particle": "zero_quest:blocks/foodBowl/foodParticle"
     },
     "elements": [
         {   "from": [ 1, 0, 1 ],

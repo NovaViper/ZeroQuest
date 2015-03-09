@@ -1,45 +1,42 @@
 package common.zeroquest.entity;
 
-import java.util.List;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.BlockColored;
-import net.minecraft.enchantment.EnchantmentHelper;
+import net.minecraft.block.material.Material;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIFollowOwner;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
 import net.minecraft.entity.ai.EntityAIMate;
-import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
-import net.minecraft.entity.ai.EntityAIOwnerHurtByTarget;
-import net.minecraft.entity.ai.EntityAIOwnerHurtTarget;
 import net.minecraft.entity.ai.EntityAISit;
 import net.minecraft.entity.ai.EntityAISwimming;
-import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityGhast;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityRabbit;
-import net.minecraft.entity.passive.EntitySheep;
+import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBow;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.ItemSword;
+import net.minecraft.item.ItemTool;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathEntity;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
@@ -48,17 +45,23 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.google.common.base.Predicate;
-
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
-import common.zeroquest.ZeroQuest;
-import common.zeroquest.core.proxy.CommonProxy;
+import common.zeroquest.entity.ai.EntityAIFetchBone;
+import common.zeroquest.entity.ai.EntityAIFollowOwner;
+import common.zeroquest.entity.ai.EntityAIModeAttackTarget;
+import common.zeroquest.entity.ai.EntityAIOwnerHurtByTarget;
+import common.zeroquest.entity.ai.EntityAIOwnerHurtTarget;
+import common.zeroquest.entity.ai.EntityAIRoundUp;
 import common.zeroquest.entity.ai.EntityCustomAIBeg;
+import common.zeroquest.entity.util.CoordUtil;
+import common.zeroquest.entity.util.LevelUtil;
+import common.zeroquest.entity.util.ModeUtil;
+import common.zeroquest.entity.util.TalentHelper;
+import common.zeroquest.entity.util.TalentUtil;
 import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
-import common.zeroquest.util.ItemUtils;
 
 
 public abstract class EntityZertumEntity extends EntityCustomTameable
@@ -69,6 +72,18 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     public boolean isShaking;
     public float timeWolfIsShaking;
     public float prevTimeWolfIsShaking;
+    private int hungerTick;
+   	private int prevHungerTick;
+    private int healingTick;
+    private int prevHealingTick;
+    private int regenerationTick;
+    private int prevRegenerationTick;
+    public TalentUtil talents;
+    public LevelUtil levels;
+    public ModeUtil mode;
+    public CoordUtil coords;
+    public Map<String, Object> objects;
+    private boolean hasBone;
     
     public static final double maxHealth = 25;
     public static final double attackDamage = 6;
@@ -79,8 +94,9 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     public static final double attackDamageBaby = 2;
     
     protected EntityAILeapAtTarget aiLeap = new EntityAILeapAtTarget(this, 0.4F);
-    protected EntityAIWatchClosest aiStareAtPlayer = new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F);
-    protected EntityAIWatchClosest aiGlareAtCreeper = new EntityAIWatchClosest(this, EntityCreeper.class, 20.0F);
+    public EntityAIWatchClosest aiStareAtPlayer = new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F);
+    public EntityAIWatchClosest aiGlareAtCreeper = new EntityAIWatchClosest(this, EntityCreeper.class, 8.0F);    
+    public EntityAIFetchBone aiFetchBone;
     
     // data value IDs TODO
     /**DO NOT CHANGE!**/
@@ -90,6 +106,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     public EntityZertumEntity(World worldIn)
     {
         super(worldIn);
+        this.objects = new HashMap<String, Object>();
         this.setSize(0.6F, 1.5F);
         ((PathNavigateGround)this.getNavigator()).func_179690_a(true);
         this.tasks.addTask(1, new EntityAISwimming(this));
@@ -97,16 +114,20 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
         this.tasks.addTask(3, this.aiLeap);
         this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, true));
         this.tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-        this.tasks.addTask(6, new EntityAIMate(this, 1.0D));
-        this.tasks.addTask(7, new EntityAIWander(this, 1.0D));
-        this.tasks.addTask(8, new EntityCustomAIBeg(this, 8.0F));
-        this.tasks.addTask(9, aiStareAtPlayer);
-        this.tasks.addTask(9, new EntityAILookIdle(this));
+        this.tasks.addTask(6, this.aiFetchBone = new EntityAIFetchBone(this, 1.0D, 0.5F, 20.0F));
+        this.tasks.addTask(7, new EntityAIMate(this, 1.0D));
+        this.tasks.addTask(8, new EntityAIWander(this, 1.0D));
+        this.tasks.addTask(9, new EntityCustomAIBeg(this, 8.0F));
+        this.tasks.addTask(10, aiStareAtPlayer);
+        this.tasks.addTask(10, new EntityAILookIdle(this));
         this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
         this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
-        this.targetTasks.addTask(3, new EntityAIHurtByTarget(this, true, new Class[0]));
+        this.targetTasks.addTask(3, new EntityAIModeAttackTarget(this));
+        this.targetTasks.addTask(4, new EntityAIHurtByTarget(this, true));
         this.setTamed(false);
         this.inventory = new InventoryPack(this);
+        this.targetTasks.addTask(6, new EntityAIRoundUp(this, EntityAnimal.class, 0, false));
+        TalentHelper.onClassCreation(this);
     }
 
     @Override
@@ -116,10 +137,12 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealth);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamage);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speed);
-
+        this.updateEntityAttributes();
+    }
+    public void updateEntityAttributes() {
         if (this.isTamed())
         {
-            this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthTamed);
+            this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthTamed + this.effectiveLevel());
             this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageTamed);
         }
         else if (this.isChild())
@@ -128,29 +151,56 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
             this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageBaby);
         }
     }
-
+    
     /**
-     * Sets the active target the Task system uses for tracking
-     */
+    * Sets the active target the Task system uses for tracking
+    */
     @Override
     public void setAttackTarget(EntityLivingBase p_70624_1_)
     {
-        super.setAttackTarget(p_70624_1_);
-
-        if (p_70624_1_ == null)
-        {
-            this.setAngry(false);
-        }
-        else if (!this.isTamed())
-        {
-            this.setAngry(true);
-        }
+    	super.setAttackTarget(p_70624_1_);
+    	if (p_70624_1_ == null)
+    	{
+    		this.setAngry(false);
+    	}
+    	else if (!this.isTamed())
+    	{
+    		this.setAngry(true);
+    	}
     }
+    
+    @Override
+    public String getName() {
+    	String name = this.getDogName();
+    	if(name != "")
+    		return name;
+    	return super.getName();
+    }
+    
+    @Override
+    @SideOnly(Side.CLIENT)
+    public boolean getAlwaysRenderNameTagForRender() {
+        return true;
+    }
+
     @Override
     protected void entityInit()
     {
         super.entityInit();
         this.dataWatcher.addObject(INDEX_COLLAR, new Byte((byte)EnumDyeColor.RED.getMetadata()));
+        
+        this.talents = new TalentUtil(this);
+        this.levels = new LevelUtil(this);
+        this.mode = new ModeUtil(this);
+        this.coords = new CoordUtil(this);
+        
+        this.dataWatcher.addObject(21, new String("")); //Dog Name
+        this.dataWatcher.addObject(22, new String("")); //Talent Data
+        this.dataWatcher.addObject(23, new Integer(60)); //Dog Hunger
+        this.dataWatcher.addObject(24, new String("0:0")); //Level Data
+        this.dataWatcher.addObject(26, new Integer(0)); //Obey Others
+        this.dataWatcher.addObject(27, new Integer(0)); //Dog Mode
+        this.dataWatcher.addObject(28, "-1:-1:-1:-1:-1:-1"); //Dog Mode
     }
 
     @Override
@@ -159,18 +209,41 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
         super.writeEntityToNBT(tagCompound);
         tagCompound.setBoolean("Angry", this.isAngry());
         tagCompound.setByte("CollarColor", (byte)this.getCollarColor().getDyeDamage());
+        
+        tagCompound.setString("version", Constants.version);
+        
+        tagCompound.setString("dogName", this.getDogName());
+        tagCompound.setInteger("dogHunger", this.getDogHunger());
+        tagCompound.setBoolean("willObey", this.willObeyOthers());
+        
+        this.talents.writeTalentsToNBT(tagCompound);
+        this.levels.writeTalentsToNBT(tagCompound);
+        this.mode.writeToNBT(tagCompound);
+        this.coords.writeToNBT(tagCompound);
+        TalentHelper.writeToNBT(this, tagCompound);
     }
 
     @Override
-    public void readEntityFromNBT(NBTTagCompound tagCompund)
+    public void readEntityFromNBT(NBTTagCompound tagCompound)
     {
-        super.readEntityFromNBT(tagCompund);
-        this.setAngry(tagCompund.getBoolean("Angry"));
+        super.readEntityFromNBT(tagCompound);
+        this.setAngry(tagCompound.getBoolean("Angry"));
 
-        if (tagCompund.hasKey("CollarColor", 99))
+        if (tagCompound.hasKey("CollarColor", 99))
         {
-            this.setCollarColor(EnumDyeColor.byDyeDamage(tagCompund.getByte("CollarColor")));
+            this.setCollarColor(EnumDyeColor.byDyeDamage(tagCompound.getByte("CollarColor")));
         }
+        
+        String lastVersion = tagCompound.getString("version");
+        this.setDogName(tagCompound.getString("dogName"));
+        this.setDogHunger(tagCompound.getInteger("dogHunger"));
+        this.setWillObeyOthers(tagCompound.getBoolean("willObey"));
+        
+        this.talents.readTalentsFromNBT(tagCompound);
+        this.levels.readTalentsFromNBT(tagCompound);
+        this.mode.readFromNBT(tagCompound);
+        this.coords.readFromNBT(tagCompound);
+        TalentHelper.readFromNBT(this, tagCompound);
     }
     
     @Override
@@ -185,6 +258,10 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     @Override
     protected String getLivingSound()
     {
+    	String sound = TalentHelper.getLivingSound(this);
+    	if(!"".equals(sound))
+    		return sound;
+    	
         return this.canSeeCreeper ? "mob.wolf.growl" : this.isAngry() ? "mob.wolf.growl" : 
         	this.wantToHowl ? Sound.ZertumHowl : (this.rand.nextInt(3) == 0 ? 
         			(this.isTamed() && this.getHealth() <= 10.0F ? "mob.wolf.whine"
@@ -210,11 +287,15 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
         return "mob.wolf.death";
     }
 
+    public EntityAISit getSitAI() {
+    	return this.aiSit;
+    }
+    
     /**
      * Returns the volume for the sounds this mob makes.
      */
     @Override
-    protected float getSoundVolume()
+	public float getSoundVolume()
     {
         return 0.5F;
     }
@@ -224,7 +305,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
      */
 	@Override
     public int getTalkInterval() {
-    	if(this.canSeeCreeper){
+    	if((Boolean)this.objects.get("canseecreeper") == true){
     		return 40;
     	}else if(this.wantToHowl){
     		return 150;
@@ -278,30 +359,57 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
             this.prevTimeWolfIsShaking = 0.0F;
             this.worldObj.setEntityState(this, (byte)8);
         }
+        
+        if(Constants.IS_HUNGER_ON) {
+        	this.prevHungerTick = this.hungerTick;
+        	
+	        if (this.riddenByEntity == null && !this.isSitting() /** && !this.mode.isMode(EnumMode.WANDERING) && !this.level.isDireDog() || worldObj.getWorldInfo().getWorldTime() % 2L == 0L **/)
+	        	this.hungerTick += 1;
+	        
+	        this.hungerTick += TalentHelper.onHungerTick(this, this.hungerTick - this.prevHungerTick);
+	        
+	        if (this.hungerTick > 400) {
+	            this.setDogHunger(this.getDogHunger() - 1);
+	            this.hungerTick -= 400;
+	        }
+        }
+        
+        if(Constants.DEF_HEALING) {
+        	this.prevRegenerationTick = this.regenerationTick;
+        	
+	        if(this.getHealth() <= 1) {
+	        	this.regenerationTick += 1;
+	        	
+	        	this.regenerationTick += TalentHelper.onRegenerationTick(this, this.regenerationTick - this.prevRegenerationTick);
+	        }
+	        
+	        if(this.regenerationTick >= 12000) {
+	            this.setHealth(this.getHealth() + 1);
+	            this.worldObj.setEntityState(this, (byte)7);
+	            this.regenerationTick = 0;
+	        }
+    	}
+        
+        if(this.getHealth() != 1) {
+	        this.prevHealingTick = this.healingTick;
+	        this.healingTick += this.nourishment();
+	        
+	        if (this.healingTick >= 6000) {
+	            if (this.getHealth() < this.getMaxHealth())
+	            	this.setHealth(this.getHealth() + 1);
+	            
+	            this.healingTick = 0;
+	        }
+        }
+        
+        if(this.getDogHunger() == 0 && this.worldObj.getWorldInfo().getWorldTime() % 100L == 0L && this.getHealth() > 1) {
+            this.attackEntityFrom(DamageSource.generic, 1);
+            //this.fleeingTick = 0;
+        }
 
         if (isServer() && this.getAttackTarget() == null && this.isAngry())
         {
             this.setAngry(false);
-        }
-        
-        if(Constants.DEF_HEALING == true && !this.isChild() && this.getHealth() <=10 && this.isTamed())
-        {
-       		this.addPotionEffect(new PotionEffect(Potion.regeneration.id, 200));
-        }
-        
-        if (this.getAttackTarget() == null && isTamed() && 15 > 0) {
-            List list1 = worldObj.getEntitiesWithinAABB(EntityCreeper.class, AxisAlignedBB.fromBounds(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(sniffRange(), 4D, sniffRange()));
-
-            if (!list1.isEmpty() && !isSitting() && this.getHealth() > 1 && !this.isChild()) {
-                canSeeCreeper = true;
-                this.tasks.addTask(9, aiGlareAtCreeper);
-                this.tasks.removeTask(aiStareAtPlayer);
-            }
-            else {
-                canSeeCreeper = false;
-                this.tasks.addTask(9, aiStareAtPlayer);
-                this.tasks.removeTask(aiGlareAtCreeper);
-            }
         }
         
         if(Constants.DEF_HOWL == true){
@@ -314,6 +422,8 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
             	wantToHowl = true;
             }
         }
+        
+        TalentHelper.onLivingUpdate(this);
     }
 
     /**
@@ -353,6 +463,18 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
 
             if (this.prevTimeWolfIsShaking >= 2.0F)
             {
+            	if(this.rand.nextInt(15) < this.talents.getLevel("fishing") * 2) {
+                    if(this.rand.nextInt(15) < this.talents.getLevel("fire") * 2) {
+                    	if(!this.worldObj.isRemote) {
+                    		dropItem(Items.cooked_fish, 1);
+                    	}
+                    }
+                    else {
+                    	if(!this.worldObj.isRemote) {
+                    		dropItem(Items.fish, 1);
+                    	}
+                    }
+            	}
                 this.isWet = false;
                 this.isShaking = false;
                 this.prevTimeWolfIsShaking = 0.0F;
@@ -369,7 +491,114 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
                     float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
                     float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
                     this.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX + (double)f1, (double)(f + 0.8F), this.posZ + (double)f2, this.motionX, this.motionY, this.motionZ, new int[0]);
+            	}
+            }
+        }
+        if(this.isTamed()) {
+    		EntityPlayer player = (EntityPlayer)this.getOwner();
+    		
+    		if(player != null) {
+    			float distanceToOwner = player.getDistanceToEntity(this);
+
+                if (distanceToOwner <= 2F && this.hasBone()) {
+                	if(!this.worldObj.isRemote) {
+                		this.entityDropItem(new ItemStack(ModItems.toy, 1, 1), 0.0F);
+                	}
+                	
+                    this.setHasBone(false);
                 }
+    		}
+    	}
+        
+        TalentHelper.onUpdate(this);
+    }
+	
+    @Override
+    public void moveEntityWithHeading(float strafe, float forward) {
+        if (this.riddenByEntity instanceof EntityPlayer) {
+            this.prevRotationYaw = this.rotationYaw = this.riddenByEntity.rotationYaw;
+            this.rotationPitch = this.riddenByEntity.rotationPitch * 0.5F;
+            this.setRotation(this.rotationYaw, this.rotationPitch);
+            this.rotationYawHead = this.renderYawOffset = this.rotationYaw;
+            strafe = ((EntityPlayer)this.riddenByEntity).moveStrafing * 0.5F;
+            forward = ((EntityPlayer)this.riddenByEntity).moveForward;
+
+            if (forward <= 0.0F)
+                forward *= 0.25F;
+
+            if (this.onGround) {
+                if (forward > 0.0F) {
+                    float f2 = MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F);
+                    float f3 = MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F);
+                    this.motionX += (double)(-0.4F * f2 * 0.15F); // May change
+                    this.motionZ += (double)(0.4F * f3 * 0.15F);
+                }
+            }
+
+            this.stepHeight = 1.0F;
+            this.jumpMovementFactor = this.getAIMoveSpeed() * 0.2F;
+
+            if (!this.worldObj.isRemote)  {
+                this.setAIMoveSpeed((float)this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() / 4);
+                super.moveEntityWithHeading(strafe, forward);
+            }
+
+            if (this.onGround) {
+                //this.jumpPower = 0.0F;
+               // this.setHorseJumping(false);
+            }
+
+            this.prevLimbSwingAmount = this.limbSwingAmount;
+            double d0 = this.posX - this.prevPosX;
+            double d1 = this.posZ - this.prevPosZ;
+            float f4 = MathHelper.sqrt_double(d0 * d0 + d1 * d1) * 4.0F;
+
+            if (f4 > 1.0F)
+                f4 = 1.0F;
+
+            this.limbSwingAmount += (f4 - this.limbSwingAmount) * 0.4F;
+            this.limbSwing += this.limbSwingAmount;
+        }
+        else {
+            this.stepHeight = 0.5F;
+            this.jumpMovementFactor = 0.02F;
+            super.moveEntityWithHeading(strafe, forward);
+        }
+    }
+    
+    @Override
+    public float getAIMoveSpeed() {
+    	double speed = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
+    	
+    	speed += TalentHelper.addToMoveSpeed(this);
+
+    	if(this.riddenByEntity instanceof EntityPlayer)
+    		speed /= 4;
+    	
+        return (float)speed;
+    }
+    
+    @Override
+    public void fall(float distance, float damageMultiplier) {
+        float[] ret = net.minecraftforge.common.ForgeHooks.onLivingFall(this, distance, damageMultiplier);
+        if (ret == null) return;
+        distance = ret[0]; damageMultiplier = ret[1];
+        super.fall(distance, damageMultiplier);
+        PotionEffect potioneffect = this.getActivePotionEffect(Potion.jump);
+        float f2 = potioneffect != null ? (float)(potioneffect.getAmplifier() + 1) : 0.0F;
+        int i = MathHelper.ceiling_float_int(((distance - 3.0F - f2) - TalentHelper.fallProtection(this)) * damageMultiplier);
+
+        if (i > 0 && !TalentHelper.isImmuneToFalls(this)) {
+            this.playSound(this.getFallSoundString(i), 1.0F, 1.0F);
+            this.attackEntityFrom(DamageSource.fall, (float)i);
+            int j = MathHelper.floor_double(this.posX);
+            int k = MathHelper.floor_double(this.posY - 0.20000000298023224D);
+            int l = MathHelper.floor_double(this.posZ);
+            Block block = this.worldObj.getBlockState(new BlockPos(j, k, l)).getBlock();
+
+            if (block.getMaterial() != Material.air) {
+                Block.SoundType soundtype = block.stepSound;
+                this.playSound(soundtype.getStepSound(), soundtype.getVolume() * 0.5F, soundtype.getFrequency() * 0.75F);
             }
         }
     }
@@ -418,60 +647,37 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     {
         return this.isSitting() ? 20 : super.getVerticalFaceSpeed();
     }
-
-    /**
-     * Called when the entity is attacked.
-     */
+    
     @Override
-    public boolean attackEntityFrom(DamageSource source, float amount)
-    {
-        if (this.isEntityInvulnerable(source))
-        {
+    public boolean attackEntityFrom(DamageSource damageSource, float damage) {
+        if (this.isEntityInvulnerable(damageSource))
             return false;
-        }
-        else
-        {
-            Entity entity = source.getEntity();
+        else {
+        	if(!TalentHelper.attackEntityFrom(this, damageSource, damage))
+        		return false;
+        	
+            Entity entity = damageSource.getEntity();
             this.aiSit.setSitting(false);
 
             if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow))
-            {
-                amount = (amount + 1.0F) / 2.0F;
-            }
+                damage = (damage + 1.0F) / 2.0F;
 
-            return super.attackEntityFrom(source, amount);
+            return super.attackEntityFrom(damageSource, damage);
         }
     }
 
-    public boolean attackEntityAsMob(Entity par1Entity)
-    {
-        float damage = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
-        int i = 0;
-        int critChance = 5;
-        critChance += 2;
+    @Override
+    public boolean attackEntityAsMob(Entity entity) {
+    	if(!TalentHelper.shouldDamageMob(this, entity))
+    		return false;
+    	
+    	int damage = (int)(4 + (this.effectiveLevel() + this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getBaseValue()) / 2);
+        damage = TalentHelper.attackEntityAsMob(this, entity, damage);
         
-        if (rand.nextInt(6) < critChance) { //TODO
-        	damage += (damage + 3) / 2;
-            double d0 = this.rand.nextGaussian() * 0.02D;
-            double d1 = this.rand.nextGaussian() * 0.02D;
-            double d2 = this.rand.nextGaussian() * 0.02D;
-            worldObj.spawnParticle(EnumParticleTypes.CRIT, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) -
-            		(double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + 
-            		(double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
-        }
-
-        boolean flag = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), damage);
-
-        if (flag)
-        {
-            if (i > 0)
-            {
-                par1Entity.addVelocity((double)(-MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F), 0.1D, (double)(MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F));
-                this.motionX *= 0.6D;
-                this.motionZ *= 0.6D;
-            }
-        }
-		return flag;
+        if (entity instanceof EntityZombie)
+            ((EntityZombie)entity).setAttackTarget(this);
+        
+        return entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float)damage);
     }
     
     /**
@@ -493,6 +699,194 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
         }
     }
     
+    protected boolean isMovementBlocked() {
+    	return this.isPlayerSleeping() || this.ridingEntity != null || this.riddenByEntity instanceof EntityPlayer || super.isMovementBlocked();
+    	}
+
+    @Override
+    public double getYOffset() {
+        return this.ridingEntity instanceof EntityPlayer ? 0.5D : 0.0D;
+    }
+    
+    @Override
+    public boolean isPotionApplicable(PotionEffect potionEffect) {
+        if (this.getHealth() <= 1)
+            return false;
+
+        if(!TalentHelper.isPostionApplicable(this, potionEffect))
+        	return false;
+
+        return true;
+    }
+    
+    @Override
+    public void setFire(int amount) {
+    	if(TalentHelper.setFire(this, amount))
+    		super.setFire(amount);
+    }
+    
+    public int foodValue(ItemStack stack) {
+    	if(stack == null || stack.getItem() == null)
+    		return 0;
+    	
+    	int foodValue = 0;
+    	
+    	Item item = stack.getItem();
+    	
+        if(stack.getItem() != Items.rotten_flesh && item instanceof ItemFood) {
+            ItemFood itemfood = (ItemFood)item;
+
+            if (itemfood.isWolfsFavoriteMeat())
+            	foodValue = 40;
+        }
+        
+        foodValue = TalentHelper.changeFoodValue(this, stack, foodValue);
+
+        return foodValue;
+    }
+    
+    public int masterOrder() {
+    	int order = 0;
+        EntityPlayer player = (EntityPlayer)this.getOwner();
+
+        if (player != null) {
+        	
+            float distanceAway = player.getDistanceToEntity(this);
+            ItemStack itemstack = player.inventory.getCurrentItem();
+
+            if (itemstack != null && (itemstack.getItem() instanceof ItemTool) && distanceAway <= 20F)
+                order = 1;
+
+            if (itemstack != null && ((itemstack.getItem() instanceof ItemSword) || (itemstack.getItem() instanceof ItemBow)))
+                order = 2;
+
+            if (itemstack != null && itemstack.getItem() == Items.wheat)
+                order = 3;
+        }
+
+        return order;
+    }
+    
+    @Override
+    public boolean isPlayerSleeping() {
+        return false;
+    }
+    
+    @Override
+    public boolean canBreatheUnderwater() {
+        return TalentHelper.canBreatheUnderwater(this);
+    }
+    
+    public boolean canInteract(EntityPlayer player) {
+    	return this.isOwner(player) || this.willObeyOthers();
+    }
+    
+    public int nourishment() {
+        int amount = 0;
+
+        if (this.getDogHunger() > 0) {
+            amount = 40 + 4 * (this.effectiveLevel() + 1);
+
+            if (isSitting() && this.talents.getLevel("rapidregen") == 5) {
+                amount += 20 + 2 * (this.effectiveLevel() + 1);
+            }
+
+            if (!this.isSitting()) {
+                amount *= 5 + this.talents.getLevel("rapidregen");
+                amount /= 10;
+            }
+        }
+
+        return amount;
+    }
+    
+    public int effectiveLevel() {
+        return (this.levels.getLevel()) / 4;
+    }
+    
+    public String getDogName() {
+        return this.dataWatcher.getWatchableObjectString(21);
+    }
+    
+    public void setDogName(String var1) {
+       this.dataWatcher.updateObject(21, var1);
+    }
+    
+    public void setWillObeyOthers(boolean flag) {
+    	this.dataWatcher.updateObject(26, flag ? 1 : 0);
+    }
+    
+    public boolean willObeyOthers() {
+    	return this.dataWatcher.getWatchableObjectInt(26) != 0;
+    }
+    
+    public int points() {
+        return this.levels.getLevel() + (this.getGrowingAge() < 0 ? 0 : 20);
+    }
+
+    public int spendablePoints() {
+        return this.points() - this.usedPoints();
+    }
+    
+    public int usedPoints() {
+		return TalentHelper.getUsedPoints(this);
+    }
+    
+    public int deductive(int par1) {
+        byte byte0 = 0;
+        switch(par1) {
+        case 1: return 1;
+		case 2: return 2;
+        case 3: return 4;
+        case 4: return 6;
+        case 5: return 8;
+        default: return 0;
+        }
+    }
+    
+    public int getDogHunger() {
+		return this.dataWatcher.getWatchableObjectInt(23);
+	}
+    
+    public void setDogHunger(int par1) {
+    	this.dataWatcher.updateObject(23, MathHelper.clamp_int(par1, 0, 120));
+    }
+    
+    @Override
+    public boolean func_142018_a(EntityLivingBase entityToAttack, EntityLivingBase owner) {
+    	if(TalentHelper.canAttackEntity(this, entityToAttack))
+    		return true;
+    	
+        if (!(entityToAttack instanceof EntityCreeper) && !(entityToAttack instanceof EntityGhast)) {
+            if (entityToAttack instanceof EntityZertumEntity) {
+            	EntityZertumEntity entityDog = (EntityZertumEntity)entityToAttack;
+
+                if (entityDog.isTamed() && entityDog.getOwner() == owner)
+                    return false;
+            }
+
+            return entityToAttack instanceof EntityPlayer && owner instanceof EntityPlayer && !((EntityPlayer)owner).canAttackPlayer((EntityPlayer)entityToAttack) ? false : !(entityToAttack instanceof EntityHorse) || !((EntityHorse)entityToAttack).isTame();
+        }
+        else {
+            return false;
+        }
+    }
+    
+    @Override
+    public boolean canAttackClass(Class p_70686_1_) {
+    	if(TalentHelper.canAttackClass(this, p_70686_1_))
+    		return true;
+    	
+        return super.canAttackClass(p_70686_1_);
+    }
+    
+    public void setHasBone(boolean hasBone) {
+    	this.hasBone = hasBone;
+    }
+    
+    public boolean hasBone() {
+    	return this.hasBone;
+    }
     
     /**
      * Gets the pitch of living sounds in living entities.

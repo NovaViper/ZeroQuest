@@ -32,6 +32,7 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -51,11 +52,15 @@ import com.google.common.base.Predicate;
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
+import common.zeroquest.api.interfaces.IDogTreat;
+import common.zeroquest.api.interfaces.IDogTreat.EnumFeedBack;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.ai.EntityCustomAIBeg;
 import common.zeroquest.entity.ai.targeting.EntityAICustomArrowAttack;
 import common.zeroquest.entity.ai.targeting.EntityAICustomLeapAtTarget;
 import common.zeroquest.entity.projectile.EntityIceball;
+import common.zeroquest.entity.util.TalentHelper;
+import common.zeroquest.entity.util.ModeUtil.EnumMode;
 import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
@@ -103,10 +108,14 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealth);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamage);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speed);
-
+        this.updateEntityAttributes();
+    }
+    
+    @Override
+    public void updateEntityAttributes() {
         if (this.isTamed())
         {
-            this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthTamed);
+            this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthTamed + this.effectiveLevel());
             this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageTamed);
         }
         else if (this.isChild())
@@ -159,38 +168,6 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
     	double d2 = this.rand.nextGaussian() * 0.04D;
     	worldObj.spawnParticle(EnumParticleTypes.SNOW_SHOVEL, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + (double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
     }
-
-	@Override
-    public boolean attackEntityAsMob(Entity par1Entity)
-    {
-        float damage = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
-        int i = 0;
-        int critChance = 5;
-        critChance += 2;
-        
-        if (rand.nextInt(6) < critChance) { //TODO
-        	damage += (damage + 3) / 2;
-            double d0 = this.rand.nextGaussian() * 0.02D;
-            double d1 = this.rand.nextGaussian() * 0.02D;
-            double d2 = this.rand.nextGaussian() * 0.02D;
-            worldObj.spawnParticle(EnumParticleTypes.CRIT, this.posX + (double)(this.rand.nextFloat() * this.width * 2.0F) -
-            		(double)this.width, this.posY + 0.5D + (double)(this.rand.nextFloat() * this.height), this.posZ + 
-            		(double)(this.rand.nextFloat() * this.width * 2.0F) - (double)this.width, d0, d1, d2);
-        }
-
-        boolean flag = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), damage);
-
-        if (flag)
-        {
-            if (i > 0)
-            {
-                par1Entity.addVelocity((double)(-MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F), 0.1D, (double)(MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F));
-                this.motionX *= 0.6D;
-                this.motionZ *= 0.6D;
-            }
-        }
-		return flag;
-    }
     
 	@Override
 	public void attackEntityWithRangedAttack(EntityLivingBase p_82196_1_, float p_82196_2_) { //TODO ranged attack
@@ -214,51 +191,79 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
     /**
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
      */
-    public boolean interact(EntityPlayer par1EntityPlayer)
-    {
-        ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
+    @Override
+    public boolean interact(EntityPlayer player) {
+        ItemStack stack = player.inventory.getCurrentItem();
 
-        if (this.isTamed())
-        {
-            if (itemstack != null)
-            {
-                if (itemstack.getItem() instanceof ItemFood)
-                {
-                    ItemFood itemfood = null;
-                    if(getHealthRelative() < 1)
-                    {
-                    	itemfood = (ItemFood) ItemUtils.consumeEquipped(par1EntityPlayer, Items.fish,
-                            Items.porkchop, Items.beef, Items.chicken, Items.rabbit, Items.mutton, Items.cooked_porkchop, Items.cooked_beef,
-                            Items.cooked_chicken, Items.cooked_fish, Items.cooked_rabbit, Items.cooked_mutton, ModItems.jakanMeatRaw, ModItems.jakanMeatCooked, 
-                            ModItems.zertumMeatRaw, ModItems.zertumMeatCooked);
-                        if (itemfood != null) {
-                        	float volume = getSoundVolume() * 1.0f;
-                        	float pitch =  getPitch();
-                        	worldObj.playSoundAtEntity(this, Sound.Chew, volume, pitch);
-                            this.heal((float)itemfood.getHealAmount(itemstack));
-                        }
-                        return true;
-                    }
+        if(TalentHelper.interactWithPlayer(this, player))
+        	return true;
+        
+        if (this.isTamed()) {
+            if (stack != null) {
+            	int foodValue = this.foodValue(stack);
+            	
+            	if(foodValue != 0 && this.getDogHunger() < 120 && this.canInteract(player)) {
+            		 if(!player.capabilities.isCreativeMode && --stack.stackSize <= 0)
+                         player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
+                 	float volume = getSoundVolume() * 1.0f;
+                 	float pitch =  getPitch();
+                 	worldObj.playSoundAtEntity(this, Sound.Chew, volume, pitch);
+                    this.setDogHunger(this.getDogHunger() + foodValue);
+                    return true;
                 }
-                else if(itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer)) //TODO
+            	else if(stack.getItem() == Items.bone && this.canInteract(player)) {
+            		if (isServer()) {
+                        if(this.ridingEntity != null)
+                        	this.mountEntity(null);
+                        else
+                         	this.mountEntity(player);
+                    }
+                    return true;
+                }
+            	else if(stack.getItem() == Item.getItemFromBlock(Blocks.planks) && this.canInteract(player)) {
+            		player.openGui(ZeroQuest.instance, CommonProxy.PetInfo, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+                 	return true;
+                }
+                else if(stack.getItem() instanceof IDogTreat && this.canInteract(player)) {
+                 	IDogTreat treat = (IDogTreat)stack.getItem();
+                 	EnumFeedBack type = treat.canGiveToDog(player, this, this.levels.getLevel());
+                 	treat.giveTreat(type, player, this);
+                 	return true;
+                }
+                else if(stack.getItem() == Items.shears && this.isOwner(player)) {
+                	if(!this.worldObj.isRemote) {
+                		this.setTamed(false);
+                	    this.navigator.clearPathEntity();
+                        this.setSitting(false);
+                        this.setHealth(this.getMaxHealth());
+                        this.talents.resetTalents();
+                        this.setOwnerId("");
+                        this.setDogName("");
+                        this.setWillObeyOthers(false);
+                        this.mode.setMode(EnumMode.DOCILE);
+                     }
+
+                	return true;
+                }
+                else if(stack.getItem() == Items.stick && canInteract(player)) //TODO
                 {
                 	if(isServer()){
-                		par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+                		player.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
                 		this.worldObj.playSoundEffect(this.posX, this.posY + 0.5D, this.posZ, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
                 		return true;
                 	}
                 }
-                else if (itemstack.getItem() == Items.dye)
+                else if (stack.getItem() == Items.dye)
                 {
-                    EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(itemstack.getMetadata());
+                    EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(stack.getMetadata());
 
                     if (enumdyecolor != this.getCollarColor())
                     {
                         this.setCollarColor(enumdyecolor);
 
-                        if (!par1EntityPlayer.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
+                        if (!player.capabilities.isCreativeMode && --stack.stackSize <= 0)
                         {
-                        	par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
+                        	player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
                         }
 
                         return true;
@@ -266,7 +271,7 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
                 }
             }
 
-            if (canInteract(par1EntityPlayer) && isServer() && !this.isBreedingItem(itemstack))
+            if (canInteract(player) && isServer() && !this.isBreedingItem(stack))
             {
             	this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
@@ -274,16 +279,16 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
                 this.setAttackTarget((EntityLivingBase)null);
             }
         }
-        else if (ItemUtils.consumeEquipped(par1EntityPlayer, ModItems.nileBone) && !this.isAngry())
+        else if (ItemUtils.consumeEquipped(player, ModItems.nileBone) && !this.isAngry())
         {
             if (isServer())
             {
-                tamedFor(par1EntityPlayer, rand.nextInt(3) == 0);
-            	par1EntityPlayer.triggerAchievement(ModAchievements.ZertTame);
+                tamedFor(player, rand.nextInt(3) == 0);
+            	player.triggerAchievement(ModAchievements.ZertTame);
             }
             return true;
         }
-        return super.interact(par1EntityPlayer);
+        return super.interact(player);
     }
  	 
     public EntityIceZertum createChild(EntityAgeable p_90011_1_)

@@ -5,10 +5,14 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
+import common.zeroquest.api.registry.DogBedRegistry;
 import common.zeroquest.block.BlockBedRock;
+import common.zeroquest.block.BlockDogBed;
+import common.zeroquest.block.BlockFoodBowl;
 import common.zeroquest.block.BlockNileBlock;
 import common.zeroquest.block.BlockNileOre;
 import common.zeroquest.block.BlockNileWorkbench;
@@ -18,6 +22,7 @@ import common.zeroquest.block.flora.BlockNileBlueFlower;
 import common.zeroquest.block.flora.BlockNilePinkFlower;
 import common.zeroquest.block.flora.BlockVitoidCrop;
 import common.zeroquest.block.portal.BlockNilePortalStone;
+import common.zeroquest.item.ItemDogBed;
 import common.zeroquest.lib.Constants;
 
 public class ModBlocks {
@@ -25,7 +30,7 @@ public class ModBlocks {
 	//public static Block looseBedrockStairs;
 	public static Block nileCoalOre;
 	public static Block nileGrainOre;
-	public static Block darkGrainOre;	
+	public static Block darkGrainOre;
 	public static Block blockNileEssence;
 	public static Block blockDarkEssence;
 	
@@ -36,6 +41,8 @@ public class ModBlocks {
 	public static Block vitoidPlant;
 	
 	public static Block nileWorktable;
+	public static Block dogBed;
+	public static Block foodBowl;
 	
 	//Portal//
 	public static Block nillaxStone;
@@ -49,6 +56,7 @@ public class ModBlocks {
 		//Natural Blocks//
 		looseBedrock = new BlockBedRock().setUnlocalizedName("looseBedrock");
 		register(looseBedrock, "bedrock_loose");
+		
 		//looseBedrockStairs = new BlockLooseBedrockStairs(looseBedrockStairs.getDefaultState());
 		//register(looseBedrockStairs, "bedrock_loose_stairs");
 
@@ -56,7 +64,12 @@ public class ModBlocks {
 		//Basic Blocks//
 		nileWorktable = new BlockNileWorkbench().setUnlocalizedName("nileWorktable");
 		register(nileWorktable, "crafting_table_nile");
-
+		foodBowl = new BlockFoodBowl().setUnlocalizedName("foodBowl").setCreativeTab(ZeroQuest.ZeroTab);
+		register(foodBowl, "food_bowl");
+		dogBed = new BlockDogBed().setUnlocalizedName("dogBed").setCreativeTab(ZeroQuest.ZeroTab);
+		registerWithClass(dogBed, ItemDogBed.class,"dog_bed");
+		//GameRegistry.registerTileEntity(TileEntityDogBed.class, "dog_bed");
+		
 		//Flowers/Plants//
 		nileBlueFlower = new BlockNileBlueFlower().setUnlocalizedName("nileBlueFlower");
 		register(nileBlueFlower, "nile_flower_blue");
@@ -113,6 +126,8 @@ public class ModBlocks {
 	    	registerRender(nileCoalOre, 0, Constants.modid + ":" + "nile_coal_ore", "inventory");
 	    	registerRender(nileGrainOre, 0, Constants.modid + ":" + "nile_grain_ore", "inventory");
 	    	registerRender(blockNileEssence, 0, Constants.modid + ":" + "nile_essence_block", "inventory");
+	    	registerRender(foodBowl, 0, Constants.modid + ":" + "food_bowl", "inventory");
+	    	registerRender(dogBed, 0, Constants.modid + ":" + "dog_bed", "inventory");
 	    	
 	    	registerRender(nillaxStone, 0, Constants.modid + ":" + "nillax_stone", "inventory");	
 	        //registerRender(portalNillax, 0, Constants.modid + ":" + "portal_nillax", "inventory");
@@ -127,6 +142,32 @@ public class ModBlocks {
 	    	
 	    	registerRender(darkGrainOre, 0, Constants.modid + ":" + "dark_grain_ore", "inventory");
 	    	registerRender(blockDarkEssence, 0, Constants.modid + ":" + "dark_essence_block", "inventory");
+	  }
+	  
+	  public static void loadDogBedTypes(){
+			DogBedRegistry.CASINGS.registerMaterial(Blocks.planks, 0, "minecraft:blocks/planks_oak");
+			DogBedRegistry.CASINGS.registerMaterial(Blocks.planks, 1, "minecraft:blocks/planks_spruce");
+			DogBedRegistry.CASINGS.registerMaterial(Blocks.planks, 2, "minecraft:blocks/planks_birch");
+			DogBedRegistry.CASINGS.registerMaterial(Blocks.planks, 3, "minecraft:blocks/planks_jungle");
+			DogBedRegistry.CASINGS.registerMaterial(Blocks.planks, 4, "minecraft:blocks/planks_acacia");
+			DogBedRegistry.CASINGS.registerMaterial(Blocks.planks, 5, "minecraft:blocks/planks_big_oak");
+			
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 0, "minecraft:blocks/wool_colored_white");
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 1, "minecraft:blocks/wool_colored_orange");
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 2, "minecraft:blocks/wool_colored_magenta");
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 3, "minecraft:blocks/wool_colored_light_blue");
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 4, "minecraft:blocks/wool_colored_yellow");
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 5, "minecraft:blocks/wool_colored_lime");
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 6, "minecraft:blocks/wool_colored_pink");
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 7, "minecraft:blocks/wool_colored_gray");
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 8, "minecraft:blocks/wool_colored_silver");
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 9, "minecraft:blocks/wool_colored_cyan");
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 10, "minecraft:blocks/wool_colored_purple");
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 11, "minecraft:blocks/wool_colored_blue");
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 12, "minecraft:blocks/wool_colored_brown");
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 13, "minecraft:blocks/wool_colored_green");
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 14, "minecraft:blocks/wool_colored_red");
+			DogBedRegistry.BEDDINGS.registerMaterial(Blocks.wool, 15, "minecraft:blocks/wool_colored_black");
 	  }
 	   
 	   public static void register(Block block, String name){

@@ -1,14 +1,17 @@
 package common.zeroquest;
 
+import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import common.zeroquest.item.ItemCommandSeal;
 import common.zeroquest.item.ItemFPoisonball;
 import common.zeroquest.item.ItemNileBone;
 import common.zeroquest.item.ItemNileSeed;
+import common.zeroquest.item.ItemToy;
 import common.zeroquest.item.KurrSeed;
 import common.zeroquest.item.VitoidFruit;
 import common.zeroquest.item.ZQFood;
@@ -52,6 +55,7 @@ public class ModItems {
 	public static Item nileCoal;
 	public static Item nileSpark;
 	public static Item nileBone;
+	public static Item commandSeal;
 	
 	public static Item FPoisonball;
 	
@@ -70,6 +74,7 @@ public class ModItems {
 	public static Item kurrSeeds;
 	
 	public static Item darkSpark;
+	public static Item toy;
 	
 	public static void load() {    	
     	//Tools/Weapons//
@@ -101,6 +106,10 @@ public class ModItems {
     	register(dogTreat, "dog_treat");
     	nileBone = new ItemNileBone().setUnlocalizedName("nileBone").setCreativeTab(ZeroQuest.ZeroTab);
     	register(nileBone, "nile_bone");
+		commandSeal = new ItemCommandSeal().setUnlocalizedName("commandSeal").setCreativeTab(ZeroQuest.ZeroTab);
+    	register(commandSeal, "command_seal");
+    	toy = new ItemToy().setUnlocalizedName("toy").setCreativeTab(ZeroQuest.ZeroTab);
+    	register(toy, "toy");
 		
     	//Portal Sparks//
     	nileSpark = new ItemNileSpark().setUnlocalizedName("nileSpark");
@@ -179,6 +188,10 @@ public class ModItems {
     	registerRender(vitoidFruit, 0, Constants.modid + ":" + "vitoid_fruit", "inventory");
     	registerRender(jakanMeatRaw, 0, Constants.modid + ":" + "jakan_meat_raw", "inventory");
     	registerRender(jakanMeatCooked, 0, Constants.modid + ":" + "jakan_meat_cooked", "inventory");
+    	registerRender(commandSeal, 0, Constants.modid + ":" + "command_seal", "inventory");
+    	registerRender(toy, 0, Constants.modid + ":" + "toy", "inventory");
+    	registerRender(toy, 1, Constants.modid + ":" + "toy_wet", "inventory");
+    	addVariant(toy, new String[] {Constants.modid + ":toy", Constants.modid + ":toy_wet"});
 	}
 	
 	public static void loadDarkRenderers(){

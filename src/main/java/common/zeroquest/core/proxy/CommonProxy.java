@@ -11,10 +11,15 @@ import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 
 import common.zeroquest.ModItems;
+import common.zeroquest.client.gui.GuiDogInfo;
+import common.zeroquest.client.gui.GuiFoodBowl;
 import common.zeroquest.client.gui.GuiNileWorkbench;
 import common.zeroquest.client.gui.GuiPack;
 import common.zeroquest.entity.EntityCustomTameable;
+import common.zeroquest.entity.EntityZertumEntity;
+import common.zeroquest.entity.tileentity.TileEntityFoodBowl;
 import common.zeroquest.entity.tileentity.TileEntityNileWorkbench;
+import common.zeroquest.inventory.ContainerFoodBowl;
 import common.zeroquest.inventory.ContainerNileWorkbench;
 import common.zeroquest.inventory.ContainerPack;
 
@@ -23,6 +28,8 @@ public class CommonProxy implements IGuiHandler{
 	
 	public static final int NileTable = 0;
 	public static final int PetPack = 1;
+	public static final int PetInfo = 2;
+	public static final int FoodBowl = 3;
 
 
 	@Override
@@ -44,6 +51,15 @@ public class CommonProxy implements IGuiHandler{
             EntityCustomTameable entity = (EntityCustomTameable)target;
 			ContainerPack packContainer = new ContainerPack(player.inventory, entity);
 			return packContainer;
+		}
+		else if(ID == FoodBowl) {
+			TileEntity target = world.getTileEntity(new BlockPos(x, y, z));
+            if(!(target instanceof TileEntityFoodBowl)) {
+            	return null;
+            }
+            TileEntityFoodBowl foodbowl = (TileEntityFoodBowl)target;
+            ContainerFoodBowl bowlContainer = new ContainerFoodBowl(player.inventory, foodbowl);
+			return bowlContainer;
 		}
 		return null;
 	}
@@ -68,6 +84,24 @@ public class CommonProxy implements IGuiHandler{
 		           EntityCustomTameable dog = (EntityCustomTameable)target;
 					GuiPack packGui = new GuiPack(player.inventory, dog);
 					return packGui;
+		}
+		else if(ID == PetInfo) {
+			Entity target = player.worldObj.getEntityByID(x);
+           if(!(target instanceof EntityZertumEntity)) {
+           	return null;
+           }
+           EntityZertumEntity dog = (EntityZertumEntity)target;
+           GuiDogInfo petInfoGui = new GuiDogInfo(dog, player);
+			return petInfoGui;
+}
+		else if(ID == FoodBowl) {
+			TileEntity target = world.getTileEntity(new BlockPos(x, y, z));
+			if(!(target instanceof TileEntityFoodBowl)) 
+				return null;
+
+			TileEntityFoodBowl foodBowl = (TileEntityFoodBowl)target;
+			GuiFoodBowl foodBowlGui = new GuiFoodBowl(player.inventory, foodBowl);
+			return foodBowlGui;
 		}
 		return null;
 	}
@@ -102,4 +136,6 @@ public class CommonProxy implements IGuiHandler{
 	public EntityPlayer getClientPlayer() {return null;}
 	
 	public void registerMoreThings() {}
+	
+	public void spawnCrit(World world, Entity entity) {}
 }

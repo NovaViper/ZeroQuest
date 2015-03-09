@@ -27,8 +27,10 @@ import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.passive.EntitySheep;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
+import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.EnumDyeColor;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
@@ -49,8 +51,12 @@ import com.google.common.base.Predicate;
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
+import common.zeroquest.api.interfaces.IDogTreat;
+import common.zeroquest.api.interfaces.IDogTreat.EnumFeedBack;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.ai.EntityCustomAIBeg;
+import common.zeroquest.entity.util.TalentHelper;
+import common.zeroquest.entity.util.ModeUtil.EnumMode;
 import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
@@ -93,10 +99,14 @@ public class EntityDarkZertum extends EntityZertumEntity
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealth);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamage);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speed);
-
+        this.updateEntityAttributes();
+    }
+    
+    @Override
+    public void updateEntityAttributes() {
         if (this.isTamed())
         {
-            this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthTamed);
+            this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthTamed + this.effectiveLevel());
             this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageTamed);
         }
         else if (this.isChild())
@@ -105,6 +115,7 @@ public class EntityDarkZertum extends EntityZertumEntity
             this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageBaby);
         }
     }
+    
     /**
      * Returns the item ID for the item the mob drops on death.
      */
@@ -176,51 +187,78 @@ public class EntityDarkZertum extends EntityZertumEntity
      * Called when a player interacts with a mob. e.g. gets milk from a cow, gets into the saddle on a pig.
      */
     @Override
-    public boolean interact(EntityPlayer par1EntityPlayer)
-    {
-        ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
+    public boolean interact(EntityPlayer player) {
+        ItemStack stack = player.inventory.getCurrentItem();
 
-        if (this.isTamed())
-        {
-            if (itemstack != null)
-            {
-                if (itemstack.getItem() instanceof ItemFood)
-                {
-                    ItemFood itemfood = null;
-                    if(getHealthRelative() < 1)
-                    {
-                    	itemfood = (ItemFood) ItemUtils.consumeEquipped(par1EntityPlayer, Items.fish,
-                            Items.porkchop, Items.beef, Items.chicken, Items.rabbit, Items.mutton, Items.cooked_porkchop, Items.cooked_beef,
-                            Items.cooked_chicken, Items.cooked_fish, Items.cooked_rabbit, Items.cooked_mutton, ModItems.jakanMeatRaw, ModItems.jakanMeatCooked, 
-                            ModItems.zertumMeatRaw, ModItems.zertumMeatCooked, ModItems.kurrSeeds);
-                        if (itemfood != null) {
-                        	float volume = getSoundVolume() * 1.0f;
-                        	float pitch =  getPitch();
-                        	worldObj.playSoundAtEntity(this, Sound.Chew, volume, pitch);
-                            this.heal((float)itemfood.getHealAmount(itemstack));
-                        }
-                        return true;
-                    }
+        if(TalentHelper.interactWithPlayer(this, player))
+        	return true;
+        
+        if (this.isTamed()) {
+            if (stack != null) {
+            	int foodValue = this.foodValue(stack);
+            	
+            	if(foodValue != 0 && this.getDogHunger() < 120 && this.canInteract(player)) {
+            		 if(!player.capabilities.isCreativeMode && --stack.stackSize <= 0)
+                         player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
+                 	float volume = getSoundVolume() * 1.0f;
+                 	float pitch =  getPitch();
+                 	worldObj.playSoundAtEntity(this, Sound.Chew, volume, pitch);
+                    this.setDogHunger(this.getDogHunger() + foodValue);
+                    return true;
                 }
-                else if(itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer)) //TODO
+            	else if(stack.getItem() == Items.bone && this.canInteract(player)) {
+            		if (isServer()) {
+                        if(this.ridingEntity != null)
+                        	this.mountEntity(null);
+                        else
+                         	this.mountEntity(player);
+                    }
+                    return true;
+                }
+            	else if(stack.getItem() == Item.getItemFromBlock(Blocks.planks) && this.canInteract(player)) {
+            		player.openGui(ZeroQuest.instance, CommonProxy.PetInfo, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+                 	return true;
+                }
+                else if(stack.getItem() instanceof IDogTreat && this.canInteract(player)) {
+                 	IDogTreat treat = (IDogTreat)stack.getItem();
+                 	EnumFeedBack type = treat.canGiveToDog(player, this, this.levels.getLevel());
+                 	treat.giveTreat(type, player, this);
+                 	return true;
+                }
+                else if(stack.getItem() == Items.shears && this.isOwner(player)) {
+                	if(!this.worldObj.isRemote) {
+                		this.setTamed(false);
+                	    this.navigator.clearPathEntity();
+                        this.setSitting(false);
+                        this.setHealth(this.getMaxHealth());
+                        this.talents.resetTalents();
+                        this.setOwnerId("");
+                        this.setDogName("");
+                        this.setWillObeyOthers(false);
+                        this.mode.setMode(EnumMode.DOCILE);
+                     }
+
+                	return true;
+                }
+                else if(stack.getItem() == Items.stick && canInteract(player)) //TODO
                 {
                 	if(isServer()){
-                		par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+                		player.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
                 		this.worldObj.playSoundEffect(this.posX, this.posY + 0.5D, this.posZ, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
                 		return true;
                 	}
                 }
-                else if (itemstack.getItem() == Items.dye)
+                else if (stack.getItem() == Items.dye)
                 {
-                    EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(itemstack.getMetadata());
+                    EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(stack.getMetadata());
 
                     if (enumdyecolor != this.getCollarColor())
                     {
                         this.setCollarColor(enumdyecolor);
 
-                        if (!par1EntityPlayer.capabilities.isCreativeMode && --itemstack.stackSize <= 0)
+                        if (!player.capabilities.isCreativeMode && --stack.stackSize <= 0)
                         {
-                        	par1EntityPlayer.inventory.setInventorySlotContents(par1EntityPlayer.inventory.currentItem, (ItemStack)null);
+                        	player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
                         }
 
                         return true;
@@ -228,7 +266,7 @@ public class EntityDarkZertum extends EntityZertumEntity
                 }
             }
 
-            if (canInteract(par1EntityPlayer) && isServer() && !this.isBreedingItem(itemstack))
+            if (canInteract(player) && isServer() && !this.isBreedingItem(stack))
             {
             	this.aiSit.setSitting(!this.isSitting());
                 this.isJumping = false;
@@ -236,16 +274,16 @@ public class EntityDarkZertum extends EntityZertumEntity
                 this.setAttackTarget((EntityLivingBase)null);
             }
         }
-        else if (ItemUtils.consumeEquipped(par1EntityPlayer, ModItems.darkBone) && !this.isAngry())
+        else if (ItemUtils.consumeEquipped(player, ModItems.darkBone) && !this.isAngry())
         {
             if (isServer())
             {
-                tamedFor(par1EntityPlayer, rand.nextInt(3) == 0);
-            	par1EntityPlayer.triggerAchievement(ModAchievements.ZertTame);
+                tamedFor(player, rand.nextInt(3) == 0);
+            	player.triggerAchievement(ModAchievements.ZertTame);
             }
             return true;
         }
-        return super.interact(par1EntityPlayer);
+        return super.interact(player);
     }
 
     /**

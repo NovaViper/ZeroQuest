@@ -24,6 +24,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import common.zeroquest.command.CommandZeroQuest;
 import common.zeroquest.core.handlers.ConfigHandler;
+import common.zeroquest.core.handlers.ConnectionHandler;
 import common.zeroquest.core.handlers.FuelHandler;
 import common.zeroquest.core.helper.LogHelper;
 import common.zeroquest.core.proxy.CommonProxy;
@@ -35,6 +36,7 @@ import common.zeroquest.events.FOVEvent;
 import common.zeroquest.events.LivingEvents;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.OreDic;
+import common.zeroquest.network.NetworkManager;
 import common.zeroquest.world.WorldProviderDarkax;
 import common.zeroquest.world.WorldProviderNillax;
 import common.zeroquest.world.gen.WorldGenZQuest;
@@ -47,6 +49,7 @@ public class ZeroQuest
 	
 	@SidedProxy(clientSide = Constants.clientProxy, serverSide = Constants.serverProxy)
 	public static CommonProxy proxy;
+	public static NetworkManager networkManager;
 	
 	//Put sounds from Sound in sounds.json //TODO
 	
@@ -62,7 +65,7 @@ public class ZeroQuest
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event){
-        ConfigHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + Constants.channel + File.separator + Constants.modid.toLowerCase() + ".cfg"));
+        ConfigHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + Constants.channel.toLowerCase() + File.separator + Constants.modid.toLowerCase() + ".cfg"));
         FMLCommonHandler.instance().bus().register(new ConfigEvent());
    		
         FMLCommonHandler.instance().bus().register(new PlayerEvents(Constants.version, "ZeroQuest", false));
@@ -80,7 +83,8 @@ public class ZeroQuest
 	
 	@EventHandler
     public void load(FMLInitializationEvent event)
-	{			
+	{
+		networkManager = new NetworkManager();
 		LogHelper.info("-----CONTENT LOAD INITATING-----");
     	nileEssence = EnumHelper.addToolMaterial("NileEssence", 4, 4000, 20.0F, 4.0F, 30);
     	
@@ -91,6 +95,7 @@ public class ZeroQuest
     		ModBlocks.loadRenderers();
     		ModItems.loadRenderers();
     	}
+    	
     	MinecraftForge.EVENT_BUS.register(new FOVEvent());
     	MinecraftForge.EVENT_BUS.register(new LivingEvents()); //TODO
        	ZeroQuestCrafting.loadRecipes();
@@ -125,6 +130,7 @@ public class ZeroQuest
     		OreDic.loadDarkOre();
            	registerProviderType(DarkaxID, WorldProviderDarkax.class, false);
             registerDimension(DarkaxID, DarkaxID);
+        	ModEntities.loadDarkSpawns();
             LogHelper.info("Dark Elements Loaded Successfully!");
     	}else{
     		LogHelper.warn("Dark Elemental Load is not ENABLED! Change configurations to enable!");
@@ -132,9 +138,6 @@ public class ZeroQuest
 
     	}
     	ModEntities.loadSpawns();
-    	if(Constants.DEF_DARKLOAD == true){
-        	ModEntities.loadDarkSpawns();
-    	}
     	LogHelper.info("Loading Crucial Stuff...");
        	proxy.registerRenderThings();
        	proxy.registerChestItems();
@@ -146,6 +149,10 @@ public class ZeroQuest
        	registerProviderType(NillaxID, WorldProviderNillax.class, false);
        	registerDimension(NillaxID, NillaxID);
     	LogHelper.info("Dimensions Loaded Successfully!");
+    	
+    	LogHelper.info("Logging the Network Stuff");
+		FMLCommonHandler.instance().bus().register(new ConnectionHandler());
+    	LogHelper.info("Network Stuff Loaded Successfully");		
         LogHelper.info("-----CONTENT LOAD FINSHED-----");
 	}
 	
@@ -153,7 +160,8 @@ public class ZeroQuest
 	public void PostInt(FMLPostInitializationEvent event)
 	{
     	LogHelper.info("-----POST-CONTENT LOAD INITATING-----");
-        LogHelper.info("Nothing to be loaded as of now!");    		
+    	ModBlocks.loadDogBedTypes();
+    	ModTalents.loadTalents(); 		
         LogHelper.info("-----POST-CONTENT LOAD FINSHED-----");
     	
 	}

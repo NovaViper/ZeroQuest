@@ -129,8 +129,16 @@ v1.4.0 - Fixes and New Stuff!
 #^The author's name has changed from NViper21/QueenViper21 to NovaViper! See details on http://zeroquest.wikia.com/wiki/User_blog:NovaViper/Switching_Names_on_Websites^
 ~Fixed a simple, but possibly problematic error when registering the Nillax and Darkax Stone
 
-v1.5.0 - Zertums becoming smarter!
+v1.5.0 - Zertums becoming smarter! Doggy Talent Implementations!
+^Doggy Talents Features Now Avaiable! (Credit goes to ProPercivalalb, author of Doggy Talents for creating these!)
+    +Added Talents
+    +Added Dog Bed
+    +Added Food Bowl
+    +Added Command Seal
+    *Zertums can now fetch toys again!
+    *Zertums can now be ridden
 #Made Riggators stronger
 #Metal Zertums will now attack Zombies and Skeletons instead of Wolves when not tamed
+*Jakans and Kortors can now jump when riding on them
 ~Fixed Wither skulls aren't spawning when the Wither attacks
 ~Fixed crashing when loading achievements WITHOUT Dark Load enabled
