@@ -33,9 +33,7 @@ public class FireZertum extends ITalent {
 	
 	@Override
 	public boolean setFire(EntityZertumEntity dog, int amount) { 
-		if(dog instanceof EntityRedZertum)
-			return dog.talents.getLevel(this) != 5;
-		return false; 
+			return !(dog instanceof EntityRedZertum);
 	}
 	
 	@Override

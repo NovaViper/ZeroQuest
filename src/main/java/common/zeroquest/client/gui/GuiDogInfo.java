@@ -158,7 +158,7 @@ public class GuiDogInfo extends GuiScreen {
 	    			list.add(EnumChatFormatting.ITALIC + "Next Page");
 	    		}
 	    		else if(button.id == -6) {
-    				String str = StatCollector.translateToLocal("doggui.modeinfo." + button.displayString.toLowerCase());
+    				String str = StatCollector.translateToLocal("modeinfo." + button.displayString.toLowerCase());
     				list.addAll(splitInto(str, 150, this.mc.fontRendererObj));
     			}
 	    		

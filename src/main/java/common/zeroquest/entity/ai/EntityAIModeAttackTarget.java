@@ -48,7 +48,7 @@ public class EntityAIModeAttackTarget extends EntityAITarget {
 	
 	           	 	for (int count = 0; count < list.size(); count++) {
 	           	 		Entity entity1 = (Entity)list.get(count);
-	           	 		if (!(entity1 instanceof EntityMob)) {
+	           	 		if ((entity1 instanceof EntityMob)) {
 	           	 			continue;
 	           	 		}
 	           	 		this.entityToAttack = (EntityLivingBase)entity1;

@@ -77,7 +77,7 @@ public class EntityMetalZertum extends EntityZertumEntity
         this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealth);
         this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamage);
         this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speed);
-        this.getAttributeMap().registerAttribute(blastResist).setBaseValue(this.talents.getLevel("blastresist"));
+        this.getAttributeMap().registerAttribute(blastResist).setBaseValue(0.1D);
         this.updateEntityAttributes();
     }
     
@@ -87,6 +87,8 @@ public class EntityMetalZertum extends EntityZertumEntity
         {
             this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthTamed + this.effectiveLevel());
             this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageTamed);
+            this.getEntityAttribute(blastResist).setBaseValue((double)this.talents.getLevel("blastresist"));
+            //System.out.println("Blast Reistance Level: " + this.getEntityAttribute(blastResist).getBaseValue());
         }
         else if (this.isChild())
         {

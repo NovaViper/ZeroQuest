@@ -26,17 +26,20 @@ gui.config.property.GrassStep=Grass Footprints
 gui.config.property.GrassStep.tooltip=Toggles the grass footprints of Foris Zertums
 gui.config.property.Howl=Howl
 gui.config.property.Howl.tooltip=Toggles the howling function on Zertums
-gui.config.property.isHunderOn=Hunger Toggle
-doggui.modeinfo.wandering=In this mode, your Zertum so stay near it's bowl and wait for your next command. To set you dog's bowl simply bring your dog withing 1 block of one
-doggui.modeinfo.tactical=In this mode, your Zertum will follow you but will not attack anything unless you use the command beam.
-doggui.modeinfo.aggresive=In this mode, your Zertum will follow you and attack anything that attacks you or that you attack.
-doggui.modeinfo.berserker=In this mode, your Zertum will follow you and if any mob draws near, it will attack it without warning.
-doggui.modeinfo.docile=In this mode, your Zertum will follow you but not attack anything. It is ready for you to throw the bone.
+gui.config.property.HungerDecay=Hunger Decay
+gui.config.property.HungerDecay.tooltip=Toggles the hunger decay on Zertums
+gui.config.property.StartingItems=Starting Items
+gui.config.property.StartingItems.tooltip=When enabled, you will spawn with a Command Seal.
+modeinfo.wandering=In this mode, your Zertum so stay near it's bowl and wait for your next command. To set you Zertum's bowl, simply bring your dog within 1 block of one
+modeinfo.tactical=In this mode, your Zertum will follow you but will not attack anything unless you use the command beam.
+modeinfo.aggresive=In this mode, your Zertum will follow you and attack anything that attacks you or that you attack.
+modeinfo.berserker=In this mode, your Zertum will follow you and if any mob draws near, it will attack it without warning.
+modeinfo.docile=In this mode, your Zertum will follow you but not attack anything. It is ready for you to throw the bone.
 
 gui.talentname.blastresist=Blast Resistance
-gui.talentinfo.blastresist=Allows your Metal Zertum to take less damage from any explosions. The higher the level, the more resistant your Metal Zertum is.
+gui.talentinfo.blastresist=[§cMETAL ZERTUMS ONLY] Allows your Metal Zertum to take less damage from any explosions. The higher the level, the more resistant your Metal Zertum is.
 gui.talentname.bodymuncher=Body Muncher
-gui.talentinfo.bodymuncher=Increases the NP your Zertum gets from food items by 10% per level. In addition, level 3 lets your dog eat rotten flesh, and level 5 lets your dog eat fish.
+gui.talentinfo.bodymuncher=Increases the NP your Zertum gets from food items by 10% per level. In addition, level 3 lets your dog eat rotten flesh, and level 5 lets your dog eat fish. Foris Zertums will be able to eat fruit at level 1
 gui.talentname.creeperspotter=Creeper Spotter
 gui.talentinfo.creeperspotter=A Zertum with this skill can sense creepers in the area and it will growl to warn you. The range at which your dog can detect creepers increases by 6 blocks per level, and mastering this skill will make your Zertum capable of attacking creepers and reset the creeper's detonation timer with each attack.
 gui.talentname.criticalclaw=Critical Claw
@@ -44,13 +47,13 @@ gui.talentinfo.criticalclaw=Improves critical hit rate, 1/2 a heart for every le
 gui.talentname.dasher=Dasher
 gui.talentinfo.dasher=Increases your Zertum's movement speed while chasing a target and while being ridden. Every level grants a 12% increase, and mastering it grants an additional 15% increase
 gui.talentname.fire=Fire Zertum
-gui.talentinfo.fire=Allows your Red Zertum set things on fire while attacking. The higher the level, the longer the fire lasts. Mastering the skill grants your Red Zertum immunity to fire
+gui.talentinfo.fire=[§cRED ZERTUMS ONLY] Allows your Red Zertum set things on fire while attacking. The higher the level, the longer the fire lasts. Mastering the skill grants your Red Zertum immunity to fire
 gui.talentname.fishing=Fishing
 gui.talentinfo.fishing=Whenever your Zertum enters the water, it may catch a fish which it will give to you when it shakes itself dry. The chance of catching a fish increases with level, and any points in Fire Zertum may cause the fish to be pre-cooked. Mastering this skill lets your Zertum breathe underwater.
 gui.talentname.guardianangel=Guardian Angel
 gui.talentinfo.guardianangel=Increases the chance that your Zertum will completely block a physical attack.
 gui.talentname.hunter=Hunter
-gui.talentinfo.hunter=Every level grants a 10% chance to make anything your Zertums kills drop its loot 3 times. Level 5 grants an extra 10%, bringing it up to a 60% chance
+gui.talentinfo.hunter=Every level grants a 10% chance to make anything your Zertums kills drop its loot 2 times. Level 5 grants an extra 10%, bringing it up to a 60% chance
 gui.talentname.lifegiver=Life Giver
 gui.talentinfo.lifegiver=If you're at critical health and a Zertum with this skill is following you, it will attempt to heal you half a heart per level in this skill, at the cost of 100 NP. Mastering this skill reduces the cost to 80 NP
 gui.talentname.lightfall=Light Fall
@@ -66,6 +69,11 @@ gui.talentinfo.silverslayer=Inflicts 1 point of damage on all nearby silverfish 
 gui.talentname.
 gui.talentinfo.
 
+bit.levelup=Level up!
+bit.tooyoung=This dog's a bit too young to be learning skills just yet.
+bit.leveltoohigh=Your Zertum is too high level to gain anything from these bits.
+bit.toomuch=Your Zertum can't possibly handle the power contained in these bits.
+bit.ultimatelevel=CONGRATULATIONS! Your Zertums has reached the Alpha Level!
 
 tile.nileBlueFlower.name=Nile Blue Flower
 tile.nileBlackFlower.name=Nile Black Flower
@@ -129,6 +137,10 @@ item.vitoidFruit.name=Vitoid Fruit
 item.kurrSeeds.name=Kurr Seeds
 item.acidBucket.name=Acid Bucket
 item.niliBucket.name=Nili Bucket
+item.microBit.name=Micro Bit
+item.megaBit.name=Mega Bit
+item.omegaBit.name=Omega Bit
+item.alphaBit.name=Alpha Bit
 
 item.FPoisonball.name=Flaming Poisonball
 
@@ -140,7 +152,7 @@ command.heel=Stay Close!
 zeroquest.key.come=Standup
 zeroquest.key.stay=Stay
 zeroquest.key.ok=Ok
-zeroquest.key.heel=Heel
+zeroquest.key.heel=Standby
 
 commands.zeroquest.notameable=There are no nile creatures nearby!
 commands.zeroquest.canttame=Consoles cannot tame these creatures!

@@ -67,8 +67,7 @@ public class ZeroQuest
     public void preInit(FMLPreInitializationEvent event){
         ConfigHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + Constants.channel.toLowerCase() + File.separator + Constants.modid.toLowerCase() + ".cfg"));
         FMLCommonHandler.instance().bus().register(new ConfigEvent());
-   		
-        FMLCommonHandler.instance().bus().register(new PlayerEvents(Constants.version, "ZeroQuest", false));
+        FMLCommonHandler.instance().bus().register(new PlayerEvents(Constants.version, "ZeroQuest", Constants.isBeta));
     	LogHelper.info("-----PRE-CONTENT LOAD INITATING-----");
     	LogHelper.info("Loading Main Stuff...");
         this.ZeroTab = new ZeroQuestTab(CreativeTabs.getNextID());

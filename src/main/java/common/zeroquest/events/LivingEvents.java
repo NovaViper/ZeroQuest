@@ -12,7 +12,7 @@ public class LivingEvents {
 		if(event.entity instanceof EntityMetalZertum){	
 			if(event.source.isExplosion()){
 				if(EntityMetalZertum.blastResist != null){
-				event.ammount = (float)(event.ammount/((EntityLivingBase)event.entity).getEntityAttribute(EntityMetalZertum.blastResist).getBaseValue());
+					event.ammount = (float)(event.ammount / ((EntityLivingBase)event.entity).getEntityAttribute(EntityMetalZertum.blastResist).getBaseValue());
 				}
 			}
 		}

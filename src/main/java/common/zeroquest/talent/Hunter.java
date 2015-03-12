@@ -20,7 +20,7 @@ public class Hunter extends ITalent {
 
 			if(dog.getRNG().nextInt(10) < level + (level == 5 ? 1 : 0)) {
 				for(EntityItem entityItem : event.drops)
-					event.entityLiving.entityDropItem(entityItem.getEntityItem().copy().copy(), 0.0F);
+					event.entityLiving.entityDropItem(entityItem.getEntityItem().copy(), 0.0F);
 			}
 				
 		}

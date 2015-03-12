@@ -137,8 +137,11 @@ v1.5.0 - Zertums becoming smarter! Doggy Talent Implementations!
     +Added Command Seal
     *Zertums can now fetch toys again!
     *Zertums can now be ridden
++Added Wild parameter for Purge command
++Added another aliases for the Zero Quest command
 #Made Riggators stronger
 #Metal Zertums will now attack Zombies and Skeletons instead of Wolves when not tamed
+#Modified Version Checker
 *Jakans and Kortors can now jump when riding on them
 ~Fixed Wither skulls aren't spawning when the Wither attacks
 ~Fixed crashing when loading achievements WITHOUT Dark Load enabled

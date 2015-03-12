@@ -211,7 +211,6 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
         tagCompound.setByte("CollarColor", (byte)this.getCollarColor().getDyeDamage());
         
         tagCompound.setString("version", Constants.version);
-        
         tagCompound.setString("dogName", this.getDogName());
         tagCompound.setInteger("dogHunger", this.getDogHunger());
         tagCompound.setBoolean("willObey", this.willObeyOthers());

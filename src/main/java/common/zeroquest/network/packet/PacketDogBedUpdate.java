@@ -6,10 +6,10 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
-
 import common.zeroquest.core.helper.LogHelper;
 import common.zeroquest.entity.tileentity.TileEntityDogBed;
 import common.zeroquest.network.IPacket;
+
 /**
  * @author ProPercivalalb
  */

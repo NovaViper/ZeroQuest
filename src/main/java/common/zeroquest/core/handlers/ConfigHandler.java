@@ -74,6 +74,18 @@ public class ConfigHandler {
    		   prop.setLanguageKey("gui.config.property.Howl");
    		   Constants.DEF_HOWL =  prop.getBoolean(Constants.DEF_HOWL);
            propOrder.add(prop.getName());
+           
+	   	   prop = config.get(CATEGORY_MISC, "HungerDecay", true);
+	   	   prop.comment = "Toggles the hunger decay on Zertums";
+   		   prop.setLanguageKey("gui.config.property.HungerDecay");
+   		   Constants.IS_HUNGER_ON =  prop.getBoolean(Constants.IS_HUNGER_ON);
+           propOrder.add(prop.getName());
+           
+	   	   prop = config.get(CATEGORY_MISC, "StartingItems", true);
+	   	   prop.comment = "When enabled, you will spawn with a Command Seal";
+   		   prop.setLanguageKey("gui.config.property.StartingItems");
+   		   Constants.STARTING_ITEMS =  prop.getBoolean(Constants.STARTING_ITEMS);
+           propOrder.add(prop.getName());
    		   /*=================================Terrain Configurations==========================================*/
 
 

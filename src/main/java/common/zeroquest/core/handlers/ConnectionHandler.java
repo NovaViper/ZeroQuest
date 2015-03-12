@@ -22,7 +22,6 @@ public class ConnectionHandler {
 		if (Constants.STARTING_ITEMS && !entityData.getBoolean("gotStartingItems")) {
             
             entityData.setBoolean("gotStartingItems", true);
-            //player.inventory.addItemStackToInventory(book);
             player.inventory.addItemStackToInventory(new ItemStack(ModItems.commandSeal));
         }
 	}

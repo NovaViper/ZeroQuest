@@ -31,10 +31,10 @@ import net.minecraftforge.common.property.IExtendedBlockState;
 import net.minecraftforge.common.property.IUnlistedProperty;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import common.zeroquest.api.registry.DogBedRegistry;
 import common.zeroquest.entity.EntityZertumEntity;
 import common.zeroquest.entity.tileentity.TileEntityDogBed;
-import common.zeroquest.entity.tileentity.TileEntityFoodBowl;
 
 /**
  * @author ProPercivalalb
@@ -57,26 +57,6 @@ public class BlockDogBed extends BlockContainer {
 	public TileEntity createNewTileEntity(World world, int meta) {
 		return new TileEntityDogBed();
 	}
-    
-    @Override
-	public int getRenderType(){ //RenderBlocks for Render type//
-		return -1;		
-	}
-    
-    @Override
-	public boolean isOpaqueCube(){
-		return false;		
-	}
-    
-	@Override
-	public boolean isFullBlock() {
-		return false;
-	}
-		
-	@Override
-	public boolean isFullCube() {
-	    return false;
-	}
 	
 	@Override
 	public IBlockState onBlockPlaced(World worldIn, BlockPos pos, EnumFacing facing, float hitX, float hitY, float hitZ, int meta, EntityLivingBase placer) {
@@ -87,8 +67,8 @@ public class BlockDogBed extends BlockContainer {
     public void onBlockPlacedBy(World worldIn, BlockPos pos, IBlockState state, EntityLivingBase placer, ItemStack stack) {
         worldIn.setBlockState(pos, state.withProperty(FACING, placer.getHorizontalFacing().getOpposite()), 2);
 	    
-        if(stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey("doggytalents")) {
-	    	NBTTagCompound tag = stack.getTagCompound().getCompoundTag("doggytalents");
+        if(stack != null && stack.hasTagCompound() && stack.getTagCompound().hasKey("zeroquest")) {
+	    	NBTTagCompound tag = stack.getTagCompound().getCompoundTag("zeroquest");
 	    	
 	    	String casingId = tag.getString("casingId");
 	    	if(DogBedRegistry.CASINGS.isValidId(casingId)) 
@@ -205,6 +185,26 @@ public class BlockDogBed extends BlockContainer {
 			super.addCollisionBoxesToList(worldIn, pos, state, mask, list, collidingEntity);
 		}
     }
+	
+	@Override
+	public boolean isOpaqueCube() {
+		return false;
+	}
+		
+	@Override
+	public boolean isFullBlock() {
+		return false;
+	}
+		
+	@Override
+	public boolean isFullCube() {
+	    return false;
+	}
+		
+	@Override
+	public int getRenderType() {
+		return 3;
+	}
 	
 	@Override
 	public List<ItemStack> getDrops(IBlockAccess world, BlockPos pos, IBlockState state, int fortune) {

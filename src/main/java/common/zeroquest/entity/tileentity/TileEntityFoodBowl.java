@@ -2,8 +2,6 @@ package common.zeroquest.entity.tileentity;
 
 import java.util.List;
 
-import common.zeroquest.core.helper.ChatHelper;
-import common.zeroquest.entity.EntityZertumEntity;
 import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.IInventory;
@@ -20,6 +18,8 @@ import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 import net.minecraft.world.World;
 
+import common.zeroquest.entity.EntityZertumEntity;
+
 /**
  * @author ProPercivalalb
  */
@@ -30,111 +30,8 @@ public class TileEntityFoodBowl extends TileEntity implements IUpdatePlayerListB
     private ItemStack[] bowlContents;
 
     public TileEntityFoodBowl() {
-    	super();
         this.bowlContents = new ItemStack[5];
     }
-    
-	@Override
-	public int getSizeInventory() {
-		return bowlContents.length;
-	}
-
-	@Override
-	public ItemStack getStackInSlot(int i) {
-		return this.bowlContents[i];
-	}
-	
-	@Override
-	public IChatComponent getDisplayName() {
-		return ChatHelper.getChatComponent(getName());
-	}	
-	
-	@Override
-	public String getName() {
-		return "Food Bowl";
-	}
-
-
-	@Override
-	public boolean hasCustomName() {
-		return false;
-	}
-
-
-	@Override
-	public int getInventoryStackLimit() {
-		return 64;
-	}
-	
-    @Override
-    public ItemStack decrStackSize(int i, int j)
-    {
-        if (getStackInSlot(i) != null)
-        {
-            if (getStackInSlot(i).stackSize <= j)
-            {
-                ItemStack itemstack = getStackInSlot(i);
-                setInventorySlotContents(i, null);
-                return itemstack;
-            }
-
-            ItemStack itemstack1 = getStackInSlot(i).splitStack(j);
-
-            if (getStackInSlot(i).stackSize == 0) {
-                setInventorySlotContents(i, null);
-            }
-            else
-            {
-                this.markDirty();
-            }
-
-            return itemstack1;
-        }
-        else
-        {
-            return null;
-        }
-    }
-    
-    @Override
-    public ItemStack getStackInSlotOnClosing(int slot) {
-        if (bowlContents[slot] != null) {
-            ItemStack itemstack = bowlContents[slot];
-            bowlContents[slot] = null;
-            return itemstack;
-        }
-        else {
-            return null;
-        }
-    }
-
-    @Override
-    public void setInventorySlotContents(int i, ItemStack itemstack) {
-        bowlContents[i] = itemstack;
-
-        if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()) {
-            itemstack.stackSize = getInventoryStackLimit();
-        }
-
-        markDirty();
-    }
-
-    @Override
-    public boolean isUseableByPlayer(EntityPlayer player) {
-    	return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
-    }
-
-	@Override
-	public void openInventory(EntityPlayer playerIn) {}
-
-
-	@Override
-	public void closeInventory(EntityPlayer playerIn) {}
-
-	@Override
-	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-		return true;
-	}
     
     @Override
     public void readFromNBT(NBTTagCompound tag) {
@@ -151,23 +48,22 @@ public class TileEntityFoodBowl extends TileEntity implements IUpdatePlayerListB
             }
         }
     }
-	
+
     @Override
     public void writeToNBT(NBTTagCompound tag) {
-    	
         super.writeToNBT(tag);
-        NBTTagList tagList = new NBTTagList();
+        NBTTagList nbttaglist = new NBTTagList();
 
-        for (int currentIndex = 0; currentIndex < bowlContents.length; ++currentIndex) {
-            if (bowlContents[currentIndex] != null) {
-                NBTTagCompound tagCompound = new NBTTagCompound();
-                tagCompound.setByte("Slot", (byte) currentIndex);
-                bowlContents[currentIndex].writeToNBT(tagCompound);
-                tagList.appendTag(tagCompound);
+        for (int i = 0; i < this.bowlContents.length; i++) {
+            if (this.bowlContents[i] != null) {
+                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+                nbttagcompound1.setByte("Slot", (byte)i);
+                this.bowlContents[i].writeToNBT(nbttagcompound1);
+                nbttaglist.appendTag(nbttagcompound1);
             }
         }
-        
-        tag.setTag("Items", tagList);
+
+        tag.setTag("Items", nbttaglist);
     }
 
     @Override
@@ -182,6 +78,16 @@ public class TileEntityFoodBowl extends TileEntity implements IUpdatePlayerListB
                     this.feedDog(entitydtdoggy1, this.getFirstDogFoodStack(entitydtdoggy1), 1);
             }
         }
+    }
+
+    @Override
+    public int getSizeInventory() {
+        return 5;
+    }
+
+    @Override
+    public ItemStack getStackInSlot(int i) {
+        return this.bowlContents[i];
     }
 
     private int findSlotToStoreItemStack(ItemStack itemstack)
@@ -298,6 +204,63 @@ public class TileEntityFoodBowl extends TileEntity implements IUpdatePlayerListB
         }
     }
 
+    @Override
+    public ItemStack decrStackSize(int i, int j)
+    {
+        if (getStackInSlot(i) != null)
+        {
+            if (getStackInSlot(i).stackSize <= j)
+            {
+                ItemStack itemstack = getStackInSlot(i);
+                setInventorySlotContents(i, null);
+                return itemstack;
+            }
+
+            ItemStack itemstack1 = getStackInSlot(i).splitStack(j);
+
+            if (getStackInSlot(i).stackSize == 0) {
+                setInventorySlotContents(i, null);
+            }
+            else
+            {
+                this.markDirty();
+            }
+
+            return itemstack1;
+        }
+        else
+        {
+            return null;
+        }
+    }
+
+    @Override
+    public void setInventorySlotContents(int i, ItemStack itemstack) {
+        bowlContents[i] = itemstack;
+
+        if (itemstack != null && itemstack.stackSize > getInventoryStackLimit()) {
+            itemstack.stackSize = getInventoryStackLimit();
+        }
+
+        markDirty();
+    }
+
+    @Override
+    public int getInventoryStackLimit() {
+        return 64;
+    }
+
+    @Override
+    public boolean isUseableByPlayer(EntityPlayer player) {
+    	return this.worldObj.getTileEntity(this.pos) != this ? false : player.getDistanceSq((double)this.pos.getX() + 0.5D, (double)this.pos.getY() + 0.5D, (double)this.pos.getZ() + 0.5D) <= 64.0D;
+    }
+
+	@Override
+	public void openInventory(EntityPlayer player) {}
+
+	@Override
+	public void closeInventory(EntityPlayer player) {}
+
     private boolean ContainsFood()
     {
         for (int i = 0; i < 5; i++)
@@ -317,6 +280,38 @@ public class TileEntityFoodBowl extends TileEntity implements IUpdatePlayerListB
 
         return false;
     }
+
+    @Override
+    public ItemStack getStackInSlotOnClosing(int slot) {
+        if (bowlContents[slot] != null) {
+            ItemStack itemstack = bowlContents[slot];
+            bowlContents[slot] = null;
+            return itemstack;
+        }
+        else {
+            return null;
+        }
+    }
+
+    @Override
+	public String getName() {
+		return "Food Bowl";
+	}
+
+	@Override
+	public boolean hasCustomName() {
+		return false;
+	}
+
+	@Override
+	public IChatComponent getDisplayName() {
+		return (IChatComponent)(this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]));
+	}
+
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		return true;
+	}
 
 	@Override
 	public int getField(int id) {

@@ -14,9 +14,11 @@ import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+import common.zeroquest.ModBlocks;
 import common.zeroquest.ModItems;
 import common.zeroquest.client.particle.EntityForisDustFX;
 import common.zeroquest.client.particle.EntityIceDustFX;
+import common.zeroquest.client.render.ModelHelper;
 import common.zeroquest.client.render.RenderDarkZertum;
 import common.zeroquest.client.render.RenderDestroZertum;
 import common.zeroquest.client.render.RenderFPoisonball;
@@ -55,7 +57,6 @@ import common.zeroquest.entity.EntityZertum;
 import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
 import common.zeroquest.entity.projectile.EntityGrenade;
 import common.zeroquest.entity.projectile.EntityIceball;
-import common.zeroquest.entity.tileentity.TileEntityFoodBowl;
 import common.zeroquest.entity.tileentity.TileEntityNileWorkbench;
 import common.zeroquest.entity.util.EntityDoggyBeam;
 
@@ -83,8 +84,11 @@ public class ClientProxy extends CommonProxy{
 	   	TileEntitySpecialRenderer render = new RendererNileTable();
 	   	ClientRegistry.bindTileEntitySpecialRenderer(TileEntityNileWorkbench.class, render);
 	   	
-	   	TileEntitySpecialRenderer render2 = new RendererFoodBowl();
-		ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFoodBowl.class, render2);
+	   	//TileEntitySpecialRenderer render2 = new RendererFoodBowl();
+		//ClientRegistry.bindTileEntitySpecialRenderer(TileEntityFoodBowl.class, render2);
+	   	
+		ModelHelper.registerBlock(ModBlocks.dogBed, "zero_quest:dog_bed");
+		ModelHelper.registerBlock(ModBlocks.foodBowl, "zero_quest:food_bowl");
 	}
 	
 	public void registerMoreThings(){

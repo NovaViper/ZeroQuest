@@ -1,12 +1,13 @@
 package common.zeroquest;
 
-import net.minecraft.block.Block;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelBakery;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import common.zeroquest.item.ItemAlphaBit;
+import common.zeroquest.item.ItemBit;
 import common.zeroquest.item.ItemCommandSeal;
 import common.zeroquest.item.ItemFPoisonball;
 import common.zeroquest.item.ItemNileBone;
@@ -49,13 +50,18 @@ public class ModItems {
 	public static Item vitoidFruit;
 	
 	public static Item dogTreat;
+	public static Item commandSeal;
+	public static Item toy;
+	public static Item microBit;
+    public static Item megaBit;
+    public static Item omegaBit;
+    public static Item alphaBit;
 	public static Item nileEssence;
 	public static Item nileDust;
 	public static Item nileGrain;
 	public static Item nileCoal;
 	public static Item nileSpark;
 	public static Item nileBone;
-	public static Item commandSeal;
 	
 	public static Item FPoisonball;
 	
@@ -74,7 +80,6 @@ public class ModItems {
 	public static Item kurrSeeds;
 	
 	public static Item darkSpark;
-	public static Item toy;
 	
 	public static void load() {    	
     	//Tools/Weapons//
@@ -110,7 +115,17 @@ public class ModItems {
     	register(commandSeal, "command_seal");
     	toy = new ItemToy().setUnlocalizedName("toy").setCreativeTab(ZeroQuest.ZeroTab);
     	register(toy, "toy");
-		
+    	
+    	//Bits for Talents\\
+    	microBit = new ItemBit(20).setUnlocalizedName("microBit").setCreativeTab(ZeroQuest.ZeroTab);
+    	register(microBit, "micro_bit");
+    	megaBit = new ItemBit(50).setUnlocalizedName("megaBit").setCreativeTab(ZeroQuest.ZeroTab);
+    	register(megaBit, "mega_bit");
+    	omegaBit = new ItemBit(80).setUnlocalizedName("omegaBit").setCreativeTab(ZeroQuest.ZeroTab); 
+    	register(omegaBit, "omega_bit");
+    	alphaBit = new ItemAlphaBit().setUnlocalizedName("alphaBit").setCreativeTab(ZeroQuest.ZeroTab); 
+    	register(alphaBit, "alpha_bit");
+    	
     	//Portal Sparks//
     	nileSpark = new ItemNileSpark().setUnlocalizedName("nileSpark");
     	register(nileSpark, "nile_spark");
@@ -192,6 +207,10 @@ public class ModItems {
     	registerRender(toy, 0, Constants.modid + ":" + "toy", "inventory");
     	registerRender(toy, 1, Constants.modid + ":" + "toy_wet", "inventory");
     	addVariant(toy, new String[] {Constants.modid + ":toy", Constants.modid + ":toy_wet"});
+    	registerRender(microBit, 0, Constants.modid + ":" + "micro_bit", "inventory");
+    	registerRender(megaBit, 0, Constants.modid + ":" + "mega_bit", "inventory");
+    	registerRender(omegaBit, 0, Constants.modid + ":" + "omega_bit", "inventory");
+    	registerRender(alphaBit, 0, Constants.modid + ":" + "alpha_bit", "inventory");
 	}
 	
 	public static void loadDarkRenderers(){

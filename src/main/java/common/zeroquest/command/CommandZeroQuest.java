@@ -15,6 +15,7 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.MinecraftForge;
 
 import org.apache.logging.log4j.Logger;
 
@@ -37,6 +38,7 @@ public class CommandZeroQuest extends CommandBase {
    public List getAliases()
    {
 		List list = new ArrayList<String>();
+		list.add("zeroquest");
 		list.add("zquest");
 		list.add("zero");
 		list.add("zq");
@@ -46,7 +48,7 @@ public class CommandZeroQuest extends CommandBase {
    
    @Override
    public String getCommandUsage(ICommandSender sender) {
-       return String.format("/zquest,zq,zero help,h");
+       return String.format("/zeroquest,zquest,zq,zero help,h");
    }
    
    /**
@@ -107,7 +109,7 @@ public class CommandZeroQuest extends CommandBase {
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"---------------------------------------------------"));
                player.addChatMessage(ChatHelper.getChatComponent("Zero Quest - "+EnumChatFormatting.GREEN+Constants.version));
                player.addChatMessage(ChatHelper.getChatComponent("File Type: "+EnumChatFormatting.AQUA+Constants.releaseType));
-               player.addChatMessage(ChatHelper.getChatComponent("Minecraft Version: "+EnumChatFormatting.RED+Constants.mcVersion));
+               player.addChatMessage(ChatHelper.getChatComponent("Minecraft Version: "+EnumChatFormatting.RED+MinecraftForge.MC_VERSION));
                player.addChatMessage(ChatHelper.getChatComponent("Java Version: "+EnumChatFormatting.BLUE+Constants.java));
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"---------------------------------------------------"));
            } else {
@@ -125,7 +127,7 @@ public class CommandZeroQuest extends CommandBase {
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest heal,hp, [global,g] - "+EnumChatFormatting.RESET+"Heals a tamed nile creature"));
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest help,h - "+EnumChatFormatting.RESET+"Pulls up help menu"));
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest version,v - "+EnumChatFormatting.RESET+"Displays mod version"));
-               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest purge,p <tamed,t|all,a> [global,g] - "+EnumChatFormatting.RESET+"Kills off nile creatures, Tamed parameter kills only 1 tamed nile creature (unless global parameter is added), all kills EVERY nile creature"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest purge,p <tamed,t|all,a|wild,w> [global,g] - "+EnumChatFormatting.RESET+"Kills off nile creatures, Tamed parameter kills only 1 tamed nile creature (unless global parameter is added), all kills EVERY nile creature, and wild kills only 1 nontamed nile creature (unless global parameter is added)"));
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"---------------------------------------------------"));
            
            } else {
@@ -142,10 +144,13 @@ public class CommandZeroQuest extends CommandBase {
            String parameter = params[1];
            
            if (parameter.equalsIgnoreCase("tamed") || parameter.equalsIgnoreCase("t")) {
-        	   appyModifier(sender, new PurgeModifier(false), global);
+        	   appyModifier(sender, new PurgeModifier(false, "tamed"), global);
            }
            else if (parameter.equalsIgnoreCase("all")|| parameter.equalsIgnoreCase("a")) {
-        	   appyModifier(sender, new PurgeModifier(true), true);
+        	   appyModifier(sender, new PurgeModifier(true, null), true);
+           }
+           else if (parameter.equalsIgnoreCase("wild")|| parameter.equalsIgnoreCase("w")) {
+        	   appyModifier(sender, new PurgeModifier(false, "wild"), global);
            }
        }       
        else {
@@ -265,19 +270,28 @@ public class CommandZeroQuest extends CommandBase {
    private class PurgeModifier implements EntityModifier {
 	   
 	   private boolean killAll;
+	   private String killWhat;
 	   
-	   PurgeModifier(boolean kill) {
+	   PurgeModifier(boolean kill, String type) {
     	   this.killAll = kill;
+    	   this.killWhat = type;
        }
 
        @Override
        public void modify(EntityCustomTameable entity) {
     	   if(killAll == false){
-    		   if(entity.isTamed()){
-    	   			entity.setHealth(0);
+    		   if(killWhat == "tamed"){
+    			   if(entity.isTamed()){
+    	   				entity.setHealth(0);
+    			   }
+    		   }
+    		   else if(killWhat == "wild"){
+    			   if(!entity.isTamed()){
+   	   					entity.setHealth(0);
+    			   }
     		   }
     	   }else{
-	   				entity.setHealth(0);
+	   			entity.setHealth(0);
     	   }
 	   		System.out.println("Purge Completed!");
        }

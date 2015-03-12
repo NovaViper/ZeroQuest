@@ -80,7 +80,7 @@ public class EntityRedZertum extends EntityZertumEntity
     public EntityRedZertum(World worldIn)
     {
         super(worldIn);
-        this.isImmuneToFire = true;
+        //this.isImmuneToFire = true;
         this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, false, new Predicate()
         {
             private static final String __OBFID = "CL_00002229";
