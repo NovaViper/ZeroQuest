@@ -95,7 +95,8 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     
     protected EntityAILeapAtTarget aiLeap = new EntityAILeapAtTarget(this, 0.4F);
     public EntityAIWatchClosest aiStareAtPlayer = new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F);
-    public EntityAIWatchClosest aiGlareAtCreeper = new EntityAIWatchClosest(this, EntityCreeper.class, 8.0F);    
+	int level2 = this.talents.getLevel("creeperspotter");
+    public EntityAIWatchClosest aiGlareAtCreeper = new EntityAIWatchClosest(this, EntityCreeper.class, level2 * 6);    
     public EntityAIFetchBone aiFetchBone;
     
     // data value IDs TODO
@@ -412,11 +413,11 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
         }
         
         if(Constants.DEF_HOWL == true){
-        	if (this.worldObj.isDaytime() && isServer() && !this.isChild()) //TODO
+        	if (this.worldObj.isDaytime() && isServer()) //TODO
         	{
             	wantToHowl = false;
         	}
-        	else
+        	else if(isServer() && (this.isChild() || this.isChild()))
         	{
             	wantToHowl = true;
             }
@@ -463,7 +464,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
             if (this.prevTimeWolfIsShaking >= 2.0F)
             {
             	if(this.rand.nextInt(15) < this.talents.getLevel("fishing") * 2) {
-                    if(this.rand.nextInt(15) < this.talents.getLevel("fire") * 2) {
+                    if(this.rand.nextInt(15) < this.talents.getLevel("fire") * 2 && this instanceof EntityRedZertum) {
                     	if(!this.worldObj.isRemote) {
                     		dropItem(Items.cooked_fish, 1);
                     	}
@@ -800,7 +801,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     }
     
     public int effectiveLevel() {
-        return (this.levels.getLevel()) / 4;
+        return (this.levels.getLevel()) / 2;
     }
     
     public String getDogName() {
@@ -848,7 +849,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
 	}
     
     public void setDogHunger(int par1) {
-    	this.dataWatcher.updateObject(23, MathHelper.clamp_int(par1, 0, 120));
+    	this.dataWatcher.updateObject(23, MathHelper.clamp_int(par1, 0, 100));
     }
     
     @Override

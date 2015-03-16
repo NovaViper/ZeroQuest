@@ -43,6 +43,12 @@ public class ConfigHandler {
    		   prop.setLanguageKey("gui.config.property.DarkElements").setRequiresMcRestart(true);
    		   Constants.DEF_DARKLOAD =  prop.getBoolean(Constants.DEF_DARKLOAD);
            propOrder.add(prop.getName());
+           
+	   	   prop = config.get(CATEGORY_LOAD, "StartingItems", true);
+	   	   prop.comment = "Toggles spawning in a world with a Command Seal";
+   		   prop.setLanguageKey("gui.config.property.StartingItems");
+   		   Constants.STARTING_ITEMS =  prop.getBoolean(Constants.STARTING_ITEMS);
+           propOrder.add(prop.getName());
 
    		   /*=================================Function Configurations==========================================*/
 	   	   prop = config.get(CATEGORY_FUNCTION, "Healing", false);
@@ -50,11 +56,6 @@ public class ConfigHandler {
    		   prop.setLanguageKey("gui.config.property.Healing");
    		   Constants.DEF_HEALING =  prop.getBoolean(Constants.DEF_HEALING);
            propOrder.add(prop.getName());
-           
-	   	   /*prop = config.get(CATEGORY_FUNCTION, "isHungerOn", true);
-   		   prop.setLanguageKey("gui.config.property.isHungerOn");
-   		   Constants.IS_HUNGER_ON =  prop.getBoolean(Constants.IS_HUNGER_ON);
-           propOrder.add(prop.getName());*/
            
 	   	   prop = config.get(CATEGORY_FUNCTION, "SnowStep", true);
 	   	   prop.comment = "Toggles the snow/ice footprints of Ice Zertums";
@@ -80,12 +81,7 @@ public class ConfigHandler {
    		   prop.setLanguageKey("gui.config.property.HungerDecay");
    		   Constants.IS_HUNGER_ON =  prop.getBoolean(Constants.IS_HUNGER_ON);
            propOrder.add(prop.getName());
-           
-	   	   prop = config.get(CATEGORY_MISC, "StartingItems", true);
-	   	   prop.comment = "When enabled, you will spawn with a Command Seal";
-   		   prop.setLanguageKey("gui.config.property.StartingItems");
-   		   Constants.STARTING_ITEMS =  prop.getBoolean(Constants.STARTING_ITEMS);
-           propOrder.add(prop.getName());
+          
    		   /*=================================Terrain Configurations==========================================*/
 
 

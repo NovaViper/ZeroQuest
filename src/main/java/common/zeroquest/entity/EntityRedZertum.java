@@ -153,17 +153,10 @@ public class EntityRedZertum extends EntityZertumEntity
             	if(foodValue != 0 && this.getDogHunger() < 120 && this.canInteract(player)) {
             		 if(!player.capabilities.isCreativeMode && --stack.stackSize <= 0)
                          player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack)null);
-            		
+                 	float volume = getSoundVolume() * 1.0f;
+                 	float pitch =  getPitch();
+                 	worldObj.playSoundAtEntity(this, Sound.Chew, volume, pitch);
                     this.setDogHunger(this.getDogHunger() + foodValue);
-                    return true;
-                }
-            	else if(stack.getItem() == Items.bone && this.canInteract(player)) {
-            		if (isServer()) {
-                        if(this.ridingEntity != null)
-                        	this.mountEntity(null);
-                        else
-                         	this.mountEntity(player);
-                    }
                     return true;
                 }
             	else if(stack.getItem() == Item.getItemFromBlock(Blocks.planks) && this.canInteract(player)) {
@@ -181,7 +174,7 @@ public class EntityRedZertum extends EntityZertumEntity
                 		this.setTamed(false);
                 	    this.navigator.clearPathEntity();
                         this.setSitting(false);
-                        this.setHealth(this.getMaxHealth());
+                        this.setHealth((float)maxHealth);
                         this.talents.resetTalents();
                         this.setOwnerId("");
                         this.setDogName("");

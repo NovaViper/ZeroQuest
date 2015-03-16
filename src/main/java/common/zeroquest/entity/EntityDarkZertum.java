@@ -22,6 +22,7 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityCreeper;
 import net.minecraft.entity.monster.EntitySkeleton;
+import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityRabbit;
 import net.minecraft.entity.passive.EntitySheep;
@@ -134,7 +135,7 @@ public class EntityDarkZertum extends EntityZertumEntity
                 }
                 if(rare <= 6 && !this.isTamed())
                 {
-                	this.dropItem(ModItems.nileGrain, 1);
+                	this.dropItem(ModItems.darkGrain, 1);
                 }
                 else
                 {
@@ -159,28 +160,21 @@ public class EntityDarkZertum extends EntityZertumEntity
         
     }
 
-    public boolean attackEntityAsMob(Entity par1Entity)
-    {
-        float damage = (float)this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
-        int i = 0;
-
-        if (par1Entity instanceof EntityLivingBase)
-        {
-            ((EntityLivingBase)par1Entity).addPotionEffect(new PotionEffect(Potion.wither.id, 200));
-        }
-
-        boolean flag = par1Entity.attackEntityFrom(DamageSource.causeMobDamage(this), damage);
-
-        if (flag)
-        {
-            if (i > 0)
-            {
-                par1Entity.addVelocity((double)(-MathHelper.sin(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F), 0.1D, (double)(MathHelper.cos(this.rotationYaw * (float)Math.PI / 180.0F) * (float)i * 0.5F));
-                this.motionX *= 0.6D;
-                this.motionZ *= 0.6D;
-            }
-        }
-		return flag;
+    @Override
+    public boolean attackEntityAsMob(Entity entity) {
+    	if(!TalentHelper.shouldDamageMob(this, entity))
+    		return false;
+    	
+    	int damage = (int)(4 + (this.effectiveLevel() + this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getBaseValue()) / 2);
+        damage = TalentHelper.attackEntityAsMob(this, entity, damage);
+        
+        if (entity instanceof EntityLivingBase)
+            ((EntityLivingBase)entity).addPotionEffect(new PotionEffect(Potion.wither.id, 200));
+        
+        if (entity instanceof EntityZombie)
+            ((EntityZombie)entity).setAttackTarget(this);
+        
+        return entity.attackEntityFrom(DamageSource.causeMobDamage(this), (float)damage);
     }
     
     /**
@@ -206,15 +200,6 @@ public class EntityDarkZertum extends EntityZertumEntity
                     this.setDogHunger(this.getDogHunger() + foodValue);
                     return true;
                 }
-            	else if(stack.getItem() == Items.bone && this.canInteract(player)) {
-            		if (isServer()) {
-                        if(this.ridingEntity != null)
-                        	this.mountEntity(null);
-                        else
-                         	this.mountEntity(player);
-                    }
-                    return true;
-                }
             	else if(stack.getItem() == Item.getItemFromBlock(Blocks.planks) && this.canInteract(player)) {
             		player.openGui(ZeroQuest.instance, CommonProxy.PetInfo, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
                  	return true;
@@ -230,7 +215,7 @@ public class EntityDarkZertum extends EntityZertumEntity
                 		this.setTamed(false);
                 	    this.navigator.clearPathEntity();
                         this.setSitting(false);
-                        this.setHealth(this.getMaxHealth());
+                        this.setHealth((float)maxHealth);
                         this.talents.resetTalents();
                         this.setOwnerId("");
                         this.setDogName("");
@@ -274,7 +259,7 @@ public class EntityDarkZertum extends EntityZertumEntity
                 this.setAttackTarget((EntityLivingBase)null);
             }
         }
-        else if (ItemUtils.consumeEquipped(player, ModItems.darkBone) && !this.isAngry())
+        else if (ItemUtils.consumeEquipped(player, ModItems.nileBone) && !this.isAngry())
         {
             if (isServer())
             {

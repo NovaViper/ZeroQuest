@@ -108,6 +108,11 @@ public class ZeroQuestCrafting
 			"XZX",
 			" X ",
 			'Z', new ItemStack(Items.bone), 'X', new ItemStack(Items.rotten_flesh) });
+		addRecipe(new ItemStack(ModBlocks.foodBowl), new Object[]{
+			"XXX",
+			"XZX",
+			"XXX",
+			'Z', new ItemStack(ModItems.nileBone), 'X', new ItemStack(Items.iron_ingot) });
 		
 		addShapelessRecipe(new ItemStack(Items.dye, 4, 15), ModItems.nileBone);
 		addShapelessRecipe(new ItemStack(ModItems.nileGrenade), ModItems.nileGrain, Items.gunpowder);		
@@ -186,6 +191,11 @@ public class ZeroQuestCrafting
 			"XZX",
 			"XXX",
 			'X', new ItemStack(ModItems.darkEssence), 'Z', Blocks.obsidian });
+		addRecipe(new ItemStack(ModBlocks.foodBowl), new Object[]{
+			"XXX",
+			"XZX",
+			"XXX",
+			'Z', new ItemStack(ModItems.darkBone), 'X', new ItemStack(Items.iron_ingot) });
 		
 		addShapelessRecipe(new ItemStack(Items.dye, 4, 15), ModItems.darkBone);
 		addShapelessRecipe(new ItemStack(ModItems.nileGrenade), ModItems.darkGrain, Items.gunpowder);

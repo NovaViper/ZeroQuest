@@ -4,29 +4,26 @@ import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import common.zeroquest.block.BlockBedRock;
-import common.zeroquest.block.BlockDogBed;
 import common.zeroquest.block.BlockFoodBowl;
 import common.zeroquest.block.BlockNileBlock;
 import common.zeroquest.block.BlockNileOre;
 import common.zeroquest.block.BlockNileWorkbench;
-import common.zeroquest.block.ItemDogBed;
 import common.zeroquest.block.flora.BlockDrestroFlower;
 import common.zeroquest.block.flora.BlockNileBlackFlower;
 import common.zeroquest.block.flora.BlockNileBlueFlower;
 import common.zeroquest.block.flora.BlockNilePinkFlower;
 import common.zeroquest.block.flora.BlockVitoidCrop;
 import common.zeroquest.block.portal.BlockNilePortalStone;
-import common.zeroquest.entity.tileentity.TileEntityDogBed;
 import common.zeroquest.entity.tileentity.TileEntityFoodBowl;
 import common.zeroquest.lib.Constants;
 
 public class ModBlocks {
 	public static Block looseBedrock;
-	//public static Block looseBedrockStairs;
 	public static Block nileCoalOre;
 	public static Block nileGrainOre;
 	public static Block darkGrainOre;
@@ -41,7 +38,6 @@ public class ModBlocks {
 	
 	public static Block nileWorktable;
 	public static Block foodBowl;
-	public static Block dogBed;
 	
 	//Portal//
 	public static Block nillaxStone;
@@ -59,6 +55,11 @@ public class ModBlocks {
 		//Basic Blocks//
 		nileWorktable = new BlockNileWorkbench().setUnlocalizedName("nileWorktable");
 		register(nileWorktable, "crafting_table_nile");
+		
+		//Doggy Talent Parts\\
+		foodBowl = new BlockFoodBowl().setUnlocalizedName("foodBowl").setCreativeTab(ZeroQuest.ZeroTab);
+		register(foodBowl, "food_bowl");
+		GameRegistry.registerTileEntity(TileEntityFoodBowl.class, "zero_quest:dog_bowl");
 		
 		//Flowers/Plants//
 		nileBlueFlower = new BlockNileBlueFlower().setUnlocalizedName("nileBlueFlower");
@@ -87,15 +88,6 @@ public class ModBlocks {
 		register(portalNillax, "portal_nillax");
 		nileFire = new BlockNileFire().setUnlocalizedName("nileFire");
 		register(nileFire, "nile_fire");*/
-		
-		//Doggy Talent Parts\\
-		dogBed = new BlockDogBed().setUnlocalizedName("zeroquest.dogbed");
-		foodBowl = new BlockFoodBowl().setUnlocalizedName("zeroquest.foodbowl");
-		
-		GameRegistry.registerBlock(dogBed, ItemDogBed.class, "dog_bed");
-		GameRegistry.registerBlock(foodBowl, "food_bowl");
-		GameRegistry.registerTileEntity(TileEntityDogBed.class, "zeroquest:dog_bed");
-		GameRegistry.registerTileEntity(TileEntityFoodBowl.class, "zeroquest:dog_bowl");
 		}
 	   
 	   public static void loadDarkBlocks(){
@@ -111,11 +103,10 @@ public class ModBlocks {
 	    	blockDarkEssence = new BlockNileBlock(ZeroQuest.DarkTab, 5.0F, 30.0F, 0F).setUnlocalizedName("blockDarkEssence");
 			register(blockDarkEssence, "dark_essence_block");
 	   }
-	   
+
 	   public static void loadRenderers(){
 		   
 	    	registerRender(looseBedrock, 0, Constants.modid + ":" + "bedrock_loose", "inventory");
-	    	//registerRender(looseBedrockStairs, 0, Constants.modid + ":" + "bedrock_loose_stairs", "inventory");
 	    	registerRender(nileWorktable, 0, Constants.modid + ":" + "crafting_table_nile", "inventory");
 	    	registerRender(nileBlueFlower, 0, Constants.modid + ":" + "nile_flower_blue", "inventory");	
 	    	registerRender(nileBlackFlower, 0, Constants.modid + ":" + "nile_flower_black", "inventory");	
@@ -125,6 +116,7 @@ public class ModBlocks {
 	    	registerRender(nileCoalOre, 0, Constants.modid + ":" + "nile_coal_ore", "inventory");
 	    	registerRender(nileGrainOre, 0, Constants.modid + ":" + "nile_grain_ore", "inventory");
 	    	registerRender(blockNileEssence, 0, Constants.modid + ":" + "nile_essence_block", "inventory");
+	    	registerRender(foodBowl, 0, Constants.modid + ":" + "food_bowl", "inventory");
 	    	
 	    	registerRender(nillaxStone, 0, Constants.modid + ":" + "nillax_stone", "inventory");	
 	        //registerRender(portalNillax, 0, Constants.modid + ":" + "portal_nillax", "inventory");
@@ -139,10 +131,6 @@ public class ModBlocks {
 	    	
 	    	registerRender(darkGrainOre, 0, Constants.modid + ":" + "dark_grain_ore", "inventory");
 	    	registerRender(blockDarkEssence, 0, Constants.modid + ":" + "dark_essence_block", "inventory");
-	  }
-	  
-	  public static void loadDogBedTypes(){
-
 	  }
 	   
 	   public static void register(Block block, String name){

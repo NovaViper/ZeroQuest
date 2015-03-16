@@ -147,18 +147,20 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
 			 continue;
 			 }
     		
-            int i = MathHelper.floor_double(this.posX + (l % 2 * 2 - 1) * 0.25F);
-            int j = MathHelper.floor_double(this.posY);
-            int k = MathHelper.floor_double(this.posZ + (l / 2 % 2 * 2 - 1) * 0.25F);
+            int x = MathHelper.floor_double(this.posX + (l % 2 * 2 - 1) * 0.25F);
+            int y = MathHelper.floor_double(this.posY);
+            int z = MathHelper.floor_double(this.posZ + (l / 2 % 2 * 2 - 1) * 0.25F);
 
             if(Constants.DEF_SNOWSTEP == true){
-            	if (this.worldObj.getBlockState(new BlockPos(i, j, k)).getBlock().getMaterial() == Material.air 
-            			&& footprint.canPlaceBlockAt(this.worldObj, new BlockPos(i, j, k))) {
-            		this.worldObj.setBlockState(new BlockPos(i, j, k), footprint.getDefaultState());
-            	}
-            	if (this.worldObj.getBlockState(new BlockPos(i, j, k)).getBlock().getMaterial() == Material.water 
-            			&& footprint2.canPlaceBlockAt(this.worldObj, new BlockPos(i, j, k))) {
-            		this.worldObj.setBlockState(new BlockPos(i, j, k), footprint2.getDefaultState());
+            	if(this.worldObj.getBiomeGenForCoords(new BlockPos(x, 0, z)).getFloatTemperature(new BlockPos(x, y, z)) < 0.8F){
+            		if (this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock().getMaterial() == Material.air 
+            				&& footprint.canPlaceBlockAt(this.worldObj, new BlockPos(x, y, z))) {
+            			this.worldObj.setBlockState(new BlockPos(x, y, z), footprint.getDefaultState());
+            		}
+            		if (this.worldObj.getBlockState(new BlockPos(x, y, z)).getBlock().getMaterial() == Material.water 
+            				&& footprint2.canPlaceBlockAt(this.worldObj, new BlockPos(x, y, z))) {
+            			this.worldObj.setBlockState(new BlockPos(x, y-1, z), footprint2.getDefaultState());
+            		}
             	}
             }
         }
@@ -211,15 +213,6 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
                     this.setDogHunger(this.getDogHunger() + foodValue);
                     return true;
                 }
-            	else if(stack.getItem() == Items.bone && this.canInteract(player)) {
-            		if (isServer()) {
-                        if(this.ridingEntity != null)
-                        	this.mountEntity(null);
-                        else
-                         	this.mountEntity(player);
-                    }
-                    return true;
-                }
             	else if(stack.getItem() == Item.getItemFromBlock(Blocks.planks) && this.canInteract(player)) {
             		player.openGui(ZeroQuest.instance, CommonProxy.PetInfo, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
                  	return true;
@@ -235,7 +228,7 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
                 		this.setTamed(false);
                 	    this.navigator.clearPathEntity();
                         this.setSitting(false);
-                        this.setHealth(this.getMaxHealth());
+                        this.setHealth((float)maxHealth);
                         this.talents.resetTalents();
                         this.setOwnerId("");
                         this.setDogName("");

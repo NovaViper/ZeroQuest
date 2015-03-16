@@ -1,7 +1,6 @@
 package common.zeroquest.network;
 
 import common.zeroquest.network.packet.PacketCommand;
-import common.zeroquest.network.packet.PacketDogBedUpdate;
 import common.zeroquest.network.packet.PacketDogJump;
 import common.zeroquest.network.packet.PacketDogMode;
 import common.zeroquest.network.packet.PacketDogName;
@@ -15,7 +14,6 @@ import common.zeroquest.network.packet.PacketKortorJump;
  */
 public enum PacketType {
 	
-	DOG_BED_UPDATE(PacketDogBedUpdate.class),
 	DOG_NAME(PacketDogName.class),
 	DOG_TALENT(PacketDogTalent.class),
 	DOG_OBEY(PacketDogObey.class),

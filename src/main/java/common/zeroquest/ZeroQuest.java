@@ -41,7 +41,7 @@ import common.zeroquest.world.WorldProviderDarkax;
 import common.zeroquest.world.WorldProviderNillax;
 import common.zeroquest.world.gen.WorldGenZQuest;
 
-@Mod(modid = Constants.modid, name = "Zero Quest", version = Constants.version, useMetadata = true, guiFactory = "common.zeroquest.client.gui.config.GuiFactory")
+@Mod(modid = Constants.modid, name = Constants.name, version = Constants.version, useMetadata = true, guiFactory = Constants.guiFactory)
 public class ZeroQuest 
 {
 	@Instance(value = Constants.modid)
@@ -159,7 +159,6 @@ public class ZeroQuest
 	public void PostInt(FMLPostInitializationEvent event)
 	{
     	LogHelper.info("-----POST-CONTENT LOAD INITATING-----");
-    	ModBlocks.loadDogBedTypes();
     	ModTalents.loadTalents(); 		
         LogHelper.info("-----POST-CONTENT LOAD FINSHED-----");
     	

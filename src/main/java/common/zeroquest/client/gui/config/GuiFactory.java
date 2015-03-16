@@ -69,12 +69,14 @@ public class GuiFactory implements IModGuiFactory
 	        @Override
 	        protected GuiScreen buildChildScreen()
 	        {
-	            // This GuiConfig object specifies the configID of the object and as such will force-save when it is closed. The parent
-	            // GuiConfig object's entryList will also be refreshed to reflect the changes.
-	            return new GuiConfig(this.owningScreen, 
-	                    (new ConfigElement(ConfigHandler.config.getCategory(ConfigHandler.CATEGORY_FUNCTION)).getChildElements()), 
-	                    this.owningScreen.modID, ConfigHandler.CATEGORY_FUNCTION, this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart, 
-	                    this.configElement.requiresMcRestart() || this.owningScreen.allRequireMcRestart,
+	        	
+                List<IConfigElement> list = new ArrayList<IConfigElement>();
+                //list.add(new DummyCategoryElement("terrain", "gui.config.terrain", TerrainEntry.class));
+                list.addAll((new ConfigElement(ConfigHandler.config.getCategory(ConfigHandler.CATEGORY_FUNCTION))).getChildElements());
+	        	
+                return new GuiConfig(this.owningScreen, list, this.owningScreen.modID, ConfigHandler.CATEGORY_FUNCTION,
+                        this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart,
+                        this.configElement.requiresMcRestart() || this.owningScreen.allRequireMcRestart,
                 		I18n.format("gui.config.function"),
                 		I18n.format("gui.config.function.tooltip"));
 	        }
@@ -90,10 +92,13 @@ public class GuiFactory implements IModGuiFactory
 	        @Override
 	        protected GuiScreen buildChildScreen()
 	        {
-	            return new GuiConfig(this.owningScreen,
-	                    (new ConfigElement(ConfigHandler.config.getCategory(ConfigHandler.CATEGORY_LOAD)).getChildElements()), 
-	                    this.owningScreen.modID, ConfigHandler.CATEGORY_FUNCTION, this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart, 
-	                    this.configElement.requiresMcRestart() || this.owningScreen.allRequireMcRestart,
+                List<IConfigElement> list = new ArrayList<IConfigElement>();
+                //list.add(new DummyCategoryElement("terrain", "gui.config.terrain", TerrainEntry.class));
+                list.addAll((new ConfigElement(ConfigHandler.config.getCategory(ConfigHandler.CATEGORY_LOAD))).getChildElements());
+	        	
+                return new GuiConfig(this.owningScreen, list, this.owningScreen.modID, ConfigHandler.CATEGORY_LOAD,
+                        this.configElement.requiresWorldRestart() || this.owningScreen.allRequireWorldRestart,
+                        this.configElement.requiresMcRestart() || this.owningScreen.allRequireMcRestart,
                 		I18n.format("gui.config.load"),
                 		I18n.format("gui.config.load.tooltip"));
 	        }

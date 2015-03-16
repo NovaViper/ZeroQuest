@@ -150,7 +150,6 @@ public class EntityMetalZertum extends EntityZertumEntity
     public void onLivingUpdate() //TODO
     {
         super.onLivingUpdate();
-        TalentHelper.onLivingUpdate(this);
         
         if(!this.isChild() && this.getHealth() <=10 && this.isTamed())
         {
@@ -181,15 +180,6 @@ public class EntityMetalZertum extends EntityZertumEntity
                     this.setDogHunger(this.getDogHunger() + foodValue);
                     return true;
                 }
-            	else if(stack.getItem() == Items.bone && this.canInteract(player)) {
-            		if (isServer()) {
-                        if(this.ridingEntity != null)
-                        	this.mountEntity(null);
-                        else
-                         	this.mountEntity(player);
-                    }
-                    return true;
-                }
             	else if(stack.getItem() == Item.getItemFromBlock(Blocks.planks) && this.canInteract(player)) {
             		player.openGui(ZeroQuest.instance, CommonProxy.PetInfo, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
                  	return true;
@@ -205,7 +195,7 @@ public class EntityMetalZertum extends EntityZertumEntity
                 		this.setTamed(false);
                 	    this.navigator.clearPathEntity();
                         this.setSitting(false);
-                        this.setHealth(this.getMaxHealth());
+                        this.setHealth((float)maxHealth);
                         this.talents.resetTalents();
                         this.setOwnerId("");
                         this.setDogName("");
