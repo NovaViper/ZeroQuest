@@ -15,7 +15,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import common.zeroquest.client.renderer.entity.layers.LayerDestroZertumCollarDying;
+import common.zeroquest.client.renderer.entity.layers.LayersDestroZertum;
 import common.zeroquest.entity.EntityDestroZertum;
 import common.zeroquest.lib.Constants;
 
@@ -29,7 +29,7 @@ public class RenderDestroZertum extends RenderLiving
     public RenderDestroZertum(RenderManager p_i46128_1_, ModelBase p_i46128_2_, float p_i46128_3_)
     {
         super(p_i46128_1_, p_i46128_2_, p_i46128_3_);
-        this.addLayer(new LayerDestroZertumCollarDying(this));
+        this.addLayer(new LayersDestroZertum(this));
     }
 
     public void func_177135_a(EntityDestroZertum p_177135_1_, double p_177135_2_, double p_177135_4_, double p_177135_6_, float p_177135_8_, float p_177135_9_)

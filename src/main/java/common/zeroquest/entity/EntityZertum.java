@@ -22,8 +22,8 @@ import com.google.common.base.Predicate;
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
-import common.zeroquest.api.interfaces.IDogTreat;
-import common.zeroquest.api.interfaces.IDogTreat.EnumFeedBack;
+import common.zeroquest.api.interfaces.IBits;
+import common.zeroquest.api.interfaces.IBits.EnumFeedBack;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.util.ModeUtil.EnumMode;
 import common.zeroquest.entity.util.TalentHelper;
@@ -109,8 +109,8 @@ public class EntityZertum extends EntityZertumEntity
             		player.openGui(ZeroQuest.instance, CommonProxy.PetInfo, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
                  	return true;
                 }
-                else if(stack.getItem() instanceof IDogTreat && this.canInteract(player)) {
-                 	IDogTreat treat = (IDogTreat)stack.getItem();
+                else if(stack.getItem() instanceof IBits && this.canInteract(player)) {
+                 	IBits treat = (IBits)stack.getItem();
                  	EnumFeedBack type = treat.canGiveToDog(player, this, this.levels.getLevel());
                  	treat.giveTreat(type, player, this);
                  	return true;

@@ -65,7 +65,7 @@ public class ZeroQuest
 
     @EventHandler
     public void preInit(FMLPreInitializationEvent event){
-        ConfigHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + Constants.channel.toLowerCase() + File.separator + Constants.modid.toLowerCase() + ".cfg"));
+        ConfigHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + Constants.channel.toLowerCase() + File.separator + Constants.modid + ".cfg"));
         FMLCommonHandler.instance().bus().register(new ConfigEvent());
         FMLCommonHandler.instance().bus().register(new PlayerEvents(Constants.version, "ZeroQuest", Constants.isBeta));
     	LogHelper.info("-----PRE-CONTENT LOAD INITATING-----");
@@ -149,9 +149,9 @@ public class ZeroQuest
        	registerDimension(NillaxID, NillaxID);
     	LogHelper.info("Dimensions Loaded Successfully!");
     	
-    	LogHelper.info("Logging the Network Stuff");
+    	LogHelper.info("Loading the Network Stuff...");
 		FMLCommonHandler.instance().bus().register(new ConnectionHandler());
-    	LogHelper.info("Network Stuff Loaded Successfully");		
+    	LogHelper.info("Network Stuff Loaded Successfully!");		
         LogHelper.info("-----CONTENT LOAD FINSHED-----");
 	}
 	
@@ -159,7 +159,9 @@ public class ZeroQuest
 	public void PostInt(FMLPostInitializationEvent event)
 	{
     	LogHelper.info("-----POST-CONTENT LOAD INITATING-----");
-    	ModTalents.loadTalents(); 		
+       	LogHelper.info("Loading Talents...");
+    	ModTalents.loadTalents();
+    	LogHelper.info("Talents Loaded Successfully!");
         LogHelper.info("-----POST-CONTENT LOAD FINSHED-----");
     	
 	}

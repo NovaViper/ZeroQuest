@@ -48,7 +48,7 @@ public class CreeperSpotter extends ITalent {
 		if(!(dog instanceof EntityMetalZertum) && (Boolean)dog.objects.get("canseecreeper"))
 			return "mob.wolf.growl";
 		else if((dog instanceof EntityMetalZertum) && (Boolean)dog.objects.get("canseecreeper"))
-			return Sound.MetalZertumRoar;
+			return Sound.MetalZertumGrowl;
 		return "";
 	}
 	

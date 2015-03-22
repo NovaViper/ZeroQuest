@@ -35,6 +35,18 @@ public class ModelZertum extends ModelBase
     ModelRenderer Mane2;
     ModelRenderer Torso;
     ModelRenderer Neck;
+    ModelRenderer Pad1;
+    ModelRenderer Pad2;
+    ModelRenderer Pad3;
+    ModelRenderer Pad4;
+    ModelRenderer PadPart1;
+    ModelRenderer PadPart2;
+    ModelRenderer Rope1;
+    ModelRenderer Metal1;
+    ModelRenderer Rope2;
+    ModelRenderer Metal2;
+    ModelRenderer Seat1;
+    ModelRenderer Seat2;
     private float rightFemur = -0.2974289F;
     private float leftFemur = -0.2974289F;
     private float rightTibia = 0.8205006F;
@@ -125,6 +137,56 @@ public class ModelZertum extends ModelBase
       Torso.addBox(-2.5F, -3F, -3F, 5, 9, 5);
       Torso.setRotationPoint(-0.5F, 12.5F, 1F);
       setRotation(Torso, 1.496439F, 0F, 0F);
+      
+      //Saddle\\
+      Pad1 = new ModelRenderer(this, 110, 32);
+      Pad1.addBox(-2F, 0F, 0F, 4, 1, 1);
+      Pad1.setRotationPoint(-0.5F, 9.3F, -2.5F);
+      setRotation(Pad1, -0.0650564F, 0F, 0F);
+      Pad2 = new ModelRenderer(this, 110, 35);
+      Pad2.addBox(-3F, 0F, 0F, 6, 1, 2);
+      Pad2.setRotationPoint(-0.5F, 9.4F, -1.5F);
+      setRotation(Pad2, -0.0743572F, 0F, 0F);
+      Pad3 = new ModelRenderer(this, 110, 39);
+      Pad3.addBox(-2F, 0F, 0F, 5, 1, 4);
+      Pad3.setRotationPoint(-1F, 9.5F, 0.2F);
+      setRotation(Pad3, -0.0650564F, 0F, 0F);
+      Pad4 = new ModelRenderer(this, 110, 48);
+      Pad4.addBox(-1.5F, 0F, 0F, 3, 1, 1);
+      Pad4.setRotationPoint(-0.5F, 9.8F, 4.1F);
+      setRotation(Pad4, -0.0650564F, 0F, 0F);
+      PadPart1 = new ModelRenderer(this, 110, 29);
+      PadPart1.addBox(-0.5F, 0F, 0F, 1, 1, 1);
+      PadPart1.setRotationPoint(1F, 9.23F, -3.5F);
+      setRotation(PadPart1, -0.0650564F, 0F, 0F);
+      PadPart2 = new ModelRenderer(this, 110, 29);
+      PadPart2.addBox(-0.5F, 0F, 0F, 1, 1, 1);
+      PadPart2.setRotationPoint(-2F, 9.2F, -3.5F);
+      setRotation(PadPart2, -0.0650564F, 0F, 0F);
+      Rope1 = new ModelRenderer(this, 105, 32);
+      Rope1.addBox(0F, 0F, -0.5F, 1, 4, 1);
+      Rope1.setRotationPoint(1.8F, 9.6F, 0F);
+      setRotation(Rope1, 0F, 0F, 0F);
+      Metal1 = new ModelRenderer(this, 102, 39);
+      Metal1.addBox(0F, 0F, -1F, 1, 1, 2);
+      Metal1.setRotationPoint(1.8F, 13.6F, 0F);
+      setRotation(Metal1, 0F, 0F, 0F);
+      Rope2 = new ModelRenderer(this, 105, 32);
+      Rope2.addBox(-1F, 0F, -0.5F, 1, 4, 1);
+      Rope2.setRotationPoint(-2.8F, 9.6F, 0F);
+      setRotation(Rope2, 0F, 0F, 0F);
+      Metal2 = new ModelRenderer(this, 102, 39);
+      Metal2.addBox(0F, 0F, -1F, 1, 1, 2);
+      Metal2.setRotationPoint(-3.8F, 13.6F, 0F);
+      setRotation(Metal2, 0F, 0F, 0F);
+      Seat1 = new ModelRenderer(this, 100, 45);
+      Seat1.addBox(-1F, 0F, 0F, 2, 1, 1);
+      Seat1.setRotationPoint(-0.5F, 8.7F, -1.5F);
+      setRotation(Seat1, -0.0650484F, 0F, 0F);
+      Seat2 = new ModelRenderer(this, 100, 49);
+      Seat2.addBox(-2F, 0F, 0F, 4, 1, 1);
+      Seat2.setRotationPoint(-0.5F, 9F, 3.2F);
+      setRotation(Seat2, -0.0650484F, 0F, 0F);
       Head.addChild(Nose);
       Head.addChild(Ear1);
       Head.addChild(Ear2);
@@ -141,6 +203,8 @@ public class ModelZertum extends ModelBase
   @Override
   public void render(Entity par1Entity, float par2, float par3, float par4, float par5, float par6, float par7)
   {
+      EntityZertumEntity entityhorse = (EntityZertumEntity)par1Entity;
+      boolean flag = entityhorse.isSaddled();
       super.render(par1Entity, par2, par3, par4, par5, par6, par7);
       this.setRotationAngles(par2, par3, par4, par5, par6, par7, par1Entity);
       if (this.isChild)
@@ -176,6 +240,25 @@ public class ModelZertum extends ModelBase
           Tail1.render(par7);
           Torso.render(par7);
           GL11.glPopMatrix();
+          
+          if(flag){
+              GL11.glPushMatrix();
+              GL11.glScalef(1.5F, 1.5F, 1.5F);
+              GL11.glTranslatef(0.0F, -0.5F, 0.0F);
+        	  Pad1.render(par7);
+        	  Pad2.render(par7);
+        	  Pad3.render(par7);
+        	  Pad4.render(par7);
+        	  PadPart1.render(par7);
+        	  PadPart2.render(par7);
+        	  Rope1.render(par7);
+        	  Metal1.render(par7);
+        	  Rope2.render(par7);
+        	  Metal2.render(par7);
+        	  Seat1.render(par7);
+        	  Seat2.render(par7);
+              GL11.glPopMatrix();
+          }
       }
   }
   
@@ -214,13 +297,38 @@ public class ModelZertum extends ModelBase
           RightHindLeg2.rotateAngleX = 2.6205006F;
           RightHindLeg3.setRotationPoint(0F, 3.55F, 0.2F);
           RightHindLeg3.rotateAngleX = -0.5205006F;
-          
-          Torso.setRotationPoint(-0.5F, 15F, 1F);
+          Torso.setRotationPoint(-0.5F, 14F, 1F);
           Torso.rotateAngleX = 0.9759358F;
-          Tail1.setRotationPoint(-1F, 19.5F, 5F);
+          Tail1.setRotationPoint(-1F, 18.5F, 5F);
           Tail1.rotateAngleX = 1.167248F;
           Tail2.rotateAngleX = 0.315962F;
           Tail3.rotateAngleX = 0.23333F;
+          
+          //Saddle\\
+          Pad1.setRotationPoint(-0.5F, 9.7F, -1.5F);
+          setRotation(Pad1, -0.288128F, 0F, 0F);
+          Pad2.setRotationPoint(-0.5F, 10F, -0.5F);
+          setRotation(Pad2, -0.3346075F, 0F, 0F);
+          Pad3.setRotationPoint(-1F, 10.7F, 1.4F);
+          setRotation(Pad3, -0.5855569F, 0F, 0F);
+          Pad4.setRotationPoint(-0.5F, 12.9F, 4.7F);
+          setRotation(Pad4, -0.5948648F, 0F, 0F);
+          PadPart1.setRotationPoint(1F, 9.6F, -2.4F);
+          setRotation(PadPart1, -0.3624853F, 0F, 0F);
+          PadPart2.setRotationPoint(-2F, 9.6F, -2.4F);
+          setRotation(PadPart2, -0.3624874F, 0F, 0F);
+          Rope1.setRotationPoint(1.8F, 10.6F, 1F);
+          setRotation(Rope1, -0.3346075F, 0F, 0F);
+          Metal1.setRotationPoint(1.8F, 14.2F, -0.3F);
+          setRotation(Metal1, -0.3346145F, 0F, 0F);
+          Rope2.setRotationPoint(-2.8F, 10.6F, 1F);
+          setRotation(Rope2, -0.3346145F, 0F, 0F);
+          Metal2.setRotationPoint(-3.8F, 13.6F, 0F);
+          setRotation(Metal2, -0.3346145F, 0F, 0F);
+          Seat1.setRotationPoint(-0.5F, 11.6F, 4.3F);
+          setRotation(Seat1, -0.5483867F, 0F, 0F);
+          Seat2.setRotationPoint(-0.5F, 8.9F, -1.2F);
+          setRotation(Seat2, -0.2881364F, 0F, 0F);
     	  
       }
       else
@@ -245,13 +353,34 @@ public class ModelZertum extends ModelBase
         Tail2.rotateAngleX = -0.041605F;
         Tail3.setRotationPoint(0F, 6.5F, 0.5F);
         Tail3.rotateAngleX = 0.001605F;
+        //Saddle\\ TODO
+        Pad1.setRotationPoint(-0.5F, 9.3F, -2.5F);
+        setRotation(Pad1, -0.0650564F, 0F, 0F);
+        Pad2.setRotationPoint(-0.5F, 9.4F, -1.5F);
+        setRotation(Pad2, -0.0743572F, 0F, 0F);
+        Pad3.setRotationPoint(-1F, 9.5F, 0.2F);
+        setRotation(Pad3, -0.0650564F, 0F, 0F);
+        Pad4.setRotationPoint(-0.5F, 9.8F, 4.1F);
+        setRotation(Pad4, -0.0650564F, 0F, 0F);
+        PadPart1.setRotationPoint(1F, 9.23F, -3.5F);
+        setRotation(PadPart1, -0.0650564F, 0F, 0F);
+        PadPart2.setRotationPoint(-2F, 9.2F, -3.5F);
+        setRotation(PadPart2, -0.0650564F, 0F, 0F);
+        Rope1.setRotationPoint(1.8F, 9.6F, 0F);
+        setRotation(Rope1, 0F, 0F, 0F);
+        Metal1.setRotationPoint(1.8F, 13.6F, 0F);
+        setRotation(Metal1, 0F, 0F, 0F);
+        Rope2.setRotationPoint(-2.8F, 9.6F, 0F);
+        setRotation(Rope2, 0F, 0F, 0F);
+        Metal2.setRotationPoint(-3.8F, 13.6F, 0F);
+        setRotation(Metal2, 0F, 0F, 0F);
+        Seat1.setRotationPoint(-0.5F, 8.7F, -1.5F);
+        setRotation(Seat1, -0.0650484F, 0F, 0F);
+        Seat2.setRotationPoint(-0.5F, 9F, 3.2F);
+        setRotation(Seat2, -0.0650484F, 0F, 0F);
     	
           this.RightHindLeg1.rotateAngleX = rightFemur + MathHelper.cos(par2 * 0.4662F) * 1.4F * par3;
           this.LeftHindLeg1.rotateAngleX = leftFemur + MathHelper.cos(par2 * 0.4662F + (float)Math.PI) * 1.4F * par3;
-          //this.RightHindLeg2.rotateAngleX = rightTibia + MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
-          //this.LeftHindLeg2.rotateAngleX = leftTibia + MathHelper.cos(par2 * 0.6662F + (float)Math.PI) * 1.4F * par3;
-          //this.RightHindLeg3.rotateAngleX = rightMetatarus + MathHelper.cos(par2 * 0.6662F) * 1.4F * par3;
-          //this.LeftHindLeg3.rotateAngleX = leftMetatarus + MathHelper.cos(par2 * 0.6662F + (float)Math.PI) * 1.4F * par3;
           this.RightLeg.rotateAngleX = MathHelper.cos(par2 * 0.4662F + (float)Math.PI) * 1.4F * par3;
           this.LeftLeg.rotateAngleX = MathHelper.cos(par2 * 0.4662F) * 1.4F * par3;
       }

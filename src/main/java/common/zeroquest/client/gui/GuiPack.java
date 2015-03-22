@@ -9,6 +9,12 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import common.zeroquest.entity.EntityCustomTameable;
+import common.zeroquest.entity.EntityDarkZertum;
+import common.zeroquest.entity.EntityDestroZertum;
+import common.zeroquest.entity.EntityForisZertum;
+import common.zeroquest.entity.EntityIceZertum;
+import common.zeroquest.entity.EntityMetalZertum;
+import common.zeroquest.entity.EntityRedZertum;
 import common.zeroquest.inventory.ContainerPack;
 import common.zeroquest.lib.Constants;
 
@@ -20,8 +26,13 @@ public class GuiPack extends GuiContainer
     private boolean mouseWasDown;
     
     private static final ResourceLocation gui = new ResourceLocation(Constants.modid + ":" + "textures/gui/petInventory.png");
-
-
+    private static final ResourceLocation guiDark = new ResourceLocation(Constants.modid + ":" + "textures/gui/petInventoryDark.png");
+    private static final ResourceLocation guiDestro = new ResourceLocation(Constants.modid + ":" + "textures/gui/petInventoryDestro.png");
+    private static final ResourceLocation guiForis = new ResourceLocation(Constants.modid + ":" + "textures/gui/petInventoryForis.png");
+    private static final ResourceLocation guiIce = new ResourceLocation(Constants.modid + ":" + "textures/gui/petInventoryIce.png");
+    private static final ResourceLocation guiRed = new ResourceLocation(Constants.modid + ":" + "textures/gui/petInventoryRed.png");
+    private static final ResourceLocation guiMetal = new ResourceLocation(Constants.modid + ":" + "textures/gui/petInventoryMetal.png");
+    
     public GuiPack(InventoryPlayer inventoryplayer, EntityCustomTameable entityCustomTameable) {
         super(new ContainerPack(inventoryplayer, entityCustomTameable));
         this.mouseWasDown = false;
@@ -50,7 +61,14 @@ public class GuiPack extends GuiContainer
     @Override
     protected void drawGuiContainerBackgroundLayer(float par1, int par2, int par3) {
         GL11.glColor4f(1.0F, 1.0F, 1.0F, 1.0F);
-        this.mc.getTextureManager().bindTexture(gui);
+        if(entity instanceof EntityDarkZertum) {this.mc.getTextureManager().bindTexture(guiDark);}
+        else if(entity instanceof EntityDestroZertum){this.mc.getTextureManager().bindTexture(guiDestro);}
+        else if(entity instanceof EntityForisZertum){this.mc.getTextureManager().bindTexture(guiForis);}
+        else if(entity instanceof EntityIceZertum){this.mc.getTextureManager().bindTexture(guiIce);}
+        else if(entity instanceof EntityRedZertum){this.mc.getTextureManager().bindTexture(guiRed);}
+        else if(entity instanceof EntityMetalZertum){this.mc.getTextureManager().bindTexture(guiMetal);}
+        else{this.mc.getTextureManager().bindTexture(gui);}
+        
         int l = (width - xSize) / 2;
         int i1 = (height - ySize) / 2;
         drawTexturedModalRect(l, i1, 0, 0, xSize, ySize);

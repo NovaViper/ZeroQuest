@@ -44,7 +44,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.entity.ai.EntityAIFetchBone;
@@ -95,14 +94,14 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     
     protected EntityAILeapAtTarget aiLeap = new EntityAILeapAtTarget(this, 0.4F);
     public EntityAIWatchClosest aiStareAtPlayer = new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F);
-	int level2 = this.talents.getLevel("creeperspotter");
-    public EntityAIWatchClosest aiGlareAtCreeper = new EntityAIWatchClosest(this, EntityCreeper.class, level2 * 6);    
+    public EntityAIWatchClosest aiGlareAtCreeper = new EntityAIWatchClosest(this, EntityCreeper.class, this.talents.getLevel("creeperspotter") * 6);    
     public EntityAIFetchBone aiFetchBone;
     
     // data value IDs TODO
     /**DO NOT CHANGE!**/
     public static final int INDEX_TAME = 16;
     public static final int INDEX_COLLAR = 19;
+    public static final int INDEX_SADDLE = 20;
 
     public EntityZertumEntity(World worldIn)
     {
@@ -188,13 +187,13 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     protected void entityInit()
     {
         super.entityInit();
-        this.dataWatcher.addObject(INDEX_COLLAR, new Byte((byte)EnumDyeColor.RED.getMetadata()));
-        
         this.talents = new TalentUtil(this);
         this.levels = new LevelUtil(this);
         this.mode = new ModeUtil(this);
         this.coords = new CoordUtil(this);
         
+        this.dataWatcher.addObject(INDEX_COLLAR, new Byte((byte)EnumDyeColor.RED.getMetadata())); //Collar
+        this.dataWatcher.addObject(INDEX_SADDLE, Byte.valueOf((byte)0)); //Saddle
         this.dataWatcher.addObject(21, new String("")); //Dog Name
         this.dataWatcher.addObject(22, new String("")); //Talent Data
         this.dataWatcher.addObject(23, new Integer(60)); //Dog Hunger
@@ -210,6 +209,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
         super.writeEntityToNBT(tagCompound);
         tagCompound.setBoolean("Angry", this.isAngry());
         tagCompound.setByte("CollarColor", (byte)this.getCollarColor().getDyeDamage());
+        tagCompound.setBoolean("Saddle", this.isSaddled());
         
         tagCompound.setString("version", Constants.version);
         tagCompound.setString("dogName", this.getDogName());
@@ -228,6 +228,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     {
         super.readEntityFromNBT(tagCompound);
         this.setAngry(tagCompound.getBoolean("Angry"));
+        this.setSaddled(tagCompound.getBoolean("Saddle"));
 
         if (tagCompound.hasKey("CollarColor", 99))
         {
@@ -262,8 +263,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     	if(!"".equals(sound))
     		return sound;
     	
-        return this.canSeeCreeper ? "mob.wolf.growl" : this.isAngry() ? "mob.wolf.growl" : 
-        	this.wantToHowl ? Sound.ZertumHowl : (this.rand.nextInt(3) == 0 ? 
+        return this.isAngry() ? "mob.wolf.growl" : this.wantToHowl ? Sound.ZertumHowl : (this.rand.nextInt(3) == 0 ? 
         			(this.isTamed() && this.getHealth() <= 10.0F ? "mob.wolf.whine"
         					: "mob.wolf.panting")
         					: "mob.wolf.bark");
@@ -285,10 +285,6 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     protected String getDeathSound()
     {
         return "mob.wolf.death";
-    }
-
-    public EntityAISit getSitAI() {
-    	return this.aiSit;
     }
     
     /**
@@ -336,6 +332,10 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
                 {
                 	this.dropItem(ModItems.nileGrain, 1);
                 }
+                if (this.isSaddled())
+                {
+                    this.dropItem(Items.saddle, 1);
+                }
                 else
                 {
                 	
@@ -363,7 +363,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
         if(Constants.IS_HUNGER_ON) {
         	this.prevHungerTick = this.hungerTick;
         	
-	        if (this.riddenByEntity == null && !this.isSitting() /** && !this.mode.isMode(EnumMode.WANDERING) && !this.level.isDireDog() || worldObj.getWorldInfo().getWorldTime() % 2L == 0L **/)
+	        if (this.riddenByEntity == null && !this.isSitting() /*&& !this.mode.isMode(EnumMode.WANDERING) && !this.level.isDireDog() || worldObj.getWorldInfo().getWorldTime() % 2L == 0L */)
 	        	this.hungerTick += 1;
 	        
 	        this.hungerTick += TalentHelper.onHungerTick(this, this.hungerTick - this.prevHungerTick);
@@ -374,21 +374,10 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
 	        }
         }
         
-        if(Constants.DEF_HEALING) {
-        	this.prevRegenerationTick = this.regenerationTick;
-        	
-	        if(this.getHealth() <= 1) {
-	        	this.regenerationTick += 1;
-	        	
-	        	this.regenerationTick += TalentHelper.onRegenerationTick(this, this.regenerationTick - this.prevRegenerationTick);
-	        }
-	        
-	        if(this.regenerationTick >= 12000) {
-	            this.setHealth(this.getHealth() + 1);
-	            this.worldObj.setEntityState(this, (byte)7);
-	            this.regenerationTick = 0;
-	        }
-    	}
+        if(Constants.DEF_HEALING == true && !this.isChild() && this.getHealth() <=10 && this.isTamed())
+        {
+        	this.addPotionEffect(new PotionEffect(Potion.regeneration.id, 200));
+        }
         
         if(this.getHealth() != 1) {
 	        this.prevHealingTick = this.healingTick;
@@ -579,30 +568,34 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     }
     
     @Override
-    public void fall(float distance, float damageMultiplier) {
-        float[] ret = net.minecraftforge.common.ForgeHooks.onLivingFall(this, distance, damageMultiplier);
-        if (ret == null) return;
-        distance = ret[0]; damageMultiplier = ret[1];
-        super.fall(distance, damageMultiplier);
-        PotionEffect potioneffect = this.getActivePotionEffect(Potion.jump);
-        float f2 = potioneffect != null ? (float)(potioneffect.getAmplifier() + 1) : 0.0F;
-        int i = MathHelper.ceiling_float_int(((distance - 3.0F - f2) - TalentHelper.fallProtection(this)) * damageMultiplier);
+    public void fall(float distance, float damageMultiplier)
+    {
+        if (distance > 1.0F)
+        {
+            this.playSound("game.neutral.hurt.fall.small", 0.4F, 1.0F);
+        }
 
-        if (i > 0 && !TalentHelper.isImmuneToFalls(this)) {
-            this.playSound(this.getFallSoundString(i), 1.0F, 1.0F);
+        int i = MathHelper.ceiling_float_int(((distance * 0.5F - 3.0F) - TalentHelper.fallProtection(this)) * damageMultiplier);
+
+        if (i > 0 && !TalentHelper.isImmuneToFalls(this))
+        {
             this.attackEntityFrom(DamageSource.fall, (float)i);
-            int j = MathHelper.floor_double(this.posX);
-            int k = MathHelper.floor_double(this.posY - 0.20000000298023224D);
-            int l = MathHelper.floor_double(this.posZ);
-            Block block = this.worldObj.getBlockState(new BlockPos(j, k, l)).getBlock();
 
-            if (block.getMaterial() != Material.air) {
+            if (this.riddenByEntity != null)
+            {
+                this.riddenByEntity.attackEntityFrom(DamageSource.fall, (float)i);
+            }
+
+            Block block = this.worldObj.getBlockState(new BlockPos(this.posX, this.posY - 0.2D - (double)this.prevRotationYaw, this.posZ)).getBlock();
+
+            if (block.getMaterial() != Material.air && !this.isSilent())
+            {
                 Block.SoundType soundtype = block.stepSound;
-                this.playSound(soundtype.getStepSound(), soundtype.getVolume() * 0.5F, soundtype.getFrequency() * 0.75F);
+                this.worldObj.playSoundAtEntity(this, soundtype.getStepSound(), soundtype.getVolume() * 0.5F, soundtype.getFrequency() * 0.75F);
             }
         }
     }
-
+    
     @SideOnly(Side.CLIENT)
     public boolean isWolfWet()
     {
@@ -957,6 +950,23 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     {
         this.dataWatcher.updateObject(INDEX_COLLAR, Byte.valueOf((byte)(collarcolor.getDyeDamage() & 15)));
     }
+    
+    public boolean isSaddled()
+    {
+        return (this.dataWatcher.getWatchableObjectByte(INDEX_SADDLE) & 1) != 0;
+    }
+
+    public void setSaddled(boolean p_70900_1_)
+    {
+        if (p_70900_1_)
+        {
+            this.dataWatcher.updateObject(INDEX_SADDLE, Byte.valueOf((byte)1));
+        }
+        else
+        {
+            this.dataWatcher.updateObject(INDEX_SADDLE, Byte.valueOf((byte)0));
+        }
+    } 
 
     /**
      * Determines if an entity can be despawned, used on idle far away entities

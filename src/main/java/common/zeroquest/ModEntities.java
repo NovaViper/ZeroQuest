@@ -8,21 +8,9 @@ import net.minecraft.entity.projectile.EntityFireball;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-import common.zeroquest.entity.EntityDarkZertum;
-import common.zeroquest.entity.EntityDestroZertum;
-import common.zeroquest.entity.EntityForisZertum;
-import common.zeroquest.entity.EntityIceZertum;
-import common.zeroquest.entity.EntityJakan;
-import common.zeroquest.entity.EntityKortor;
-import common.zeroquest.entity.EntityKurr;
-import common.zeroquest.entity.EntityMetalZertum;
-import common.zeroquest.entity.EntityRedZertum;
-import common.zeroquest.entity.EntityRiggator;
-import common.zeroquest.entity.EntityZertum;
-import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
-import common.zeroquest.entity.projectile.EntityGrenade;
-import common.zeroquest.entity.projectile.EntityIceball;
-import common.zeroquest.entity.tileentity.TileEntityNileWorkbench;
+import common.zeroquest.entity.*;
+import common.zeroquest.entity.projectile.*;
+import common.zeroquest.entity.tileentity.*;
 import common.zeroquest.lib.Constants;
 
 

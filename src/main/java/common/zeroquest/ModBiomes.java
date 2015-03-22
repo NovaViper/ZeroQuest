@@ -2,18 +2,7 @@ package common.zeroquest;
 
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.common.BiomeManager;
-import common.zeroquest.world.biome.BiomeGenBioZone;
-import common.zeroquest.world.biome.BiomeGenBlueTaiga;
-import common.zeroquest.world.biome.BiomeGenDarkLand;
-import common.zeroquest.world.biome.BiomeGenDestroZone;
-import common.zeroquest.world.biome.BiomeGenNileJungle;
-import common.zeroquest.world.biome.BiomeGenNileMesa;
-import common.zeroquest.world.biome.BiomeGenNileMountains;
-import common.zeroquest.world.biome.BiomeGenNileSavanna;
-import common.zeroquest.world.biome.BiomeGenNileSwamp;
-import common.zeroquest.world.biome.BiomeGenPinkZone;
-import common.zeroquest.world.biome.BiomeGenRedSeed;
-import common.zeroquest.world.biome.BiomeGenWalRockland;
+import common.zeroquest.world.biome.*;
 
 public class ModBiomes 
 {

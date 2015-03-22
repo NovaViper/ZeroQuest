@@ -57,7 +57,7 @@ public class ItemToy extends Item {
     @SideOnly(Side.CLIENT)
     public void getSubItems(Item item, CreativeTabs par2CreativeTabs, List par3List) {
         par3List.add(new ItemStack(item, 1, 0));
-        par3List.add(new ItemStack(item, 1, 1));
+        //par3List.add(new ItemStack(item, 1, 1));
     }
     
 	@Override

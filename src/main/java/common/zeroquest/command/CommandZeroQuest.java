@@ -26,12 +26,10 @@ import common.zeroquest.lib.Constants;
 
 
 public class CommandZeroQuest extends CommandBase {
-
-	//public static final Logger Log = ZeroQuest.Log;
 	
    @Override
    public String getName() {
-       return "zquest";
+       return "zeroquest";
    }
   
    @Override
@@ -108,7 +106,7 @@ public class CommandZeroQuest extends CommandBase {
                EntityPlayerMP player = (EntityPlayerMP) sender;
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"---------------------------------------------------"));
                player.addChatMessage(ChatHelper.getChatComponent("Zero Quest - "+EnumChatFormatting.GREEN+Constants.version));
-               player.addChatMessage(ChatHelper.getChatComponent("File Type: "+EnumChatFormatting.AQUA+Constants.releaseType));
+               player.addChatMessage(ChatHelper.getChatComponent("Release Type: "+EnumChatFormatting.AQUA+Constants.releaseType));
                player.addChatMessage(ChatHelper.getChatComponent("Minecraft Version: "+EnumChatFormatting.RED+MinecraftForge.MC_VERSION));
                player.addChatMessage(ChatHelper.getChatComponent("Java Version: "+EnumChatFormatting.BLUE+Constants.java));
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"---------------------------------------------------"));
@@ -122,12 +120,12 @@ public class CommandZeroQuest extends CommandBase {
            if (sender instanceof EntityPlayerMP) {
                EntityPlayerMP player = (EntityPlayerMP) sender;
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"----------------- "+EnumChatFormatting.GREEN+"ZeroQuest - " +Constants.version+EnumChatFormatting.GOLD+" -----------------"));
-               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest tame,t [globa,g] - "+EnumChatFormatting.RESET+"Tames a nile tameable creature"));
-               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest stage,s <baby,b|adult,a> [global,g] - "+EnumChatFormatting.RESET+"Sets the stage of a tamed nile creature"));     
-               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest heal,hp, [global,g] - "+EnumChatFormatting.RESET+"Heals a tamed nile creature"));
-               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest help,h - "+EnumChatFormatting.RESET+"Pulls up help menu"));
-               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest version,v - "+EnumChatFormatting.RESET+"Displays mod version"));
-               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zquest purge,p <tamed,t|all,a|wild,w> [global,g] - "+EnumChatFormatting.RESET+"Kills off nile creatures, Tamed parameter kills only 1 tamed nile creature (unless global parameter is added), all kills EVERY nile creature, and wild kills only 1 nontamed nile creature (unless global parameter is added)"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zeroquest tame,t [globa,g] - "+EnumChatFormatting.RESET+"Tames a nile tameable creature"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zeroquest stage,s <baby,b|adult,a> [global,g] - "+EnumChatFormatting.RESET+"Sets the stage of a tamed nile creature"));     
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zeroquest heal,hp, [global,g] - "+EnumChatFormatting.RESET+"Heals a tamed nile creature"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zeroquest help,h - "+EnumChatFormatting.RESET+"Pulls up help menu"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zeroquest version,v - "+EnumChatFormatting.RESET+"Displays mod information"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zeroquest purge,p <tamed,t|all,a|wild,w> [global,g] - "+EnumChatFormatting.RESET+"Kills off nile creatures, Tamed parameter kills only 1 tamed nile creature (unless global parameter is added), all kills EVERY nile creature, and wild kills only 1 nontamed nile creature (unless global parameter is added)"));
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"---------------------------------------------------"));
            
            } else {
@@ -147,7 +145,7 @@ public class CommandZeroQuest extends CommandBase {
         	   appyModifier(sender, new PurgeModifier(false, "tamed"), global);
            }
            else if (parameter.equalsIgnoreCase("all")|| parameter.equalsIgnoreCase("a")) {
-        	   appyModifier(sender, new PurgeModifier(true, null), true);
+        	   appyModifier(sender, new PurgeModifier(true, "all"), true);
            }
            else if (parameter.equalsIgnoreCase("wild")|| parameter.equalsIgnoreCase("w")) {
         	   appyModifier(sender, new PurgeModifier(false, "wild"), global);

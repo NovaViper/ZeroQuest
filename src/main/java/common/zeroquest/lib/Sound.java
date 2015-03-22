@@ -42,12 +42,11 @@ public class Sound {
     public static final String Step = SOUND_PREFIX + "action.step";
     public static final String HardStep = SOUND_PREFIX + "action.hardstep";
     public static final String Chew = SOUND_PREFIX + "action.chew";
+    public static final String MetalStep = SOUND_PREFIX + "action.metalstep";
     
     //Zertum Sounds\\
     public static final String ZertumHowl = SOUND_PREFIX + "zertum.howl";
-    public static final String MetalZertumStep = SOUND_PREFIX + "metalzertum.step";
     public static final String MetalZertumBark = SOUND_PREFIX + "metalzertum.bark";
-    public static final String MetalZertumRoar = SOUND_PREFIX + "metalzertum.roar";
     public static final String MetalZertumGrowl = SOUND_PREFIX + "metalzertum.growl";
     public static final String MetalZertumWhine = SOUND_PREFIX + "metalzertum.whine";
     public static final String MetalZertumPant = SOUND_PREFIX + "metalzertum.pant";

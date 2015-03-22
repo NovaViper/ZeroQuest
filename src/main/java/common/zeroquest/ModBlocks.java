@@ -8,18 +8,10 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import common.zeroquest.block.BlockBedRock;
-import common.zeroquest.block.BlockFoodBowl;
-import common.zeroquest.block.BlockNileBlock;
-import common.zeroquest.block.BlockNileOre;
-import common.zeroquest.block.BlockNileWorkbench;
-import common.zeroquest.block.flora.BlockDrestroFlower;
-import common.zeroquest.block.flora.BlockNileBlackFlower;
-import common.zeroquest.block.flora.BlockNileBlueFlower;
-import common.zeroquest.block.flora.BlockNilePinkFlower;
-import common.zeroquest.block.flora.BlockVitoidCrop;
-import common.zeroquest.block.portal.BlockNilePortalStone;
-import common.zeroquest.entity.tileentity.TileEntityFoodBowl;
+import common.zeroquest.block.*;
+import common.zeroquest.block.flora.*;
+import common.zeroquest.block.portal.*;
+import common.zeroquest.entity.tileentity.*;
 import common.zeroquest.lib.Constants;
 
 public class ModBlocks {
@@ -59,7 +51,7 @@ public class ModBlocks {
 		//Doggy Talent Parts\\
 		foodBowl = new BlockFoodBowl().setUnlocalizedName("foodBowl").setCreativeTab(ZeroQuest.ZeroTab);
 		register(foodBowl, "food_bowl");
-		GameRegistry.registerTileEntity(TileEntityFoodBowl.class, "zero_quest:dog_bowl");
+		GameRegistry.registerTileEntity(TileEntityFoodBowl.class, Constants.modid + ":" + "food_bowl");
 		
 		//Flowers/Plants//
 		nileBlueFlower = new BlockNileBlueFlower().setUnlocalizedName("nileBlueFlower");

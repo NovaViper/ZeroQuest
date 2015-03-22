@@ -5,6 +5,7 @@ import net.minecraft.client.particle.EntityHeartFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.entity.ai.EntityAISit;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.EnumDyeColor;
@@ -211,15 +212,11 @@ public abstract class EntityCustomTameable extends EntityTameable
         }
     }
 
+    public EntityAISit getSitAI() {
+    	return this.aiSit;
+    }
+    
 /*=======================================================FOR ZERTUMS ONLY=======================================================*/
-    public boolean didWolfFish() {
-        return rand.nextInt(15) < 4 * 2;
-    }
-    
-    public boolean didWolfCook() {
-        return rand.nextInt(15) < 4 * 2;
-    }
-    
     public void func_70918_i(boolean p_70918_1_)
     {
         if (p_70918_1_)

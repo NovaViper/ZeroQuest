@@ -4,14 +4,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
-import common.zeroquest.api.interfaces.IDogTreat;
+import common.zeroquest.api.interfaces.IBits;
 import common.zeroquest.core.helper.ChatHelper;
 import common.zeroquest.entity.EntityZertumEntity;
 
 /**
  * @author ProPercivalalb
  **/
-public class ItemAlphaBit extends Item implements IDogTreat {
+public class ItemAlphaBit extends Item implements IBits {
 	
 	public ItemAlphaBit() {
 		super();

@@ -2,8 +2,8 @@ package common.zeroquest.client.renderer.entity;
 
 import org.lwjgl.opengl.GL11;
 
-import common.zeroquest.client.renderer.entity.layers.LayerMetalZertumCollarDying;
-import common.zeroquest.client.renderer.entity.layers.LayerZertumCollarDying;
+import common.zeroquest.client.renderer.entity.layers.LayersMetalZertum;
+import common.zeroquest.client.renderer.entity.layers.LayersZertum;
 import common.zeroquest.entity.EntityMetalZertum;
 import common.zeroquest.lib.Constants;
 import net.minecraft.client.gui.FontRenderer;
@@ -31,7 +31,7 @@ public class RenderMetalZertum extends RenderLiving
     public RenderMetalZertum(RenderManager p_i46128_1_, ModelBase p_i46128_2_, float p_i46128_3_){
     
         super(p_i46128_1_, p_i46128_2_, p_i46128_3_);
-        this.addLayer(new LayerMetalZertumCollarDying(this));
+        this.addLayer(new LayersMetalZertum(this));
     }
 
     public void func_177135_a(EntityMetalZertum p_177135_1_, double p_177135_2_, double p_177135_4_, double p_177135_6_, float p_177135_8_, float p_177135_9_)

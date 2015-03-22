@@ -1,9 +1,9 @@
 {
     "textures": {
-        "particle": "zero_quest:blocks/foodBowl/foodParticle",
         "bottom": "zero_quest:blocks/foodBowl/foodBottom",
         "top": "zero_quest:blocks/foodBowl/foodTop",
-        "side": "zero_quest:blocks/foodBowl/foodSide"
+        "side": "zero_quest:blocks/foodBowl/foodSide",
+        "particle": "zero_quest:blocks/foodBowl/foodBottom"
     },
     "elements": [
         {   "from": [ 1, 0, 1 ],

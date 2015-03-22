@@ -22,7 +22,7 @@ public class PlayerEvents{
 	private String name;
 	private boolean isBeta;
 	public static Status status = PENDING;
-	public static String link = "http://minecraft.curseforge.com/mc-mods/221194";
+	public static String link = "http://www.minecraftforge.net/forum/index.php/topic,28133.msg144462.html";
 	
 	public PlayerEvents(String modVersion, String modName, boolean beta){
 		version = modVersion;

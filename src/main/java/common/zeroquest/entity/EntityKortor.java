@@ -326,35 +326,6 @@ public class EntityKortor extends EntityCustomTameable
         }
     }
 	
-	@Override
-    public void fall(float distance, float damageMultiplier)
-    {
-        if (distance > 1.0F)
-        {
-            this.playSound("damage.fallbig", 0.4F, 1.0F);
-        }
-
-        int i = MathHelper.ceiling_float_int((distance * 0.5F - 3.0F) * damageMultiplier);
-
-        if (i > 0)
-        {
-            this.attackEntityFrom(DamageSource.fall, (float)i);
-
-            if (this.riddenByEntity != null)
-            {
-                this.riddenByEntity.attackEntityFrom(DamageSource.fall, (float)i);
-            }
-
-            Block block = this.worldObj.getBlockState(new BlockPos(this.posX, this.posY - 0.2D - (double)this.prevRotationYaw, this.posZ)).getBlock();
-
-            if (block.getMaterial() != Material.air && !this.isSilent())
-            {
-                Block.SoundType soundtype = block.stepSound;
-                this.worldObj.playSoundAtEntity(this, soundtype.getStepSound(), soundtype.getVolume() * 0.5F, soundtype.getFrequency() * 0.75F);
-            }
-        }
-    }
-	
     /**
      * Called to update the entity's position/logic.
      */
@@ -535,8 +506,10 @@ public class EntityKortor extends EntityCustomTameable
                 		return true;
                 	}
                 }
-                else if (isServer() && this.getSaddled() && !this.isChild() && !ItemUtils.hasEquippedUsable(par1EntityPlayer)  && itemstack.getItem() != Items.spawn_egg && !this.isBreedingItem(itemstack) && this.riddenByEntity == null || this.riddenByEntity == par1EntityPlayer)
+                else if (isServer() && this.getSaddled() && !this.isChild() && !ItemUtils.hasEquippedUsable(par1EntityPlayer)  && itemstack.getItem() != Items.spawn_egg && !this.isBreedingItem(itemstack) && this.riddenByEntity == null && par1EntityPlayer.ridingEntity == null && !par1EntityPlayer.onGround)
                 {
+            			this.getSitAI().setSitting(false);
+            			this.setSitting(false);
                         par1EntityPlayer.mountEntity(this);
                         par1EntityPlayer.triggerAchievement(ModAchievements.MountUp);
                 }
@@ -611,6 +584,35 @@ public class EntityKortor extends EntityCustomTameable
             this.stepHeight = 0.5F;
             this.jumpMovementFactor = 0.02F;
             super.moveEntityWithHeading(strafe, forward);
+        }
+    }
+    
+    @Override
+    public void fall(float distance, float damageMultiplier)
+    {
+        if (distance > 1.0F)
+        {
+            this.playSound(Sound.Land, 0.4F, 1.0F);
+        }
+
+        int i = MathHelper.ceiling_float_int((distance * 0.5F - 3.0F) * damageMultiplier);
+
+        if (i > 0)
+        {
+            this.attackEntityFrom(DamageSource.fall, (float)i);
+
+            if (this.riddenByEntity != null)
+            {
+                this.riddenByEntity.attackEntityFrom(DamageSource.fall, (float)i);
+            }
+
+            Block block = this.worldObj.getBlockState(new BlockPos(this.posX, this.posY - 0.2D - (double)this.prevRotationYaw, this.posZ)).getBlock();
+
+            if (block.getMaterial() != Material.air && !this.isSilent())
+            {
+                Block.SoundType soundtype = block.stepSound;
+                this.worldObj.playSoundAtEntity(this, soundtype.getStepSound(), soundtype.getVolume() * 0.5F, soundtype.getFrequency() * 0.75F);
+            }
         }
     }
     

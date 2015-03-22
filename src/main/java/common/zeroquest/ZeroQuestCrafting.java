@@ -2,6 +2,7 @@ package common.zeroquest;
 
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -108,16 +109,98 @@ public class ZeroQuestCrafting
 			"XZX",
 			" X ",
 			'Z', new ItemStack(Items.bone), 'X', new ItemStack(Items.rotten_flesh) });
+		addRecipe(new ItemStack(ModItems.dogTreat), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.bone), 'X', new ItemStack(Items.mutton) });
+		addRecipe(new ItemStack(ModItems.dogTreat), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.bone), 'X', new ItemStack(Items.rabbit) });
 		addRecipe(new ItemStack(ModBlocks.foodBowl), new Object[]{
 			"XXX",
 			"XZX",
 			"XXX",
 			'Z', new ItemStack(ModItems.nileBone), 'X', new ItemStack(Items.iron_ingot) });
+		addRecipe(new ItemStack(ModItems.toy), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.leather), 'X', Items.slime_ball });
+		addRecipe(new ItemStack(ModItems.commandSeal), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.bow), 'X', new ItemStack(Item.getItemFromBlock(Blocks.stone)) });
+		addRecipe(new ItemStack(ModItems.commandSeal), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.bow), 'X', new ItemStack(Item.getItemFromBlock(Blocks.cobblestone)) });
+		//Bits\\
+		addRecipe(new ItemStack(ModItems.microBit), new Object[]{ //TODO
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.iron_ingot), 'X', new ItemStack(Items.rotten_flesh) });
+		addRecipe(new ItemStack(ModItems.microBit), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.iron_ingot), 'X', new ItemStack(Items.chicken) });
+		addRecipe(new ItemStack(ModItems.microBit), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.iron_ingot), 'X', new ItemStack(Items.beef) });
+		addRecipe(new ItemStack(ModItems.microBit), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.iron_ingot), 'X', new ItemStack(Items.porkchop) });
+		addRecipe(new ItemStack(ModItems.microBit), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.iron_ingot), 'X', new ItemStack(Items.mutton) });
+		addRecipe(new ItemStack(ModItems.microBit), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.iron_ingot), 'X', new ItemStack(Items.rabbit) });
+		addRecipe(new ItemStack(ModItems.microBit), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.iron_ingot), 'X', new ItemStack(ModItems.zertumMeatRaw) });
+		addRecipe(new ItemStack(ModItems.microBit), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.iron_ingot), 'X', new ItemStack(ModItems.jakanMeatRaw) });
+		addRecipe(new ItemStack(ModItems.megaBit), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.golden_apple), 'X', new ItemStack(ModItems.microBit) });
+		addRecipe(new ItemStack(ModItems.omegaBit), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.blaze_powder), 'X', new ItemStack(ModItems.megaBit) });
+		addRecipe(new ItemStack(ModItems.alphaBit), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(Items.diamond), 'X', new ItemStack(ModItems.omegaBit) });
 		
 		addShapelessRecipe(new ItemStack(Items.dye, 4, 15), ModItems.nileBone);
-		addShapelessRecipe(new ItemStack(ModItems.nileGrenade), ModItems.nileGrain, Items.gunpowder);		
+		addShapelessRecipe(new ItemStack(ModItems.nileGrenade), ModItems.nileGrain, Items.gunpowder);
 		addShapelessRecipe(new ItemStack(ModItems.nileSpark), ModItems.nileDust, Items.fire_charge);
 		addShapelessRecipe(new ItemStack(ModItems.nileSpark), ModItems.nileDust, Items.flint_and_steel);
+		
 	}
 	
 	public static void loadDarkRecipes() 

@@ -6,7 +6,7 @@ import common.zeroquest.entity.EntityZertumEntity;
 /**
  * @author ProPercivalalb
  **/
-public interface IDogTreat {
+public interface IBits {
 
 	/**
 	 * Called when right clicked on a DT doggy, to work out weather the 
