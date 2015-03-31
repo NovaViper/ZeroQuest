@@ -34,6 +34,7 @@ import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.api.interfaces.IBits;
 import common.zeroquest.api.interfaces.IBits.EnumFeedBack;
+import common.zeroquest.core.proxy.ClientProxy;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.util.TalentHelper;
 import common.zeroquest.entity.util.ModeUtil.EnumMode;
@@ -50,6 +51,9 @@ public class EntityMetalZertum extends EntityZertumEntity
     public static final double attackDamageTamed = 8;
     public static final double maxHealthBaby = 10;
     public static final double attackDamageBaby = 2;
+    public static final double maxHealthEvo = 50;
+    public static final double attackDamageEvo = 10;
+    public static final double speedEvo = 0.40000001192092896;
     
     public static final IAttribute blastResist = (new RangedAttribute((IAttribute)null, "generic.blastResist", 1.0D, 0.1D, 50D)).setDescription("Explosion Resistance").setShouldWatch(true);
     
@@ -95,6 +99,12 @@ public class EntityMetalZertum extends EntityZertumEntity
             this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthBaby);
             this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageBaby);
         }
+        else if(this.hasEvolved()){
+            this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthEvo + this.effectiveLevel());
+            this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageEvo);
+            this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speedEvo);
+            this.getEntityAttribute(blastResist).setBaseValue((double)this.talents.getLevel("blastresist"));
+        }
     }
     
     @Override
@@ -109,6 +119,7 @@ public class EntityMetalZertum extends EntityZertumEntity
     @Override
     protected String getLivingSound()
     {
+    	this.openMouth();
     	String sound = TalentHelper.getLivingSound(this);
     	if(!"".equals(sound))
     		return sound;
@@ -126,6 +137,7 @@ public class EntityMetalZertum extends EntityZertumEntity
     @Override
     protected String getHurtSound()
     {
+    	this.openMouth();
         return Sound.MetalZertumHurt;
     }
 
@@ -135,6 +147,7 @@ public class EntityMetalZertum extends EntityZertumEntity
     @Override
     protected String getDeathSound()
     {
+    	this.openMouth();
         return Sound.MetalZertumDeath;
     }
 
@@ -190,6 +203,10 @@ public class EntityMetalZertum extends EntityZertumEntity
                  	treat.giveTreat(type, player, this);
                  	return true;
                 }
+                else if(stack != null && stack.getItem() == ModItems.evoBit && this.levels.getLevel() == 120 && isServer() && this.canInteract(player)) {
+                	this.setEvolved(true);
+                    this.worldObj.playBroadcastSound(1013, new BlockPos(this), 0);
+                }
                 else if(stack.getItem() == Items.shears && this.isOwner(player)) {
                 	if(!this.worldObj.isRemote) {
                 		this.setTamed(false);
@@ -213,7 +230,7 @@ public class EntityMetalZertum extends EntityZertumEntity
                 		return true;
                 	}
                 }
-                else if (stack.getItem() == Items.dye)
+                else if (stack.getItem() == Items.dye && this.canInteract(player))
                 {
                     EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(stack.getMetadata());
 

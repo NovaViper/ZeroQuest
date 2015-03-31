@@ -72,6 +72,8 @@ public class PlayerEvents{
 			in.close();
 		} catch (Exception e) {
             e.printStackTrace();
+            player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "Could not verify version for " + name));
+            player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "Check your internet connection or contact the modder!"));
             status = FAILED;
         }
 		

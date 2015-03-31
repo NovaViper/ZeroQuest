@@ -54,6 +54,7 @@ import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.api.interfaces.IBits;
 import common.zeroquest.api.interfaces.IBits.EnumFeedBack;
+import common.zeroquest.core.proxy.ClientProxy;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.ai.EntityCustomAIBeg;
 import common.zeroquest.entity.util.TalentHelper;
@@ -75,6 +76,9 @@ public class EntityDarkZertum extends EntityZertumEntity
     public static final double attackDamageTamed = 12;
     public static final double maxHealthBaby = 10;
     public static final double attackDamageBaby = 4;
+    public static final double maxHealthEvo = 60;
+    public static final double attackDamageEvo = 14;
+    public static final double speedEvo = 0.40000001192092896;
     
     public EntityDarkZertum(World worldIn)
     {
@@ -114,6 +118,11 @@ public class EntityDarkZertum extends EntityZertumEntity
         {
             this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthBaby);
             this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageBaby);
+        }
+        else if(this.hasEvolved()){
+            this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthEvo + this.effectiveLevel());
+            this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageEvo);
+            this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speedEvo);
         }
     }
     
@@ -214,6 +223,10 @@ public class EntityDarkZertum extends EntityZertumEntity
                  	treat.giveTreat(type, player, this);
                  	return true;
                 }
+                else if(stack != null && stack.getItem() == ModItems.evoBit && this.levels.getLevel() == 120 && isServer() && this.canInteract(player)) {
+                	this.setEvolved(true);
+                    this.worldObj.playBroadcastSound(1013, new BlockPos(this), 0);
+                }
                 else if(stack.getItem() == Items.shears && this.isOwner(player)) {
                 	if(!this.worldObj.isRemote) {
                 		this.setTamed(false);
@@ -237,7 +250,7 @@ public class EntityDarkZertum extends EntityZertumEntity
                 		return true;
                 	}
                 }
-                else if (stack.getItem() == Items.dye)
+                else if (stack.getItem() == Items.dye && this.canInteract(player))
                 {
                     EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(stack.getMetadata());
 
@@ -263,7 +276,7 @@ public class EntityDarkZertum extends EntityZertumEntity
                 this.setAttackTarget((EntityLivingBase)null);
             }
         }
-        else if (ItemUtils.consumeEquipped(player, ModItems.nileBone) && !this.isAngry())
+        else if (ItemUtils.consumeEquipped(player, ModItems.darkBone) && !this.isAngry())
         {
             if (isServer())
             {
@@ -274,7 +287,6 @@ public class EntityDarkZertum extends EntityZertumEntity
         }
         return super.interact(player);
     }
-
     /**
      * This function is used when two same-species animals in 'love mode' breed to generate the new baby animal.
      */

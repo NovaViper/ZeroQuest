@@ -6,7 +6,6 @@ import java.util.List;
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
-import net.minecraft.command.PlayerNotFoundException;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -16,12 +15,10 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
-
-import org.apache.logging.log4j.Logger;
-
-import common.zeroquest.ZeroQuest;
 import common.zeroquest.core.helper.ChatHelper;
+import common.zeroquest.core.proxy.ClientProxy;
 import common.zeroquest.entity.EntityCustomTameable;
+import common.zeroquest.entity.EntityZertumEntity;
 import common.zeroquest.lib.Constants;
 
 
@@ -68,23 +65,27 @@ public class CommandZeroQuest extends CommandBase {
 
        String command = params[0];
        if (command.equalsIgnoreCase("stage") || command.equalsIgnoreCase("s")) {
-           if (params.length < 2) {
-               throw new WrongUsageException(getCommandUsage(sender));
-           }
+           if (sender instanceof EntityPlayerMP) {
+               EntityPlayerMP player = (EntityPlayerMP) sender;
+               if (params.length < 2) {
+            	   throw new WrongUsageException(getCommandUsage(sender));
+               }
            
-           String parameter = params[1];
+               String parameter = params[1];
            
-           if (parameter.equalsIgnoreCase("baby") || parameter.equalsIgnoreCase("b")) {
-        	   appyModifier(sender, new AgeModifier(-24000), global);
-           }
-           else if (parameter.equalsIgnoreCase("adult") || parameter.equalsIgnoreCase("a")) {
-        	   appyModifier(sender, new AgeModifier(1), global);
+               if (parameter.equalsIgnoreCase("baby") || parameter.equalsIgnoreCase("b")) {
+            	   appyModifier(sender, new AgeModifier(player, -24000), global);
+               }
+               else if (parameter.equalsIgnoreCase("adult") || parameter.equalsIgnoreCase("a")) {
+            	   appyModifier(sender, new AgeModifier(player, 1), global);
+               }
            }
        }
        
        else if (command.equalsIgnoreCase("heal") || command.equalsIgnoreCase("hp")) {
     	   if (sender instanceof EntityPlayerMP) {
-               appyModifier(sender, new HealthModifier(), global);
+               EntityPlayerMP player = (EntityPlayerMP) sender;
+               appyModifier(sender, new HealthModifier(player), global);
            } else {
                // console can't tame nile entities
                throw new CommandException("commands.zeroquest.cantheal");
@@ -126,6 +127,7 @@ public class CommandZeroQuest extends CommandBase {
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zeroquest help,h - "+EnumChatFormatting.RESET+"Pulls up help menu"));
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zeroquest version,v - "+EnumChatFormatting.RESET+"Displays mod information"));
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zeroquest purge,p <tamed,t|all,a|wild,w> [global,g] - "+EnumChatFormatting.RESET+"Kills off nile creatures, Tamed parameter kills only 1 tamed nile creature (unless global parameter is added), all kills EVERY nile creature, and wild kills only 1 nontamed nile creature (unless global parameter is added)"));
+               player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA+"/zeroquest evolve,e, [global,g] - "+EnumChatFormatting.RESET+"Evolves a tamed Zertum or any subspecies"));               
                player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD+"---------------------------------------------------"));
            
            } else {
@@ -135,22 +137,36 @@ public class CommandZeroQuest extends CommandBase {
        }
        
        else if (command.equalsIgnoreCase("purge") || command.equalsIgnoreCase("p")) { //TODO
-           if (params.length < 2) {
-               throw new WrongUsageException(getCommandUsage(sender));
-           }
+           if (sender instanceof EntityPlayerMP) {
+               EntityPlayerMP player = (EntityPlayerMP) sender;
+               if (params.length < 2) {
+            	   throw new WrongUsageException(getCommandUsage(sender));
+               }
            
-           String parameter = params[1];
+               String parameter = params[1];
            
-           if (parameter.equalsIgnoreCase("tamed") || parameter.equalsIgnoreCase("t")) {
-        	   appyModifier(sender, new PurgeModifier(false, "tamed"), global);
+               if (parameter.equalsIgnoreCase("tamed") || parameter.equalsIgnoreCase("t")) {
+            	   appyModifier(sender, new PurgeModifier(player,false, "tamed"), global);
+               }
+               else if (parameter.equalsIgnoreCase("all")|| parameter.equalsIgnoreCase("a")) {
+            	   appyModifier(sender, new PurgeModifier(player, true, "all"), true);
+               }
+               else if (parameter.equalsIgnoreCase("wild")|| parameter.equalsIgnoreCase("w")) {
+            	   appyModifier(sender, new PurgeModifier(player, false, "wild"), global);
+               }
            }
-           else if (parameter.equalsIgnoreCase("all")|| parameter.equalsIgnoreCase("a")) {
-        	   appyModifier(sender, new PurgeModifier(true, "all"), true);
+       }
+       
+       else if (command.equalsIgnoreCase("evolve") || command.equalsIgnoreCase("e")) {
+           if (sender instanceof EntityPlayerMP) {
+               EntityPlayerMP player = (EntityPlayerMP) sender;
+               appyModifier(sender, new EvolveModifier(player), global);
+           } else {
+               // console can't evolve nile entities
+               throw new CommandException("commands.zeroquest.cantuse");
            }
-           else if (parameter.equalsIgnoreCase("wild")|| parameter.equalsIgnoreCase("w")) {
-        	   appyModifier(sender, new PurgeModifier(false, "wild"), global);
-           }
-       }       
+       }
+       
        else {
            throw new WrongUsageException(getCommandUsage(sender));
        }
@@ -164,7 +180,7 @@ public class CommandZeroQuest extends CommandBase {
    {
        return args.length == 1 ? getListOfStringsMatchingLastWord(args, new String[] {/*"tame", "heal", "purge", "version", "help", "stage"*/}) : 
     	   (args.length == 2 && args[0].equalsIgnoreCase("stage") || args[0].equalsIgnoreCase("s") ? getListOfStringsMatchingLastWord(args, new String[] {"baby", "adult"}) 
-    		   : (args.length == 2 && args[0].equalsIgnoreCase("purge") || args[0].equalsIgnoreCase("p") ? getListOfStringsMatchingLastWord(args, new String[] {"tamed", "all"}): null));
+    		   : (args.length == 2 && args[0].equalsIgnoreCase("purge") || args[0].equalsIgnoreCase("p") ? getListOfStringsMatchingLastWord(args, new String[] {"tamed", "wild", "all"}): null));
    }
 
    
@@ -230,38 +246,48 @@ public class CommandZeroQuest extends CommandBase {
 
        @Override
        public void modify(EntityCustomTameable entity) {
-    	   entity.tamedFor(player, true);
-    	   System.out.println("Tamed!");
+    		   entity.tamedFor(player, true);
+			   player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Tamed!"));
        }
    }
    
    private class AgeModifier implements EntityModifier {
 	   
 	   private int age;
+       private EntityPlayerMP player;
 	   
-       AgeModifier(int age) {
+       AgeModifier(EntityPlayerMP player, int age) {
     	   this.age = age;
+    	   this.player = player;
        }
 
        @Override
        public void modify(EntityCustomTameable entity) {
     	   if(entity.isTamed()){
     	   		entity.setGrowingAge(age);
+ 			   player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Stage set!"));
+    	   }else{
+    		   player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You cannot change the stage of a wild creature!!"));   
     	   }
-	   		System.out.println("Age set!");
        }
    }
    
    private class HealthModifier implements EntityModifier {
 	   
-	   HealthModifier() {}
+       private EntityPlayerMP player;
+	   HealthModifier(EntityPlayerMP player)
+	   {
+		   this.player = player;
+	   }
 
        @Override
        public void modify(EntityCustomTameable entity) {
     	   if(entity.isTamed()){
     	   		entity.setHealth(entity.getMaxHealth());
+  			   player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Healed!"));
+       		}else{
+ 			   player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You cannot heal wild creatures!"));
        		}
-    	   System.out.println("Healed!");
        }
    }
    
@@ -269,10 +295,12 @@ public class CommandZeroQuest extends CommandBase {
 	   
 	   private boolean killAll;
 	   private String killWhat;
+	   private EntityPlayerMP player;
 	   
-	   PurgeModifier(boolean kill, String type) {
+	   PurgeModifier(EntityPlayerMP player, boolean kill, String type) {
     	   this.killAll = kill;
     	   this.killWhat = type;
+    	   this.player = player;
        }
 
        @Override
@@ -280,18 +308,56 @@ public class CommandZeroQuest extends CommandBase {
     	   if(killAll == false){
     		   if(killWhat == "tamed"){
     			   if(entity.isTamed()){
-    	   				entity.setHealth(0);
+    		   			entity.setDead();
     			   }
     		   }
     		   else if(killWhat == "wild"){
     			   if(!entity.isTamed()){
-   	   					entity.setHealth(0);
+    		   			entity.setDead();
     			   }
     		   }
     	   }else{
-	   			entity.setHealth(0);
+	   			entity.setDead();
     	   }
-	   		System.out.println("Purge Completed!");
+			  player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Purge completed!"));
+       }
+   }
+   
+   private class EvolveModifier implements EntityModifier {
+	   
+	   private EntityPlayerMP player;
+	   EvolveModifier(EntityPlayerMP player)
+	   {
+		   this.player = player;
+	   }
+
+       @Override
+       public void modify(EntityCustomTameable entity) {
+    	   if(entity.isTamed()){
+    		   if(entity instanceof EntityZertumEntity){
+    			   EntityZertumEntity zertum = (EntityZertumEntity)entity;
+    			   if(!zertum.hasEvolved() && !zertum.isChild() && zertum.getOwner() == player || zertum.willObeyOthers())
+    			   {
+    				   zertum.setEvolved(true);
+    				   zertum.worldObj.playBroadcastSound(1013, new BlockPos(zertum), 0);
+    				   player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + zertum.getDogName() +" has been evolved!"));
+    			   }
+    			   else if(zertum.hasEvolved() && !zertum.isChild() && zertum.getOwner() == player || zertum.willObeyOthers())
+    			   {
+    				   player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getDogName() + " has already evolved!"));
+    			   }
+    			   else if(!zertum.hasEvolved() && zertum.isChild() && zertum.getOwner() == player || zertum.willObeyOthers())
+    			   {
+    				   player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getDogName() + " is too young for evolution!"));
+    			   }
+    			   else if(!zertum.hasEvolved() && !zertum.isChild() && zertum.getOwner() != player || !zertum.willObeyOthers())
+    			   {
+    				   player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You do not own "+ zertum.getDogName() + " or their owner does not allow the Zertum to obey others!"));
+    			   }
+       			}
+    	   }else{
+    		   player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "Wild creatures cannot be evolved!"));   
+    	   }   
        }
    }
 }

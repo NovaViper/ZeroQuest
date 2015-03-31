@@ -25,37 +25,54 @@ public class RenderZertum extends RenderLiving
     private static final ResourceLocation zertumTextures = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum.png");
     private static final ResourceLocation tamedZertumTextures = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum_tame.png");
     private static final ResourceLocation angryZertumTextures = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum_angry.png");
+    private static final ResourceLocation evolvedZertumTextures = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/evo/zertum.png");
+    private static final ResourceLocation evolvedTamedZertumTextures = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/evo/zertum_tame.png");
     
-    public RenderZertum(RenderManager p_i46128_1_, ModelBase p_i46128_2_, float p_i46128_3_){
+    public RenderZertum(RenderManager render, ModelBase base, float par1){
     
-        super(p_i46128_1_, p_i46128_2_, p_i46128_3_);
+        super(render, base, par1);
         this.addLayer(new LayersZertum(this));
     }
 
-    public void func_177135_a(EntityZertum p_177135_1_, double p_177135_2_, double p_177135_4_, double p_177135_6_, float p_177135_8_, float p_177135_9_)
+    public void func_177135_a(EntityZertum entity, double par1, double par2, double par3, float par4, float par5)
     {
-        if (p_177135_1_.isWolfWet())
+        if (entity.isWolfWet())
         {
-            float f2 = p_177135_1_.getBrightness(p_177135_9_) * p_177135_1_.getShadingWhileWet(p_177135_9_);
+            float f2 = entity.getBrightness(par5) * entity.getShadingWhileWet(par5);
             GlStateManager.color(f2, f2, f2);
         }
 
-        super.doRender((EntityLiving)p_177135_1_, p_177135_2_, p_177135_4_, p_177135_6_, p_177135_8_, p_177135_9_);
+        super.doRender((EntityLiving)entity, par1, par2, par3, par4, par5);
     }
 
-    protected ResourceLocation getEntityTexture(EntityZertum p_110775_1_)
+    protected ResourceLocation getEntityTexture(EntityZertum entity)
     {
-        return p_110775_1_.isTamed() ? tamedZertumTextures : (p_110775_1_.isAngry() ? angryZertumTextures : zertumTextures);
+    	if(!entity.hasEvolved()){
+    		if(entity.isTamed()){
+    			return tamedZertumTextures;
+    		}else if(entity.isAngry()){
+    			return angryZertumTextures;
+    		}else if(!entity.isTamed() && !entity.isAngry()){
+    			return zertumTextures;
+    		}
+    	}else if(entity.hasEvolved()){
+    		if(entity.isTamed()){
+    			return evolvedTamedZertumTextures;
+    		}else if(!entity.isTamed() && !entity.isAngry()){
+    			return evolvedZertumTextures;
+    		}
+    	}
+		return null;
     }
 
-    public void doRender(EntityLiving p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
+    public void doRender(EntityLiving entity, double par1, double par2, double par3, float par4, float par5)
     {
-        this.func_177135_a((EntityZertum)p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
+        this.func_177135_a((EntityZertum)entity, par1, par2, par3, par4, par5);
     }
 
-    public void doRender(EntityLivingBase p_76986_1_, double p_76986_2_, double p_76986_4_, double p_76986_6_, float p_76986_8_, float p_76986_9_)
+    public void doRender(EntityLivingBase entity, double par1, double par2, double par3, float par4, float par5)
     {
-        this.func_177135_a((EntityZertum)p_76986_1_, p_76986_2_, p_76986_4_, p_76986_6_, p_76986_8_, p_76986_9_);
+        this.func_177135_a((EntityZertum)entity, par1, par2, par3, par4, par5);
     }
 
     protected ResourceLocation getEntityTexture(Entity p_110775_1_)
@@ -64,11 +81,11 @@ public class RenderZertum extends RenderLiving
     }
     
     @Override
-	public void passSpecialRender(EntityLivingBase entityLivingBase, double p_77033_2_, double p_77033_4_, double p_77033_6_) {
+	public void passSpecialRender(EntityLivingBase entityLivingBase, double par1, double par2, double par3) {
     	EntityZertum dog = (EntityZertum)entityLivingBase;
         
         if(!dog.getDogName().isEmpty())
-        	super.passSpecialRender(entityLivingBase, p_77033_2_, p_77033_4_, p_77033_6_);
+        	super.passSpecialRender(entityLivingBase, par1, par2, par3);
     }
     
     @Override

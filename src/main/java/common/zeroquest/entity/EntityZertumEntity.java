@@ -1,6 +1,5 @@
 package common.zeroquest.entity;
 
-
 import java.util.HashMap;
 import java.util.Map;
 
@@ -84,6 +83,13 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     public Map<String, Object> objects;
     private boolean hasBone;
     
+    private float mouthOpenness;
+    private float prevMouthOpenness;
+    public int field_110278_bp;
+    public int field_110279_bq;
+    private String field_110286_bQ;
+    private int openMouthCounter;
+    
     public static final double maxHealth = 25;
     public static final double attackDamage = 6;
     public static final double speed = 0.30000001192092896;
@@ -91,6 +97,9 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     public static final double attackDamageTamed = 8;
     public static final double maxHealthBaby = 10;
     public static final double attackDamageBaby = 2;
+    public static final double maxHealthEvo = 25;
+    public static final double attackDamageEvo = 6;
+    public static final double speedEvo = 0.30000001192092896;
     
     protected EntityAILeapAtTarget aiLeap = new EntityAILeapAtTarget(this, 0.4F);
     public EntityAIWatchClosest aiStareAtPlayer = new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F);
@@ -102,6 +111,8 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     public static final int INDEX_TAME = 16;
     public static final int INDEX_COLLAR = 19;
     public static final int INDEX_SADDLE = 20;
+    public static final int INDEX_EVOLVE = 25;
+    public static final int INDEX_MOUTH = 29;
 
     public EntityZertumEntity(World worldIn)
     {
@@ -125,6 +136,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
         this.targetTasks.addTask(3, new EntityAIModeAttackTarget(this));
         this.targetTasks.addTask(4, new EntityAIHurtByTarget(this, true));
         this.setTamed(false);
+        this.setEvolved(false);
         this.inventory = new InventoryPack(this);
         this.targetTasks.addTask(6, new EntityAIRoundUp(this, EntityAnimal.class, 0, false));
         TalentHelper.onClassCreation(this);
@@ -149,6 +161,11 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
         {
             this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthBaby);
             this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageBaby);
+        }
+        else if(this.hasEvolved()){
+            this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthEvo);
+            this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageEvo);
+            this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speedEvo);
         }
     }
     
@@ -198,9 +215,11 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
         this.dataWatcher.addObject(22, new String("")); //Talent Data
         this.dataWatcher.addObject(23, new Integer(60)); //Dog Hunger
         this.dataWatcher.addObject(24, new String("0:0")); //Level Data
+        this.dataWatcher.addObject(INDEX_EVOLVE, Byte.valueOf((byte)0)); //Evolution
         this.dataWatcher.addObject(26, new Integer(0)); //Obey Others
         this.dataWatcher.addObject(27, new Integer(0)); //Dog Mode
         this.dataWatcher.addObject(28, "-1:-1:-1:-1:-1:-1"); //Dog Mode
+        this.dataWatcher.addObject(INDEX_MOUTH, Integer.valueOf(0)); //Mouth
     }
 
     @Override
@@ -210,6 +229,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
         tagCompound.setBoolean("Angry", this.isAngry());
         tagCompound.setByte("CollarColor", (byte)this.getCollarColor().getDyeDamage());
         tagCompound.setBoolean("Saddle", this.isSaddled());
+        tagCompound.setBoolean("Evolve", this.hasEvolved());
         
         tagCompound.setString("version", Constants.version);
         tagCompound.setString("dogName", this.getDogName());
@@ -259,6 +279,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     @Override
     protected String getLivingSound()
     {
+    	this.openMouth();
     	String sound = TalentHelper.getLivingSound(this);
     	if(!"".equals(sound))
     		return sound;
@@ -275,6 +296,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     @Override
     protected String getHurtSound()
     {
+    	this.openMouth();
         return "mob.wolf.hurt";
     }
 
@@ -284,6 +306,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     @Override
     protected String getDeathSound()
     {
+    	this.openMouth();
         return "mob.wolf.death";
     }
     
@@ -422,6 +445,32 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     public void onUpdate()
     {
         super.onUpdate();
+        if (this.openMouthCounter > 0 && ++this.openMouthCounter > 30) //TODO
+        {
+            this.openMouthCounter = 0;
+            this.setHorseWatchableBoolean(128, false);
+        }
+        
+        this.prevMouthOpenness = this.mouthOpenness;
+
+        if (this.getHorseWatchableBoolean(128))
+        {
+            this.mouthOpenness += (1.0F - this.mouthOpenness) * 0.7F + 0.05F;
+
+            if (this.mouthOpenness > 1.0F)
+            {
+                this.mouthOpenness = 1.0F;
+            }
+        }
+        else
+        {
+            this.mouthOpenness += (0.0F - this.mouthOpenness) * 0.7F - 0.05F;
+
+            if (this.mouthOpenness < 0.0F)
+            {
+                this.mouthOpenness = 0.0F;
+            }
+        }
         this.headRotationCourseOld = this.headRotationCourse;
 
         if (this.func_70922_bv())
@@ -560,7 +609,11 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     	double speed = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
     	
     	speed += TalentHelper.addToMoveSpeed(this);
-
+    	
+    	if((!(this.getAttackTarget() instanceof EntityZertumEntity) && !(this.getAttackTarget() instanceof EntityPlayer)) || this.riddenByEntity instanceof EntityPlayer)
+    		if (this.levels.getLevel() == 110 && this.hasEvolved())
+    			speed += 1.0D;
+    	
     	if(this.riddenByEntity instanceof EntityPlayer)
     		speed /= 4;
     	
@@ -955,6 +1008,8 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
     {
         return (this.dataWatcher.getWatchableObjectByte(INDEX_SADDLE) & 1) != 0;
     }
+    
+    
 
     public void setSaddled(boolean p_70900_1_)
     {
@@ -967,6 +1022,59 @@ public abstract class EntityZertumEntity extends EntityCustomTameable
             this.dataWatcher.updateObject(INDEX_SADDLE, Byte.valueOf((byte)0));
         }
     } 
+    
+    public boolean hasEvolved() //TODO
+    {
+        return (this.dataWatcher.getWatchableObjectByte(INDEX_EVOLVE) & 1) != 0;
+    }
+    
+    
+
+    public void setEvolved(boolean p_70900_1_)
+    {
+        if (p_70900_1_)
+        {
+            this.dataWatcher.updateObject(INDEX_EVOLVE, Byte.valueOf((byte)1));
+        }
+        else
+        {
+            this.dataWatcher.updateObject(INDEX_EVOLVE, Byte.valueOf((byte)0));
+        }
+    }
+    
+    private boolean getHorseWatchableBoolean(int p_110233_1_) //TODO
+    {
+        return (this.dataWatcher.getWatchableObjectInt(INDEX_MOUTH) & p_110233_1_) != 0;
+    }
+
+    private void setHorseWatchableBoolean(int p_110208_1_, boolean p_110208_2_)
+    {
+        int j = this.dataWatcher.getWatchableObjectInt(INDEX_MOUTH);
+
+        if (p_110208_2_)
+        {
+            this.dataWatcher.updateObject(INDEX_MOUTH, Integer.valueOf(j | p_110208_1_));
+        }
+        else
+        {
+            this.dataWatcher.updateObject(INDEX_MOUTH, Integer.valueOf(j & ~p_110208_1_));
+        }
+    }
+    
+    @SideOnly(Side.CLIENT)
+    public float func_110201_q(float p_110201_1_)
+    {
+        return this.prevMouthOpenness + (this.mouthOpenness - this.prevMouthOpenness) * p_110201_1_;
+    }
+    
+    public void openMouth()
+    {
+        if (isServer())
+        {
+            this.openMouthCounter = 1;
+            this.setHorseWatchableBoolean(128, true);
+        }
+    }
 
     /**
      * Determines if an entity can be despawned, used on idle far away entities

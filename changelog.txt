@@ -151,3 +151,11 @@ v1.5.0 - More Fixes and Doggy Talent Implementations!
 ~Fixed Wither skulls aren't spawning when the Wither attacks
 ~Fixed crashing when loading achievements WITHOUT Dark Load enabled
 ~Fixed a bug where Baby Zertums howl at any time
+
+v1.5.5 - Evolution for Zertums!
++Added Evo Bits
++Added Evolve commands
++Added an evolutionary form for Zertums!
+*Most commands now have certain requirements before they can be used
+#Metal Zertums growl instead of roaring when a creeper is near
+~Fixed bug where Dark Zertums can only be tamed with nile bones instead of dark bones

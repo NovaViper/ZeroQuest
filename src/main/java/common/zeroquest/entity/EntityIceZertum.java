@@ -54,6 +54,7 @@ import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.api.interfaces.IBits;
 import common.zeroquest.api.interfaces.IBits.EnumFeedBack;
+import common.zeroquest.core.proxy.ClientProxy;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.ai.EntityCustomAIBeg;
 import common.zeroquest.entity.ai.targeting.EntityAICustomArrowAttack;
@@ -80,6 +81,9 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
     public static final double attackDamageTamed = 8;
     public static final double maxHealthBaby = 10;
     public static final double attackDamageBaby = 4;
+    public static final double maxHealthEvo = 45;
+    public static final double attackDamageEvo = 10;
+    public static final double speedEvo = 0.40000001192092896;
 
     public EntityIceZertum(World worldIn)
     {
@@ -122,6 +126,11 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
         {
             this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthBaby);
             this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageBaby);
+        }
+        else if(this.hasEvolved()){
+            this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthEvo + this.effectiveLevel());
+            this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageEvo);
+            this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speedEvo);
         }
     }
 
@@ -223,6 +232,10 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
                  	treat.giveTreat(type, player, this);
                  	return true;
                 }
+                else if(stack != null && stack.getItem() == ModItems.evoBit && this.levels.getLevel() == 120 && isServer() && this.canInteract(player)) {
+                	this.setEvolved(true);
+                    this.worldObj.playBroadcastSound(1013, new BlockPos(this), 0);
+                }
                 else if(stack.getItem() == Items.shears && this.isOwner(player)) {
                 	if(!this.worldObj.isRemote) {
                 		this.setTamed(false);
@@ -246,7 +259,7 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
                 		return true;
                 	}
                 }
-                else if (stack.getItem() == Items.dye)
+                else if (stack.getItem() == Items.dye && this.canInteract(player))
                 {
                     EnumDyeColor enumdyecolor = EnumDyeColor.byDyeDamage(stack.getMetadata());
 

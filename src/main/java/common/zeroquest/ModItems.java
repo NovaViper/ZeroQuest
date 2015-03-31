@@ -36,6 +36,7 @@ public class ModItems {
     public static Item megaBit;
     public static Item omegaBit;
     public static Item alphaBit;
+    public static Item evoBit;
 	public static Item nileEssence;
 	public static Item nileDust;
 	public static Item nileGrain;
@@ -105,6 +106,8 @@ public class ModItems {
     	register(omegaBit, "omega_bit");
     	alphaBit = new ItemAlphaBit().setUnlocalizedName("alphaBit").setCreativeTab(ZeroQuest.ZeroTab); 
     	register(alphaBit, "alpha_bit");
+    	evoBit = new ItemEvoBit().setUnlocalizedName("evoBit").setCreativeTab(ZeroQuest.ZeroTab); 
+    	register(evoBit, "evo_bit");
     	
     	//Portal Sparks//
     	nileSpark = new ItemNileSpark().setUnlocalizedName("nileSpark");
@@ -191,6 +194,7 @@ public class ModItems {
     	registerRender(megaBit, 0, Constants.modid + ":" + "mega_bit", "inventory");
     	registerRender(omegaBit, 0, Constants.modid + ":" + "omega_bit", "inventory");
     	registerRender(alphaBit, 0, Constants.modid + ":" + "alpha_bit", "inventory");
+    	registerRender(evoBit, 0, Constants.modid + ":" + "evo_bit", "inventory");    	
 	}
 	
 	public static void loadDarkRenderers(){
