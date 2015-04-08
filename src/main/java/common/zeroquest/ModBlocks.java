@@ -51,7 +51,7 @@ public class ModBlocks {
 		//Doggy Talent Parts\\
 		foodBowl = new BlockFoodBowl().setUnlocalizedName("foodBowl").setCreativeTab(ZeroQuest.ZeroTab);
 		register(foodBowl, "food_bowl");
-		GameRegistry.registerTileEntity(TileEntityFoodBowl.class, Constants.modid + ":" + "food_bowl");
+		GameRegistry.registerTileEntity(TileEntityFoodBowl.class, "food_bowl");
 		
 		//Flowers/Plants//
 		nileBlueFlower = new BlockNileBlueFlower().setUnlocalizedName("nileBlueFlower");

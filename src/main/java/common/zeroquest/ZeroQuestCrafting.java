@@ -195,6 +195,11 @@ public class ZeroQuestCrafting
 			"XZX",
 			" X ",
 			'Z', new ItemStack(Items.diamond), 'X', new ItemStack(ModItems.omegaBit) });
+		addRecipe(new ItemStack(ModItems.evoBit), new Object[]{
+			" X ",
+			"XZX",
+			" X ",
+			'Z', new ItemStack(ModItems.nileEssence), 'X', new ItemStack(ModItems.alphaBit) });
 		
 		addShapelessRecipe(new ItemStack(Items.dye, 4, 15), ModItems.nileBone);
 		addShapelessRecipe(new ItemStack(ModItems.nileGrenade), ModItems.nileGrain, Items.gunpowder);

@@ -1,21 +1,22 @@
 package common.zeroquest.events;
 
-import common.zeroquest.entity.EntityMetalZertum;
-import net.minecraft.entity.EntityLivingBase;
 import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
+import common.zeroquest.entity.EntityMetalZertum;
+
 public class LivingEvents {
-	
+
 	@SubscribeEvent
-	public void blastResist(LivingHurtEvent event){
-		if(event.entity instanceof EntityMetalZertum){	
-			if(event.source.isExplosion()){
-				if(EntityMetalZertum.blastResist != null){
-					event.ammount = (float)(event.ammount / ((EntityLivingBase)event.entity).getEntityAttribute(EntityMetalZertum.blastResist).getBaseValue());
+	public void blastResist(LivingHurtEvent event) {
+		if (event.entity instanceof EntityMetalZertum) {
+			if (event.source.isExplosion()) {
+				EntityMetalZertum dog = (EntityMetalZertum) event.entity;
+				if (dog.talents.getLevel("blastresist") != 0) {
+					event.ammount = event.ammount / dog.talents.getLevel("blastresist");
 				}
 			}
 		}
-		//System.out.println(event.ammount);
+		// System.out.println(event.ammount);
 	}
 }

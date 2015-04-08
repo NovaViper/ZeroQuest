@@ -17,6 +17,7 @@ public class Mount extends ITalent {
 			if(!dog.isChild() && ItemUtils.consumeEquipped(player, Items.saddle) && !dog.isSaddled()) //TODO
 			{
 				dog.setSaddled(true);
+				dog.playSound("mob.horse.leather", 0.5F, 1.0F);
 			}
 		
 			if(player.getHeldItem() == null) {
@@ -35,7 +36,7 @@ public class Mount extends ITalent {
 	@Override
 	public int onHungerTick(EntityZertumEntity dog, int totalInTick) { 
 		if(dog.riddenByEntity instanceof EntityPlayer)
-			if(dog.talents.getLevel(this) >= 5)
+			if(dog.talents.getLevel(this) >= 3)
 				totalInTick += 1;
 			else
 				totalInTick += 3;

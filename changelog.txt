@@ -152,10 +152,23 @@ v1.5.0 - More Fixes and Doggy Talent Implementations!
 ~Fixed crashing when loading achievements WITHOUT Dark Load enabled
 ~Fixed a bug where Baby Zertums howl at any time
 
-v1.5.5 - Evolution for Zertums!
+v1.6.0 - Evolution for Zertums and Even More Fixes!
 +Added Evo Bits
 +Added Evolve commands
++Added Level Up commands
 +Added an evolutionary form for Zertums!
-*Most commands now have certain requirements before they can be used
++Added Deathening Roar, Hardened Ice and Scorching Fire Talents
 #Metal Zertums growl instead of roaring when a creeper is near
+#Rasied maximum level to 120!
+#Altered Metal Zertum spawn egg color
+#Baby Zertums do not howl at all
+#Talent points dedecutions count by odd numbers now
+#Altered some text in lang file
+*Simplified coding
+*When untaming a Zertum, they will revert back to their normal state
+*Most commands now have certain requirements before they can be used
+*You can now mount on Kortors and Jakans by jumping first then right-click and with an non-usable item in hand
+*Ice and Red Zertums now have evironmental weaknesses: Ice Zertums are weak to hot biomes and Red Zertums are weak to water
 ~Fixed bug where Dark Zertums can only be tamed with nile bones instead of dark bones
+~Fixed potential memory leaks!
+~Fixed bug where the model for the food bowl cannot be found!

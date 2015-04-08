@@ -15,7 +15,7 @@ public class BlastResist extends ITalent {
 	
 	@Override
 	public int getHighestLevel(EntityZertumEntity dog) {
-		return 6;
+		return 5;
 	}
 
 }

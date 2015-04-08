@@ -18,16 +18,15 @@ import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
-import common.zeroquest.ZeroQuest;
 import common.zeroquest.api.interfaces.ITalent;
 import common.zeroquest.api.registry.TalentRegistry;
-import common.zeroquest.core.helper.LogHelper;
 import common.zeroquest.entity.EntityZertumEntity;
 import common.zeroquest.entity.util.ModeUtil.EnumMode;
-import common.zeroquest.network.packet.PacketDogMode;
-import common.zeroquest.network.packet.PacketDogName;
-import common.zeroquest.network.packet.PacketDogObey;
-import common.zeroquest.network.packet.PacketDogTalent;
+import common.zeroquest.network.PacketHandler;
+import common.zeroquest.network.imessage.ZertumMode;
+import common.zeroquest.network.imessage.ZertumName;
+import common.zeroquest.network.imessage.ZertumObey;
+import common.zeroquest.network.imessage.ZertumTalents;
 
 /**
  * @author ProPercivalalb
@@ -63,7 +62,7 @@ public class GuiDogInfo extends GuiScreen {
 			public boolean textboxKeyTyped(char character, int keyId) {
 				boolean typed = super.textboxKeyTyped(character, keyId);
 				if(typed)
-					 ZeroQuest.networkManager.sendPacketToServer(new PacketDogName(dog.getEntityId(), this.getText()));
+					PacketHandler.sendToServer(new ZertumName(dog.getEntityId(), this.getText()));
 				return typed;
 			}
 		};
@@ -176,7 +175,7 @@ public class GuiDogInfo extends GuiScreen {
 			int level = this.dog.talents.getLevel(talent);
 			
 			if(level < talent.getHighestLevel(this.dog) && this.dog.spendablePoints() >= talent.getCost(this.dog, level + 1))
-				ZeroQuest.networkManager.sendPacketToServer(new PacketDogTalent(this.dog.getEntityId(), TalentRegistry.getTalent(button.id - 1).getKey()));
+				PacketHandler.sendToServer(new ZertumTalents(this.dog.getEntityId(), TalentRegistry.getTalent(button.id - 1).getKey()));
 			
 		
 		}
@@ -195,12 +194,12 @@ public class GuiDogInfo extends GuiScreen {
         if (button.id == -5) {
         	if(!this.dog.willObeyOthers()) {
         		button.displayString = "true";
-        		ZeroQuest.networkManager.sendPacketToServer(new PacketDogObey(this.dog.getEntityId(), true));
+        		PacketHandler.sendToServer(new ZertumObey(this.dog.getEntityId(), true));
         		
         	}
         	else {
         		button.displayString = "false";
-        		ZeroQuest.networkManager.sendPacketToServer(new PacketDogObey(this.dog.getEntityId(), false));
+        		PacketHandler.sendToServer(new ZertumObey(this.dog.getEntityId(), false));
         	}
         }
         
@@ -208,7 +207,7 @@ public class GuiDogInfo extends GuiScreen {
         	int newMode = (dog.mode.getMode().ordinal() + 1) % EnumMode.values().length;
         	EnumMode mode = EnumMode.values()[newMode];
         	button.displayString = mode.modeName();
-        	ZeroQuest.networkManager.sendPacketToServer(new PacketDogMode(this.dog.getEntityId(), newMode));
+        	PacketHandler.sendToServer(new ZertumMode(this.dog.getEntityId(), newMode));
         }
 	}
 

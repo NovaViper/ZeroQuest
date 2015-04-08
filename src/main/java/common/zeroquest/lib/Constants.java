@@ -11,6 +11,7 @@ public class Constants {
 	   public static boolean DEF_HOWL = true;
 	   public static boolean IS_HUNGER_ON = true;
 	   public static boolean STARTING_ITEMS = true;
+	   public static final int maxLevel = 120;
 	   
 	   
 	   public static final String name										= "Zero Quest";
@@ -19,7 +20,7 @@ public class Constants {
 	   public static final String clientProxy								= "common.zeroquest.core.proxy.ClientProxy";
 	   public static final String serverProxy								= "common.zeroquest.core.proxy.CommonProxy";
 	   public static final String guiFactory								= "common.zeroquest.client.gui.config.GuiFactory";
-	   public static final String version									= "v1.5.0";
+	   public static final String version									= "v1.6.0";
 	   public static final String java										= "8";
 	   public static final String releaseType								= "Release";
 	   public static final boolean isBeta									= false;

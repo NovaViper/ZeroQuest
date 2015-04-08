@@ -22,7 +22,7 @@ import common.zeroquest.entity.util.ModeUtil.EnumMode;
 public class EntityAIFetchBone extends EntityAIBase {
     private EntityZertumEntity theDog;
     private EntityLivingBase theOwner;
-    private EntityItem theBone;
+    private EntityItem theToy;
     private World theWorld;
     private double moveSpeed;
     private PathNavigate petPathfinder;
@@ -43,42 +43,42 @@ public class EntityAIFetchBone extends EntityAIBase {
 
     @Override
     public boolean shouldExecute() {
-    	this.theBone = this.getClosestsBone();
+    	this.theToy = this.getClosestsBone();
     	EntityLivingBase possibleOwner = this.theDog.getOwnerEntity();
     	
-        if(this.theBone == null) {
+        if(this.theToy == null) {
             return false;
         }
         else if(possibleOwner == null) {
-        	this.theBone = null;
+        	this.theToy = null;
             return false;
         }
         else if(this.theDog.isSitting()) {
-        	this.theBone = null;
+        	this.theToy = null;
             return false;
         }
         else if(!this.theDog.mode.isMode(EnumMode.DOCILE)) {
-        	this.theBone = null;
+        	this.theToy = null;
             return false;
         }
         else if(this.theDog.riddenByEntity instanceof EntityPlayer) {
-        	this.theBone = null;
+        	this.theToy = null;
             return false;
         }
         else if(!this.theDog.isTamed()) {
-        	this.theBone = null;
+        	this.theToy = null;
             return false;
         }
-        else if(this.theDog.hasBone()) {
-        	this.theBone = null;
+        else if(this.theDog.hasToy()) {
+        	this.theToy = null;
             return false;
         }
         else if(this.theDog.getHealth() <= 1) {
-        	this.theBone = null;
+        	this.theToy = null;
             return false;
         }
-        else if(this.theDog.getDistanceSqToEntity(this.theBone) > (double)(this.maxDist * this.maxDist) || this.theDog.getDistanceSqToEntity(this.theBone) < (double)(this.minDist * this.minDist)) {
-        	this.theBone = null;
+        else if(this.theDog.getDistanceSqToEntity(this.theToy) > (double)(this.maxDist * this.maxDist) || this.theDog.getDistanceSqToEntity(this.theToy) < (double)(this.minDist * this.minDist)) {
+        	this.theToy = null;
             return false;
         }
         else {
@@ -92,7 +92,7 @@ public class EntityAIFetchBone extends EntityAIBase {
      */
     @Override
     public boolean continueExecuting() {
-        return !this.petPathfinder.noPath() && this.theOwner != null && !this.theDog.hasBone() && this.theBone != null && !this.theBone.isDead && !(this.theDog.getDistanceSqToEntity(this.theBone) > (double)(this.maxDist * this.maxDist) || this.theDog.getDistanceSqToEntity(this.theBone) < (double)(this.minDist * this.minDist)) && !this.theDog.isSitting();
+        return !this.petPathfinder.noPath() && this.theOwner != null && !this.theDog.hasToy() && this.theToy != null && !this.theToy.isDead && !(this.theDog.getDistanceSqToEntity(this.theToy) > (double)(this.maxDist * this.maxDist) || this.theDog.getDistanceSqToEntity(this.theToy) < (double)(this.minDist * this.minDist)) && !this.theDog.isSitting();
     }
 
     /**
@@ -119,7 +119,7 @@ public class EntityAIFetchBone extends EntityAIBase {
     public EntityItem getClosestsBone() {
         EntityItem entityItem = null;
         
-        if(this.theDog.hasBone())
+        if(this.theDog.hasToy())
         	return null;
         
         List list = this.theWorld.getEntitiesWithinAABBExcludingEntity(this.theDog, this.theDog.getEntityBoundingBox().expand((double)maxDist, (double)maxDist, (double)maxDist));
@@ -135,21 +135,21 @@ public class EntityAIFetchBone extends EntityAIBase {
 
     @Override
     public void updateTask() {
-        this.theDog.getLookHelper().setLookPositionWithEntity(this.theBone, 10.0F, (float)this.theDog.getVerticalFaceSpeed());
+        this.theDog.getLookHelper().setLookPositionWithEntity(this.theToy, 10.0F, (float)this.theDog.getVerticalFaceSpeed());
 
         if(!this.theDog.isSitting()) {
             if (--this.tenTickTimer <= 0) {
                 this.tenTickTimer = 10;
 
-                this.petPathfinder.tryMoveToEntityLiving(this.theBone, this.moveSpeed);
+                this.petPathfinder.tryMoveToEntityLiving(this.theToy, this.moveSpeed);
             }
         }
         
-        if(this.theDog.getDistanceSqToEntity(this.theBone) < (double)(1.5F * 1.5F) && !this.theDog.hasBone()) {
-        	if(this.theBone.isEntityAlive()) {
-        		this.theBone.attackEntityFrom(DamageSource.generic, 12F);
-        		this.theDog.setHasBone(true);
-        		this.theBone = null;
+        if(this.theDog.getDistanceSqToEntity(this.theToy) < (double)(1.5F * 1.5F) && !this.theDog.hasToy()) {
+        	if(this.theToy.isEntityAlive()) {
+        		this.theToy.attackEntityFrom(DamageSource.generic, 12F);
+        		this.theDog.setHasToy(true);
+        		this.theToy = null;
         	    this.theDog.getNavigator().clearPathEntity();
                 this.theDog.setAttackTarget((EntityLivingBase)null);
         	}
@@ -157,6 +157,6 @@ public class EntityAIFetchBone extends EntityAIBase {
     }
     
     public EntityItem getCurrentTarget() {
-    	return this.theBone;
+    	return this.theToy;
     }
 }

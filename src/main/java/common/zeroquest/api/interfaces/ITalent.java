@@ -37,15 +37,14 @@ public abstract class ITalent {
 	public boolean setFire(EntityZertumEntity dog, int amount) { return true; }
 	
 	public int getHighestLevel(EntityZertumEntity dog) { return 5; }
-	//public int getTotalCost(EntityDog dog) { return 15; }
 	
 	public int getCumulativeCost(EntityZertumEntity dog, int level) {
 		switch(level) {
         case 1: return 1;
-		case 2: return 2;
-        case 3: return 4;
-        case 4: return 6;
-        case 5: return 8;
+		case 2: return 3;
+        case 3: return 5;
+        case 4: return 7;
+        case 5: return 9;
         default: return 0;
         }
 	}

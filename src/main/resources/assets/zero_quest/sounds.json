@@ -34,6 +34,7 @@
 "riggator.hit": {"category": "hostile", "sounds": ["riggator/hit1", "riggator/hit2", "riggator/hit3"]},
 
 "zertum.howl": {"category": "neutral", "sounds": ["zertum/howl"]},
+"zertum.roar": {"category": "neutral", "sounds": ["zertum/roar"]},
 
 "metalzertum.bark": {"category": "neutral", "sounds": ["metalzertum/bark1", "metalzertum/bark2", "metalzertum/bark3"]},
 "metalzertum.death": {"category": "neutral", "sounds": ["metalzertum/death"]},
@@ -41,6 +42,7 @@
 "metalzertum.hurt": {"category": "neutral", "sounds": ["metalzertum/hurt1", "metalzertum/hurt2", "metalzertum/hurt3"]},
 "metalzertum.pant": {"category": "neutral", "sounds": ["metalzertum/panting"]},
 "metalzertum.howl": {"category": "neutral", "sounds": ["metalzertum/howl"]},
-"metalzertum.whine": {"category": "neutral", "sounds": ["metalzertum/whine"]}
+"metalzertum.whine": {"category": "neutral", "sounds": ["metalzertum/whine"]},
+"metalzertum.roar": {"category": "neutral", "sounds": ["metalzertum/roar"]}
 
 }

@@ -102,7 +102,7 @@ public class EntityAIFollowOwner extends EntityAIBase
     	int masterZ = MathHelper.floor_double(this.theOwner.posZ);
     	double distanceAway = this.theDog.getDistanceSqToEntity(this.theOwner);
     	
-    	if(((order == 0 || order == 3) && distanceAway >= 4.0D) || this.theDog.hasBone()) {
+    	if(((order == 0 || order == 3) && distanceAway >= 4.0D) || this.theDog.hasToy()) {
 	    		
 	        if (!this.theDog.isSitting())
 	        {

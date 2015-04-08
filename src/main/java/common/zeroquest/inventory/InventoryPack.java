@@ -7,241 +7,241 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
 import net.minecraft.util.IChatComponent;
+
 import common.zeroquest.entity.EntityCustomTameable;
 
 public class InventoryPack implements IInventory {
 
-public ItemStack[] inventorySlots;
-    private EntityCustomTameable dog;
+	public ItemStack[] inventorySlots;
+	private final EntityCustomTameable dog;
 
-    public InventoryPack(EntityCustomTameable entitydtdoggy) {
-        this.dog = entitydtdoggy;
-        this.inventorySlots = new ItemStack[this.getSizeInventory()];
-    }
+	public InventoryPack(EntityCustomTameable entitydtdoggy) {
+		this.dog = entitydtdoggy;
+		this.inventorySlots = new ItemStack[this.getSizeInventory()];
+	}
 
-    @Override
-public int getSizeInventory() {
-return 15;
-}
+	@Override
+	public int getSizeInventory() {
+		return 15;
+	}
 
-@Override
-public ItemStack getStackInSlot(int var1) {
-return this.inventorySlots[var1];
-}
+	@Override
+	public ItemStack getStackInSlot(int var1) {
+		return this.inventorySlots[var1];
+	}
 
-@Override
-public ItemStack decrStackSize(int par1, int par2) {
-if (this.inventorySlots[par1] != null) {
-            ItemStack var3;
+	@Override
+	public ItemStack decrStackSize(int par1, int par2) {
+		if (this.inventorySlots[par1] != null) {
+			ItemStack var3;
 
-            if (this.inventorySlots[par1].stackSize <= par2) {
-                var3 = this.inventorySlots[par1];
-                this.inventorySlots[par1] = null;
-                this.markDirty();
-                return var3;
-            }
-            else {
-                var3 = this.inventorySlots[par1].splitStack(par2);
+			if (this.inventorySlots[par1].stackSize <= par2) {
+				var3 = this.inventorySlots[par1];
+				this.inventorySlots[par1] = null;
+				this.markDirty();
+				return var3;
+			}
+			else {
+				var3 = this.inventorySlots[par1].splitStack(par2);
 
-                if (this.inventorySlots[par1].stackSize == 0)
-                {
-                    this.inventorySlots[par1] = null;
-                }
+				if (this.inventorySlots[par1].stackSize == 0) {
+					this.inventorySlots[par1] = null;
+				}
 
-                this.markDirty();
-                return var3;
-            }
-        }
-        else {
-            return null;
-        }
-}
+				this.markDirty();
+				return var3;
+			}
+		}
+		else {
+			return null;
+		}
+	}
 
-@Override
-public ItemStack getStackInSlotOnClosing(int par1) {
-if (this.inventorySlots[par1] != null) {
-            ItemStack var2 = this.inventorySlots[par1];
-            this.inventorySlots[par1] = null;
-            return var2;
-        }
-        else {
-            return null;
-        }
-}
+	@Override
+	public ItemStack getStackInSlotOnClosing(int par1) {
+		if (this.inventorySlots[par1] != null) {
+			ItemStack var2 = this.inventorySlots[par1];
+			this.inventorySlots[par1] = null;
+			return var2;
+		}
+		else {
+			return null;
+		}
+	}
 
-@Override
-public void setInventorySlotContents(int par1, ItemStack par2ItemStack) {
-this.inventorySlots[par1] = par2ItemStack;
+	@Override
+	public void setInventorySlotContents(int par1, ItemStack par2ItemStack) {
+		this.inventorySlots[par1] = par2ItemStack;
 
-        if (par2ItemStack != null && par2ItemStack.stackSize > this.getInventoryStackLimit()) {
-            par2ItemStack.stackSize = this.getInventoryStackLimit();
-        }
+		if (par2ItemStack != null && par2ItemStack.stackSize > this.getInventoryStackLimit()) {
+			par2ItemStack.stackSize = this.getInventoryStackLimit();
+		}
 
-        this.markDirty();
-}
+		this.markDirty();
+	}
 
-@Override
-public String getName() {
-return "Pet Inventory";
-}
+	@Override
+	public String getName() {
+		return "Pet Inventory";
+	}
 
-@Override
-public int getInventoryStackLimit() {
-return 64;
-}
-@Override
-public boolean isUseableByPlayer(EntityPlayer player) {
-return true;
-}
+	@Override
+	public int getInventoryStackLimit() {
+		return 64;
+	}
 
-public boolean insertStackFromEntity(EntityItem entityItem) {
-boolean succesful = false;
+	@Override
+	public boolean isUseableByPlayer(EntityPlayer player) {
+		return true;
+	}
 
-if (entityItem == null || entityItem.isDead)
-return false;
-else {
-ItemStack itemstack = entityItem.getEntityItem().copy();
-ItemStack itemstack1 = this.insertStack(itemstack);
+	public boolean insertStackFromEntity(EntityItem entityItem) {
+		boolean succesful = false;
 
-if (itemstack1 != null && itemstack1.stackSize != 0)
-entityItem.setEntityItemStack(itemstack1);
-else {
-succesful = true;
-entityItem.setDead();
-}
+		if (entityItem == null || entityItem.isDead)
+			return false;
+		else {
+			ItemStack itemstack = entityItem.getEntityItem().copy();
+			ItemStack itemstack1 = this.insertStack(itemstack);
 
-return succesful;
-}
-}
+			if (itemstack1 != null && itemstack1.stackSize != 0)
+				entityItem.setEntityItemStack(itemstack1);
+			else {
+				succesful = true;
+				entityItem.setDead();
+			}
 
-    public ItemStack insertStack(ItemStack stack) {
-     int j = this.getSizeInventory();
+			return succesful;
+		}
+	}
 
-        for (int k = 0; k < j && stack != null && stack.stackSize > 0; ++k)
-         stack = tryInsertStackToSlot(stack, k);
+	public ItemStack insertStack(ItemStack stack) {
+		int j = this.getSizeInventory();
 
-        if (stack != null && stack.stackSize == 0)
-            stack = null;
+		for (int k = 0; k < j && stack != null && stack.stackSize > 0; ++k)
+			stack = tryInsertStackToSlot(stack, k);
 
-        return stack;
-    }
-    
-    public ItemStack tryInsertStackToSlot(ItemStack stack, int slot) {
-        ItemStack slotStack = this.getStackInSlot(slot);
+		if (stack != null && stack.stackSize == 0)
+			stack = null;
 
-        if (this.isItemValidForSlot(slot, stack)) {
-            boolean changed = false;
+		return stack;
+	}
 
-            if (slotStack == null) {
-                int max = Math.min(stack.getMaxStackSize(), this.getInventoryStackLimit());
-                if (max >= stack.stackSize) {
-                 this.setInventorySlotContents(slot, stack);
-                    stack = null;
-                }
-                else
-                 this.setInventorySlotContents(slot, stack.splitStack(max));
-                changed = true;
-            }
-            else if (this.areItemStacksEqualItem(slotStack, stack)) {
-                int max = Math.min(stack.getMaxStackSize(), this.getInventoryStackLimit());
-                if (max > slotStack.stackSize) {
-                    int l = Math.min(stack.stackSize, max - slotStack.stackSize);
-                    stack.stackSize -= l;
-                    slotStack.stackSize += l;
-                    changed = l > 0;
-                }
-            }
+	public ItemStack tryInsertStackToSlot(ItemStack stack, int slot) {
+		ItemStack slotStack = this.getStackInSlot(slot);
 
-            if (changed)
-                this.markDirty();
-        }
+		if (this.isItemValidForSlot(slot, stack)) {
+			boolean changed = false;
 
-        return stack;
-    }
-    
-    private boolean areItemStacksEqualItem(ItemStack p_145894_0_, ItemStack p_145894_1_) {
-        return p_145894_0_.getItem() != p_145894_1_.getItem() ? false : (p_145894_0_.getItemDamage() != p_145894_1_.getItemDamage() ? false : (p_145894_0_.stackSize > p_145894_0_.getMaxStackSize() ? false : ItemStack.areItemStackTagsEqual(p_145894_0_, p_145894_1_)));
-    }
-    
-    @Override
-public boolean hasCustomName() {
-return false;
-}
+			if (slotStack == null) {
+				int max = Math.min(stack.getMaxStackSize(), this.getInventoryStackLimit());
+				if (max >= stack.stackSize) {
+					this.setInventorySlotContents(slot, stack);
+					stack = null;
+				}
+				else
+					this.setInventorySlotContents(slot, stack.splitStack(max));
+				changed = true;
+			}
+			else if (this.areItemStacksEqualItem(slotStack, stack)) {
+				int max = Math.min(stack.getMaxStackSize(), this.getInventoryStackLimit());
+				if (max > slotStack.stackSize) {
+					int l = Math.min(stack.stackSize, max - slotStack.stackSize);
+					stack.stackSize -= l;
+					slotStack.stackSize += l;
+					changed = l > 0;
+				}
+			}
 
-@Override
-public boolean isItemValidForSlot(int i, ItemStack itemstack) {
-return false;
-}
+			if (changed)
+				this.markDirty();
+		}
 
-public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
-        NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Items", 10);
-        
-        for (int i = 0; i < nbttaglist.tagCount(); ++i)
-        {
-            NBTTagCompound nbttagcompound1 = (NBTTagCompound)nbttaglist.getCompoundTagAt(i);
-            int j = nbttagcompound1.getByte("Slot") & 255;
+		return stack;
+	}
 
-            if (j >= 0 && j < this.inventorySlots.length)
-            {
-                this.inventorySlots[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
-            }
-        }
-    }
+	private boolean areItemStacksEqualItem(ItemStack p_145894_0_, ItemStack p_145894_1_) {
+		return p_145894_0_.getItem() != p_145894_1_.getItem() ? false
+				: (p_145894_0_.getItemDamage() != p_145894_1_.getItemDamage() ? false
+						: (p_145894_0_.stackSize > p_145894_0_.getMaxStackSize() ? false
+								: ItemStack.areItemStackTagsEqual(p_145894_0_, p_145894_1_)));
+	}
 
-    public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
-        NBTTagList nbttaglist = new NBTTagList();
+	@Override
+	public boolean hasCustomName() {
+		return false;
+	}
 
-        for (int i = 0; i < this.inventorySlots.length; ++i)
-        {
-            if (this.inventorySlots[i] != null)
-            {
-                NBTTagCompound nbttagcompound1 = new NBTTagCompound();
-                nbttagcompound1.setByte("Slot", (byte)i);
-                this.inventorySlots[i].writeToNBT(nbttagcompound1);
-                nbttaglist.appendTag(nbttagcompound1);
-            }
-        }
+	@Override
+	public boolean isItemValidForSlot(int i, ItemStack itemstack) {
+		return false;
+	}
 
-        par1NBTTagCompound.setTag("Items", nbttaglist);
-    }
+	public void readFromNBT(NBTTagCompound par1NBTTagCompound) {
+		NBTTagList nbttaglist = par1NBTTagCompound.getTagList("Items", 10);
 
-@Override
-public void markDirty() {
+		for (int i = 0; i < nbttaglist.tagCount(); ++i) {
+			NBTTagCompound nbttagcompound1 = nbttaglist.getCompoundTagAt(i);
+			int j = nbttagcompound1.getByte("Slot") & 255;
 
-}
+			if (j >= 0 && j < this.inventorySlots.length) {
+				this.inventorySlots[j] = ItemStack.loadItemStackFromNBT(nbttagcompound1);
+			}
+		}
+	}
 
-@Override
-public void openInventory(EntityPlayer playerIn) {}
+	public void writeToNBT(NBTTagCompound par1NBTTagCompound) {
+		NBTTagList nbttaglist = new NBTTagList();
 
-@Override
-public void closeInventory(EntityPlayer playerIn) {}
+		for (int i = 0; i < this.inventorySlots.length; ++i) {
+			if (this.inventorySlots[i] != null) {
+				NBTTagCompound nbttagcompound1 = new NBTTagCompound();
+				nbttagcompound1.setByte("Slot", (byte) i);
+				this.inventorySlots[i].writeToNBT(nbttagcompound1);
+				nbttaglist.appendTag(nbttagcompound1);
+			}
+		}
 
-@Override
-public IChatComponent getDisplayName() {
+		par1NBTTagCompound.setTag("Items", nbttaglist);
+	}
 
-	return null;
-}
+	@Override
+	public void markDirty() {
 
-@Override
-public int getField(int id) {
+	}
 
-	return 0;
-}
+	@Override
+	public void openInventory(EntityPlayer playerIn) {}
 
-@Override
-public void setField(int id, int value) {
-	
-}
+	@Override
+	public void closeInventory(EntityPlayer playerIn) {}
 
-@Override
-public int getFieldCount() {
+	@Override
+	public IChatComponent getDisplayName() {
 
-	return 0;
-}
+		return null;
+	}
 
-@Override
-public void clear() {
-	// TODO Auto-generated method stub
-	
-}
+	@Override
+	public int getField(int id) {
+
+		return 0;
+	}
+
+	@Override
+	public void setField(int id, int value) {
+
+	}
+
+	@Override
+	public int getFieldCount() {
+
+		return 0;
+	}
+
+	@Override
+	public void clear() {
+		// TODO Auto-generated method stub
+
+	}
 }
