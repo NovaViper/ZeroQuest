@@ -6,9 +6,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.monster.EntityMob;
-
-import common.zeroquest.entity.EntityZertumEntity;
 import common.zeroquest.entity.util.ModeUtil.EnumMode;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 
 /**
  * @author ProPercivalalb

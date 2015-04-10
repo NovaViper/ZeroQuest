@@ -4,9 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import net.minecraft.nbt.NBTTagCompound;
-
 import common.zeroquest.api.interfaces.ITalent;
-import common.zeroquest.entity.EntityZertumEntity;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 
 /**
  * @author ProPercivalalb

@@ -2,9 +2,8 @@ package common.zeroquest.entity.ai;
 
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITarget;
-
-import common.zeroquest.entity.EntityZertumEntity;
 import common.zeroquest.entity.util.ModeUtil.EnumMode;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 
 /**
  * @author ProPercivalalb

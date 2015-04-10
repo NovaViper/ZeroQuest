@@ -58,7 +58,6 @@ public class ZeroQuestCrafting
 			"   ",
 			"XX ",
 			'X', new ItemStack(ModItems.nileGrain) });
-		
 		addRecipe(new ItemStack(ModItems.nileBone), new Object[]{
 			"  X",
 			" Z ",
@@ -69,16 +68,16 @@ public class ZeroQuestCrafting
 			"XX ",
 			"ZX ",
 			'X', new ItemStack(ModItems.nileGrain), 'Z', Blocks.crafting_table });
-		addRecipe(new ItemStack(ModBlocks.darkaxStone, 2), new Object[]{
+		addRecipe(new ItemStack(ModBlocks.nillaxStone, 2), new Object[]{
 			"XXX",
+			"XZX",
 			"XXX",
-			"XXX",
-			'X', new ItemStack(ModItems.nileEssence)});
+			'X', new ItemStack(ModItems.nileEssence), 'Z', Item.getItemFromBlock(Blocks.obsidian)});
 		addRecipe(new ItemStack(ModItems.vitoidSeed, 4), new Object[]{
-			"  X",
-			" Z ",
-			"X  ",
-			'Z', ModItems.nileGrain, 'X', new ItemStack(Items.wheat_seeds) });
+			" X ",
+			"XZX",
+			" X ",
+			'X', ModItems.nileGrain, 'Z', new ItemStack(Items.wheat_seeds) });
 		addRecipe(new ItemStack(ModItems.dogTreat), new Object[]{
 			" X ",
 			"XZX",
@@ -128,7 +127,7 @@ public class ZeroQuestCrafting
 			" X ",
 			"XZX",
 			" X ",
-			'Z', new ItemStack(Items.leather), 'X', Items.slime_ball });
+			'X', new ItemStack(Items.leather), 'Z', Items.slime_ball });
 		addRecipe(new ItemStack(ModItems.commandSeal), new Object[]{
 			" X ",
 			"XZX",

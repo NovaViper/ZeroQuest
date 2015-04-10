@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.client.renderer.entity.RenderMetalZertum;
-import common.zeroquest.entity.EntityMetalZertum;
+import common.zeroquest.entity.zertum.EntityMetalZertum;
 import common.zeroquest.lib.Constants;
 
 @SideOnly(Side.CLIENT)

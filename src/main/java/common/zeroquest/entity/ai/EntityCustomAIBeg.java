@@ -5,8 +5,8 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import common.zeroquest.ModItems;
-import common.zeroquest.entity.EntityZertumEntity;
-import common.zeroquest.entity.EntityDarkZertum;
+import common.zeroquest.entity.zertum.EntityDarkZertum;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 
 public class EntityCustomAIBeg extends EntityAIBase
 {

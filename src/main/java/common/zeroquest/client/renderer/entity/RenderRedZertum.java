@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.client.renderer.entity.layers.LayersRedZertum;
-import common.zeroquest.entity.EntityRedZertum;
+import common.zeroquest.entity.zertum.EntityRedZertum;
 import common.zeroquest.lib.Constants;
 
 @SideOnly(Side.CLIENT)

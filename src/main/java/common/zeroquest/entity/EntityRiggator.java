@@ -3,6 +3,7 @@ package common.zeroquest.entity;
 import java.util.UUID;
 
 import common.zeroquest.ModItems;
+import common.zeroquest.entity.zertum.EntityZertum;
 import common.zeroquest.lib.Sound;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;

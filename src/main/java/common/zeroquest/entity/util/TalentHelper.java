@@ -6,10 +6,9 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
-
 import common.zeroquest.api.interfaces.ITalent;
 import common.zeroquest.api.registry.TalentRegistry;
-import common.zeroquest.entity.EntityZertumEntity;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 
 /**
  * @author ProPercivalalb

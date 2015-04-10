@@ -11,10 +11,9 @@ import net.minecraft.pathfinding.PathNavigate;
 import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
-
 import common.zeroquest.ModItems;
-import common.zeroquest.entity.EntityZertumEntity;
 import common.zeroquest.entity.util.ModeUtil.EnumMode;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 
 /**
  * @author ProPercivalalb

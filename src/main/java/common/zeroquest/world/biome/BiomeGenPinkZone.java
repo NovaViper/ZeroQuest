@@ -10,7 +10,7 @@ import net.minecraft.entity.passive.EntityCow;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import common.zeroquest.entity.EntityZertum;
+import common.zeroquest.entity.zertum.EntityZertum;
 import common.zeroquest.lib.Constants;
 
 public class BiomeGenPinkZone extends BiomeGenBase {

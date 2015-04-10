@@ -3,7 +3,8 @@ package common.zeroquest.entity.util;
 import net.minecraft.nbt.NBTTagCompound;
 
 import com.google.common.base.Strings;
-import common.zeroquest.entity.EntityZertumEntity;
+
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 
 /**
  * @author ProPercivalalb

@@ -92,8 +92,9 @@ public class PlayerEvents {
 		LogHelper.info("Received version data: %s", status);
 		String chat = String.format("A new %s version exists: %s. Get it here: %s", Constants.name, version, link);
 		String chat2 = String.format("A new %s beta version exists: %s. Get it here: %s", Constants.name, version, link);
-		if (status == OUTDATED)
+		if (status == OUTDATED) {
 			LogHelper.info(chat);
+		}
 		else if (status == BETA_OUTDATED) {
 			LogHelper.info(chat2);
 		}

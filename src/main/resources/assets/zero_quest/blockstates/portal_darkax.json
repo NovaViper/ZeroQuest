@@ -1,0 +1,6 @@
+{
+    "variants": {
+        "axis=z": { "model": "zero_quest:portal_darkax_ew" },
+        "axis=x": { "model": "zero_quest:portal_darkax_ns" }
+    }
+}

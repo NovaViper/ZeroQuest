@@ -18,9 +18,9 @@ import net.minecraft.world.gen.feature.WorldGenAbstractTree;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.ModBlocks;
-import common.zeroquest.entity.EntityForisZertum;
 import common.zeroquest.entity.EntityRiggator;
-import common.zeroquest.entity.EntityZertum;
+import common.zeroquest.entity.zertum.EntityForisZertum;
+import common.zeroquest.entity.zertum.EntityZertum;
 import common.zeroquest.lib.Constants;
 
 public class BiomeGenNileSwamp extends BiomeGenBase

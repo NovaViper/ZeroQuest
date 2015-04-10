@@ -3,8 +3,9 @@ package common.zeroquest.entity.ai;
 import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 
 import com.google.common.base.Predicate;
-import common.zeroquest.entity.EntityZertumEntity;
+
 import common.zeroquest.entity.util.ModeUtil.EnumMode;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 
 /**
  * @author ProPercivalalb

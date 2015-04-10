@@ -8,11 +8,10 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
-
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.api.interfaces.ITalent;
-import common.zeroquest.entity.EntityMetalZertum;
-import common.zeroquest.entity.EntityZertumEntity;
+import common.zeroquest.entity.zertum.EntityMetalZertum;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 import common.zeroquest.lib.Sound;
 
 /**

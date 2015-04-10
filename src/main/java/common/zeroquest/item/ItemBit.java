@@ -3,10 +3,9 @@ package common.zeroquest.item;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-
 import common.zeroquest.api.interfaces.IBits;
 import common.zeroquest.core.helper.ChatHelper;
-import common.zeroquest.entity.EntityZertumEntity;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 
 /**
  * @author ProPercivalalb

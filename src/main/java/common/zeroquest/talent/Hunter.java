@@ -5,7 +5,7 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraftforge.event.entity.living.LivingDropsEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import common.zeroquest.api.interfaces.ITalent;
-import common.zeroquest.entity.EntityZertumEntity;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 /**
  * @author ProPercivalalb
  */

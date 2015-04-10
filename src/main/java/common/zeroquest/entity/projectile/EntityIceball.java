@@ -1,7 +1,6 @@
 package common.zeroquest.entity.projectile;
 
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.monster.EntityBlaze;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
@@ -11,9 +10,11 @@ import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 import common.zeroquest.core.proxy.ClientProxy;
+import common.zeroquest.entity.zertum.EntityIceZertum;
 
 public class EntityIceball extends EntityThrowable {
 	private static final String __OBFID = "CL_00001722";
+	EntityLivingBase entity;
 
 	public EntityIceball(World p_i1773_1_) {
 		super(p_i1773_1_);
@@ -21,6 +22,7 @@ public class EntityIceball extends EntityThrowable {
 
 	public EntityIceball(World p_i1774_1_, EntityLivingBase p_i1774_2_) {
 		super(p_i1774_1_, p_i1774_2_);
+		this.entity = p_i1774_2_;
 	}
 
 	public EntityIceball(World p_i1775_1_, double p_i1775_2_, double p_i1775_4_, double p_i1775_6_) {
@@ -41,13 +43,12 @@ public class EntityIceball extends EntityThrowable {
 	@Override
 	protected void onImpact(MovingObjectPosition movingObject) {
 		if (movingObject.entityHit != null) {
-			byte b0 = 0;
+			if (entity instanceof EntityIceZertum) {
+				EntityIceZertum zertum = (EntityIceZertum) entity;
+				byte b0 = (byte) zertum.talents.getLevel("frigidfrost");
 
-			if (movingObject.entityHit instanceof EntityBlaze) {
-				b0 = 3;
+				movingObject.entityHit.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, this.getThrower()), b0);
 			}
-
-			movingObject.entityHit.attackEntityFrom(DamageSource.causeThrownDamage(this, this.getThrower()), b0);
 		}
 		else {
 

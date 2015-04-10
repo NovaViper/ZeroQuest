@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 
-import common.zeroquest.entity.EntityZertumEntity;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 
 @SideOnly(Side.CLIENT)
 public class ModelZertum extends ModelBase {

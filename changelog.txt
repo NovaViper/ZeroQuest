@@ -152,18 +152,22 @@ v1.5.0 - More Fixes and Doggy Talent Implementations!
 ~Fixed crashing when loading achievements WITHOUT Dark Load enabled
 ~Fixed a bug where Baby Zertums howl at any time
 
-v1.6.0 - Evolution for Zertums and Even More Fixes!
+v1.6.0 - Evolution for Zertums and Even More Fixes! Portal Revival!!
+*^Portals to the Nillax/Darkax Dimensions are now functional again!^
+-^Nile/Dark Sparks are no longer used to travel to the Nillax/Darkax Dimensions!^
 +Added Evo Bits
 +Added Evolve commands
 +Added Level Up commands
 +Added an evolutionary form for Zertums!
-+Added Deathening Roar, Hardened Ice and Scorching Fire Talents
++Added Deathening Roar, Frigid Frost and Flaming Elemental Talents
 #Metal Zertums growl instead of roaring when a creeper is near
 #Rasied maximum level to 120!
 #Altered Metal Zertum spawn egg color
 #Baby Zertums do not howl at all
 #Talent points dedecutions count by odd numbers now
 #Altered some text in lang file
+#Renamed Guardian talent to Guardian Angel
+*^Merged Fire Zertum to the Flaming Elemental Talent^
 *Simplified coding
 *When untaming a Zertum, they will revert back to their normal state
 *Most commands now have certain requirements before they can be used

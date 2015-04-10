@@ -12,8 +12,8 @@ import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.ModBlocks;
-import common.zeroquest.entity.EntityDarkZertum;
 import common.zeroquest.entity.EntityKurr;
+import common.zeroquest.entity.zertum.EntityDarkZertum;
 import common.zeroquest.lib.Constants;
 
 public class BiomeGenDarkLand extends BiomeGenBase {

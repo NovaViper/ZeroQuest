@@ -48,14 +48,14 @@ gui.talentname.dasher=Dasher
 gui.talentinfo.dasher=Increases your Zertum's movement speed while chasing a target and while being ridden. Every level grants a 12% increase, and mastering it grants an additional 15% increase
 gui.talentname.deatheningroar=Deathening Roar
 gui.talentinfo.deatheningroar=§c[EVOLVED ZERTUMS ONLY]§r Equip a bone in hand and command the Zertum to unleash a powerful roar and inflict 1 point of damage and knocks back all nearby mobs (expect for slimes) for a cooldown of 50 ticks. Each level increases the range by 3 blocks and increases the damage and knockback by 1. Mastering the skill doubles the damage, gives a very far range, strongest knockback and reduces the cooldown to 20 ticks.
-gui.talentname.fire=Fire Zertum
-gui.talentinfo.fire=§c[RED ZERTUMS ONLY]§r Allows your Red Zertum set things on fire while attacking. The higher the level, the longer the fire lasts. Mastering the skill grants your Red Zertum immunity to fire
 gui.talentname.fishing=Fishing
 gui.talentinfo.fishing=Whenever your Zertum enters the water, it may catch a fish which it will give to you when it shakes itself dry. The chance of catching a fish increases with level, and any points in Fire Zertum may cause the fish to be pre-cooked. Mastering this skill lets your Zertum breathe underwater.
-gui.talentname.guardianangel=Guardian
+gui.talentname.flamingelemental=Flaming Elemental
+gui.talentinfo.flamingelemental=§c[RED ZERTUMS ONLY]§r Allows your Red Zertum set things on fire while attacking and reinforces it's fire to resist damage from water. The higher the level, the longer the fire lasts. Mastering the skill grants your Red Zertum immunity to fire and make it invulnerable to water damage
+gui.talentname.frigidfrost=Frigid Frost
+gui.talentinfo.frigidfrost=§c[ICE ZERTUMS ONLY]§r Reinforces the Ice Zertum's body to resist the heat of hot environments and improves it's ranged ice attack. Mastery level (level 5) will make your Ice Zertum invulnerable to heat damage, including the Red Zertum's fire attacks and doubles the damage of the ice attack
+gui.talentname.guardianangel=Guardian Angel
 gui.talentinfo.guardianangel=Increases the chance that your Zertum will completely block a physical attack.
-gui.talentname.hardenedice=Hardened Ice
-gui.talentinfo.hardenedice=§c[ICE ZERTUMS ONLY]§r Reinforces the Ice Zertum's body to resist the heat of hot environments. Mastery level (level 5) will make your Ice Zertum invulnerable to heat damage, including the Red Zertum's fire attacks
 gui.talentname.hunter=Hunter
 gui.talentinfo.hunter=Every level grants a 10% chance to make anything your Zertums kills drop its loot 2 times. Level 5 grants an extra 10%, bringing it up to a 60% chance
 gui.talentname.lifegiver=Life Giver
@@ -72,8 +72,6 @@ gui.talentname.rapidregen=Rapid Regeneration
 gui.talentinfo.rapidregen=Improves your Zertum's regeneration rate without needing to rest. Mastering the skill will heal your Zertum 50% faster when sitting.
 gui.talentname.roundup=Round Up
 gui.talentinfo.roundup=Put some wheat in your hand, and your trained Zertums will immediately pick up some nearby livestock and carry them for you making it easier to transport livestock long distances. This is quite tiring though, and costs a lot of nourishment. The cost is reduced with higher levels in the skill. To have your Zertum drop the animal, simply don't hold wheat.
-gui.talentname.scorchingfire=Scorching Fire
-gui.talentinfo.scorchingfire=§c[RED ZERTUMS ONLY]§r Reinforces the Red Zertum's body to resist damage from water. Mastery level (level 5) will make your Red Zertum invulnerable to water damage
 gui.talentname.
 gui.talentinfo.
 

@@ -20,8 +20,8 @@ import org.lwjgl.opengl.GL12;
 
 import common.zeroquest.api.interfaces.ITalent;
 import common.zeroquest.api.registry.TalentRegistry;
-import common.zeroquest.entity.EntityZertumEntity;
 import common.zeroquest.entity.util.ModeUtil.EnumMode;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 import common.zeroquest.network.PacketHandler;
 import common.zeroquest.network.imessage.ZertumMode;
 import common.zeroquest.network.imessage.ZertumName;

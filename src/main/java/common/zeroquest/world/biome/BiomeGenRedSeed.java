@@ -16,9 +16,8 @@ import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import common.zeroquest.ModBlocks;
-import common.zeroquest.entity.EntityRedZertum;
+import common.zeroquest.entity.zertum.EntityRedZertum;
 import common.zeroquest.lib.Constants;
 
 public class BiomeGenRedSeed extends BiomeGenBase {

@@ -23,8 +23,8 @@ import net.minecraft.world.gen.feature.WorldGenVines;
 import net.minecraft.world.gen.feature.WorldGenerator;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import common.zeroquest.entity.EntityForisZertum;
 import common.zeroquest.entity.EntityKortor;
+import common.zeroquest.entity.zertum.EntityForisZertum;
 
 public class BiomeGenNileJungle extends BiomeGenBase
 {

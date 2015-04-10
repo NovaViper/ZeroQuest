@@ -1,0 +1,7 @@
+{
+    "parent": "zero_quest:block/nile_fire_nsew_flip",
+    "textures": {
+        "particle": "zero_quest:blocks/nileFire_layer_1",
+        "fire": "zero_quest:blocks/nileFire_layer_1"
+    }
+}

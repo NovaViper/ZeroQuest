@@ -18,11 +18,10 @@ import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.core.proxy.CommonProxy;
-import common.zeroquest.entity.EntityZertumEntity;
 import common.zeroquest.entity.tileentity.TileEntityFoodBowl;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 
 /**
  * @author ProPercivalalb

@@ -2,9 +2,9 @@ package common.zeroquest.client.renderer.entity.model;
 
 import org.lwjgl.opengl.GL11;
 
-import common.zeroquest.entity.EntityDarkZertum;
 import common.zeroquest.entity.EntityJakan;
-import common.zeroquest.entity.EntityZertum;
+import common.zeroquest.entity.zertum.EntityDarkZertum;
+import common.zeroquest.entity.zertum.EntityZertum;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.model.ModelRenderer;
 import net.minecraft.entity.Entity;

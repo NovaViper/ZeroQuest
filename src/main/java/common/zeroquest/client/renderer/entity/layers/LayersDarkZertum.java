@@ -9,7 +9,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.client.renderer.entity.RenderDarkZertum;
-import common.zeroquest.entity.EntityDarkZertum;
+import common.zeroquest.entity.zertum.EntityDarkZertum;
 import common.zeroquest.lib.Constants;
 
 @SideOnly(Side.CLIENT)

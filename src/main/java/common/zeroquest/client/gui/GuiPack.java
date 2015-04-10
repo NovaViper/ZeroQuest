@@ -9,12 +9,12 @@ import net.minecraft.util.StatCollector;
 import org.lwjgl.opengl.GL11;
 
 import common.zeroquest.entity.EntityCustomTameable;
-import common.zeroquest.entity.EntityDarkZertum;
-import common.zeroquest.entity.EntityDestroZertum;
-import common.zeroquest.entity.EntityForisZertum;
-import common.zeroquest.entity.EntityIceZertum;
-import common.zeroquest.entity.EntityMetalZertum;
-import common.zeroquest.entity.EntityRedZertum;
+import common.zeroquest.entity.zertum.EntityDarkZertum;
+import common.zeroquest.entity.zertum.EntityDestroZertum;
+import common.zeroquest.entity.zertum.EntityForisZertum;
+import common.zeroquest.entity.zertum.EntityIceZertum;
+import common.zeroquest.entity.zertum.EntityMetalZertum;
+import common.zeroquest.entity.zertum.EntityRedZertum;
 import common.zeroquest.inventory.ContainerPack;
 import common.zeroquest.lib.Constants;
 

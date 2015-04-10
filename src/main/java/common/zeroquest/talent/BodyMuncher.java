@@ -3,12 +3,11 @@ package common.zeroquest.talent;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-
 import common.zeroquest.ModItems;
 import common.zeroquest.api.interfaces.ITalent;
-import common.zeroquest.entity.EntityDarkZertum;
-import common.zeroquest.entity.EntityForisZertum;
-import common.zeroquest.entity.EntityZertumEntity;
+import common.zeroquest.entity.zertum.EntityDarkZertum;
+import common.zeroquest.entity.zertum.EntityForisZertum;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 
 /**
  * @author ProPercivalalb

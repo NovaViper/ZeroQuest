@@ -8,9 +8,8 @@ import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
-
-import common.zeroquest.entity.EntityZertumEntity;
 import common.zeroquest.entity.util.ModeUtil.EnumMode;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 
 public class EntityAIFollowOwner extends EntityAIBase
 {

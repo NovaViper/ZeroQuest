@@ -17,7 +17,7 @@ import net.minecraftforge.event.terraingen.TerrainGen;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.ModBlocks;
-import common.zeroquest.entity.EntityDestroZertum;
+import common.zeroquest.entity.zertum.EntityDestroZertum;
 
 public class BiomeGenDestroZone extends BiomeGenBase
 {

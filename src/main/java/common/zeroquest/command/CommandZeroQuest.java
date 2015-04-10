@@ -15,10 +15,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.WorldServer;
 import net.minecraftforge.common.MinecraftForge;
-
 import common.zeroquest.core.helper.ChatHelper;
 import common.zeroquest.entity.EntityCustomTameable;
-import common.zeroquest.entity.EntityZertumEntity;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 import common.zeroquest.lib.Constants;
 
 public class CommandZeroQuest extends CommandBase {

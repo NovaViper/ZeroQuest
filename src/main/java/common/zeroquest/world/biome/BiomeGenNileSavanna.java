@@ -28,7 +28,7 @@ import net.minecraft.world.gen.feature.WorldGenSavannaTree;
 import net.minecraftforge.event.terraingen.TerrainGen;
 import common.zeroquest.ModBlocks;
 import common.zeroquest.entity.EntityKortor;
-import common.zeroquest.entity.EntityZertum;
+import common.zeroquest.entity.zertum.EntityZertum;
 
 public class BiomeGenNileSavanna extends BiomeGenBase
 {

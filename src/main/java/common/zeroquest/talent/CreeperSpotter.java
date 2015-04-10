@@ -4,10 +4,9 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityCreeper;
-
 import common.zeroquest.api.interfaces.ITalent;
-import common.zeroquest.entity.EntityMetalZertum;
-import common.zeroquest.entity.EntityZertumEntity;
+import common.zeroquest.entity.zertum.EntityMetalZertum;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 import common.zeroquest.lib.Sound;
 
 /**

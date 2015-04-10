@@ -14,10 +14,9 @@ import net.minecraft.entity.passive.EntityPig;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import common.zeroquest.ModBlocks;
 import common.zeroquest.entity.EntityRiggator;
-import common.zeroquest.entity.EntityZertum;
+import common.zeroquest.entity.zertum.EntityZertum;
  
 public class BiomeGenBioZone extends BiomeGenBase {
     

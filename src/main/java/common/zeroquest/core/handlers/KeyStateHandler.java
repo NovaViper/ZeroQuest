@@ -15,7 +15,7 @@ import org.lwjgl.input.Keyboard;
 import common.zeroquest.ModItems;
 import common.zeroquest.entity.EntityJakan;
 import common.zeroquest.entity.EntityKortor;
-import common.zeroquest.entity.EntityZertumEntity;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 import common.zeroquest.network.PacketHandler;
 import common.zeroquest.network.imessage.JakanJump;
 import common.zeroquest.network.imessage.KortorJump;

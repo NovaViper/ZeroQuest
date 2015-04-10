@@ -7,9 +7,8 @@ import net.minecraft.entity.monster.EntitySilverfish;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
-
 import common.zeroquest.api.interfaces.ITalent;
-import common.zeroquest.entity.EntityZertumEntity;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 
 /**
  * @author ProPercivalalb

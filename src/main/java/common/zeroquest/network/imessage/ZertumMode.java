@@ -1,7 +1,7 @@
 package common.zeroquest.network.imessage;
 
 import common.zeroquest.ZeroQuest;
-import common.zeroquest.entity.EntityZertumEntity;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.Entity;
 import net.minecraft.potion.Potion;

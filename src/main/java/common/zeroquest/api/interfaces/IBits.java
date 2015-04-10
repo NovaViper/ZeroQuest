@@ -1,8 +1,7 @@
 package common.zeroquest.api.interfaces;
 
 import net.minecraft.entity.player.EntityPlayer;
-
-import common.zeroquest.entity.EntityZertumEntity;
+import common.zeroquest.entity.zertum.EntityZertumEntity;
 /**
  * @author ProPercivalalb
  **/

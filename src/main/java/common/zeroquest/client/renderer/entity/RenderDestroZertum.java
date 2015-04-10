@@ -16,7 +16,7 @@ import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.client.renderer.entity.layers.LayersDestroZertum;
-import common.zeroquest.entity.EntityDestroZertum;
+import common.zeroquest.entity.zertum.EntityDestroZertum;
 import common.zeroquest.lib.Constants;
 
 @SideOnly(Side.CLIENT)
