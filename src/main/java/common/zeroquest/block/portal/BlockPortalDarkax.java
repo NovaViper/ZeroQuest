@@ -16,7 +16,6 @@ import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.FMLCommonHandler;
-
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.client.particle.EntityDarkPortalFX;
@@ -35,24 +34,75 @@ public class BlockPortalDarkax extends BlockPortal {
 
 	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
-		if (entityIn.ridingEntity == null && entityIn.riddenByEntity == null && entityIn instanceof EntityPlayerMP) {
-			EntityPlayerMP player = (EntityPlayerMP) entityIn;
-			FMLCommonHandler.instance().getMinecraftServerInstance();
-			MinecraftServer server = MinecraftServer.getServer();
+		if (entityIn.ridingEntity == null && entityIn.riddenByEntity == null) {
+			int id = ZeroQuest.DarkaxID;
+			if (entityIn.dimension == id) {
+				id = 0;
+			}
+			if (entityIn instanceof EntityPlayerMP) {
 
-			if (player.timeUntilPortal > 0) {
-				player.timeUntilPortal = 10;
+				EntityPlayerMP player = (EntityPlayerMP) entityIn;
+				MinecraftServer mcServer = player.mcServer;
+
+				if (player.timeUntilPortal > 0) {
+					player.timeUntilPortal = 10;
+				}
+				else if (player.dimension != ZeroQuest.DarkaxID) {
+					player.timeUntilPortal = 10;
+					player.mcServer.getConfigurationManager().transferPlayerToDimension(player, ZeroQuest.DarkaxID, new TeleporterDarkax(mcServer.worldServerForDimension(ZeroQuest.DarkaxID)));
+				}
+				else {
+					player.timeUntilPortal = 10;
+					player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0, new TeleporterDarkax(mcServer.worldServerForDimension(0)));
+				}
 			}
-			else if (player.dimension != ZeroQuest.DarkaxID) {
-				player.timeUntilPortal = 10;
-				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, ZeroQuest.DarkaxID, new TeleporterDarkax(server.worldServerForDimension(ZeroQuest.DarkaxID)));
-			}
-			else {
-				player.timeUntilPortal = 10;
-				player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0, new TeleporterDarkax(server.worldServerForDimension(0)));
-			}
+			/*else {
+				travelToDimension(entityIn, id);
+			}*/
 		}
 	}
+
+	/*private void travelToDimension(Entity entity, int id) {
+		if (!entity.worldObj.isRemote && !entity.isDead) {
+			entity.worldObj.theProfiler.startSection("changeDimension");
+			MinecraftServer minecraftserver = MinecraftServer.getServer();
+			int j = entity.dimension;
+			WorldServer worldserver = minecraftserver.worldServerForDimension(j);
+			WorldServer worldserver1 = minecraftserver.worldServerForDimension(id);
+			entity.dimension = id;
+
+			if (j == 1 && id == 1) {
+				worldserver1 = minecraftserver.worldServerForDimension(0);
+				entity.dimension = 0;
+			}
+
+			entity.worldObj.removeEntity(entity);
+			entity.isDead = false;
+			entity.worldObj.theProfiler.startSection("reposition");
+			entity.timeUntilPortal = 10;
+			minecraftserver.getConfigurationManager().transferEntityToWorld(entity, j, worldserver, worldserver1, new TeleporterDarkax(worldserver1));
+			entity.worldObj.theProfiler.endStartSection("reloading");
+			Entity entity1 = EntityList.createEntityByName(EntityList.getEntityString(entity), worldserver1);
+
+			if (entity1 != null) {
+				entity1.copyDataFromOld(entity);
+
+				if (j == 1 && id == 1) {
+					BlockPos spawnPoint = worldserver1.getSpawnPoint();
+					spawnPoint = entity.worldObj.getTopSolidOrLiquidBlock(spawnPoint);
+					entity1.setLocationAndAngles(spawnPoint.getX(), spawnPoint.getY(), spawnPoint.getZ(), entity1.rotationYaw, entity1.rotationPitch);
+				}
+
+				worldserver1.spawnEntityInWorld(entity1);
+			}
+
+			entity.isDead = true;
+			entity.worldObj.theProfiler.endSection();
+			worldserver.resetUpdateEntityTick();
+			worldserver1.resetUpdateEntityTick();
+			entity.worldObj.theProfiler.endSection();
+		}
+	}*/
 
 	@Override
 	public boolean func_176548_d(World worldIn, BlockPos p_176548_2_) {

@@ -12,6 +12,7 @@ import common.zeroquest.item.ItemBit;
 import common.zeroquest.item.ItemCommandSeal;
 import common.zeroquest.item.ItemEvoBit;
 import common.zeroquest.item.ItemFPoisonball;
+import common.zeroquest.item.ItemIceball;
 import common.zeroquest.item.ItemNileBone;
 import common.zeroquest.item.ItemNileSeed;
 import common.zeroquest.item.ItemToy;
@@ -73,6 +74,7 @@ public class ModItems {
 	public static Item evoBit;
 
 	public static Item FPoisonball;
+	public static Item iceBall;
 
 	// DARK ELEMENT//
 	public static Item darkSword;
@@ -144,6 +146,9 @@ public class ModItems {
 		// Projectiles//
 		FPoisonball = new ItemFPoisonball().setUnlocalizedName("FPoisonball");
 		register(FPoisonball, "flaming_poisonball");
+		iceBall = new ItemIceball().setUnlocalizedName("iceBall");
+		register(iceBall, "ice_ball");
+
 		// Food/Crops//
 		zertumMeatRaw = new ZQFood(3, 1.5F, true, ZeroQuest.ZeroTab).setUnlocalizedName("zertumMeatRaw");
 		register(zertumMeatRaw, "zertum_meat_raw");
@@ -208,6 +213,7 @@ public class ModItems {
 		registerRender(nileBone, 0, Constants.modid + ":" + "nile_bone", "inventory");
 		registerRender(nileSpark, 0, Constants.modid + ":" + "nile_spark", "inventory");
 		registerRender(FPoisonball, 0, Constants.modid + ":" + "flaming_poisonball", "inventory");
+		registerRender(iceBall, 0, Constants.modid + ":" + "ice_ball", "inventory");
 		registerRender(zertumMeatRaw, 0, Constants.modid + ":" + "zertum_meat_raw", "inventory");
 		registerRender(zertumMeatCooked, 0, Constants.modid + ":" + "zertum_meat_cooked", "inventory");
 		registerRender(vitoidSeed, 0, Constants.modid + ":" + "vitoid_seed", "inventory");

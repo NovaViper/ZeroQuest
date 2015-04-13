@@ -179,10 +179,12 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	@Override
 	public String getName() {
 		String name = this.getDogName();
-		if (name != "") {
+		if (name != "" && this.isTamed()) {
 			return name;
 		}
-		return super.getName();
+		else {
+			return super.getName();
+		}
 	}
 
 	@Override

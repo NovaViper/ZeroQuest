@@ -25,7 +25,7 @@ public abstract class EntityCustomTameable extends EntityTameable {
 	protected boolean wantToHowl;
 	public int rare;
 	/** Cooldown for Ranged Attack **/
-	protected int cooldown;
+	public int cooldown;
 	public InventoryPack inventory;
 
 	public static final int INDEX_BREED = 18;
@@ -131,8 +131,9 @@ public abstract class EntityCustomTameable extends EntityTameable {
 	 * Gets the pitch of living sounds in living entities.
 	 */
 	protected float getPitch() {
-		if (!this.isChild())
+		if (!this.isChild()) {
 			return super.getSoundPitch() * -2;
+		}
 		else {
 			return super.getSoundPitch() * 2;
 		}
@@ -154,6 +155,7 @@ public abstract class EntityCustomTameable extends EntityTameable {
 
 				if (itemstack != null) {
 					this.entityDropItem(itemstack, 0.0F);
+					this.worldObj.playSoundAtEntity(this, "random.pop", 0.2F, ((this.getRNG().nextFloat() - this.getRNG().nextFloat()) * 0.7F + 1.0F) * 2.0F);
 				}
 			}
 		}

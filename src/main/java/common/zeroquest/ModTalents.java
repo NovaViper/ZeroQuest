@@ -11,7 +11,7 @@ import common.zeroquest.talent.DeatheningRoar;
 import common.zeroquest.talent.FishingZertum;
 import common.zeroquest.talent.FlamingElemental;
 import common.zeroquest.talent.FrigidFrost;
-import common.zeroquest.talent.GuardianAngel;
+import common.zeroquest.talent.HardenedSkin;
 import common.zeroquest.talent.Hunter;
 import common.zeroquest.talent.LifeGiver;
 import common.zeroquest.talent.LightFall;
@@ -32,7 +32,7 @@ public class ModTalents {
 		registerTalent(new FishingZertum());
 		registerTalent(new FlamingElemental());
 		registerTalent(new FrigidFrost());
-		registerTalent(new GuardianAngel());
+		registerTalent(new HardenedSkin());
 		registerTalent(new Hunter());
 		registerTalent(new LifeGiver());
 		registerTalent(new LightFall());

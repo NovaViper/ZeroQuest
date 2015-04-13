@@ -1,5 +1,6 @@
 package common.zeroquest.client.renderer.entity;
 
+
 import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.client.renderer.Tessellator;
 import net.minecraft.client.renderer.entity.Render;
@@ -7,11 +8,8 @@ import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.client.renderer.texture.TextureMap;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.projectile.EntityPotion;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemPotion;
 import net.minecraft.item.ItemStack;
-import net.minecraft.potion.PotionHelper;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
@@ -19,14 +17,17 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
 
+import common.zeroquest.ModItems;
+import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
+
 @SideOnly(Side.CLIENT)
-public class RenderIceball extends Render
+public class RenderProjectiles extends Render
 {
     protected final Item field_177084_a;
     private final RenderItem field_177083_e;
     private static final String __OBFID = "CL_00001008";
 
-    public RenderIceball(RenderManager p_i46137_1_, Item p_i46137_2_, RenderItem p_i46137_3_)
+    public RenderProjectiles(RenderManager p_i46137_1_, Item p_i46137_2_, RenderItem p_i46137_3_)
     {
         super(p_i46137_1_);
         this.field_177084_a = p_i46137_2_;

@@ -40,7 +40,6 @@ public class BlockPortalNillax extends BlockPortal {
 			if (entityIn.dimension == id) {
 				id = 0;
 			}
-
 			if (entityIn instanceof EntityPlayerMP) {
 
 				EntityPlayerMP player = (EntityPlayerMP) entityIn;
@@ -58,13 +57,13 @@ public class BlockPortalNillax extends BlockPortal {
 					player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0, new TeleporterNillax(mcServer.worldServerForDimension(0)));
 				}
 			}
-			else {
+			/*else {
 				travelToDimension(entityIn, id);
-			}
+			}*/
 		}
 	}
 
-	private void travelToDimension(Entity entity, int id) {
+	/*private void travelToDimension(Entity entity, int id) {
 		if (!entity.worldObj.isRemote && !entity.isDead) {
 			entity.worldObj.theProfiler.startSection("changeDimension");
 			MinecraftServer minecraftserver = MinecraftServer.getServer();
@@ -81,6 +80,7 @@ public class BlockPortalNillax extends BlockPortal {
 			entity.worldObj.removeEntity(entity);
 			entity.isDead = false;
 			entity.worldObj.theProfiler.startSection("reposition");
+			entity.timeUntilPortal = 10;
 			minecraftserver.getConfigurationManager().transferEntityToWorld(entity, j, worldserver, worldserver1, new TeleporterNillax(worldserver1));
 			entity.worldObj.theProfiler.endStartSection("reloading");
 			Entity entity1 = EntityList.createEntityByName(EntityList.getEntityString(entity), worldserver1);
@@ -103,7 +103,7 @@ public class BlockPortalNillax extends BlockPortal {
 			worldserver1.resetUpdateEntityTick();
 			entity.worldObj.theProfiler.endSection();
 		}
-	}
+	}*/
 
 	@Override
 	public boolean func_176548_d(World worldIn, BlockPos p_176548_2_) {

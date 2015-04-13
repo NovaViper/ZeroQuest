@@ -8,7 +8,7 @@ import common.zeroquest.entity.zertum.EntityZertumEntity;
 /**
  * @author ProPercivalalb
  */
-public class GuardianAngel extends ITalent {
+public class HardenedSkin extends ITalent {
 
 	@Override
 	public void onClassCreation(EntityZertumEntity dog) {
@@ -53,6 +53,6 @@ public class GuardianAngel extends ITalent {
 	
 	@Override
 	public String getKey() {
-		return "guardianangel";
+		return "hardenedskin";
 	}
 }

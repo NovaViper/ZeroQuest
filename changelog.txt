@@ -166,7 +166,7 @@ v1.6.0 - Evolution for Zertums and Even More Fixes! Portal Revival!!
 #Baby Zertums do not howl at all
 #Talent points dedecutions count by odd numbers now
 #Altered some text in lang file
-#Renamed Guardian talent to Guardian Angel
+#Renamed Guardian talent to Hardened Skin
 *^Merged Fire Zertum to the Flaming Elemental Talent^
 *Simplified coding
 *When untaming a Zertum, they will revert back to their normal state

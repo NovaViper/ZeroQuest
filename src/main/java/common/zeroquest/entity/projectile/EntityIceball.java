@@ -4,13 +4,13 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.init.Blocks;
 import net.minecraft.util.BlockPos;
-import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 import common.zeroquest.core.proxy.ClientProxy;
 import common.zeroquest.entity.zertum.EntityIceZertum;
+import common.zeroquest.util.ModDamageSource;
 
 public class EntityIceball extends EntityThrowable {
 	private static final String __OBFID = "CL_00001722";
@@ -43,12 +43,10 @@ public class EntityIceball extends EntityThrowable {
 	@Override
 	protected void onImpact(MovingObjectPosition movingObject) {
 		if (movingObject.entityHit != null) {
-			if (entity instanceof EntityIceZertum) {
-				EntityIceZertum zertum = (EntityIceZertum) entity;
-				byte b0 = (byte) zertum.talents.getLevel("frigidfrost");
+			EntityIceZertum zertum = (EntityIceZertum) entity;
+			byte b0 = (byte)zertum.talents.getLevel("frigidfrost");
 
-				movingObject.entityHit.attackEntityFrom(DamageSource.causeIndirectMagicDamage(this, this.getThrower()), b0);
-			}
+			movingObject.entityHit.attackEntityFrom(ModDamageSource.causeIceDamage(this, this.getThrower()), b0);
 		}
 		else {
 

@@ -48,9 +48,9 @@ public class ClientProxy extends CommonProxy {
 
 		registerRender(EntityDoggyBeam.class, new RenderBeam(renderManager, Items.snowball, renderItem));
 
-		registerRender(EntityFlamingPoisonball.class, new RenderFPoisonball(renderManager, ModItems.FPoisonball, renderItem));
-		registerRender(EntityIceball.class, new RenderIceball(renderManager, Items.snowball, renderItem));
-		registerRender(EntityGrenade.class, new RenderGrenade(renderManager, ModItems.nileGrenade, renderItem));
+		registerRender(EntityFlamingPoisonball.class, new RenderProjectiles(renderManager, ModItems.FPoisonball, renderItem));
+		registerRender(EntityIceball.class, new RenderProjectiles(renderManager, ModItems.iceBall, renderItem));
+		registerRender(EntityGrenade.class, new RenderProjectiles(renderManager, ModItems.nileGrenade, renderItem));
 
 		bindTileEntitySpecialRenderer(TileEntityNileWorkbench.class, new RenderNileTable());
 		bindTileEntitySpecialRenderer(TileEntityFoodBowl.class, new RenderFoodBowl());

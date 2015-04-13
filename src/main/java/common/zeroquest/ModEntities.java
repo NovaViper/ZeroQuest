@@ -9,8 +9,8 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 
 import common.zeroquest.entity.*;
 import common.zeroquest.entity.projectile.*;
-import common.zeroquest.entity.tileentity.*;
 import common.zeroquest.entity.zertum.*;
+import common.zeroquest.entity.tileentity.*;
 
 public class ModEntities {
 

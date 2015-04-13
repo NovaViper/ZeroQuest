@@ -29,8 +29,8 @@ import common.zeroquest.ZeroQuest;
 import common.zeroquest.api.interfaces.IBits;
 import common.zeroquest.api.interfaces.IBits.EnumFeedBack;
 import common.zeroquest.core.proxy.CommonProxy;
-import common.zeroquest.entity.ai.targeting.EntityAICustomArrowAttack;
 import common.zeroquest.entity.ai.targeting.EntityAICustomLeapAtTarget;
+import common.zeroquest.entity.ai.targeting.EntityAIIceAttack;
 import common.zeroquest.entity.projectile.EntityIceball;
 import common.zeroquest.entity.util.ModeUtil.EnumMode;
 import common.zeroquest.entity.util.TalentHelper;
@@ -57,7 +57,7 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
 		super(worldIn);
 		this.tasks.removeTask(this.aiLeap);
 		this.tasks.addTask(3, new EntityAICustomLeapAtTarget(this, 0.4F));
-		this.tasks.addTask(4, new EntityAICustomArrowAttack(this, 1.0D, 10, 30, 15.0F));
+		this.tasks.addTask(4, new EntityAIIceAttack(this, 1.0D, 10, 30, 15.0F));
 		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, false, new Predicate() {
 			private static final String __OBFID = "CL_00002229";
 
@@ -140,24 +140,25 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
 	}
 
 	@Override
-	public void attackEntityWithRangedAttack(EntityLivingBase p_82196_1_, float p_82196_2_) { // TODO
-																								// ranged
-																								// attack
-		if (cooldown == 0) {
-			EntityIceball entityIceball = new EntityIceball(this.worldObj, this);
-			double d0 = p_82196_1_.posX - this.posX;
-			double d1 = p_82196_1_.posY + p_82196_1_.getEyeHeight() - 1.100000023841858D - entityIceball.posY;
-			double d2 = p_82196_1_.posZ - this.posZ;
-			float f1 = MathHelper.sqrt_double(d0 * d0 + d2 * d2) * 0.2F;
-			entityIceball.setThrowableHeading(d0, d1 + f1, d2, 1.6F, 12.0F);
-			this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1014, new BlockPos(this), 0);
-			this.worldObj.spawnEntityInWorld(entityIceball);
-			cooldown = 20;
-
-		}
-		else {
-			this.tasks.addTask(3, new EntityAICustomLeapAtTarget(this, 0.4F));
-			this.attackEntityAsMob(p_82196_1_);
+	public void attackEntityWithRangedAttack(EntityLivingBase p_82196_1_, float p_82196_2_) {// TODO
+		if (this.isTamed() && this.talents.getLevel("frigidfrost") >= 0) {
+			if (this.getAttackTarget() != null) {
+				if (cooldown == 0) {
+					EntityIceball entityIceball = new EntityIceball(this.worldObj, this);
+					double d0 = p_82196_1_.posX - this.posX;
+					double d1 = p_82196_1_.posY + p_82196_1_.getEyeHeight() - 1.100000023841858D - entityIceball.posY;
+					double d2 = p_82196_1_.posZ - this.posZ;
+					float f1 = MathHelper.sqrt_double(d0 * d0 + d2 * d2) * 0.2F;
+					entityIceball.setThrowableHeading(d0, d1 + f1, d2, 1.6F, 12.0F);
+					this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1014, new BlockPos(this), 0);
+					this.worldObj.spawnEntityInWorld(entityIceball);
+					cooldown = 20;
+				}
+				else {
+					this.tasks.addTask(3, new EntityAICustomLeapAtTarget(this, 0.4F));
+					this.attackEntityAsMob(p_82196_1_);
+				}
+			}
 		}
 	}
 

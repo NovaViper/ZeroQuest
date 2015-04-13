@@ -54,8 +54,8 @@ gui.talentname.flamingelemental=Flaming Elemental
 gui.talentinfo.flamingelemental=§c[RED ZERTUMS ONLY]§r Allows your Red Zertum set things on fire while attacking and reinforces it's fire to resist damage from water. The higher the level, the longer the fire lasts. Mastering the skill grants your Red Zertum immunity to fire and make it invulnerable to water damage
 gui.talentname.frigidfrost=Frigid Frost
 gui.talentinfo.frigidfrost=§c[ICE ZERTUMS ONLY]§r Reinforces the Ice Zertum's body to resist the heat of hot environments and improves it's ranged ice attack. Mastery level (level 5) will make your Ice Zertum invulnerable to heat damage, including the Red Zertum's fire attacks and doubles the damage of the ice attack
-gui.talentname.guardianangel=Guardian Angel
-gui.talentinfo.guardianangel=Increases the chance that your Zertum will completely block a physical attack.
+gui.talentname.hardenedskin=Hardened Skin
+gui.talentinfo.hardenedskin=Reinforces your Zertum's skin, increasing the chance that a physical attack will completely blocked
 gui.talentname.hunter=Hunter
 gui.talentinfo.hunter=Every level grants a 10% chance to make anything your Zertums kills drop its loot 2 times. Level 5 grants an extra 10%, bringing it up to a 60% chance
 gui.talentname.lifegiver=Life Giver
@@ -75,11 +75,7 @@ gui.talentinfo.roundup=Put some wheat in your hand, and your trained Zertums wil
 gui.talentname.
 gui.talentinfo.
 
-bit.levelup=Level up!
-bit.tooyoung=This Zertum a bit too young to be learning skills just yet.
-bit.leveltoohigh=Your Zertum is too high level to gain anything from these bits.
-bit.toomuch=Your Zertum can't possibly handle the power contained in these bits.
-bit.ultimatelevel=CONGRATULATIONS! Your Zertum has reached the Alpha Level! Your Zertum is ready for evolution!
+death.attack.ice=%1$s frozen to death by %2$s
 
 tile.nileBlueFlower.name=Nile Blue Flower
 tile.nileBlackFlower.name=Nile Black Flower
@@ -95,7 +91,6 @@ tile.looseBedrock.name=Loose Bedrock
 tile.nileWorktable.name=Nile Crafting Table
 tile.dogBed.name=Dog Bed
 tile.foodBowl.name=Food Bowl
-
 tile.portalNillax.name=Nillax Portal
 tile.nileFire.name=Nile Fire
 tile.darkFire.name=Dark Fire

@@ -99,8 +99,15 @@ public class EntityRedZertum extends EntityZertumEntity {
 		double x = posX + Math.sin((-renderYawOffset + c) / 360 * Math.PI * 2) * a;
 		double y = posY + b;
 		double z = posZ + Math.cos((-renderYawOffset + c) / 360 * Math.PI * 2) * a;
-		worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y, z, 0.0, 0.0, 0.0);
-		worldObj.spawnParticle(EnumParticleTypes.FLAME, x, y, z, 0.0, 0.0, 0.0);
+		if (this.talents.getLevel("flamingelemental") != 5) {
+			worldObj.spawnParticle(EnumParticleTypes.SMOKE_NORMAL, x, y, z, 0.0, 0.0, 0.0);
+			worldObj.spawnParticle(EnumParticleTypes.FLAME, x, y, z, 0.0, 0.0, 0.0);
+		}
+		else {
+			worldObj.spawnParticle(EnumParticleTypes.SMOKE_LARGE, x, y, z, 0.0, 0.0, 0.0);
+			worldObj.spawnParticle(EnumParticleTypes.FLAME, x, y, z, 0.0, 0.0, 0.0);
+			worldObj.spawnParticle(EnumParticleTypes.LAVA, x, y, z, 0.0, 0.0, 0.0);
+		}
 	}
 
 	/**
