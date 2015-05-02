@@ -146,14 +146,17 @@ public class CommonProxy implements IGuiHandler {
 
 	// Client Objects\\
 	public void registerRenderThings() {}
-
-	public EntityPlayer getClientPlayer() {
-		return null;
-	}
-
+	
 	public void registerMoreThings() {}
+	
+	public void registerStateMappings() {}
+	
+	public void registerStateMappingsForDark() {}
+
+	public EntityPlayer getClientPlayer() {return null;}
 
 	public void spawnCrit(World world, Entity entity) {}
 
 	public void spawnRoar(World world, Entity entity) {}
+
 }

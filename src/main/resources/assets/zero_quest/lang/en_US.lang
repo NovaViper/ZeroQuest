@@ -59,7 +59,7 @@ gui.talentinfo.hardenedskin=Reinforces your Zertum's skin, increasing the chance
 gui.talentname.hunter=Hunter
 gui.talentinfo.hunter=Every level grants a 10% chance to make anything your Zertums kills drop its loot 2 times. Level 5 grants an extra 10%, bringing it up to a 60% chance
 gui.talentname.lifegiver=Life Giver
-gui.talentinfo.lifegiver=If you're at critical health and a Zertum with this skill is following you, it will attempt to heal you half a heart per level in this skill, at the cost of 100 NP. Mastering this skill reduces the cost to 80 NP
+gui.talentinfo.lifegiver=If you're at critical health and a Zertum with this skill is following you, it will attempt to heal you half a heart per level in this skill, at the cost of 100 hunger points. Mastering this skill reduces the cost to 50 hunger points
 gui.talentname.lightfall=Light Fall
 gui.talentinfo.lightfall=Every level allows your Zertum fall 3 more blocks before it starts taking damage. Mastering the skill makes your Zertum completely immune to fall damage and capable of floating when falling!
 gui.talentname.locationtracker=Location Tracker
@@ -72,6 +72,8 @@ gui.talentname.rapidregen=Rapid Regeneration
 gui.talentinfo.rapidregen=Improves your Zertum's regeneration rate without needing to rest. Mastering the skill will heal your Zertum 50% faster when sitting.
 gui.talentname.roundup=Round Up
 gui.talentinfo.roundup=Put some wheat in your hand, and your trained Zertums will immediately pick up some nearby livestock and carry them for you making it easier to transport livestock long distances. This is quite tiring though, and costs a lot of nourishment. The cost is reduced with higher levels in the skill. To have your Zertum drop the animal, simply don't hold wheat.
+gui.talentname.sharpen=Sharpened Weapons
+gui.talentinfo.sharpen=Sharpens your Zertum's teeth and claws, giving them additional heart of damage each level. Mastery level adds an additional 4 damage
 gui.talentname.
 gui.talentinfo.
 

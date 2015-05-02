@@ -1,28 +1,14 @@
 package common.zeroquest;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import common.zeroquest.block.BlockBedRock;
-import common.zeroquest.block.BlockFoodBowl;
-import common.zeroquest.block.BlockNileBlock;
-import common.zeroquest.block.BlockNileOre;
-import common.zeroquest.block.BlockNileWorkbench;
-import common.zeroquest.block.flora.BlockDrestroFlower;
-import common.zeroquest.block.flora.BlockNileBlackFlower;
-import common.zeroquest.block.flora.BlockNileBlueFlower;
-import common.zeroquest.block.flora.BlockNilePinkFlower;
-import common.zeroquest.block.flora.BlockVitoidCrop;
-import common.zeroquest.block.portal.BlockDarkFire;
-import common.zeroquest.block.portal.BlockNileFire;
-import common.zeroquest.block.portal.BlockNilePortalStone;
-import common.zeroquest.block.portal.BlockPortalDarkax;
-import common.zeroquest.block.portal.BlockPortalNillax;
-import common.zeroquest.entity.tileentity.TileEntityFoodBowl;
+import common.zeroquest.block.*;
+import common.zeroquest.block.flora.*;
+import common.zeroquest.block.portal.*;
 import common.zeroquest.lib.Constants;
 
 public class ModBlocks {
@@ -62,7 +48,6 @@ public class ModBlocks {
 		// Doggy Talent Parts\\
 		foodBowl = new BlockFoodBowl().setUnlocalizedName("foodBowl").setCreativeTab(ZeroQuest.ZeroTab);
 		register(foodBowl, "food_bowl");
-		GameRegistry.registerTileEntity(TileEntityFoodBowl.class, "food_bowl");
 
 		// Flowers/Plants//
 		nileBlueFlower = new BlockNileBlueFlower().setUnlocalizedName("nileBlueFlower");
@@ -85,22 +70,22 @@ public class ModBlocks {
 		register(blockNileEssence, "nile_essence_block");
 
 		// Portal Parts//
-		nillaxStone = new BlockNilePortalStone(Material.rock).setUnlocalizedName("nillaxStone").setCreativeTab(ZeroQuest.ZeroTab);
+		nillaxStone = new BlockNilePortalStone().setUnlocalizedName("nillaxStone").setCreativeTab(ZeroQuest.ZeroTab);
 		register(nillaxStone, "nillax_stone");
 		portalNillax = new BlockPortalNillax().setUnlocalizedName("portalNillax");
-		register(portalNillax, "portal_nillax");
+		registerWithClass(portalNillax, null, "portal_nillax");
 		nileFire = new BlockNileFire().setUnlocalizedName("nileFire");
-		register(nileFire, "nile_fire");
+		registerWithClass(nileFire, null, "nile_fire");
 	}
 
 	public static void loadDarkBlocks() {
 
-		darkaxStone = new BlockNilePortalStone(Material.rock).setUnlocalizedName("darkaxStone").setCreativeTab(ZeroQuest.DarkTab);
+		darkaxStone = new BlockNilePortalStone().setUnlocalizedName("darkaxStone").setCreativeTab(ZeroQuest.DarkTab);
 		register(darkaxStone, "darkax_stone");
 		portalDarkax = new BlockPortalDarkax().setUnlocalizedName("portalDarkax");
-		register(portalDarkax, "portal_darkax");
+		registerWithClass(portalDarkax, null, "portal_darkax");
 		darkFire = new BlockDarkFire().setUnlocalizedName("darkFire");
-		register(darkFire, "dark_fire");
+		registerWithClass(darkFire, null, "dark_fire");
 
 		darkGrainOre = new BlockNileOre(ZeroQuest.DarkTab, 3.5F, 5.2F, 0.6F).setUnlocalizedName("darkGrainOre");
 		register(darkGrainOre, "dark_grain_ore");

@@ -6,33 +6,8 @@ import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
-import common.zeroquest.item.ItemAlphaBit;
-import common.zeroquest.item.ItemBit;
-import common.zeroquest.item.ItemCommandSeal;
-import common.zeroquest.item.ItemEvoBit;
-import common.zeroquest.item.ItemFPoisonball;
-import common.zeroquest.item.ItemIceball;
-import common.zeroquest.item.ItemNileBone;
-import common.zeroquest.item.ItemNileSeed;
-import common.zeroquest.item.ItemToy;
-import common.zeroquest.item.KurrSeed;
-import common.zeroquest.item.VitoidFruit;
-import common.zeroquest.item.ZQFood;
-import common.zeroquest.item.materials.ItemDust;
-import common.zeroquest.item.materials.ItemEssence;
-import common.zeroquest.item.materials.ItemGrain;
-import common.zeroquest.item.materials.ItemNileCoal;
-import common.zeroquest.item.tools.ItemDarkSpark;
-import common.zeroquest.item.tools.ItemDogTreat;
-import common.zeroquest.item.tools.ItemNileAxe;
-import common.zeroquest.item.tools.ItemNileHoe;
-import common.zeroquest.item.tools.ItemNilePickaxe;
-import common.zeroquest.item.tools.ItemNileSpade;
-import common.zeroquest.item.tools.ItemNileSpark;
-import common.zeroquest.item.weapons.ItemNileBow;
-import common.zeroquest.item.weapons.ItemNileGrenade;
-import common.zeroquest.item.weapons.ItemNileSword;
+import common.zeroquest.item.*;
+import common.zeroquest.item.tools.*;
 import common.zeroquest.lib.Constants;
 
 public class ModItems {
@@ -110,17 +85,17 @@ public class ModItems {
 		register(nileGrenade, "nile_grenade");
 
 		// Basics//
-		nileEssence = new ItemEssence().setUnlocalizedName("nileEssence").setCreativeTab(ZeroQuest.ZeroTab);
+		nileEssence = new ItemZQ().setUnlocalizedName("nileEssence");
 		register(nileEssence, "nile_essence");
-		nileDust = new ItemDust().setUnlocalizedName("nileDust").setCreativeTab(ZeroQuest.ZeroTab);
+		nileDust = new ItemZQ().setUnlocalizedName("nileDust");
 		register(nileDust, "nile_dust");
-		nileGrain = new ItemGrain().setUnlocalizedName("nileGrain").setCreativeTab(ZeroQuest.ZeroTab);
+		nileGrain = new ItemZQ().setUnlocalizedName("nileGrain");
 		register(nileGrain, "nile_grain");
-		nileCoal = new ItemNileCoal().setUnlocalizedName("nileCoal").setCreativeTab(ZeroQuest.ZeroTab);
+		nileCoal = new ItemZQ().setUnlocalizedName("nileCoal");
 		register(nileCoal, "nile_coal");
-		dogTreat = new ItemDogTreat().setUnlocalizedName("dogTreat").setCreativeTab(ZeroQuest.ZeroTab);
+		dogTreat = new ItemZQ().setUnlocalizedName("dogTreat");
 		register(dogTreat, "dog_treat");
-		nileBone = new ItemNileBone().setUnlocalizedName("nileBone").setCreativeTab(ZeroQuest.ZeroTab);
+		nileBone = new ItemZQ().setUnlocalizedName("nileBone");
 		register(nileBone, "nile_bone");
 		commandSeal = new ItemCommandSeal().setUnlocalizedName("commandSeal").setCreativeTab(ZeroQuest.ZeroTab);
 		register(commandSeal, "command_seal");
@@ -136,7 +111,7 @@ public class ModItems {
 		register(omegaBit, "omega_bit");
 		alphaBit = new ItemAlphaBit().setUnlocalizedName("alphaBit").setCreativeTab(ZeroQuest.ZeroTab);
 		register(alphaBit, "alpha_bit");
-		evoBit = new ItemEvoBit().setUnlocalizedName("evoBit").setCreativeTab(ZeroQuest.ZeroTab);
+		evoBit = new ItemZQ().setUnlocalizedName("evoBit").setCreativeTab(ZeroQuest.ZeroTab);
 		register(evoBit, "evo_bit");
 
 		// Portal Sparks//
@@ -144,9 +119,9 @@ public class ModItems {
 		register(nileSpark, "nile_spark");
 
 		// Projectiles//
-		FPoisonball = new ItemFPoisonball().setUnlocalizedName("FPoisonball");
+		FPoisonball = new ItemProjectile().setUnlocalizedName("FPoisonball");
 		register(FPoisonball, "flaming_poisonball");
-		iceBall = new ItemIceball().setUnlocalizedName("iceBall");
+		iceBall = new ItemProjectile().setUnlocalizedName("iceBall");
 		register(iceBall, "ice_ball");
 
 		// Food/Crops//
@@ -181,13 +156,13 @@ public class ModItems {
 		darkSpark = new ItemDarkSpark().setUnlocalizedName("darkSpark");
 		register(darkSpark, "dark_spark");
 
-		darkEssence = new ItemEssence().setUnlocalizedName("darkEssence").setCreativeTab(ZeroQuest.DarkTab);
+		darkEssence = new ItemDQ().setUnlocalizedName("darkEssence");
 		register(darkEssence, "dark_essence");
-		darkDust = new ItemDust().setUnlocalizedName("darkDust").setCreativeTab(ZeroQuest.DarkTab);
+		darkDust = new ItemDQ().setUnlocalizedName("darkDust");
 		register(darkDust, "dark_dust");
-		darkGrain = new ItemGrain().setUnlocalizedName("darkGrain").setCreativeTab(ZeroQuest.DarkTab);
+		darkGrain = new ItemDQ().setUnlocalizedName("darkGrain");
 		register(darkGrain, "dark_grain");
-		darkBone = new ItemNileBone().setUnlocalizedName("darkBone").setCreativeTab(ZeroQuest.DarkTab);
+		darkBone = new ItemDQ().setUnlocalizedName("darkBone");
 		register(darkBone, "dark_bone");
 		kurrSeeds = new KurrSeed(4, 1.2F, false).setUnlocalizedName("kurrSeeds");
 		register(kurrSeeds, "kurr_seeds");

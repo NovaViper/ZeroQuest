@@ -8,6 +8,7 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
@@ -130,7 +131,7 @@ public class CommandZeroQuest extends CommandBase {
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest version,v - " + EnumChatFormatting.RESET + "Displays mod information"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest purge,p <tamed,t|all,a|wild,w> [global,g] - " + EnumChatFormatting.RESET + "Kills off nile creatures, Tamed parameter kills only 1 tamed nile creature (unless global parameter is added), all kills EVERY nile creature, and wild kills only 1 nontamed nile creature (unless global parameter is added)"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest evolve,e [global,g] - " + EnumChatFormatting.RESET + "Evolves a tamed Zertum or any subspecies"));
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest level,l [global,g] - " + EnumChatFormatting.RESET + "Adds levels to a tamed Zertum or any subspecies"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest level,l <number> [global,g] - " + EnumChatFormatting.RESET + "Adds levels to a tamed Zertum or any subspecies"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD + "---------------------------------------------------"));
 
 			}
@@ -296,6 +297,22 @@ public class CommandZeroQuest extends CommandBase {
 			else {
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You cannot change the stage of a wild creature!!"));
 			}
+			
+			if(entity instanceof EntityZertumEntity){
+				EntityZertumEntity zertum = (EntityZertumEntity) entity;
+				if(age < 0){
+					zertum.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(zertum.babyHealth());
+					zertum.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(zertum.babyDamage());
+				}else{
+					if (!zertum.hasEvolved()) {
+						zertum.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(zertum.tamedHealth() + zertum.effectiveLevel());
+						zertum.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(zertum.tamedDamage());
+					}
+					else if (zertum.hasEvolved()) {
+						zertum.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(zertum.evoHealth());
+					}
+				}
+			}
 		}
 	}
 
@@ -366,17 +383,16 @@ public class CommandZeroQuest extends CommandBase {
 				if (entity instanceof EntityZertumEntity) {
 					EntityZertumEntity zertum = (EntityZertumEntity) entity;
 					if (!zertum.hasEvolved() && !zertum.isChild() && zertum.canInteract(player)) {
-						zertum.evolveOnServer(zertum);
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + zertum.getDogName() + " has been evolved!"));
+						zertum.evolveOnServer(zertum, player);
 					}
 					else if (zertum.hasEvolved() && !zertum.isChild() && zertum.canInteract(player)) {
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getDogName() + " has already evolved!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getZertumName() + " has already evolved!"));
 					}
 					else if (!zertum.hasEvolved() && zertum.isChild() && zertum.canInteract(player)) {
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getDogName() + " is too young for evolution!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getZertumName() + " is too young for evolution!"));
 					}
 					else if (!zertum.hasEvolved() && !zertum.isChild() && !zertum.canInteract(player)) {
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You do not own " + zertum.getDogName() + " or their owner does not allow them to" + EnumChatFormatting.RED + " obey others!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You do not own " + zertum.getZertumName() + " or " + zertum.getOwner().getName() + " does not allow them to" + EnumChatFormatting.RED + " obey others!"));
 					}
 				}
 				else {
@@ -406,20 +422,20 @@ public class CommandZeroQuest extends CommandBase {
 					EntityZertumEntity zertum = (EntityZertumEntity) entity;
 					if (level <= Constants.maxLevel && zertum.levels.getLevel() < Constants.maxLevel && !zertum.isChild() && zertum.canInteract(player)) {
 						zertum.levels.addLevel(level);
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + Integer.toString(level) + " has been added to " + zertum.getDogName()));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + Integer.toString(level) + " has been added to " + zertum.getZertumName()));
 					}
 					else if (level <= Constants.maxLevel && zertum.levels.getLevel() >= Constants.maxLevel && !zertum.isChild() && zertum.canInteract(player)) {
 						zertum.levels.setLevel(Constants.maxLevel);
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getDogName() + " is at its maxmimum level!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getZertumName() + " is at its maxmimum level!"));
 					}
 					else if (level > Constants.maxLevel && zertum.levels.getLevel() < Constants.maxLevel && !zertum.isChild() && zertum.canInteract(player)) {
 						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + Integer.toString(level) + " is too big of a number!"));
 					}
 					else if (level <= Constants.maxLevel && zertum.levels.getLevel() < Constants.maxLevel && zertum.isChild() && zertum.canInteract(player)) {
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getDogName() + " is too young to gain levels!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getZertumName() + " is too young to gain levels!"));
 					}
 					else if (level <= Constants.maxLevel && zertum.levels.getLevel() < Constants.maxLevel && !zertum.isChild() && !zertum.canInteract(player)) {
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You do not own " + zertum.getDogName() + " or their owner does not allow them to" + EnumChatFormatting.RED + " obey others!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You do not own " + zertum.getZertumName() + " or " + zertum.getOwner().getName() + " does not allow them to" + EnumChatFormatting.RED + " obey others!"));
 					}
 				}
 				else {

@@ -1,5 +1,5 @@
 {
-    "parent": "zero_quest:block/fire_ne",
+    "parent": "zero_quest:block/nile_fire_ne",
     "textures": {
         "particle": "zero_quest:blocks/nileFire_layer_1",
         "fire": "zero_quest:blocks/nileFire_layer_1"

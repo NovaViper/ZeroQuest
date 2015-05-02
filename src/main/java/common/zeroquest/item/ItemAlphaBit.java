@@ -51,26 +51,26 @@ public class ItemAlphaBit extends Item implements IBits {
 			dog.worldObj.setEntityState(dog, (byte) 7);
 			dog.playTameEffect(true);
 			if (!player.worldObj.isRemote) {
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + dog.getDogName() + " has leveled up to " + dog.levels.getLevel() + "!"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + dog.getZertumName() + " has leveled up to " + dog.levels.getLevel() + "!"));
 			}
 		}
 		else if (type == EnumFeedBack.TOOYOUNG) {
 			if (!player.worldObj.isRemote) {
 				dog.playTameEffect(false);
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + dog.getDogName() + " is too young to be learning skills!"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + dog.getZertumName() + " is too young to be learning skills!"));
 			}
 		}
 		else if (type == EnumFeedBack.LEVELTOOHIGH) {
 			player.worldObj.setEntityState(dog, (byte) 6);
 			if (!player.worldObj.isRemote) {
 				dog.playTameEffect(false);
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + dog.getDogName() + " can't possibly handle the power in these bits!"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + dog.getZertumName() + " can't possibly handle the power in these bits!"));
 			}
 		}
 		else if (type == EnumFeedBack.COMPLETE) {
 			player.worldObj.setEntityState(dog, (byte) 6);
 			if (!player.worldObj.isRemote) {
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "CONGRATZ! " + dog.getDogName() + " has reached the " + EnumChatFormatting.GREEN + "Alpha Level! Evolution is ready!"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "CONGRATZ! " + dog.getZertumName() + " has reached the " + EnumChatFormatting.GREEN + "Alpha Level! Evolution is ready!"));
 			}
 		}
 	}

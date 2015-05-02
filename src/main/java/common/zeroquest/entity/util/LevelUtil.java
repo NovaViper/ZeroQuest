@@ -22,10 +22,12 @@ public class LevelUtil {
 	}
 
 	public void readTalentsFromNBT(NBTTagCompound tagCompound) {
-		if (tagCompound.hasKey("levels", 8))
+		if (tagCompound.hasKey("levels", 8)) {
 			this.dog.getDataWatcher().updateObject(24, tagCompound.getString("levels"));
-		else
+		}
+		else {
 			this.dog.getDataWatcher().updateObject(24, "0:0");
+		}
 	}
 
 	public String getSaveString() {

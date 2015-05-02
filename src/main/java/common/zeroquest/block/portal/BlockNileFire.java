@@ -73,6 +73,11 @@ public class BlockNileFire extends BlockFire {
 		this.setTickRandomly(true);
 	}
 
+	@Override
+	public int getRenderType() {
+		return 3;
+	}
+
 	public static void init() {
 		((BlockNileFire) ModBlocks.nileFire).setFireInfo(Blocks.planks, 5, 20);
 		((BlockNileFire) ModBlocks.nileFire).setFireInfo(Blocks.double_wooden_slab, 5, 20);
@@ -113,8 +118,9 @@ public class BlockNileFire extends BlockFire {
 
 	@Override
 	public void setFireInfo(Block blockIn, int encouragement, int flammability) {
-		if (blockIn == Blocks.air)
+		if (blockIn == Blocks.air) {
 			throw new IllegalArgumentException("Tried to set air on fire... This is bad.");
+		}
 		this.encouragements.put(blockIn, Integer.valueOf(encouragement));
 		this.flammabilities.put(blockIn, Integer.valueOf(flammability));
 	}

@@ -159,7 +159,11 @@ v1.6.0 - Evolution for Zertums and Even More Fixes! Portal Revival!!
 +Added Evolve commands
 +Added Level Up commands
 +Added an evolutionary form for Zertums!
-+Added Deathening Roar, Frigid Frost and Flaming Elemental Talents
++Added Deathening Roar Talent
++Added Frigid Frost Talen
++Added Flaming Elemental Talent
++Added Sharpened Weapons Talent
++Added Entity stats in Zertum GUI
 #Metal Zertums growl instead of roaring when a creeper is near
 #Rasied maximum level to 120!
 #Altered Metal Zertum spawn egg color
@@ -173,6 +177,9 @@ v1.6.0 - Evolution for Zertums and Even More Fixes! Portal Revival!!
 *Most commands now have certain requirements before they can be used
 *You can now mount on Kortors and Jakans by jumping first then right-click and with an non-usable item in hand
 *Ice and Red Zertums now have evironmental weaknesses: Ice Zertums are weak to hot biomes and Red Zertums are weak to water
+*Moved registeration orders of blocks and items
 ~Fixed bug where Dark Zertums can only be tamed with nile bones instead of dark bones
 ~Fixed potential memory leaks!
 ~Fixed bug where the model for the food bowl cannot be found!
+~Adjusted heal cost for Life Giver talent to 40 ticks at level 5!
+-Players can no longer respawn in the Nillax Dimension

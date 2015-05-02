@@ -1,6 +1,7 @@
 package common.zeroquest.client.gui;
 
 import java.io.IOException;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,10 +11,12 @@ import net.minecraft.client.gui.GuiScreen;
 import net.minecraft.client.gui.GuiTextField;
 import net.minecraft.client.gui.ScaledResolution;
 import net.minecraft.client.renderer.RenderHelper;
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.util.StatCollector;
 
+import org.apache.commons.lang3.StringUtils;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL12;
@@ -41,6 +44,7 @@ public class GuiDogInfo extends GuiScreen {
 	private int currentPage = 0;
 	private int maxPages = 1;
 	public int btnPerPages = 0;
+	private final DecimalFormat dfShort = new DecimalFormat("0.00");
 
 	public GuiDogInfo(EntityZertumEntity dog, EntityPlayer player) {
 		this.dog = dog;
@@ -69,7 +73,7 @@ public class GuiDogInfo extends GuiScreen {
 		};
 		nameTextField.setFocused(false);
 		nameTextField.setMaxStringLength(32);
-		nameTextField.setText(this.dog.getDogName());
+		nameTextField.setText(this.dog.getZertumName());
 		this.nameTextField = nameTextField;
 
 		this.textfieldList.add(nameTextField);
@@ -117,9 +121,37 @@ public class GuiDogInfo extends GuiScreen {
 		// Background
 		int topX = this.width / 2;
 		int topY = this.height / 2;
+		String health = dfShort.format(this.dog.getHealth());
+		String healthMax = dfShort.format(this.dog.getMaxHealth());
+		String healthRel = dfShort.format(this.dog.getHealthRelative() * 100);
+		String healthState = health + "/" + healthMax + "(" + healthRel + "%)";
+		String damageValue = dfShort.format(this.dog.getAIAttackDamage());
+		String damageState = damageValue;
+		String evolutionState = this.dog.getEvolveState();
+		String saddleState = this.dog.isSaddled() == true ? "Yes" : "No";
+		String speedValue = dfShort.format(this.dog.getAIMoveSpeed());
+		String speedState = speedValue;
+
+		String tamedString = null;
+		if (this.dog.isTamed()) {
+			Entity player = this.dog.getOwner();
+			if (player != null) {
+				tamedString = "Yes (" + player.getName() + ")";
+			}
+			else {
+				tamedString = "Yes (" + StringUtils.abbreviate(this.dog.getOwner().getName(), 22) + ")";
+			}
+		}
+
 		this.fontRendererObj.drawString("New name:", topX - 100, topY + 38, 4210752);
-		this.fontRendererObj.drawString("Level: " + this.dog.levels.getLevel(), topX - 65, topY + 75, 0xFF10F9);
+		this.fontRendererObj.drawString("Level: " + this.dog.levels.getLevel(), topX - 75, topY + 75, 0xFF10F9);
 		this.fontRendererObj.drawString("Points Left: " + this.dog.spendablePoints(), topX - 38, topY + 89, 0xFFFFFF);
+		this.fontRendererObj.drawString("Health: " + healthState, topX + 200, topY - 170, 0xFFFFFF);
+		this.fontRendererObj.drawString("Damage: " + damageState, topX + 200, topY - 160, 0xFFFFFF);
+		this.fontRendererObj.drawString("Speed: " + speedState, topX + 200, topY - 150, 0xFFFFFF);
+		this.fontRendererObj.drawString("Tamed: " + tamedString, topX + 200, topY - 140, 0xFFFFFF);
+		this.fontRendererObj.drawString("State: " + evolutionState, topX + 200, topY - 130, 0xFFFFFF);
+		this.fontRendererObj.drawString("Saddled: " + saddleState, topX + 200, topY - 120, 0xFFFFFF);
 		if (this.dog.isOwner(this.player)) {
 			this.fontRendererObj.drawString("Obey Others?", this.width - 76, topY + 55, 0xFFFFFF);
 		}

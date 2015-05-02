@@ -347,17 +347,15 @@ public class ModelZertum extends ModelBase {
 		TailPart1.addBox(-1F, -1F, 0F, 2, 2, 11);
 		TailPart1.setRotationPoint(0F, 7F, 6F);
 		TailPart1.setTextureOffset(256, 128);
-		setRotation(TailPart1, -0.3346075F, 0F, 0F);
 		TailPart2 = new ModelRenderer(this, 141, 0);
 		TailPart2.addBox(-1F, -1F, 0F, 2, 2, 11);
-		TailPart2.setRotationPoint(0F, -0.2F, 10F);
+		TailPart2.setRotationPoint(0F, 0F, 10F);
 		TailPart2.setTextureSize(256, 128);
-		setRotation(TailPart2, -0.3948578F, 0F, 0F);
+		setRotation(TailPart2, 0, 0F, 0F);
 		TailPart3 = new ModelRenderer(this, 168, 0);
 		TailPart3.addBox(-1F, -1F, 0F, 2, 2, 11);
 		TailPart3.setRotationPoint(0F, 0F, 10.8F);
 		TailPart3.setTextureSize(256, 128);
-		setRotation(TailPart3, 0.2974289F, 0F, 0F);
 
 		LeftHumerus = new ModelRenderer(this, 39, 16);
 		LeftHumerus.addBox(0F, 0F, 0F, 3, 10, 4);
@@ -969,11 +967,11 @@ public class ModelZertum extends ModelBase {
 				Pelvis.setRotationPoint(-1F, 9.8F, -1F);
 				setRotation(Pelvis, -0.2974289F, 0F, 0F);
 				TailPart1.setRotationPoint(0F, 11F, 6F);
-				setRotation(TailPart1, -0.3346075F, 0F, 0F);
-				TailPart2.setRotationPoint(0F, -0.2F, 10F);
-				setRotation(TailPart2, -0.3948578F, 0F, 0F);
+				setRotation(TailPart1, 0.1346075F, 0F, 0F);
+				TailPart2.setRotationPoint(0F, 0F, 10F);
+				setRotation(TailPart2, 0.1346075F, 0F, 0F);
 				TailPart3.setRotationPoint(0F, 0F, 10.8F);
-				setRotation(TailPart3, 0.2974289F, 0F, 0F);
+				setRotation(TailPart3, 0.1346075F, 0F, 0F);
 
 				LeftFemur.setRotationPoint(1.5F, 6.7F, 0F);
 				LeftFemur.rotateAngleX = -0.3892433F;
@@ -1043,11 +1041,11 @@ public class ModelZertum extends ModelBase {
 				Pelvis.setRotationPoint(-1F, 7.8F, 0F);
 				setRotation(Pelvis, 0F, 0F, 0F);
 				TailPart1.setRotationPoint(0F, 7F, 6F);
-				setRotation(TailPart1, -0.3346075F, 0F, 0F);
-				TailPart2.setRotationPoint(0F, -0.2F, 10F);
-				setRotation(TailPart2, -0.3948578F, 0F, 0F);
+				setRotation(TailPart1, -0.1346075F, 0F, 0F);
+				TailPart2.setRotationPoint(0F, 0F, 10F);
+				setRotation(TailPart2, -0.1346075F, 0F, 0F);
 				TailPart3.setRotationPoint(0F, 0F, 10.8F);
-				setRotation(TailPart3, 0.2974289F, 0F, 0F);
+				setRotation(TailPart3, -0.1346075F, 0F, 0F);
 				LeftFemur.setRotationPoint(1.5F, 5.7F, 0F);
 				setRotation(LeftFemur, 0F, 0F, 0F);
 				LeftTibia.setRotationPoint(0F, 7.7F, 0F);
@@ -1156,6 +1154,21 @@ public class ModelZertum extends ModelBase {
 		this.ERope2.rotateAngleZ = entityzertum.getShakeAngle(par4, -0.16F);
 		this.EMetal1.rotateAngleZ = entityzertum.getShakeAngle(par4, -0.16F);
 		this.EMetal2.rotateAngleZ = entityzertum.getShakeAngle(par4, -0.16F);
+
+		if ((entityzertum.isSitting() || (entityzertum.motionX == 0.0F && entityzertum.motionZ == 0.0F)) && entityzertum.getHealth() > 10) { // TODO
+			float wagAngleY = entityzertum.getWagAngle(par4, 0.0F);
+			float wagAngleY2 = entityzertum.getWagAngle(par4, 0.0F);
+			float wagAngleY3 = entityzertum.getWagAngle(par4, 0.0F);
+			if (wagAngleY == 0.0F && wagAngleY2 == 0.0F && wagAngleY3 == 0.0F) {
+				wagAngleY = MathHelper.cos(par2 * 0.0062F) * 1.4F * par3;
+				wagAngleY2 = MathHelper.cos(par2 * 0.0002F) * 1.4F * par3;
+				wagAngleY3 = MathHelper.cos(par2 * 0.0002F) * 1.4F * par3;
+
+			}
+			this.TailPart1.rotateAngleY = wagAngleY;
+			this.TailPart2.rotateAngleY = wagAngleY2;
+			this.TailPart3.rotateAngleY = wagAngleY3;
+		}
 	}
 
 	private void setRotation(ModelRenderer model, float x, float y, float z) {

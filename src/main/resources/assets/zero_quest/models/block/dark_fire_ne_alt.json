@@ -1,0 +1,7 @@
+{
+    "parent": "zero_quest:block/dark_fire_ne",
+    "textures": {
+        "particle": "zero_quest:blocks/darkFire_layer_1",
+        "fire": "zero_quest:blocks/darkFire_layer_1"
+    }
+}

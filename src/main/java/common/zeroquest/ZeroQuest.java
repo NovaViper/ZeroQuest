@@ -78,6 +78,25 @@ public class ZeroQuest {
 		registerGuiHandler(Constants.modid, proxy);
 		proxy.registerMoreThings();
 		LogHelper.info("Load Stuff Loaded Successfully!");
+		LogHelper.info("Loading Block, Recipes, Events and Items...");
+		nileEssence = EnumHelper.addToolMaterial("NileEssence", 4, 4000, 20.0F, 4.0F, 30);
+		ModBlocks.load();
+		ModItems.load();
+		ModEntities.loadCreatures();
+		ModEntities.loadOthers();
+		proxy.registerStateMappings();
+		registerForgeEventBus(new FOVEvent());
+		registerForgeEventBus(new LivingEvents()); // TODO
+		ZeroQuestCrafting.loadRecipes();
+		if (Constants.DEF_DARKLOAD == true) {
+			darkEssence = EnumHelper.addToolMaterial("DarkEssence", 4, 5000, 21.0F, 5.0F, 40);
+			ModBlocks.loadDarkBlocks();
+			ModItems.loadDarkItems();
+			ZeroQuestCrafting.loadDarkRecipes();
+			ModEntities.loadDarkCreatures();
+			proxy.registerStateMappingsForDark();
+		}
+		LogHelper.info("Blocks, Recipes, Entites,Events and Items Loaded Successfully!");
 		LogHelper.info("-----PRE-CONTENT LOAD FINISHED-----");
 	}
 
@@ -85,45 +104,33 @@ public class ZeroQuest {
 	public void load(FMLInitializationEvent event) {
 		PacketHandler.registerPackets();
 		LogHelper.info("-----CONTENT LOAD INITATING-----");
-		nileEssence = EnumHelper.addToolMaterial("NileEssence", 4, 4000, 20.0F, 4.0F, 30);
-
-		LogHelper.info("Loading Block, Recipes, Events and Items...");
-		ModBlocks.load();
-		ModItems.load();
-		if (event.getSide().isClient()) {
-			ModBlocks.loadRenderers();
-			ModItems.loadRenderers();
-		}
-
-		registerForgeEventBus(new FOVEvent());
-		registerForgeEventBus(new LivingEvents()); // TODO
-		ZeroQuestCrafting.loadRecipes();
-		LogHelper.info("Blocks, Recipes, Events and Items Loaded Successfully!");
-
-		LogHelper.info("Loading Entities and Ore Dictionary...");
-		ModEntities.loadCreatures();
-		ModEntities.loadOthers();
-		OreDic.load();
-		LogHelper.info("Entities and Ore Dictionary Loaded Successfully!");
-
-		LogHelper.info("Loading Achievements and Biomes...");
+		LogHelper.info("Loading Renderers, Achievements, Biomes and Ore Dictionary...");
+		OreDic.loadOre();
 		ModAchievements.load();
 		registerFMLCommonEventBus(new AchievementEvents());
 		ModBiomes.loadBiomes();
-		LogHelper.info("Achievements and Biomes Loaded Successfully!");
+		if (event.getSide().isClient()) {
+			ModBlocks.loadRenderers();
+			ModItems.loadRenderers();
+			if (Constants.DEF_DARKLOAD == true) {
+				ModItems.loadDarkRenderers();
+				ModBlocks.loadDarkRenderers();
+			}
+		}
+		LogHelper.info("Renderers, Achievements, Biomes and Ore Dictionary Loaded Successfully!");
+		LogHelper.info("Loading Crucial Stuff and Dimensions...");
+		proxy.registerRenderThings();
+		proxy.registerChestItems();
+		registerFuelHandler(new FuelHandler());
+		registerWorldGenerator(new WorldGenZQuest(), 0);
+		ModEntities.loadSpawns();
+		registerProviderType(NillaxID, WorldProviderNillax.class, false);
+		registerDimension(NillaxID, NillaxID);
+		LogHelper.info("Crucial Stuff and Dimensions Loaded Successfully!");
 
 		if (Constants.DEF_DARKLOAD == true) {
 			LogHelper.warn("Dark Elemental Load is ENABLED!");
 			LogHelper.info("Initating Dark Elemental Load!");
-			darkEssence = EnumHelper.addToolMaterial("DarkEssence", 4, 5000, 21.0F, 5.0F, 40);
-			ModItems.loadDarkItems();
-			ModBlocks.loadDarkBlocks();
-			if (event.getSide().isClient()) {
-				ModItems.loadDarkRenderers();
-				ModBlocks.loadDarkRenderers();
-			}
-			ZeroQuestCrafting.loadDarkRecipes();
-			ModEntities.loadDarkCreatures();
 			ModBiomes.loadDarkBiomes();
 			ModAchievements.loadDark();
 			OreDic.loadDarkOre();
@@ -137,22 +144,10 @@ public class ZeroQuest {
 			LogHelper.info("Skipping Dark Elemental Load");
 
 		}
-		ModEntities.loadSpawns();
-		LogHelper.info("Loading Crucial Stuff...");
-		proxy.registerRenderThings();
-		proxy.registerChestItems();
-		registerFuelHandler(new FuelHandler());
-		registerWorldGenerator(new WorldGenZQuest(), 0);
-		LogHelper.info("The Crucial Stuff Loaded Successfully!");
-
-		LogHelper.info("Loading Dimensions...");
-		registerProviderType(NillaxID, WorldProviderNillax.class, false);
-		registerDimension(NillaxID, NillaxID);
-		LogHelper.info("Dimensions Loaded Successfully!");
-
 		LogHelper.info("Loading Network Stuff...");
 		registerFMLCommonEventBus(new ConnectionHandler());
 		LogHelper.info("Network Stuff Loaded Successfully!");
+
 		LogHelper.info("-----CONTENT LOAD FINSHED-----");
 	}
 

@@ -1,6 +1,10 @@
 package common.zeroquest.core.proxy;
 
+import net.minecraft.block.Block;
+import net.minecraft.block.BlockFire;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
@@ -12,21 +16,56 @@ import net.minecraft.init.Items;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
 import net.minecraftforge.fml.client.registry.RenderingRegistry;
 import net.minecraftforge.fml.common.FMLCommonHandler;
+
+import common.zeroquest.ModBlocks;
 import common.zeroquest.ModItems;
-import common.zeroquest.client.particle.*;
-import common.zeroquest.client.renderer.entity.*;
-import common.zeroquest.client.renderer.entity.model.*;
-import common.zeroquest.client.renderer.tileentity.*;
-import common.zeroquest.core.handlers.*;
-import common.zeroquest.entity.*;
-import common.zeroquest.entity.projectile.*;
-import common.zeroquest.entity.tileentity.*;
-import common.zeroquest.entity.util.*;
-import common.zeroquest.entity.zertum.*;
+import common.zeroquest.block.portal.BlockDarkFire;
+import common.zeroquest.block.portal.BlockNileFire;
+import common.zeroquest.client.particle.EntityForisDustFX;
+import common.zeroquest.client.particle.EntityIceDustFX;
+import common.zeroquest.client.renderer.entity.RenderDarkZertum;
+import common.zeroquest.client.renderer.entity.RenderDestroZertum;
+import common.zeroquest.client.renderer.entity.RenderForisZertum;
+import common.zeroquest.client.renderer.entity.RenderIceZertum;
+import common.zeroquest.client.renderer.entity.RenderJakan;
+import common.zeroquest.client.renderer.entity.RenderKortor;
+import common.zeroquest.client.renderer.entity.RenderKurr;
+import common.zeroquest.client.renderer.entity.RenderMetalZertum;
+import common.zeroquest.client.renderer.entity.RenderProjectiles;
+import common.zeroquest.client.renderer.entity.RenderRedZertum;
+import common.zeroquest.client.renderer.entity.RenderRiggator;
+import common.zeroquest.client.renderer.entity.RenderZertum;
+import common.zeroquest.client.renderer.entity.model.ModelJakan;
+import common.zeroquest.client.renderer.entity.model.ModelKortor;
+import common.zeroquest.client.renderer.entity.model.ModelKurr;
+import common.zeroquest.client.renderer.entity.model.ModelRiggator;
+import common.zeroquest.client.renderer.entity.model.ModelZertum;
+import common.zeroquest.client.renderer.tileentity.RenderFoodBowl;
+import common.zeroquest.client.renderer.tileentity.RenderNileTable;
+import common.zeroquest.core.handlers.KeyStateHandler;
+import common.zeroquest.entity.EntityCustomTameable;
+import common.zeroquest.entity.EntityJakan;
+import common.zeroquest.entity.EntityKortor;
+import common.zeroquest.entity.EntityKurr;
+import common.zeroquest.entity.EntityRiggator;
+import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
+import common.zeroquest.entity.projectile.EntityGrenade;
+import common.zeroquest.entity.projectile.EntityIceball;
+import common.zeroquest.entity.tileentity.TileEntityFoodBowl;
+import common.zeroquest.entity.tileentity.TileEntityNileWorkbench;
+import common.zeroquest.entity.util.EntityDoggyBeam;
+import common.zeroquest.entity.zertum.EntityDarkZertum;
+import common.zeroquest.entity.zertum.EntityDestroZertum;
+import common.zeroquest.entity.zertum.EntityForisZertum;
+import common.zeroquest.entity.zertum.EntityIceZertum;
+import common.zeroquest.entity.zertum.EntityMetalZertum;
+import common.zeroquest.entity.zertum.EntityRedZertum;
+import common.zeroquest.entity.zertum.EntityZertum;
 
 public class ClientProxy extends CommonProxy {
 
@@ -46,15 +85,13 @@ public class ClientProxy extends CommonProxy {
 		registerRender(EntityKortor.class, new RenderKortor(renderManager, new ModelKortor(), 1.0F));
 		registerRender(EntityRiggator.class, new RenderRiggator(renderManager, new ModelRiggator(), 1.0F));
 
-		registerRender(EntityDoggyBeam.class, new RenderBeam(renderManager, Items.snowball, renderItem));
-
+		registerRender(EntityDoggyBeam.class, new RenderProjectiles(renderManager, Items.snowball, renderItem));
 		registerRender(EntityFlamingPoisonball.class, new RenderProjectiles(renderManager, ModItems.FPoisonball, renderItem));
 		registerRender(EntityIceball.class, new RenderProjectiles(renderManager, ModItems.iceBall, renderItem));
 		registerRender(EntityGrenade.class, new RenderProjectiles(renderManager, ModItems.nileGrenade, renderItem));
 
 		bindTileEntitySpecialRenderer(TileEntityNileWorkbench.class, new RenderNileTable());
 		bindTileEntitySpecialRenderer(TileEntityFoodBowl.class, new RenderFoodBowl());
-
 	}
 
 	@Override
@@ -66,6 +103,18 @@ public class ClientProxy extends CommonProxy {
 		registerKeyBinding(KeyStateHandler.heel);
 
 		registerFMLCommonEventBus(new KeyStateHandler());
+	}
+
+	@Override
+	public void registerStateMappings() {
+		addStateMapperToIgnore(ModBlocks.nileFire, BlockNileFire.AGE);
+		addStateMapperToIgnore(ModBlocks.nileFire, BlockFire.AGE);
+	}
+
+	@Override
+	public void registerStateMappingsForDark() {
+		addStateMapperToIgnore(ModBlocks.darkFire, BlockDarkFire.AGE);
+		addStateMapperToIgnore(ModBlocks.darkFire, BlockFire.AGE);
 	}
 
 	// Registers\\
@@ -85,6 +134,10 @@ public class ClientProxy extends CommonProxy {
 		RenderingRegistry.registerEntityRenderingHandler(entityClass, render);
 	}
 
+	public static void addStateMapperToIgnore(Block block, IProperty property) {
+		ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).addPropertiesToIgnore(new IProperty[] { property }).build());
+	}
+
 	// Client Objects\\
 	@Override
 	public EntityPlayer getClientPlayer() {
@@ -98,7 +151,7 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void spawnRoar(World world, Entity entity) {
-		FMLClientHandler.instance().getClient().effectRenderer.func_178926_a(entity, EnumParticleTypes.SPELL_MOB_AMBIENT);
+		FMLClientHandler.instance().getClient().effectRenderer.func_178926_a(entity, EnumParticleTypes.SPELL_WITCH);
 		FMLClientHandler.instance().getClient().effectRenderer.func_178926_a(entity, EnumParticleTypes.CRIT);
 	}
 

@@ -84,7 +84,7 @@ public class RenderMetalZertum extends RenderLiving
 	public void passSpecialRender(EntityLivingBase entityLivingBase, double par1, double par2, double par3) {
     	EntityMetalZertum dog = (EntityMetalZertum)entityLivingBase;
         
-        if(!dog.getDogName().isEmpty())
+        if(!dog.getZertumName().isEmpty())
         	super.passSpecialRender(entityLivingBase, par1, par2, par3);
     }
     

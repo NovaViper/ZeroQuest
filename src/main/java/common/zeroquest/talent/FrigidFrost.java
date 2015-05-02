@@ -44,5 +44,4 @@ public class FrigidFrost extends ITalent {
 	public String getKey() {
 		return "frigidfrost";
 	}
-
 }

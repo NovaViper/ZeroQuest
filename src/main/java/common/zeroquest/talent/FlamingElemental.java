@@ -38,7 +38,6 @@ public class FlamingElemental extends ITalent {
 				}
 			}
 		}
-
 		return true;
 	}
 

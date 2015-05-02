@@ -95,6 +95,13 @@ public class TalentHelper {
 			total += talent.addToMoveSpeed(dog);
 		return total;
 	}
+	
+	public static double addToAttackDamage(EntityZertumEntity dog) {
+		double total = 0;
+		for(ITalent talent : TalentRegistry.getTalents())
+			total += talent.addToAttackDamage(dog);
+		return total;
+	}
 
 	public static boolean canBreatheUnderwater(EntityZertumEntity dog) {
 		for(ITalent talent : TalentRegistry.getTalents())

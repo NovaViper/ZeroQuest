@@ -3,7 +3,6 @@ package common.zeroquest.item;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
@@ -12,9 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.EnumPlantType;
 import net.minecraftforge.common.IPlantable;
 
-import common.zeroquest.ZeroQuest;
-
-public class ItemNileSeed extends Item implements IPlantable {
+public class ItemNileSeed extends ItemZQ implements IPlantable {
 	private final Block field_150925_a;
 	private final Block soilBlockID;
 	private static final String __OBFID = "CL_00000061";
@@ -22,7 +19,6 @@ public class ItemNileSeed extends Item implements IPlantable {
 	public ItemNileSeed(Block par1, Block par3) {
 		this.field_150925_a = par1;
 		this.soilBlockID = par3;
-		this.setCreativeTab(ZeroQuest.ZeroTab);
 	}
 
 	/**

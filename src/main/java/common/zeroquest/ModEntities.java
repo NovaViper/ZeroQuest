@@ -67,6 +67,7 @@ public class ModEntities {
 
 	public static void loadOthers() {
 		registerTileEntity(TileEntityNileWorkbench.class, "Nile Worktable");
+		registerTileEntity(TileEntityFoodBowl.class, "Food Bowl");
 		registerProjectileEntity(EntityFlamingPoisonball.class, "FPoisonball", 400);
 		EntityRegistry.registerModEntity(EntityGrenade.class, "Grenade", 401, ZeroQuest.instance, 80, 3, true);
 		registerProjectileEntity(EntityIceball.class, "Iceball", 402);

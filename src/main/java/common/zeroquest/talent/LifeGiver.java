@@ -26,7 +26,7 @@ public class LifeGiver extends ITalent {
 		byte byte0 = 100;
 
 		if (dog.talents.getLevel(this) == 5) {
-			byte0 = 80;
+			byte0 = 40;
 		}
 
 		return byte0;

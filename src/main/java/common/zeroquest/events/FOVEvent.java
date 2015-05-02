@@ -1,7 +1,7 @@
 package common.zeroquest.events;
 
 import common.zeroquest.ModItems;
-import common.zeroquest.item.weapons.ItemNileBow;
+import common.zeroquest.item.tools.ItemNileBow;
 import common.zeroquest.lib.Constants;
 import net.minecraft.client.entity.AbstractClientPlayer;
 import net.minecraft.entity.player.EntityPlayer;

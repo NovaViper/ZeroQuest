@@ -7,141 +7,102 @@ import net.minecraft.world.biome.WorldChunkManagerHell;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import common.zeroquest.ModBiomes;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.world.gen.ChunkProviderDarkax;
 
-public class WorldProviderDarkax extends WorldProvider
-{	
+public class WorldProviderDarkax extends WorldProvider {
 	@Override
-	public void registerWorldChunkManager()
-	{
+	public void registerWorldChunkManager() {
 		/** tells Minecraft to use our new WorldChunkManager **/
-        this.worldChunkMgr = new WorldChunkManagerHell(ModBiomes.darkWasteland, 0F);
-        this.isHellWorld = true;
-        this.hasNoSky = false;
-        this.dimensionId = ZeroQuest.DarkaxID;
+		this.worldChunkMgr = new WorldChunkManagerHell(ModBiomes.darkWasteland, 0F);
+		this.isHellWorld = true;
+		this.hasNoSky = false;
+		this.dimensionId = ZeroQuest.DarkaxID;
 	}
 
 	@Override
-	public IChunkProvider createChunkGenerator()
-	{
-        return new ChunkProviderDarkax(this.worldObj, this.worldObj.getSeed(), true, worldObj.getWorldInfo().getGeneratorOptions());
+	public IChunkProvider createChunkGenerator() {
+		return new ChunkProviderDarkax(this.worldObj, this.worldObj.getSeed(), true, worldObj.getWorldInfo().getGeneratorOptions());
 	}
 
 	@Override
 	/** Dimension Name **/
-	public String getDimensionName()
-	{
+	public String getDimensionName() {
 		return "Darkax";
 	}
 
-    @SideOnly(Side.CLIENT)
-
-    /**
-     * Return Vec3D with biome specific fog color
-     */
+	@SideOnly(Side.CLIENT)
+	/**
+	 * Return Vec3D with biome specific fog color
+	 */
 	@Override
-    public Vec3 getFogColor(float p_76562_1_, float p_76562_2_)
-    {
-        int i = 10518688;
-        float f2 = MathHelper.cos(p_76562_1_ * (float)Math.PI * 2.0F) * 2.0F + 0.5F;
+	public Vec3 getFogColor(float p_76562_1_, float p_76562_2_) {
+		int i = 10518688;
+		float f2 = MathHelper.cos(p_76562_1_ * (float) Math.PI * 2.0F) * 2.0F + 0.5F;
 
-        if (f2 < 0.0F)
-        {
-            f2 = 0.0F;
-        }
+		if (f2 < 0.0F) {
+			f2 = 0.0F;
+		}
 
-        if (f2 > 1.0F)
-        {
-            f2 = 1.0F;
-        }
+		if (f2 > 1.0F) {
+			f2 = 1.0F;
+		}
 
-        float f3 = (float)(i >> 16 & 255) / 255.0F;
-        float f4 = (float)(i >> 8 & 255) / 255.0F;
-        float f5 = (float)(i & 255) / 255.0F;
-        f3 *= f2 * 0.0F + 0.15F;
-        f4 *= f2 * 0.0F + 0.15F;
-        f5 *= f2 * 0.0F + 0.15F;
-        return new Vec3((double)f3, (double)f4, (double)f5);
-    }
+		float f3 = (i >> 16 & 255) / 255.0F;
+		float f4 = (i >> 8 & 255) / 255.0F;
+		float f5 = (i & 255) / 255.0F;
+		f3 *= f2 * 0.0F + 0.15F;
+		f4 *= f2 * 0.0F + 0.15F;
+		f5 *= f2 * 0.0F + 0.15F;
+		return new Vec3(f3, f4, f5);
+	}
 
-    @SideOnly(Side.CLIENT)
-    public boolean isSkyColored()
-    {
-        return false;
-    }
-
-    /**
-     * Returns 'true' if in the "main surface world", but 'false' if in the Nether or End dimensions.
-     */
 	@Override
-    public boolean isSurfaceWorld()
-    {
-        return false;
-    }
-
-    /**
-     * Will check if the x, z position specified is alright to be set as the map spawn point
-     */
-	@Override
-    public boolean canCoordinateBeSpawn(int par1, int par2)
-    {
-        return false;
-    }
-
-    @SideOnly(Side.CLIENT)
-
-    /**
-     * Returns true if the given X,Z coordinate should show environmental fog.
-     */
-	@Override
-    public boolean doesXZShowFog(int par1, int par2)
-    {
-        return false;
-    }
-
-
-    @Override
-	/** Welcome message **/
-    public String getWelcomeMessage()
-    {
-        if (this instanceof WorldProviderDarkax)
-        {
-            return "Entering the Darkax Dimension";
-        } 
-        return null;
-    }
-    
-    @Override
-	public String getDepartMessage()
-    {
-        if (this instanceof WorldProviderDarkax)
-        {
-            return "Leaving the Darkax Dimension";
-        } 
-        return null;
-    }
-
-
-	/** Can player re-spawn here **/
-	@Override
-	public boolean canRespawnHere()
-	{
+	@SideOnly(Side.CLIENT)
+	public boolean isSkyColored() {
 		return false;
 	}
 
+	/**
+	 * Returns 'true' if in the "main surface world", but 'false' if in the
+	 * Nether or End dimensions.
+	 */
+	@Override
+	public boolean isSurfaceWorld() {
+		return false;
+	}
 
-	/** Set user message **/
-	// not sure if this works any more ?
-	protected synchronized String setUserMessage(String par1Str)
-	{
-    	return "Building the Darkax Dimension";
+	/**
+	 * Will check if the x, z position specified is alright to be set as the map
+	 * spawn point
+	 */
+	@Override
+	public boolean canCoordinateBeSpawn(int par1, int par2) {
+		return false;
+	}
+
+	@Override
+	/** Welcome message **/
+	public String getWelcomeMessage() {
+		return "Entering the Darkax Dimension";
+	}
+
+	@Override
+	public String getDepartMessage() {
+		return "Leaving the Darkax Dimension";
+	}
+
+	/** Can player re-spawn here **/
+	@Override
+	public boolean canRespawnHere() {
+		return false;
 	}
 
 	/** Dimension Movement speed **/
-	public double getMovementFactor()
-	{
+	@Override
+	public double getMovementFactor() {
 		return 10.0;
 	}
 

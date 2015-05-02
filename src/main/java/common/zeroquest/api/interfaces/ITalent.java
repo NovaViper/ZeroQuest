@@ -26,6 +26,7 @@ public abstract class ITalent {
 	public int changeFoodValue(EntityZertumEntity dog, ItemStack stack, int foodValue) { return foodValue; }
 	public boolean isPostionApplicable(EntityZertumEntity dog, PotionEffect potionEffect) { return true; }
 	public double addToMoveSpeed(EntityZertumEntity dog) { return 0.0D; }
+	public double addToAttackDamage(EntityZertumEntity dog) { return 0.0D; }
 	public boolean canBreatheUnderwater(EntityZertumEntity dog) { return false; }
 	public boolean isImmuneToFalls(EntityZertumEntity dog) { return false; }
 	public int fallProtection(EntityZertumEntity dog) { return 0; }

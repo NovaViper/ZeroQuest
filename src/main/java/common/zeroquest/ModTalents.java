@@ -2,23 +2,7 @@ package common.zeroquest;
 
 import common.zeroquest.api.interfaces.ITalent;
 import common.zeroquest.api.registry.TalentRegistry;
-import common.zeroquest.talent.BlastResist;
-import common.zeroquest.talent.BodyMuncher;
-import common.zeroquest.talent.CreeperSpotter;
-import common.zeroquest.talent.CriticalClaw;
-import common.zeroquest.talent.Dasher;
-import common.zeroquest.talent.DeatheningRoar;
-import common.zeroquest.talent.FishingZertum;
-import common.zeroquest.talent.FlamingElemental;
-import common.zeroquest.talent.FrigidFrost;
-import common.zeroquest.talent.HardenedSkin;
-import common.zeroquest.talent.Hunter;
-import common.zeroquest.talent.LifeGiver;
-import common.zeroquest.talent.LightFall;
-import common.zeroquest.talent.Mount;
-import common.zeroquest.talent.PestSlayer;
-import common.zeroquest.talent.RapidRegeneration;
-import common.zeroquest.talent.RoundUp;
+import common.zeroquest.talent.*;
 
 public class ModTalents {
 
@@ -40,6 +24,7 @@ public class ModTalents {
 		registerTalent(new PestSlayer());
 		registerTalent(new RapidRegeneration());
 		registerTalent(new RoundUp());
+		registerTalent(new SharpenedWeapons());
 	}
 
 	public static void registerTalent(ITalent talent) {

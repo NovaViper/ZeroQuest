@@ -4,7 +4,6 @@ import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.entity.monster.EntitySkeleton;
@@ -23,6 +22,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.google.common.base.Predicate;
+
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
@@ -36,17 +36,6 @@ import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
 
 public class EntityMetalZertum extends EntityZertumEntity {
-
-	public static final double maxHealth = 30;
-	public static final double attackDamage = 6;
-	public static final double speed = 0.30000001192092896;
-	public static final double maxHealthTamed = 40;
-	public static final double attackDamageTamed = 8;
-	public static final double maxHealthBaby = 10;
-	public static final double attackDamageBaby = 2;
-	public static final double maxHealthEvo = 50;
-	public static final double attackDamageEvo = 10;
-	public static final double speedEvo = 0.40000001192092896;
 
 	public EntityMetalZertum(World worldIn) {
 		super(worldIn);
@@ -62,32 +51,6 @@ public class EntityMetalZertum extends EntityZertumEntity {
 				return this.func_180094_a((Entity) p_apply_1_);
 			}
 		}));
-	}
-
-	@Override
-	protected void applyEntityAttributes() {
-		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealth);
-		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamage);
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speed);
-		this.updateEntityAttributes();
-	}
-
-	@Override
-	public void updateEntityAttributes() {
-		if (this.isTamed()) {
-			this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthTamed + this.effectiveLevel());
-			this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageTamed);
-		}
-		else if (this.isChild()) {
-			this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthBaby);
-			this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageBaby);
-		}
-		else if (this.hasEvolved()) {
-			this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(maxHealthEvo);
-			this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(attackDamageEvo);
-			this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(speedEvo);
-		}
 	}
 
 	@Override
@@ -163,7 +126,7 @@ public class EntityMetalZertum extends EntityZertumEntity {
 			if (stack != null) {
 				int foodValue = this.foodValue(stack);
 
-				if (foodValue != 0 && this.getDogHunger() < 120 && this.canInteract(player)) {
+				if (foodValue != 0 && this.getDogHunger() < Constants.hungerTicks && this.canInteract(player)) {
 					if (!player.capabilities.isCreativeMode && --stack.stackSize <= 0) {
 						player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
 					}
@@ -184,7 +147,7 @@ public class EntityMetalZertum extends EntityZertumEntity {
 					return true;
 				}
 				else if (stack != null && stack.getItem() == ModItems.evoBit && this.levels.getLevel() == Constants.maxLevel && !this.hasEvolved() && isServer() && this.canInteract(player)) { // TODO
-					this.evolveOnClient();
+					this.evolveOnClient(player);
 				}
 				else if (stack.getItem() == Items.shears && this.isOwner(player)) {
 					if (!this.worldObj.isRemote) {
@@ -192,10 +155,9 @@ public class EntityMetalZertum extends EntityZertumEntity {
 						this.setEvolved(false);
 						this.navigator.clearPathEntity();
 						this.setSitting(false);
-						this.setHealth((float) maxHealth);
 						this.talents.resetTalents();
 						this.setOwnerId("");
-						this.setDogName("");
+						this.setZertumName("");
 						this.setWillObeyOthers(false);
 						this.mode.setMode(EnumMode.DOCILE);
 					}

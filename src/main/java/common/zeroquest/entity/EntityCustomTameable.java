@@ -15,7 +15,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import common.zeroquest.client.particle.EntityDustFX;
-import common.zeroquest.client.particle.EntityHeart2FX;
+import common.zeroquest.client.particle.EntityHeartFX;
 import common.zeroquest.inventory.InventoryPack;
 
 public abstract class EntityCustomTameable extends EntityTameable {
@@ -53,7 +53,7 @@ public abstract class EntityCustomTameable extends EntityTameable {
 		double d1 = this.rand.nextGaussian() * 0.02D;
 		double d2 = this.rand.nextGaussian() * 0.02D;
 		if (isClient()) {
-			EntityFX entityFX = new EntityHeart2FX(this.worldObj, this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width, this.posY + 0.5D + this.rand.nextFloat() * this.height, this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width, d0, d1, d2);
+			EntityFX entityFX = new EntityHeartFX(this.worldObj, this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width, this.posY + 0.5D + this.rand.nextFloat() * this.height, this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width, d0, d1, d2);
 
 			if (!p_70908_1_) {
 				entityFX = new EntityDustFX(this.worldObj, this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width, this.posY + 0.5D + this.rand.nextFloat() * this.height, this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width, d0, d1, d2);

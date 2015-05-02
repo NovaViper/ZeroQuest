@@ -47,8 +47,7 @@ public class DeatheningRoar extends ITalent {
 					EntityMob entityMob = (EntityMob) iterator.next();
 					if (dog.getRNG().nextInt(20) == 0) {
 						if (cooldown2 <= 0) {
-							this.roar(dog, entityMob, dog instanceof EntityMetalZertum
-									? Sound.MetalZertumRoar : Sound.ZertumRoar);
+							this.roar(dog, entityMob, dog instanceof EntityMetalZertum ? Sound.MetalZertumRoar : Sound.ZertumRoar);
 							int knockback = level;
 							entityMob.attackEntityFrom(DamageSource.generic, damage);
 							entityMob.addVelocity(-MathHelper.sin(entityMob.rotationYaw * (float) Math.PI / 180.0F) * knockback * 0.5F, 0.1D, MathHelper.cos(entityMob.rotationYaw * (float) Math.PI / 180.0F) * knockback * 0.5F);
@@ -62,7 +61,7 @@ public class DeatheningRoar extends ITalent {
 
 	public void roar(EntityZertumEntity dog, Entity entity, String sound) {
 		dog.openMouth();
-		dog.playSound(sound, dog.getSoundVolume(), dog.getPitch());
+		dog.playSound(sound, dog.getSoundVolume(), 1F);
 		ZeroQuest.proxy.spawnRoar(dog.worldObj, entity);
 	}
 
