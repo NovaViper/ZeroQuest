@@ -1,1 +1,1 @@
-ZeroQuest:v1.5.0:1.8
+ZeroQuest:v1.6.0:1.8
