@@ -1,5 +1,7 @@
 package common.zeroquest.entity;
 
+import java.util.UUID;
+
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -13,7 +15,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
 import common.zeroquest.client.particle.EntityDustFX;
 import common.zeroquest.client.particle.EntityHeartFX;
 import common.zeroquest.inventory.InventoryPack;

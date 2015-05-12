@@ -62,6 +62,7 @@ public class PacketHandler {
 		registerMessage(ZertumName.Handler.class, ZertumName.class, Side.SERVER);
 		registerMessage(ZertumMode.Handler.class, ZertumMode.class, Side.SERVER);
 		registerMessage(ZertumTalents.Handler.class, ZertumTalents.class, Side.SERVER);
+		registerMessage(FireSound.Handler.class, FireSound.class, Side.SERVER);
 	}
 
 	/**
@@ -97,12 +98,8 @@ public class PacketHandler {
 	 * Sends a message to everyone within a certain range of the coordinates in
 	 * the same dimension.
 	 */
-	public static final void sendToAllAround(IMessage message, int dimension, double x, double y, double z,
-
-	double range) {
-		PacketHandler.sendToAllAround(message, new NetworkRegistry.TargetPoint(dimension, x, y, z,
-
-		range));
+	public static final void sendToAllAround(IMessage message, int dimension, double x, double y, double z, double range) {
+		PacketHandler.sendToAllAround(message, new NetworkRegistry.TargetPoint(dimension, x, y, z, range));
 	}
 
 	/**

@@ -85,7 +85,7 @@ public class RenderZertum extends RenderLiving {
 	public void passSpecialRender(EntityLivingBase entityLivingBase, double par1, double par2, double par3) {
 		EntityZertum dog = (EntityZertum) entityLivingBase;
 
-		if (!dog.getZertumName().isEmpty()) {
+		if (!dog.getPetName().isEmpty()) {
 			super.passSpecialRender(entityLivingBase, par1, par2, par3);
 		}
 	}

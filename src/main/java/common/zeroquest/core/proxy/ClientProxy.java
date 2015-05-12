@@ -101,7 +101,6 @@ public class ClientProxy extends CommonProxy {
 		registerKeyBinding(KeyStateHandler.stay);
 		registerKeyBinding(KeyStateHandler.ok);
 		registerKeyBinding(KeyStateHandler.heel);
-
 		registerFMLCommonEventBus(new KeyStateHandler());
 	}
 

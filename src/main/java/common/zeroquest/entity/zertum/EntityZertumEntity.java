@@ -3,11 +3,9 @@ package common.zeroquest.entity.zertum;
 import java.util.HashMap;
 import java.util.Map;
 
-import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.entity.Entity;
-import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.SharedMonsterAttributes;
+import net.minecraft.block.*;
+import net.minecraft.block.material.*;
+import net.minecraft.entity.*;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
@@ -16,41 +14,25 @@ import net.minecraft.entity.ai.EntityAIMate;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.monster.EntityCreeper;
-import net.minecraft.entity.monster.EntityGhast;
-import net.minecraft.entity.monster.EntityZombie;
-import net.minecraft.entity.passive.EntityAnimal;
-import net.minecraft.entity.passive.EntityHorse;
-import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.entity.projectile.EntityArrow;
-import net.minecraft.init.Items;
-import net.minecraft.item.EnumDyeColor;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemBow;
-import net.minecraft.item.ItemFood;
-import net.minecraft.item.ItemStack;
-import net.minecraft.item.ItemSword;
-import net.minecraft.item.ItemTool;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathNavigateGround;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.DamageSource;
-import net.minecraft.util.EnumChatFormatting;
-import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.MathHelper;
-import net.minecraft.world.World;
-import net.minecraftforge.fml.relauncher.Side;
-import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraft.entity.monster.*;
+import net.minecraft.entity.passive.*;
+import net.minecraft.entity.player.*;
+import net.minecraft.entity.projectile.*;
+import net.minecraft.init.*;
+import net.minecraft.item.*;
+import net.minecraft.nbt.*;
+import net.minecraft.pathfinding.*;
+import net.minecraft.potion.*;
+import net.minecraft.util.*;
+import net.minecraft.world.*;
+import net.minecraftforge.fml.relauncher.*;
 import common.zeroquest.*;
 import common.zeroquest.core.helper.ChatHelper;
 import common.zeroquest.entity.EntityCustomTameable;
 import common.zeroquest.entity.ai.*;
 import common.zeroquest.entity.util.*;
 import common.zeroquest.inventory.*;
-import common.zeroquest.lib.Constants;
-import common.zeroquest.lib.Sound;
+import common.zeroquest.lib.*;
 
 public abstract class EntityZertumEntity extends EntityCustomTameable {
 	private float timeDogBegging;
@@ -138,7 +120,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 				this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(this.tamedDamage());
 			}
 			else if (!this.isChild() && this.hasEvolved()) {
-				this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.evoHealth());
+				this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.evoHealth() + this.effectiveLevel());
 			}
 			else {
 				this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.babyHealth());
@@ -272,7 +254,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 
 	@Override
 	public String getName() {
-		String name = this.getZertumName();
+		String name = this.getPetName();
 		if (name != "" && this.isTamed()) {
 			return name;
 		}
@@ -317,9 +299,8 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		tagCompound.setByte("CollarColor", (byte) this.getCollarColor().getDyeDamage());
 		tagCompound.setBoolean("Saddle", this.isSaddled());
 		tagCompound.setBoolean("Evolve", this.hasEvolved());
-
 		tagCompound.setString("version", Constants.version);
-		tagCompound.setString("dogName", this.getZertumName());
+		tagCompound.setString("dogName", this.getPetName());
 		tagCompound.setInteger("dogHunger", this.getDogHunger());
 		tagCompound.setBoolean("willObey", this.willObeyOthers());
 		tagCompound.setBoolean("dogBeg", this.isBegging());
@@ -435,8 +416,11 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 			else if (rare <= 12) {
 				this.dropItem(ModItems.zertumMeatRaw, 1);
 			}
-			if (rare <= 6 && !this.isTamed()) {
+			if (rare <= 6 && !this.isTamed() && !(this instanceof EntityDarkZertum)) {
 				this.dropItem(ModItems.nileGrain, 1);
+			}
+			if (rare <= 6 && !this.isTamed() && (this instanceof EntityDarkZertum)) {
+				this.dropItem(ModItems.darkGrain, 1);
 			}
 			if (this.isSaddled()) {
 				this.dropItem(Items.saddle, 1);
@@ -506,7 +490,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 
 		if (Constants.DEF_HOWL == true) {
 			if (this.isServer()) {
-				if (this.worldObj.isDaytime()) // TODO
+				if (this.worldObj.isDaytime() && this.isChild()) // TODO
 				{
 					wantToHowl = false;
 				}
@@ -533,8 +517,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 			this.timeDogBegging += (0.0F - this.timeDogBegging) * 0.4F;
 		}
 
-		if (this.openMouthCounter > 0 && ++this.openMouthCounter > 30) // TODO
-		{
+		if (this.openMouthCounter > 0 && ++this.openMouthCounter > 30) {
 			this.openMouthCounter = 0;
 			this.setHorseWatchableBoolean(128, false);
 		}
@@ -725,17 +708,16 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	@Override
-	public float getAIMoveSpeed() {
+	public float getAIMoveSpeed() { // TODO
 		double speed = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
-
 		speed += TalentHelper.addToMoveSpeed(this);
 
 		if ((!(this.getAttackTarget() instanceof EntityZertumEntity) && !(this.getAttackTarget() instanceof EntityPlayer)) || this.riddenByEntity instanceof EntityPlayer) {
 			if (this.levels.getLevel() == Constants.maxLevel && this.hasEvolved()) {
-				speed += 1.0D;
+				speed += 0.3D;
 			}
 			else if (this.hasEvolved() && this.levels.getLevel() != Constants.maxLevel) {
-				speed += 1.0D;
+				speed += 0.3D;
 			}
 		}
 
@@ -746,19 +728,18 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		return (float) speed;
 	}
 
-	public float getAIAttackDamage() { // TODO
+	public float getAIAttackDamage() {
 		double damage = this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
 		damage += TalentHelper.addToAttackDamage(this);
 
 		if ((!(this.getAttackTarget() instanceof EntityZertumEntity) && !(this.getAttackTarget() instanceof EntityPlayer))) {
 			if (this.levels.getLevel() == Constants.maxLevel && this.hasEvolved()) {
-				damage += 2.0D;
+				damage += 1.0D;
 			}
 			else if (this.hasEvolved() && this.levels.getLevel() != Constants.maxLevel) {
-				damage += 2.0D;
+				damage += 1.0D;
 			}
 		}
-
 		return (float) damage;
 	}
 
@@ -811,7 +792,6 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	@SideOnly(Side.CLIENT)
-	// TODO
 	public float getInterestedAngle(float partialTickTime) {
 		return (this.prevTimeDogBegging + (this.timeDogBegging - this.prevTimeDogBegging) * partialTickTime) * 0.15F * (float) Math.PI;
 	}
@@ -867,7 +847,6 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	 * Called when the mob's health reaches 0.
 	 */
 	@Override
-	// TODO
 	public void onDeath(DamageSource par1DamageSource) {
 		super.onDeath(par1DamageSource);
 
@@ -995,7 +974,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		return (this.levels.getLevel()) / 10;
 	}
 
-	public String getZertumName() {
+	public String getPetName() {
 		return this.dataWatcher.getWatchableObjectString(21);
 	}
 
@@ -1166,8 +1145,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		}
 	}
 
-	private boolean getHorseWatchableBoolean(int p_110233_1_) // TODO
-	{
+	private boolean getHorseWatchableBoolean(int p_110233_1_) {
 		return (this.dataWatcher.getWatchableObjectInt(INDEX_MOUTH) & p_110233_1_) != 0;
 	}
 
@@ -1231,7 +1209,6 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 
 	public void setEvolved(boolean p_70900_1_) {
 		this.evolveBoolean(p_70900_1_);
-
 		if (p_70900_1_) {
 			if (!this.isChild() && !this.hasEvolved()) {
 				this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.tamedHealth() + this.effectiveLevel());
@@ -1253,31 +1230,15 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		}
 	}
 
-	public String getEvolveState() {
-		if (!this.hasEvolved() && !this.isChild() && this.levels.getLevel() < Constants.maxLevel) {
-			return "Not at Alpha Level!";
-		}
-		else if (!this.hasEvolved() && this.isChild() && this.levels.getLevel() < Constants.maxLevel) {
-			return "Too Young!";
-		}
-		else if (!this.hasEvolved() && !this.isChild() && this.levels.getLevel() >= Constants.maxLevel) {
-			return "Ready!";
-		}
-		else if (this.hasEvolved() && !this.isChild()) {
-			return "Already Evolved!";
-		}
-		return null;
-	}
-
-	public void evolveOnClient(EntityPlayer player) { // TODO
+	public void evolveOnClient(EntityPlayer player) {
 		this.setEvolved(true);
 		this.worldObj.playBroadcastSound(1013, new BlockPos(this), 0);
-		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + this.getZertumName() + " has been evolved!"));
+		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + this.getPetName() + " has been evolved!"));
 	}
 
-	public void evolveOnServer(EntityZertumEntity entity, EntityPlayer player) { // TODO
+	public void evolveOnServer(EntityZertumEntity entity, EntityPlayer player) {
 		entity.setEvolved(true);
 		entity.worldObj.playBroadcastSound(1013, new BlockPos(entity), 0);
-		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + entity.getZertumName() + " has been evolved!"));
+		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + entity.getPetName() + " has been evolved!"));
 	}
 }

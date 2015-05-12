@@ -16,7 +16,7 @@ public class SharpenedWeapons extends ITalent {
 
 		if ((!(dog.getAttackTarget() instanceof EntityZertumEntity) && !(dog.getAttackTarget() instanceof EntityPlayer)) || dog.riddenByEntity instanceof EntityPlayer) {
 			if (level == 5) {
-				damage += 3.0D;
+				damage += 2.0D;
 			}
 		}
 		damage += level;
@@ -27,5 +27,4 @@ public class SharpenedWeapons extends ITalent {
 	public String getKey() {
 		return "sharpen";
 	}
-
 }

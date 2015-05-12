@@ -49,20 +49,20 @@ public class ItemBit extends Item implements IBits {
 			dog.worldObj.setEntityState(dog, (byte) 7);
 			dog.playTameEffect(true);
 			if (!player.worldObj.isRemote) {
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + dog.getZertumName() + " has leveled up to " + dog.levels.getLevel() + "!"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + dog.getPetName() + " has leveled up to " + dog.levels.getLevel() + "!"));
 			}
 		}
 		else if (type == EnumFeedBack.TOOYOUNG) {
 			if (!player.worldObj.isRemote) {
 				dog.playTameEffect(false);
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + dog.getZertumName() + " is too young to be learning skills!"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + dog.getPetName() + " is too young to be learning skills!"));
 			}
 		}
 		else if (type == EnumFeedBack.LEVELTOOHIGH) {
 			player.worldObj.setEntityState(dog, (byte) 6);
 			if (!player.worldObj.isRemote) {
 				dog.playTameEffect(false);
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + dog.getZertumName() + " cannot gain anything from these bits anymore!"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + dog.getPetName() + " cannot gain anything from these bits anymore!"));
 			}
 		}
 	}

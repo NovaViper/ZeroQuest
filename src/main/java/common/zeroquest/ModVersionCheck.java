@@ -23,7 +23,7 @@ import common.zeroquest.core.helper.ChatHelper;
 import common.zeroquest.core.helper.LogHelper;
 import common.zeroquest.lib.Constants;
 
-public class PlayerEvents {
+public class ModVersionCheck {
 
 	private final String version;
 	private final String name;
@@ -31,7 +31,7 @@ public class PlayerEvents {
 	public static Status status = PENDING;
 	public static String link = "http://www.minecraftforge.net/forum/index.php/topic,28133.msg144462.html";
 
-	public PlayerEvents(String modVersion, String modName, boolean beta) {
+	public ModVersionCheck(String modVersion, String modName, boolean beta) {
 		version = modVersion;
 		name = modName;
 		isBeta = beta;
@@ -99,11 +99,4 @@ public class PlayerEvents {
 			LogHelper.info(chat2);
 		}
 	}
-
-	/* ===============UNUSED============== */// TODO
-	public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {}
-
-	public void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {}
-
-	public void onPlayerRespawn(PlayerEvent.PlayerRespawnEvent event) {}
 }

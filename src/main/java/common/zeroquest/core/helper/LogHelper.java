@@ -17,15 +17,31 @@ public class LogHelper {
 		FMLRelaunchLog.log("Zero Quest", level, format, data);
 	}
 
-	public static void severe(String format, Object... data) {
-	    log(Level.ERROR, format, data);
+	public static void error(String format, Object... data) {
+		log(Level.ERROR, format, data);
+	}
+
+	public static void fatal(String format, Object... data) {
+		log(Level.FATAL, format, data);
 	}
 
 	public static void warn(String format, Object... data) {
-	    log(Level.WARN, format, data);
+		log(Level.WARN, format, data);
 	}
 
 	public static void info(String format, Object... data) {
-	    log(Level.INFO, format, data);
+		log(Level.INFO, format, data);
+	}
+
+	public static void debug(String format, Object... data) {
+		log(Level.DEBUG, format, data);
+	}
+
+	public static void trace(String format, Object... data) {
+		log(Level.TRACE, format, data);
+	}
+
+	public static void all(String format, Object... data) {
+		log(Level.ALL, format, data);
 	}
 }

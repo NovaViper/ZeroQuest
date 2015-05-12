@@ -55,32 +55,6 @@ public class EntityDarkZertum extends EntityZertumEntity {
 	}
 
 	/**
-	 * Returns the item ID for the item the mob drops on death.
-	 */
-	@Override
-	protected void dropFewItems(boolean par1, int par2) {
-		rare = rand.nextInt(20);
-		{
-			if (this.isBurning()) {
-				this.dropItem(ModItems.zertumMeatCooked, 1);
-			}
-			else if (rare <= 12) {
-				this.dropItem(ModItems.zertumMeatRaw, 1);
-			}
-			if (rare <= 6 && !this.isTamed()) {
-				this.dropItem(ModItems.darkGrain, 1);
-			}
-			if (this.isSaddled()) {
-				this.dropItem(Items.saddle, 1);
-			}
-			else {
-
-			}
-
-		}
-	}
-
-	/**
 	 * Called frequently so the entity can update its state every tick as
 	 * required. For example, zombies and skeletons use this to react to
 	 * sunlight and start to burn.
@@ -93,7 +67,6 @@ public class EntityDarkZertum extends EntityZertumEntity {
 		double d1 = this.rand.nextGaussian() * 0.04D;
 		double d2 = this.rand.nextGaussian() * 0.04D;
 		worldObj.spawnParticle(EnumParticleTypes.TOWN_AURA, this.posX + this.rand.nextFloat() * this.width * 2.0F - this.width, this.posY + 0.5D + this.rand.nextFloat() * this.height, this.posZ + this.rand.nextFloat() * this.width * 2.0F - this.width, d0, d1, d2);
-
 	}
 
 	@Override

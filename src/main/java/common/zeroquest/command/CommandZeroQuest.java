@@ -278,7 +278,7 @@ public class CommandZeroQuest extends CommandBase {
 		}
 	}
 
-	private class AgeModifier implements EntityModifier {
+	private class AgeModifier implements EntityModifier { // TODO
 
 		private final int age;
 		private final EntityPlayerMP player;
@@ -291,27 +291,24 @@ public class CommandZeroQuest extends CommandBase {
 		@Override
 		public void modify(EntityCustomTameable entity) {
 			if (entity.isTamed()) {
-				entity.setGrowingAge(age);
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Stage set!"));
+				if (entity instanceof EntityZertumEntity) {
+					EntityZertumEntity zertum = (EntityZertumEntity) entity;
+					if (!zertum.hasEvolved()) {
+						entity.setGrowingAge(age);
+						zertum.updateEntityAttributes();
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Stage set!"));
+					}
+					else {
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You cannot change the stage of " + zertum.getPetName() + " because they have " + EnumChatFormatting.RED + "evolved!"));
+					}
+				}
+				else {
+					entity.setGrowingAge(age);
+					player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Stage set!"));
+				}
 			}
 			else {
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You cannot change the stage of a wild creature!!"));
-			}
-			
-			if(entity instanceof EntityZertumEntity){
-				EntityZertumEntity zertum = (EntityZertumEntity) entity;
-				if(age < 0){
-					zertum.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(zertum.babyHealth());
-					zertum.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(zertum.babyDamage());
-				}else{
-					if (!zertum.hasEvolved()) {
-						zertum.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(zertum.tamedHealth() + zertum.effectiveLevel());
-						zertum.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(zertum.tamedDamage());
-					}
-					else if (zertum.hasEvolved()) {
-						zertum.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(zertum.evoHealth());
-					}
-				}
 			}
 		}
 	}
@@ -386,13 +383,13 @@ public class CommandZeroQuest extends CommandBase {
 						zertum.evolveOnServer(zertum, player);
 					}
 					else if (zertum.hasEvolved() && !zertum.isChild() && zertum.canInteract(player)) {
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getZertumName() + " has already evolved!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getPetName() + " has already evolved!"));
 					}
 					else if (!zertum.hasEvolved() && zertum.isChild() && zertum.canInteract(player)) {
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getZertumName() + " is too young for evolution!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getPetName() + " is too young for evolution!"));
 					}
 					else if (!zertum.hasEvolved() && !zertum.isChild() && !zertum.canInteract(player)) {
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You do not own " + zertum.getZertumName() + " or " + zertum.getOwner().getName() + " does not allow them to" + EnumChatFormatting.RED + " obey others!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You do not own " + zertum.getPetName() + " or " + zertum.getOwner().getName() + " does not allow them to" + EnumChatFormatting.RED + " obey others!"));
 					}
 				}
 				else {
@@ -422,20 +419,20 @@ public class CommandZeroQuest extends CommandBase {
 					EntityZertumEntity zertum = (EntityZertumEntity) entity;
 					if (level <= Constants.maxLevel && zertum.levels.getLevel() < Constants.maxLevel && !zertum.isChild() && zertum.canInteract(player)) {
 						zertum.levels.addLevel(level);
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + Integer.toString(level) + " has been added to " + zertum.getZertumName()));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + Integer.toString(level) + " has been added to " + zertum.getPetName()));
 					}
 					else if (level <= Constants.maxLevel && zertum.levels.getLevel() >= Constants.maxLevel && !zertum.isChild() && zertum.canInteract(player)) {
 						zertum.levels.setLevel(Constants.maxLevel);
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getZertumName() + " is at its maxmimum level!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getPetName() + " is at its maxmimum level!"));
 					}
 					else if (level > Constants.maxLevel && zertum.levels.getLevel() < Constants.maxLevel && !zertum.isChild() && zertum.canInteract(player)) {
 						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + Integer.toString(level) + " is too big of a number!"));
 					}
 					else if (level <= Constants.maxLevel && zertum.levels.getLevel() < Constants.maxLevel && zertum.isChild() && zertum.canInteract(player)) {
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getZertumName() + " is too young to gain levels!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getPetName() + " is too young to gain levels!"));
 					}
 					else if (level <= Constants.maxLevel && zertum.levels.getLevel() < Constants.maxLevel && !zertum.isChild() && !zertum.canInteract(player)) {
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You do not own " + zertum.getZertumName() + " or " + zertum.getOwner().getName() + " does not allow them to" + EnumChatFormatting.RED + " obey others!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You do not own " + zertum.getPetName() + " or " + zertum.getOwner().getName() + " does not allow them to" + EnumChatFormatting.RED + " obey others!"));
 					}
 				}
 				else {

@@ -25,6 +25,7 @@ import common.zeroquest.api.interfaces.ITalent;
 import common.zeroquest.api.registry.TalentRegistry;
 import common.zeroquest.entity.util.ModeUtil.EnumMode;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
+import common.zeroquest.lib.Constants;
 import common.zeroquest.network.PacketHandler;
 import common.zeroquest.network.imessage.ZertumMode;
 import common.zeroquest.network.imessage.ZertumName;
@@ -73,7 +74,7 @@ public class GuiDogInfo extends GuiScreen {
 		};
 		nameTextField.setFocused(false);
 		nameTextField.setMaxStringLength(32);
-		nameTextField.setText(this.dog.getZertumName());
+		nameTextField.setText(this.dog.getPetName());
 		this.nameTextField = nameTextField;
 
 		this.textfieldList.add(nameTextField);
@@ -127,31 +128,41 @@ public class GuiDogInfo extends GuiScreen {
 		String healthState = health + "/" + healthMax + "(" + healthRel + "%)";
 		String damageValue = dfShort.format(this.dog.getAIAttackDamage());
 		String damageState = damageValue;
-		String evolutionState = this.dog.getEvolveState();
-		String saddleState = this.dog.isSaddled() == true ? "Yes" : "No";
 		String speedValue = dfShort.format(this.dog.getAIMoveSpeed());
 		String speedState = speedValue;
 
-		String tamedString = null;
+		/*String tamedString = null;
 		if (this.dog.isTamed()) {
-			Entity player = this.dog.getOwner();
-			if (player != null) {
-				tamedString = "Yes (" + player.getName() + ")";
+			if (this.dog.getOwner().getName() == this.player.getName()) {
+				tamedString = "Yes (You)";
 			}
 			else {
 				tamedString = "Yes (" + StringUtils.abbreviate(this.dog.getOwner().getName(), 22) + ")";
 			}
+		}*/
+
+		String evoString = null;
+		if (!this.dog.hasEvolved() && !this.dog.isChild() && this.dog.levels.getLevel() < Constants.maxLevel) {
+			evoString = "Not at Alpha Level!";
+		}
+		else if (!this.dog.hasEvolved() && this.dog.isChild() && this.dog.levels.getLevel() < Constants.maxLevel) {
+			evoString = "Too Young!";
+		}
+		else if (!this.dog.hasEvolved() && !this.dog.isChild() && this.dog.levels.getLevel() >= Constants.maxLevel) {
+			evoString = "Ready!";
+		}
+		else if (this.dog.hasEvolved() && !this.dog.isChild()) {
+			evoString = "Already Evolved!";
 		}
 
 		this.fontRendererObj.drawString("New name:", topX - 100, topY + 38, 4210752);
 		this.fontRendererObj.drawString("Level: " + this.dog.levels.getLevel(), topX - 75, topY + 75, 0xFF10F9);
-		this.fontRendererObj.drawString("Points Left: " + this.dog.spendablePoints(), topX - 38, topY + 89, 0xFFFFFF);
-		this.fontRendererObj.drawString("Health: " + healthState, topX + 200, topY - 170, 0xFFFFFF);
-		this.fontRendererObj.drawString("Damage: " + damageState, topX + 200, topY - 160, 0xFFFFFF);
-		this.fontRendererObj.drawString("Speed: " + speedState, topX + 200, topY - 150, 0xFFFFFF);
-		this.fontRendererObj.drawString("Tamed: " + tamedString, topX + 200, topY - 140, 0xFFFFFF);
-		this.fontRendererObj.drawString("State: " + evolutionState, topX + 200, topY - 130, 0xFFFFFF);
-		this.fontRendererObj.drawString("Saddled: " + saddleState, topX + 200, topY - 120, 0xFFFFFF);
+		this.fontRendererObj.drawString("Points Left: " + this.dog.spendablePoints(), topX, topY + 75, 0xFFFFFF);
+		this.fontRendererObj.drawString("Health: " + healthState, topX + 190, topY - 170, 0xFFFFFF);
+		this.fontRendererObj.drawString("Damage: " + damageState, topX + 190, topY - 160, 0xFFFFFF);
+		this.fontRendererObj.drawString("Speed: " + speedState, topX + 190, topY - 150, 0xFFFFFF);
+		//this.fontRendererObj.drawString("Tamed: " + tamedString, topX + 190, topY - 140, 0xFFFFFF);
+		this.fontRendererObj.drawString("State: " + evoString, topX + 190, topY - 140, 0xFFFFFF);
 		if (this.dog.isOwner(this.player)) {
 			this.fontRendererObj.drawString("Obey Others?", this.width - 76, topY + 55, 0xFFFFFF);
 		}

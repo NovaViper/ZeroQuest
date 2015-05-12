@@ -12,10 +12,4 @@ public class BlastResist extends ITalent {
 	public String getKey() {
 		return "blastresist";
 	}
-	
-	@Override
-	public int getHighestLevel(EntityZertumEntity dog) {
-		return 5;
-	}
-
 }

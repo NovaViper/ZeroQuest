@@ -26,24 +26,16 @@ import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
-import common.zeroquest.command.CommandZeroQuest;
-import common.zeroquest.core.handlers.ConfigHandler;
-import common.zeroquest.core.handlers.ConnectionHandler;
-import common.zeroquest.core.handlers.FuelHandler;
-import common.zeroquest.core.helper.LogHelper;
+import common.zeroquest.command.*;
+import common.zeroquest.core.handlers.*;
+import common.zeroquest.core.helper.*;
 import common.zeroquest.core.proxy.CommonProxy;
-import common.zeroquest.creativetab.DarkQuestTab;
-import common.zeroquest.creativetab.ZeroQuestTab;
-import common.zeroquest.events.AchievementEvents;
-import common.zeroquest.events.ConfigEvent;
-import common.zeroquest.events.FOVEvent;
-import common.zeroquest.events.LivingEvents;
-import common.zeroquest.lib.Constants;
-import common.zeroquest.lib.OreDic;
-import common.zeroquest.network.PacketHandler;
-import common.zeroquest.world.WorldProviderDarkax;
-import common.zeroquest.world.WorldProviderNillax;
-import common.zeroquest.world.gen.WorldGenZQuest;
+import common.zeroquest.creativetab.*;
+import common.zeroquest.events.*;
+import common.zeroquest.lib.*;
+import common.zeroquest.network.*;
+import common.zeroquest.world.*;
+import common.zeroquest.world.gen.*;
 
 @Mod(modid = Constants.modid, name = Constants.name, version = Constants.version, useMetadata = true, guiFactory = Constants.guiFactory)
 public class ZeroQuest {
@@ -68,7 +60,7 @@ public class ZeroQuest {
 	public void preInit(FMLPreInitializationEvent event) {
 		ConfigHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + Constants.channel.toLowerCase() + File.separator + Constants.modid + ".cfg"));
 		registerFMLCommonEventBus(new ConfigEvent());
-		registerFMLCommonEventBus(new PlayerEvents(Constants.version, "ZeroQuest", Constants.isBeta));
+		registerFMLCommonEventBus(new ModVersionCheck(Constants.version, "ZeroQuest", Constants.isBeta));
 		LogHelper.info("-----PRE-CONTENT LOAD INITATING-----");
 		LogHelper.info("Loading Main Stuff...");
 		this.ZeroTab = new ZeroQuestTab(CreativeTabs.getNextID());
@@ -87,6 +79,8 @@ public class ZeroQuest {
 		proxy.registerStateMappings();
 		registerForgeEventBus(new FOVEvent());
 		registerForgeEventBus(new LivingEvents()); // TODO
+		//registerForgeEventBus(new PlayerSaveEvent());
+		registerFMLCommonEventBus(new ConfigEvent());
 		ZeroQuestCrafting.loadRecipes();
 		if (Constants.DEF_DARKLOAD == true) {
 			darkEssence = EnumHelper.addToolMaterial("DarkEssence", 4, 5000, 21.0F, 5.0F, 40);
@@ -147,7 +141,6 @@ public class ZeroQuest {
 		LogHelper.info("Loading Network Stuff...");
 		registerFMLCommonEventBus(new ConnectionHandler());
 		LogHelper.info("Network Stuff Loaded Successfully!");
-
 		LogHelper.info("-----CONTENT LOAD FINSHED-----");
 	}
 

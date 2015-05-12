@@ -41,14 +41,17 @@ public class LevelUtil {
 
 	public void increaseLevel() {
 		this.setLevel(this.getLevel() + 1);
+		this.dog.updateEntityAttributes();
 	}
 
 	public void addLevel(int level) {
 		this.setLevel(this.getLevel() + level);
+		this.dog.updateEntityAttributes();
 	}
 
 	public void subtractLevel(int level) {
 		this.setLevel(this.getLevel() - level);
+		this.dog.updateEntityAttributes();
 	}
 
 	public void setLevel(int level) {
