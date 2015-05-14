@@ -183,3 +183,7 @@ v1.6.0 - Evolution for Zertums and Even More Fixes! Portal Revival!!
 ~Fixed bug where the model for the food bowl cannot be found!
 ~Adjusted heal cost for Life Giver talent to 40 ticks at level 5!
 -Players can no longer respawn in the Nillax Dimension
+
+v1.7.0 - Gender addition and Bug Fixes!
++Added tame status
+~Fixed Server errors relating with Darkax Portals

@@ -1,4 +1,4 @@
-package common.zeroquest.client.gui;
+package common.zeroquest.client.gui.pack;
 
 import net.minecraft.client.gui.inventory.GuiContainer;
 import net.minecraft.client.gui.inventory.GuiInventory;

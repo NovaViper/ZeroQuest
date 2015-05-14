@@ -25,7 +25,6 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import common.zeroquest.command.*;
 import common.zeroquest.core.handlers.*;
 import common.zeroquest.core.helper.*;
@@ -78,8 +77,8 @@ public class ZeroQuest {
 		ModEntities.loadOthers();
 		proxy.registerStateMappings();
 		registerForgeEventBus(new FOVEvent());
-		registerForgeEventBus(new LivingEvents()); // TODO
-		//registerForgeEventBus(new PlayerSaveEvent());
+		registerForgeEventBus(new BlastResistanceEvent()); // TODO
+		// registerForgeEventBus(new GenderEvent());
 		registerFMLCommonEventBus(new ConfigEvent());
 		ZeroQuestCrafting.loadRecipes();
 		if (Constants.DEF_DARKLOAD == true) {

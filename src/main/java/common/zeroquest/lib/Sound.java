@@ -54,5 +54,4 @@ public class Sound {
 	public static final String MetalZertumHurt = SOUND_PREFIX + "metalzertum.hurt";
 	public static final String MetalZertumHowl = SOUND_PREFIX + "metalzertum.howl";
 	public static final String MetalZertumRoar = SOUND_PREFIX + "metalzertum.roar";
-
 }

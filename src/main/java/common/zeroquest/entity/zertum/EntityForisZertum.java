@@ -125,16 +125,8 @@ public class EntityForisZertum extends EntityZertumEntity {
 					this.evolveOnClient(player);
 				}
 				else if (stack.getItem() == Items.shears && this.isOwner(player)) {
-					if (!this.worldObj.isRemote) {
-						this.setTamed(false);
-						this.setEvolved(false);
-						this.navigator.clearPathEntity();
-						this.setSitting(false);
-						this.talents.resetTalents();
-						this.setOwnerId("");
-						this.setZertumName("");
-						this.setWillObeyOthers(false);
-						this.mode.setMode(EnumMode.DOCILE);
+					if (isServer()) {
+						unTame();
 					}
 					return true;
 				}
@@ -171,7 +163,6 @@ public class EntityForisZertum extends EntityZertumEntity {
 		else if (ItemUtils.consumeEquipped(player, ModItems.nileBone) && !this.isAngry()) {
 			if (isServer()) {
 				tamedFor(player, rand.nextInt(3) == 0);
-				player.triggerAchievement(ModAchievements.ZertTame);
 			}
 			return true;
 		}

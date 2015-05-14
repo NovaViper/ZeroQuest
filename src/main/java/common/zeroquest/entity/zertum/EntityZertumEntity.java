@@ -23,6 +23,7 @@ import net.minecraft.item.*;
 import net.minecraft.nbt.*;
 import net.minecraft.pathfinding.*;
 import net.minecraft.potion.*;
+import net.minecraft.server.management.PreYggdrasilConverter;
 import net.minecraft.util.*;
 import net.minecraft.world.*;
 import net.minecraftforge.fml.relauncher.*;
@@ -31,10 +32,16 @@ import common.zeroquest.core.helper.ChatHelper;
 import common.zeroquest.entity.EntityCustomTameable;
 import common.zeroquest.entity.ai.*;
 import common.zeroquest.entity.util.*;
+import common.zeroquest.entity.util.ModeUtil.EnumMode;
 import common.zeroquest.inventory.*;
 import common.zeroquest.lib.*;
 
 public abstract class EntityZertumEntity extends EntityCustomTameable {
+	protected EntityAILeapAtTarget aiLeap = new EntityAILeapAtTarget(this, 0.4F);
+	public EntityAIWatchClosest aiStareAtPlayer = new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F);
+	public EntityAIWatchClosest aiGlareAtCreeper = new EntityAIWatchClosest(this, EntityCreeper.class, this.talents.getLevel("creeperspotter") * 6);
+	public EntityAIFetchBone aiFetchBone;
+
 	private float timeDogBegging;
 	private float prevTimeDogBegging;
 	public float headRotationCourse;
@@ -62,20 +69,11 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	private float mouthOpenness;
 	private float prevMouthOpenness;
 	private int openMouthCounter;
-
-	protected EntityAILeapAtTarget aiLeap = new EntityAILeapAtTarget(this, 0.4F);
-	public EntityAIWatchClosest aiStareAtPlayer = new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F);
-	public EntityAIWatchClosest aiGlareAtCreeper = new EntityAIWatchClosest(this, EntityCreeper.class, this.talents.getLevel("creeperspotter") * 6);
-	public EntityAIFetchBone aiFetchBone;
-
-	// data value IDs
-	/** DO NOT CHANGE! **/
-	public static final int INDEX_TAME = 16;
-	public static final int INDEX_COLLAR = 19;
-	public static final int INDEX_SADDLE = 20;
-	public static final int INDEX_EVOLVE = 25;
-	public static final int INDEX_MOUTH = 29;
-	public static final int INDEX_BEG = 30;
+	//@formatter:off
+	EntityPlayer owner; // Which will be direct reference to owner on both server and client.
+	String ownerUUID; // Which is used when link between owner and tamed entity can't be found - e.g owner is offline (there is no EntityPlayer owner).
+	String ownerName; // This exists for client display purposes.
+	//@formatter:on
 
 	public EntityZertumEntity(World worldIn) {
 		super(worldIn);
@@ -269,6 +267,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		return true;
 	}
 
+	//@formatter:off
 	@Override
 	protected void entityInit() { // TODO
 		super.entityInit();
@@ -276,25 +275,28 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		this.levels = new LevelUtil(this);
 		this.mode = new ModeUtil(this);
 		this.coords = new CoordUtil(this);
-
-		this.dataWatcher.addObject(INDEX_COLLAR, new Byte((byte) EnumDyeColor.RED.getMetadata())); // Collar
-		this.dataWatcher.addObject(INDEX_SADDLE, Byte.valueOf((byte) 0)); // Saddle
-		this.dataWatcher.addObject(21, new String("")); // Dog Name
-		this.dataWatcher.addObject(22, new String("")); // Talent Data
-		this.dataWatcher.addObject(23, new Integer(Constants.hungerTicks)); // Dog
-																			// Hunger
-		this.dataWatcher.addObject(24, new String("0:0")); // Level Data
-		this.dataWatcher.addObject(INDEX_EVOLVE, Byte.valueOf((byte) 0)); // Evolution
-		this.dataWatcher.addObject(26, new Integer(0)); // Obey Others
-		this.dataWatcher.addObject(27, new Integer(0)); // Dog Mode
-		this.dataWatcher.addObject(28, "-1:-1:-1:-1:-1:-1"); // Dog Coordination
-		this.dataWatcher.addObject(INDEX_MOUTH, Integer.valueOf(0)); // Mouth
-		this.dataWatcher.addObject(INDEX_BEG, new Byte((byte) 0)); // Begging
+		this.dataWatcher.addObject(DataValues.ownerName, new String("")); //Owner Name
+		this.dataWatcher.addObject(DataValues.ownerID, new String("")); //Owner Id
+		this.dataWatcher.addObject(DataValues.collarCollar, new Byte((byte) EnumDyeColor.RED.getMetadata())); //Collar
+		this.dataWatcher.addObject(DataValues.saddle, Byte.valueOf((byte) 0)); //Saddle
+		this.dataWatcher.addObject(DataValues.dogName, new String("")); //Dog Name
+		this.dataWatcher.addObject(DataValues.talentData, new String("")); //Talent Data
+		this.dataWatcher.addObject(DataValues.hungerTicks, new Integer(Constants.hungerTicks)); //Dog Hunger
+		this.dataWatcher.addObject(DataValues.levelData, new String("0:0")); //Level Data
+		this.dataWatcher.addObject(DataValues.evolve, Byte.valueOf((byte) 0)); //Evolution
+		this.dataWatcher.addObject(DataValues.obeyOthers, new Integer(0)); //Obey Others
+		this.dataWatcher.addObject(DataValues.dogMode, new Integer(0)); //Dog Mode
+		this.dataWatcher.addObject(DataValues.dogCoordination, "-1:-1:-1:-1:-1:-1"); //Dog Coordination
+		this.dataWatcher.addObject(DataValues.mouth, Integer.valueOf(0)); //Mouth
+		this.dataWatcher.addObject(DataValues.beg, new Byte((byte) 0)); //Begging
+		this.dataWatcher.addObject(DataValues.gender, new String("")); //Gender
 	}
-
+	//@formatter:on
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
+		tagCompound.setString("ownerId", this.getOwnerID());
+		tagCompound.setString("ownerName", this.getOwnerName());
 		tagCompound.setBoolean("Angry", this.isAngry());
 		tagCompound.setByte("CollarColor", (byte) this.getCollarColor().getDyeDamage());
 		tagCompound.setBoolean("Saddle", this.isSaddled());
@@ -304,6 +306,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		tagCompound.setInteger("dogHunger", this.getDogHunger());
 		tagCompound.setBoolean("willObey", this.willObeyOthers());
 		tagCompound.setBoolean("dogBeg", this.isBegging());
+		tagCompound.setString("gender", this.getGender());
 
 		this.talents.writeTalentsToNBT(tagCompound);
 		this.levels.writeTalentsToNBT(tagCompound);
@@ -315,6 +318,8 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompound) {
 		super.readEntityFromNBT(tagCompound);
+		this.saveOwnerName(tagCompound.getString("ownerName"));
+		this.saveOwnerID(tagCompound.getString("ownerId"));
 		this.setAngry(tagCompound.getBoolean("Angry"));
 		this.setSaddled(tagCompound.getBoolean("Saddle"));
 		this.setEvolved(tagCompound.getBoolean("Evolve"));
@@ -328,7 +333,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		this.setDogHunger(tagCompound.getInteger("dogHunger"));
 		this.setWillObeyOthers(tagCompound.getBoolean("willObey"));
 		this.setBegging(tagCompound.getBoolean("dogBeg"));
-
+		this.setGender(tagCompound.getString("gender"));
 		this.talents.readTalentsFromNBT(tagCompound);
 		this.levels.readTalentsFromNBT(tagCompound);
 		this.mode.readFromNBT(tagCompound);
@@ -638,6 +643,16 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 				}
 			}
 		}
+
+		if (this.isEntityAlive()) {
+			if (this.rand.nextInt(2) == 0) {
+				this.setGender("male");
+			}
+			else {
+				this.setGender("female");
+			}
+		}
+
 		TalentHelper.onUpdate(this);
 	}
 
@@ -975,23 +990,23 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	public String getPetName() {
-		return this.dataWatcher.getWatchableObjectString(21);
+		return this.dataWatcher.getWatchableObjectString(DataValues.dogName);
 	}
 
 	public void setZertumName(String var1) {
-		this.dataWatcher.updateObject(21, var1);
+		this.dataWatcher.updateObject(DataValues.dogName, var1);
 	}
 
 	public void setWillObeyOthers(boolean flag) {
-		this.dataWatcher.updateObject(26, flag ? 1 : 0);
+		this.dataWatcher.updateObject(DataValues.obeyOthers, flag ? 1 : 0);
 	}
 
 	public boolean willObeyOthers() {
-		return this.dataWatcher.getWatchableObjectInt(26) != 0;
+		return this.dataWatcher.getWatchableObjectInt(DataValues.obeyOthers) != 0;
 	}
 
 	public int points() {
-		return this.levels.getLevel() + (this.getGrowingAge() < 0 ? 0 : 20);
+		return this.levels.getLevel() + (this.getGrowingAge() < 0 ? 0 : Constants.startingPoints);
 	}
 
 	public int spendablePoints() {
@@ -1021,11 +1036,11 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	public int getDogHunger() {
-		return this.dataWatcher.getWatchableObjectInt(23);
+		return this.dataWatcher.getWatchableObjectInt(DataValues.hungerTicks);
 	}
 
 	public void setDogHunger(int par1) {
-		this.dataWatcher.updateObject(23, MathHelper.clamp_int(par1, 0, Constants.hungerTicks));
+		this.dataWatcher.updateObject(DataValues.hungerTicks, MathHelper.clamp_int(par1, 0, Constants.hungerTicks));
 	}
 
 	@Override
@@ -1110,53 +1125,53 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	public boolean isAngry() {
-		return (this.dataWatcher.getWatchableObjectByte(INDEX_TAME) & 2) != 0;
+		return (this.dataWatcher.getWatchableObjectByte(DataValues.tame) & 2) != 0;
 	}
 
 	public void setAngry(boolean p_70916_1_) {
-		byte b0 = this.dataWatcher.getWatchableObjectByte(INDEX_TAME);
+		byte b0 = this.dataWatcher.getWatchableObjectByte(DataValues.tame);
 
 		if (p_70916_1_) {
-			this.dataWatcher.updateObject(INDEX_TAME, Byte.valueOf((byte) (b0 | 2)));
+			this.dataWatcher.updateObject(DataValues.tame, Byte.valueOf((byte) (b0 | 2)));
 		}
 		else {
-			this.dataWatcher.updateObject(INDEX_TAME, Byte.valueOf((byte) (b0 & -3)));
+			this.dataWatcher.updateObject(DataValues.tame, Byte.valueOf((byte) (b0 & -3)));
 		}
 	}
 
 	public EnumDyeColor getCollarColor() {
-		return EnumDyeColor.byDyeDamage(this.dataWatcher.getWatchableObjectByte(INDEX_COLLAR) & 15);
+		return EnumDyeColor.byDyeDamage(this.dataWatcher.getWatchableObjectByte(DataValues.collarCollar) & 15);
 	}
 
 	public void setCollarColor(EnumDyeColor collarcolor) {
-		this.dataWatcher.updateObject(INDEX_COLLAR, Byte.valueOf((byte) (collarcolor.getDyeDamage() & 15)));
+		this.dataWatcher.updateObject(DataValues.collarCollar, Byte.valueOf((byte) (collarcolor.getDyeDamage() & 15)));
 	}
 
 	public boolean isSaddled() {
-		return (this.dataWatcher.getWatchableObjectByte(INDEX_SADDLE) & 1) != 0;
+		return (this.dataWatcher.getWatchableObjectByte(DataValues.saddle) & 1) != 0;
 	}
 
 	public void setSaddled(boolean p_70900_1_) {
 		if (p_70900_1_) {
-			this.dataWatcher.updateObject(INDEX_SADDLE, Byte.valueOf((byte) 1));
+			this.dataWatcher.updateObject(DataValues.saddle, Byte.valueOf((byte) 1));
 		}
 		else {
-			this.dataWatcher.updateObject(INDEX_SADDLE, Byte.valueOf((byte) 0));
+			this.dataWatcher.updateObject(DataValues.saddle, Byte.valueOf((byte) 0));
 		}
 	}
 
 	private boolean getHorseWatchableBoolean(int p_110233_1_) {
-		return (this.dataWatcher.getWatchableObjectInt(INDEX_MOUTH) & p_110233_1_) != 0;
+		return (this.dataWatcher.getWatchableObjectInt(DataValues.mouth) & p_110233_1_) != 0;
 	}
 
 	private void setHorseWatchableBoolean(int p_110208_1_, boolean p_110208_2_) {
-		int j = this.dataWatcher.getWatchableObjectInt(INDEX_MOUTH);
+		int j = this.dataWatcher.getWatchableObjectInt(DataValues.mouth);
 
 		if (p_110208_2_) {
-			this.dataWatcher.updateObject(INDEX_MOUTH, Integer.valueOf(j | p_110208_1_));
+			this.dataWatcher.updateObject(DataValues.mouth, Integer.valueOf(j | p_110208_1_));
 		}
 		else {
-			this.dataWatcher.updateObject(INDEX_MOUTH, Integer.valueOf(j & ~p_110208_1_));
+			this.dataWatcher.updateObject(DataValues.mouth, Integer.valueOf(j & ~p_110208_1_));
 		}
 	}
 
@@ -1186,24 +1201,24 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	public void setBegging(boolean flag) {
-		this.dataWatcher.updateObject(INDEX_BEG, Byte.valueOf((byte) (flag ? 1 : 0)));
+		this.dataWatcher.updateObject(DataValues.beg, Byte.valueOf((byte) (flag ? 1 : 0)));
 	}
 
 	public boolean isBegging() {
-		return this.dataWatcher.getWatchableObjectByte(INDEX_BEG) == 1;
+		return this.dataWatcher.getWatchableObjectByte(DataValues.beg) == 1;
 	}
 
 	public boolean hasEvolved() // TODO
 	{
-		return (this.dataWatcher.getWatchableObjectByte(INDEX_EVOLVE) & 1) != 0;
+		return (this.dataWatcher.getWatchableObjectByte(DataValues.evolve) & 1) != 0;
 	}
 
 	public void evolveBoolean(boolean p_70900_1_) {
 		if (p_70900_1_) {
-			this.dataWatcher.updateObject(INDEX_EVOLVE, Byte.valueOf((byte) 1));
+			this.dataWatcher.updateObject(DataValues.evolve, Byte.valueOf((byte) 1));
 		}
 		else {
-			this.dataWatcher.updateObject(INDEX_EVOLVE, Byte.valueOf((byte) 0));
+			this.dataWatcher.updateObject(DataValues.evolve, Byte.valueOf((byte) 0));
 		}
 	}
 
@@ -1228,6 +1243,67 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 				this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(this.babyDamage());
 			}
 		}
+	}
+
+	public String getOwnerName() {
+		return this.dataWatcher.getWatchableObjectString(DataValues.ownerName);
+	}
+
+	public void saveOwnerName(String name) {
+		this.dataWatcher.updateObject(DataValues.ownerName, name);
+	}
+
+	public String getOwnerID() {
+		return this.dataWatcher.getWatchableObjectString(DataValues.ownerID);
+	}
+
+	public void saveOwnerID(String id) {
+		this.dataWatcher.updateObject(DataValues.ownerID, id);
+	}
+
+	public void setGender(String gender) {
+		this.dataWatcher.updateObject(DataValues.gender, gender);
+	}
+
+	public String getGender() {
+		return this.dataWatcher.getWatchableObjectString(DataValues.gender);
+	}
+
+	/** Custom Zertum Taming Code */
+	@Override
+	public void tamedFor(EntityPlayer player, boolean successful) { // TODO
+		if (successful) {
+			this.setTamed(true);
+			this.navigator.clearPathEntity();
+			this.setAttackTarget((EntityLivingBase) null);
+			this.aiSit.setSitting(false);
+			this.setOwnerId(player.getUniqueID().toString());
+			this.playTameEffect(true);
+			this.worldObj.setEntityState(this, (byte) 7);
+			this.saveOwnerName(player.getDisplayNameString());
+			this.saveOwnerID(player.getUniqueID().toString());
+			player.triggerAchievement(ModAchievements.ZertTame);
+			//@formatter:off
+			//System.out.println("ID: " + zertum.getOwnerID() + ", Name: " + zertum.getOwnerName());
+			//@formatter:on
+		}
+		else {
+			this.playTameEffect(false);
+			this.worldObj.setEntityState(this, (byte) 6);
+		}
+	}
+
+	public void unTame() {
+		this.setTamed(false);
+		this.setEvolved(false);
+		this.navigator.clearPathEntity();
+		this.setSitting(false);
+		this.talents.resetTalents();
+		this.setOwnerId("");
+		this.saveOwnerName("");
+		this.setZertumName("");
+		this.setWillObeyOthers(false);
+		this.mode.setMode(EnumMode.DOCILE);
 	}
 
 	public void evolveOnClient(EntityPlayer player) {

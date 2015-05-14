@@ -41,12 +41,14 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.google.common.base.Predicate;
+
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.lib.Constants;
+import common.zeroquest.lib.DataValues;
 import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
 
@@ -61,11 +63,6 @@ public class EntityJakan extends EntityCustomTameable /* implements
 	public static final double attackDamageTamed = 8;
 	public static final double maxHealthBaby = 10;
 	public static final double attackDamageBaby = 2;
-
-	// data value IDs TODO
-	/** DO NOT CHANGE! **/
-	public static final int INDEX_TAME = 16;
-	public static final int INDEX_SADDLE = 19;
 
 	public EntityJakan(World worldIn) {
 		super(worldIn);
@@ -135,7 +132,7 @@ public class EntityJakan extends EntityCustomTameable /* implements
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		this.dataWatcher.addObject(INDEX_SADDLE, Byte.valueOf((byte) 0));
+		this.dataWatcher.addObject(DataValues.saddle, Byte.valueOf((byte) 0));
 	}
 
 	@Override
@@ -421,8 +418,9 @@ public class EntityJakan extends EntityCustomTameable /* implements
 			strafe = ((EntityPlayer) this.riddenByEntity).moveStrafing * 0.5F;
 			forward = ((EntityPlayer) this.riddenByEntity).moveForward;
 
-			if (forward <= 0.0F)
+			if (forward <= 0.0F) {
 				forward *= 0.25F;
+			}
 
 			if (this.onGround) {
 				if (forward > 0.0F) {
@@ -451,8 +449,9 @@ public class EntityJakan extends EntityCustomTameable /* implements
 			double d1 = this.posZ - this.prevPosZ;
 			float f4 = MathHelper.sqrt_double(d0 * d0 + d1 * d1) * 4.0F;
 
-			if (f4 > 1.0F)
+			if (f4 > 1.0F) {
 				f4 = 1.0F;
+			}
 
 			this.limbSwingAmount += (f4 - this.limbSwingAmount) * 0.4F;
 			this.limbSwing += this.limbSwingAmount;
@@ -494,8 +493,9 @@ public class EntityJakan extends EntityCustomTameable /* implements
 
 		speed += 0.2;
 
-		if ((!(this.getAttackTarget() instanceof EntityJakan) && !(this.getAttackTarget() instanceof EntityPlayer)) || this.riddenByEntity instanceof EntityPlayer)
+		if ((!(this.getAttackTarget() instanceof EntityJakan) && !(this.getAttackTarget() instanceof EntityPlayer)) || this.riddenByEntity instanceof EntityPlayer) {
 			speed /= 4;
+		}
 
 		return (float) speed;
 	}
@@ -515,30 +515,30 @@ public class EntityJakan extends EntityCustomTameable /* implements
 	}
 
 	public boolean isAngry() {
-		return (this.dataWatcher.getWatchableObjectByte(INDEX_TAME) & 2) != 0;
+		return (this.dataWatcher.getWatchableObjectByte(DataValues.tame) & 2) != 0;
 	}
 
 	public void setAngry(boolean p_70916_1_) {
-		byte b0 = this.dataWatcher.getWatchableObjectByte(INDEX_TAME);
+		byte b0 = this.dataWatcher.getWatchableObjectByte(DataValues.tame);
 
 		if (p_70916_1_) {
-			this.dataWatcher.updateObject(INDEX_TAME, Byte.valueOf((byte) (b0 | 2)));
+			this.dataWatcher.updateObject(DataValues.tame, Byte.valueOf((byte) (b0 | 2)));
 		}
 		else {
-			this.dataWatcher.updateObject(INDEX_TAME, Byte.valueOf((byte) (b0 & -3)));
+			this.dataWatcher.updateObject(DataValues.tame, Byte.valueOf((byte) (b0 & -3)));
 		}
 	}
 
 	public boolean getSaddled() {
-		return (this.dataWatcher.getWatchableObjectByte(INDEX_SADDLE) & 1) != 0;
+		return (this.dataWatcher.getWatchableObjectByte(DataValues.saddle) & 1) != 0;
 	}
 
 	public void setSaddled(boolean p_70900_1_) {
 		if (p_70900_1_) {
-			this.dataWatcher.updateObject(INDEX_SADDLE, Byte.valueOf((byte) 1));
+			this.dataWatcher.updateObject(DataValues.saddle, Byte.valueOf((byte) 1));
 		}
 		else {
-			this.dataWatcher.updateObject(INDEX_SADDLE, Byte.valueOf((byte) 0));
+			this.dataWatcher.updateObject(DataValues.saddle, Byte.valueOf((byte) 0));
 		}
 	}
 

@@ -4,7 +4,7 @@ import net.minecraftforge.event.entity.living.LivingHurtEvent;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import common.zeroquest.entity.zertum.EntityMetalZertum;
 
-public class LivingEvents {
+public class BlastResistanceEvent {
 
 	@SubscribeEvent
 	public void blastResist(LivingHurtEvent event) {

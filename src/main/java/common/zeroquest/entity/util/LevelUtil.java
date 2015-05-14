@@ -5,6 +5,7 @@ import net.minecraft.nbt.NBTTagCompound;
 import com.google.common.base.Strings;
 
 import common.zeroquest.entity.zertum.EntityZertumEntity;
+import common.zeroquest.lib.DataValues;
 
 /**
  * @author ProPercivalalb
@@ -23,15 +24,15 @@ public class LevelUtil {
 
 	public void readTalentsFromNBT(NBTTagCompound tagCompound) {
 		if (tagCompound.hasKey("levels", 8)) {
-			this.dog.getDataWatcher().updateObject(24, tagCompound.getString("levels"));
+			this.dog.getDataWatcher().updateObject(DataValues.levelData, tagCompound.getString("levels"));
 		}
 		else {
-			this.dog.getDataWatcher().updateObject(24, "0:0");
+			this.dog.getDataWatcher().updateObject(DataValues.levelData, "0:0");
 		}
 	}
 
 	public String getSaveString() {
-		String saveString = this.dog.getDataWatcher().getWatchableObjectString(24);
+		String saveString = this.dog.getDataWatcher().getWatchableObjectString(DataValues.levelData);
 		return Strings.isNullOrEmpty(saveString) ? "0:0" : saveString;
 	}
 
@@ -55,7 +56,7 @@ public class LevelUtil {
 	}
 
 	public void setLevel(int level) {
-		this.dog.getDataWatcher().updateObject(24, level + ":" + 0);
+		this.dog.getDataWatcher().updateObject(DataValues.levelData, level + ":" + 0);
 		this.dog.updateEntityAttributes();
 	}
 }

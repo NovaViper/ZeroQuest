@@ -273,8 +273,15 @@ public class CommandZeroQuest extends CommandBase {
 
 		@Override
 		public void modify(EntityCustomTameable entity) {
-			entity.tamedFor(player, true);
-			player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Tamed!"));
+			if (entity instanceof EntityZertumEntity) {
+				EntityZertumEntity zertum = (EntityZertumEntity) entity;
+				zertum.tamedFor(player, true);
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Tamed!"));
+			}
+			else {
+				entity.tamedFor(player, true);
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Tamed!"));
+			}
 		}
 	}
 

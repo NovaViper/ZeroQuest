@@ -14,6 +14,7 @@ import net.minecraft.client.renderer.RenderHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.util.EnumChatFormatting;
+import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.StatCollector;
 
 import org.apache.commons.lang3.StringUtils;
@@ -46,6 +47,8 @@ public class GuiDogInfo extends GuiScreen {
 	private int maxPages = 1;
 	public int btnPerPages = 0;
 	private final DecimalFormat dfShort = new DecimalFormat("0.00");
+	public static final ResourceLocation femaleTexture = new ResourceLocation(Constants.modid + ":" + "textures/gui/female.png");
+	public static final ResourceLocation maleTexture = new ResourceLocation(Constants.modid + ":" + "textures/gui/male.png");
 
 	public GuiDogInfo(EntityZertumEntity dog, EntityPlayer player) {
 		this.dog = dog;
@@ -131,15 +134,15 @@ public class GuiDogInfo extends GuiScreen {
 		String speedValue = dfShort.format(this.dog.getAIMoveSpeed());
 		String speedState = speedValue;
 
-		/*String tamedString = null;
+		String tamedString = null;
 		if (this.dog.isTamed()) {
-			if (this.dog.getOwner().getName() == this.player.getName()) {
+			if (this.dog.getOwnerName().equals(this.player.getDisplayNameString())) {
 				tamedString = "Yes (You)";
 			}
 			else {
-				tamedString = "Yes (" + StringUtils.abbreviate(this.dog.getOwner().getName(), 22) + ")";
+				tamedString = "Yes (" + StringUtils.abbreviate(this.dog.getOwnerName(), 22) + ")";
 			}
-		}*/
+		}
 
 		String evoString = null;
 		if (!this.dog.hasEvolved() && !this.dog.isChild() && this.dog.levels.getLevel() < Constants.maxLevel) {
@@ -155,14 +158,26 @@ public class GuiDogInfo extends GuiScreen {
 			evoString = "Already Evolved!";
 		}
 
+		//@formatter:off
 		this.fontRendererObj.drawString("New name:", topX - 100, topY + 38, 4210752);
-		this.fontRendererObj.drawString("Level: " + this.dog.levels.getLevel(), topX - 75, topY + 75, 0xFF10F9);
-		this.fontRendererObj.drawString("Points Left: " + this.dog.spendablePoints(), topX, topY + 75, 0xFFFFFF);
-		this.fontRendererObj.drawString("Health: " + healthState, topX + 190, topY - 170, 0xFFFFFF);
-		this.fontRendererObj.drawString("Damage: " + damageState, topX + 190, topY - 160, 0xFFFFFF);
-		this.fontRendererObj.drawString("Speed: " + speedState, topX + 190, topY - 150, 0xFFFFFF);
-		//this.fontRendererObj.drawString("Tamed: " + tamedString, topX + 190, topY - 140, 0xFFFFFF);
-		this.fontRendererObj.drawString("State: " + evoString, topX + 190, topY - 140, 0xFFFFFF);
+		this.fontRendererObj.drawString("Level: " + this.dog.levels.getLevel(), topX-75, topY+75, 0xFF10F9);
+		this.fontRendererObj.drawString("Points Left: " + this.dog.spendablePoints(), topX, topY+75, 0xFFFFFF);
+		this.fontRendererObj.drawString("Health: " + healthState, topX+190, topY-170, 0xFFFFFF);
+		this.fontRendererObj.drawString("Damage: " + damageState, topX+190, topY-160, 0xFFFFFF);
+		this.fontRendererObj.drawString("Speed: " + speedState, topX+190, topY-150, 0xFFFFFF);
+		this.fontRendererObj.drawString("Tamed: " + tamedString, topX+190, topY-140, 0xFFFFFF);
+		this.fontRendererObj.drawString("State: " + evoString, topX+190, topY-130, 0xFFFFFF);
+		this.fontRendererObj.drawString("Gender: ", topX+190, topY-120, 0xFFFFFF);
+		//@formatter:on
+		if (this.dog.getGender().equals("male")) {
+			mc.renderEngine.bindTexture(maleTexture); // TODO
+			this.drawModalRectWithCustomSizedTexture(topX + 230, topY - 120, 0, 0, 12, 12, 12, 12);
+		}
+		else if (this.dog.getGender().equals("female")) {
+			mc.renderEngine.bindTexture(femaleTexture);
+			this.drawModalRectWithCustomSizedTexture(topX + 230, topY - 120, 0, 0, 12, 12, 12, 12);
+		}
+
 		if (this.dog.isOwner(this.player)) {
 			this.fontRendererObj.drawString("Obey Others?", this.width - 76, topY + 55, 0xFFFFFF);
 		}

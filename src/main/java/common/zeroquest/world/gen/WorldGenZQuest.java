@@ -16,48 +16,51 @@ import common.zeroquest.lib.Constants;
 public class WorldGenZQuest implements IWorldGenerator {
 
 	@Override
-    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
-       
-		switch(world.provider.getDimensionId()){
+	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
+
+		switch (world.provider.getDimensionId()) {
 			case -1:
-				generateNether(world, random, chunkX*16, chunkZ*16);
+				generateNether(world, random, chunkX * 16, chunkZ * 16);
 			case 0:
-				generateSurface(world, random, chunkX*16, chunkZ*16);
+				generateSurface(world, random, chunkX * 16, chunkZ * 16);
 			case 1:
-				generateEnd(world, random, chunkX*16, chunkZ*16);
+				generateEnd(world, random, chunkX * 16, chunkZ * 16);
 			case ZeroQuest.NillaxID:
-				generateNillaxDimension(world, random, chunkX*16, chunkZ*16);
+				generateNillaxDimension(world, random, chunkX * 16, chunkZ * 16);
 			case ZeroQuest.DarkaxID:
-				if(Constants.DEF_DARKLOAD == true){
-				generateDarkaxDimension(world, random, chunkX*16, chunkZ*16);
+				if (Constants.DEF_DARKLOAD == true) {
+					generateDarkaxDimension(world, random, chunkX * 16, chunkZ * 16);
 				}
 		}
 	}
 
 	private void generateSurface(World world, Random random, int chunkX, int chunkZ) {
-		this.addOreSpawn(ModBlocks.nileGrainOre.getDefaultState(), world, random, chunkZ, chunkZ, 20, 20, 3+random.nextInt(5), 3, 3, 90);
-		this.addOreSpawn(ModBlocks.nileCoalOre.getDefaultState(), world, random, chunkX, chunkZ, 16, 16, 4+random.nextInt(5), 3, 0, 97);
-		
-		if(Constants.DEF_DARKLOAD == true){
-			this.addOreSpawn(ModBlocks.darkGrainOre.getDefaultState(), world, random, chunkZ, chunkZ, 16, 16, 2+random.nextInt(5), 1, 0, 97);
+		this.addOreSpawn(ModBlocks.nileGrainOre.getDefaultState(), world, random, chunkZ, chunkZ, 20, 20, 3 + random.nextInt(5), 3, 3, 90);
+		this.addOreSpawn(ModBlocks.nileCoalOre.getDefaultState(), world, random, chunkX, chunkZ, 16, 16, 4 + random.nextInt(5), 3, 0, 97);
+
+		if (Constants.DEF_DARKLOAD == true) {
+			this.addOreSpawn(ModBlocks.darkGrainOre.getDefaultState(), world, random, chunkZ, chunkZ, 16, 16, 2 + random.nextInt(5), 1, 0, 97);
 		}
 	}
-	
+
 	private void generateNether(World world, Random random, int chunkX, int chunkZ) {
-		
+
 	}
+
 	private void generateEnd(World world, Random random, int chunkX, int chunkZ) {
-		
+
 	}
-	
-	private void generateNillaxDimension(World world, Random random, int chunkX, int chunkZ) {		
-		this.addOreSpawn(ModBlocks.nileGrainOre.getDefaultState(), world, random, chunkX, chunkZ, 20, 20, 3+random.nextInt(5), 7, 3, 90);
-		this.addOreSpawn(ModBlocks.nileCoalOre.getDefaultState(), world, random, chunkX, chunkZ, 16, 16, 4+random.nextInt(5), 7, 0, 97);
+
+	private void generateNillaxDimension(World world, Random random, int chunkX, int chunkZ) {
+		this.addOreSpawn(ModBlocks.nileGrainOre.getDefaultState(), world, random, chunkX, chunkZ, 20, 20, 3 + random.nextInt(5), 7, 3, 90);
+		this.addOreSpawn(ModBlocks.nileCoalOre.getDefaultState(), world, random, chunkX, chunkZ, 16, 16, 4 + random.nextInt(5), 7, 0, 97);
 	}
-	
-	private void generateDarkaxDimension(World world, Random random, int chunkX, int chunkZ){
-		this.addOreSpawn(ModBlocks.darkGrainOre.getDefaultState(), world, random, chunkX, chunkZ, 16, 16, 2+random.nextInt(5), 10, 0, 97);
+
+	private void generateDarkaxDimension(World world, Random random, int chunkX, int chunkZ) {
+		this.addOreSpawn(ModBlocks.darkGrainOre.getDefaultState(), world, random, chunkX, chunkZ, 16, 16, 2 + random.nextInt(5), 10, 0, 97);
 	}
+
+	//@formatter:off
 	/**
 	 * Adds an Ore Spawn to Minecraft. Simply register all Ores to spawn with this method in your Generation method in your IWorldGeneration extending Class
 	 * 
@@ -72,9 +75,8 @@ public class WorldGenZQuest implements IWorldGenerator {
 	 * @param An int for the Number of chances available for the Block to spawn per-chunk
 	 * @param An int for the minimum Y-Coordinate height at which this block may spawn
 	 * @param An int for the maximum Y-Coordinate height at which this block may spawn
-	 **/
-	public void addOreSpawn(IBlockState block, World world, Random random, int blockXPos, int blockZPos, int maxX, int maxZ, int maxVeinSize, int chancesToSpawn, int minY, int maxY)
-	{
+	 */
+	public void addOreSpawn(IBlockState block, World world, Random random, int blockXPos, int blockZPos, int maxX, int maxZ, int maxVeinSize, int chancesToSpawn, int minY, int maxY) {
 		assert maxY > minY : "The maximum Y must be greater than the Minimum Y";
 		assert maxX > 0 && maxX <= 16 : "addOreSpawn: The Maximum X must be greater than 0 and less than 16";
 		assert minY > 0 : "addOreSpawn: The Minimum Y must be greater than 0";
@@ -82,8 +84,7 @@ public class WorldGenZQuest implements IWorldGenerator {
 		assert maxZ > 0 && maxZ <= 16 : "addOreSpawn: The Maximum Z must be greater than 0 and less than 16";
 
 		int diffBtwnMinMaxY = maxY - minY;
-		for (int x = 0; x < chancesToSpawn; x++)
-		{
+		for (int x = 0; x < chancesToSpawn; x++) {
 			int posX = blockXPos + random.nextInt(maxX);
 			int posY = minY + random.nextInt(diffBtwnMinMaxY);
 			int posZ = blockZPos + random.nextInt(maxZ);

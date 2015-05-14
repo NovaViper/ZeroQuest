@@ -1,5 +1,6 @@
 package common.zeroquest.lib;
 
+//@formatter:off
 public class Constants {
 	//Put some in ConfigHandler
 
@@ -12,6 +13,7 @@ public class Constants {
 	   public static boolean STARTING_ITEMS								 	= true;
 	   public static final int maxLevel								 		= 120;
 	   public static final int hungerTicks								 	= 100;
+	   public static final int startingPoints							 	= 20;
 	   
 	   public static final String name										= "Zero Quest";
 	   public static final String channel									= "ZERO_QUEST";
@@ -19,7 +21,7 @@ public class Constants {
 	   public static final String clientProxy								= "common.zeroquest.core.proxy.ClientProxy";
 	   public static final String serverProxy								= "common.zeroquest.core.proxy.CommonProxy";
 	   public static final String guiFactory								= "common.zeroquest.client.gui.config.GuiFactory";
-	   public static final String version									= "v1.6.0";
+	   public static final String version									= "v1.7.0";
 	   public static final String java										= "8";
 	   public static final String releaseType								= "Release";
 	   public static final boolean isBeta									= false;

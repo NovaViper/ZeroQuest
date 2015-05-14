@@ -6,6 +6,7 @@ import java.util.Map;
 import net.minecraft.nbt.NBTTagCompound;
 import common.zeroquest.api.interfaces.ITalent;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
+import common.zeroquest.lib.DataValues;
 
 /**
  * @author ProPercivalalb
@@ -27,11 +28,11 @@ public class TalentUtil {
 	}
 
 	public void readTalentsFromNBT(NBTTagCompound tagCompound) {
-		this.dog.getDataWatcher().updateObject(22, tagCompound.getString("talents"));
+		this.dog.getDataWatcher().updateObject(DataValues.talentData, tagCompound.getString("talents"));
 	}
 
 	public String getSaveString() {
-		String saveString = this.dog.getDataWatcher().getWatchableObjectString(22);
+		String saveString = this.dog.getDataWatcher().getWatchableObjectString(DataValues.talentData);
 		return saveString == null ? "" : saveString;
 	}
 
@@ -84,12 +85,12 @@ public class TalentUtil {
 			first = false;
 		}
 
-		this.dog.getDataWatcher().updateObject(22, saveString);
+		this.dog.getDataWatcher().updateObject(DataValues.talentData, saveString);
 		this.dog.updateEntityAttributes();
 	}
 
 	public void resetTalents() {
 		this.dataMap.clear();
-		this.dog.getDataWatcher().updateObject(22, "");
+		this.dog.getDataWatcher().updateObject(DataValues.talentData, "");
 	}
 }

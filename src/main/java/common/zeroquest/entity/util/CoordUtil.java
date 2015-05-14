@@ -2,6 +2,7 @@ package common.zeroquest.entity.util;
 
 import net.minecraft.nbt.NBTTagCompound;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
+import common.zeroquest.lib.DataValues;
 
 /**
  * @author ProPercivalalb
@@ -45,7 +46,7 @@ public class CoordUtil {
 	}
 
 	public void resetBedPosition() {
-		this.dog.getDataWatcher().updateObject(28, this.getDefaultStr());
+		this.dog.getDataWatcher().updateObject(DataValues.dogCoordination, this.getDefaultStr());
 	}
 	
 	public String getDefaultStr() {
@@ -55,42 +56,42 @@ public class CoordUtil {
 	public void setBedX(int position) {
 		String structure = "";
 		structure = position + ":" + getBedY() + ":" + getBedZ() + ":" + getBowlX()+ ":" + getBowlY() + ":" + getBowlZ();
-		this.dog.getDataWatcher().updateObject(28, structure);
+		this.dog.getDataWatcher().updateObject(DataValues.dogCoordination, structure);
 	}
 	
 	public void setBedY(int position) {
 		String structure = "";
 		structure = getBedX() + ":" +  position + ":" + getBedZ() + ":" + getBowlX()+ ":" + getBowlY() + ":" + getBowlZ();
-		this.dog.getDataWatcher().updateObject(28, structure);
+		this.dog.getDataWatcher().updateObject(DataValues.dogCoordination, structure);
 	}
 	
 	public void setBedZ(int position) {
 		String structure = "";
 		structure = getBedX() + ":" + getBedY() + ":" + position + ":" + getBowlX()+ ":" + getBowlY() + ":" + getBowlZ();
-		this.dog.getDataWatcher().updateObject(28, structure);
+		this.dog.getDataWatcher().updateObject(DataValues.dogCoordination, structure);
 	}
 	
 	public void setBowlX(int position) {
 		String structure = "";
 		structure = getBedX() + ":" + getBedY() + ":" + getBedZ() + ":" + position+ ":" + getBowlY() + ":" + getBowlZ();
-		this.dog.getDataWatcher().updateObject(28, structure);
+		this.dog.getDataWatcher().updateObject(DataValues.dogCoordination, structure);
 	}
 	
 	public void setBowlY(int position) {
 		String structure = "";
 		structure = getBedX() + ":" +  getBedY() + ":" + getBedZ() + ":" + getBowlX()+ ":" + position + ":" + getBowlZ();
-		this.dog.getDataWatcher().updateObject(28, structure);
+		this.dog.getDataWatcher().updateObject(DataValues.dogCoordination, structure);
 	}
 	
 	public void setBowlZ(int position) {
 		String structure = "";
 		structure = getBedX() + ":" + getBedY() + ":" + getBedZ() + ":" + getBowlX()+ ":" + getBowlY() + ":" + position;
-		this.dog.getDataWatcher().updateObject(28, structure);
+		this.dog.getDataWatcher().updateObject(DataValues.dogCoordination, structure);
 	}
 	
 	protected String writePosition() {
 		String structure = this.getBedX() + ":" + this.getBedY() + ":" + this.getBedZ() + ":" + getBowlX()+ ":" + getBowlY() + ":" + getBowlZ();
-		this.dog.getDataWatcher().updateObject(28, structure);
+		this.dog.getDataWatcher().updateObject(DataValues.dogCoordination, structure);
 		return structure;
 	}
 	
@@ -101,7 +102,7 @@ public class CoordUtil {
 	}
 	
 	private String getLevelString() {
-		return dog.getDataWatcher().getWatchableObjectString(28);
+		return dog.getDataWatcher().getWatchableObjectString(DataValues.dogCoordination);
 	}
 	
 	public void writeToNBT(NBTTagCompound tagCompound) {
@@ -110,7 +111,7 @@ public class CoordUtil {
 	
 	public void readFromNBT(NBTTagCompound tagCompound) {
 		if(tagCompound.hasKey("coords"))
-			this.dog.getDataWatcher().updateObject(28, tagCompound.getString("coords"));
+			this.dog.getDataWatcher().updateObject(DataValues.dogCoordination, tagCompound.getString("coords"));
 		else
 			this.resetBedPosition();
 	}

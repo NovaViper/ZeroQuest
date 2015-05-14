@@ -1,5 +1,6 @@
 package common.zeroquest.entity;
 
+import java.util.Random;
 import java.util.UUID;
 
 import net.minecraft.client.particle.EntityFX;
@@ -18,6 +19,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.client.particle.EntityDustFX;
 import common.zeroquest.client.particle.EntityHeartFX;
 import common.zeroquest.inventory.InventoryPack;
+import common.zeroquest.lib.DataValues;
 
 public abstract class EntityCustomTameable extends EntityTameable {
 	/** Boolean for Non-Zertums **/
@@ -29,8 +31,6 @@ public abstract class EntityCustomTameable extends EntityTameable {
 	public int cooldown;
 	public InventoryPack inventory;
 
-	public static final int INDEX_BREED = 18;
-
 	public EntityCustomTameable(World p_i1604_1_) {
 		super(p_i1604_1_);
 	}
@@ -38,7 +38,7 @@ public abstract class EntityCustomTameable extends EntityTameable {
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		this.dataWatcher.addObject(INDEX_BREED, new Byte((byte) 0));
+		this.dataWatcher.addObject(DataValues.breed, new Byte((byte) 0));
 	}
 
 	/* =======================UNIVERSAL======================= */
@@ -201,14 +201,14 @@ public abstract class EntityCustomTameable extends EntityTameable {
 	/* =======================FOR ZERTUMS ONLY======================= */
 	public void func_70918_i(boolean p_70918_1_) {
 		if (p_70918_1_) {
-			this.dataWatcher.updateObject(INDEX_BREED, Byte.valueOf((byte) 1));
+			this.dataWatcher.updateObject(DataValues.breed, Byte.valueOf((byte) 1));
 		}
 		else {
-			this.dataWatcher.updateObject(INDEX_BREED, Byte.valueOf((byte) 0));
+			this.dataWatcher.updateObject(DataValues.breed, Byte.valueOf((byte) 0));
 		}
 	}
 
 	public boolean func_70922_bv() {
-		return this.dataWatcher.getWatchableObjectByte(INDEX_BREED) == 1;
+		return this.dataWatcher.getWatchableObjectByte(DataValues.breed) == 1;
 	}
 }
