@@ -168,21 +168,23 @@ public class EntityZertum extends EntityZertumEntity {
 	/**
 	 * Returns true if the mob is currently able to mate with the specified mob.
 	 */
+
 	@Override
-	public boolean canMateWith(EntityAnimal p_70878_1_) {
-		if (p_70878_1_ == this) {
+	public boolean canMateWith(EntityAnimal otherAnimal) {
+		if (otherAnimal == this) {
 			return false;
 		}
 		else if (!this.isTamed()) {
 			return false;
 		}
-		else if (!(p_70878_1_ instanceof EntityZertum)) {
+		else if (!(otherAnimal instanceof EntityZertum)) {
 			return false;
 		}
 		else {
-			EntityZertum entitywolf = (EntityZertum) p_70878_1_;
-			return !entitywolf.isTamed() ? false : (entitywolf.isSitting() ? false
-					: this.isInLove() && entitywolf.isInLove());
+			EntityZertum entityZertum = (EntityZertum) otherAnimal;
+			return !entityZertum.isTamed() ? false : (entityZertum.isSitting() ? false
+					: this.getGender() == entityZertum.getGender() ? false
+							: this.isInLove() && entityZertum.isInLove());
 		}
 	}
 }

@@ -10,7 +10,10 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAISit;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
+import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
@@ -19,8 +22,10 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.client.particle.EntityDustFX;
 import common.zeroquest.client.particle.EntityHeartFX;
 import common.zeroquest.inventory.InventoryPack;
+import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.DataValues;
 
+//For NBT Types, look in NBTBase.createNewByType()\\
 public abstract class EntityCustomTameable extends EntityTameable {
 	/** Boolean for Non-Zertums **/
 	protected boolean canSeeCreeper;
@@ -39,9 +44,53 @@ public abstract class EntityCustomTameable extends EntityTameable {
 	protected void entityInit() {
 		super.entityInit();
 		this.dataWatcher.addObject(DataValues.breed, new Byte((byte) 0));
+		this.dataWatcher.addObject(DataValues.gender, new Byte((byte) 0)); // Gender
+
+		boolean isGenderSet = false;
+
+		if (isGenderSet == false) {
+			if (rand.nextInt(2) == 0) {
+				this.setGender(true);
+
+			}
+			else {
+				this.setGender(false);
+			}
+			isGenderSet = true;
+		}
+	}
+
+	@Override
+	public void writeEntityToNBT(NBTTagCompound tagCompound) {
+		super.writeEntityToNBT(tagCompound);
+		tagCompound.setBoolean("gender", this.getGender());
+	}
+
+	@Override
+	public void readEntityFromNBT(NBTTagCompound tagCompound) {
+		super.readEntityFromNBT(tagCompound);
+		if (tagCompound.hasKey("gender", 1)) {
+			this.setGender(tagCompound.getBoolean("gender"));
+		}
 	}
 
 	/* =======================UNIVERSAL======================= */
+
+	/** Gets the gender of an entity. true = male, false = female */
+	public boolean getGender() // TODO
+	{
+		return (this.dataWatcher.getWatchableObjectByte(DataValues.gender) & 1) != 0;
+	}
+
+	/** Sets the gender of an entity. true = male, false = female */
+	public void setGender(boolean gender) {
+		if (gender) {
+			this.dataWatcher.updateObject(DataValues.gender, Byte.valueOf((byte) 1)); // Male
+		}
+		else {
+			this.dataWatcher.updateObject(DataValues.gender, Byte.valueOf((byte) 0)); // Female
+		}
+	}
 
 	/**
 	 * Play the taming effect, will either be hearts or smoke depending on

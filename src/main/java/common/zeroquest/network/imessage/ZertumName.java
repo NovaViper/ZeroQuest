@@ -46,7 +46,7 @@ public class ZertumName implements IMessage{
 	        
 	        EntityZertumEntity dog = (EntityZertumEntity)target;
 	        
-			dog.setZertumName(message.name);
+			dog.setPetName(message.name);
 			return message;
 		}
     }

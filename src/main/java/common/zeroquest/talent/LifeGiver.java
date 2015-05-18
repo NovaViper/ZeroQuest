@@ -1,9 +1,9 @@
 package common.zeroquest.talent;
 
 import net.minecraft.entity.player.EntityPlayer;
-
 import common.zeroquest.api.interfaces.ITalent;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
+import common.zeroquest.lib.DataValues;
 
 /**
  * @author ProPercivalalb
@@ -16,7 +16,7 @@ public class LifeGiver extends ITalent {
 
 		int level = dog.talents.getLevel(this);
 
-		if (player != null && player.getHealth() <= 6 && level != 0 && dog.getDogHunger() > this.healCost(dog)) {
+		if (player != null && player.getHealth() <= DataValues.lowHP && level != 0 && dog.getDogHunger() > this.healCost(dog)) {
 			player.heal((int) (level * 1.5D));
 			dog.setDogHunger(dog.getDogHunger() - this.healCost(dog));
 		}

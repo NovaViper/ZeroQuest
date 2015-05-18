@@ -186,4 +186,8 @@ v1.6.0 - Evolution for Zertums and Even More Fixes! Portal Revival!!
 
 v1.7.0 - Gender addition and Bug Fixes!
 +Added tame status
++Added Genders to all tameable creatures
++Added Devolve command
++Added Gender command
+*Nile and Dark Fire can now be extinguished!
 ~Fixed Server errors relating with Darkax Portals

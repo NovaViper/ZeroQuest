@@ -169,11 +169,11 @@ public class GuiDogInfo extends GuiScreen {
 		this.fontRendererObj.drawString("State: " + evoString, topX+190, topY-130, 0xFFFFFF);
 		this.fontRendererObj.drawString("Gender: ", topX+190, topY-120, 0xFFFFFF);
 		//@formatter:on
-		if (this.dog.getGender().equals("male")) {
+		if (this.dog.getGender() == true) {
 			mc.renderEngine.bindTexture(maleTexture); // TODO
 			this.drawModalRectWithCustomSizedTexture(topX + 230, topY - 120, 0, 0, 12, 12, 12, 12);
 		}
-		else if (this.dog.getGender().equals("female")) {
+		else {
 			mc.renderEngine.bindTexture(femaleTexture);
 			this.drawModalRectWithCustomSizedTexture(topX + 230, topY - 120, 0, 0, 12, 12, 12, 12);
 		}

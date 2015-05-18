@@ -15,7 +15,6 @@ import common.zeroquest.entity.tileentity.TileEntityNileWorkbench;
 
 public class ContainerNileWorkbench extends Container {
 	public InventoryCrafting craftMatrix = new InventoryCrafting(this, 3, 3);
-	// public IInventory craftResult = new InventoryCraftResult();
 	private final World worldObj;
 	private final BlockPos field_178145_h;
 	public TileEntityNileWorkbench tileEntity;

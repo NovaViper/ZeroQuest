@@ -57,12 +57,15 @@ public class BlockPortalNillax extends BlockPortal {
 					player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0, new TeleporterNillax(mcServer.worldServerForDimension(0)));
 				}
 			}
+			//@formatter:off
 			/*else {
 				travelToDimension(entityIn, id);
 			}*/
+			//@formatter:on
 		}
 	}
 
+	//@formatter:off
 	/*private void travelToDimension(Entity entity, int id) {
 		if (!entity.worldObj.isRemote && !entity.isDead) {
 			entity.worldObj.theProfiler.startSection("changeDimension");
@@ -104,6 +107,7 @@ public class BlockPortalNillax extends BlockPortal {
 			entity.worldObj.theProfiler.endSection();
 		}
 	}*/
+	//@formatter:on
 
 	@Override
 	public boolean func_176548_d(World worldIn, BlockPos p_176548_2_) {

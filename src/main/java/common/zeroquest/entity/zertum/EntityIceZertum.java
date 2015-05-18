@@ -226,20 +226,21 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
 	 * Returns true if the mob is currently able to mate with the specified mob.
 	 */
 	@Override
-	public boolean canMateWith(EntityAnimal p_70878_1_) {
-		if (p_70878_1_ == this) {
+	public boolean canMateWith(EntityAnimal otherAnimal) {
+		if (otherAnimal == this) {
 			return false;
 		}
 		else if (!this.isTamed()) {
 			return false;
 		}
-		else if (!(p_70878_1_ instanceof EntityIceZertum)) {
+		else if (!(otherAnimal instanceof EntityIceZertum)) {
 			return false;
 		}
 		else {
-			EntityIceZertum entitywolf = (EntityIceZertum) p_70878_1_;
-			return !entitywolf.isTamed() ? false : (entitywolf.isSitting() ? false
-					: this.isInLove() && entitywolf.isInLove());
+			EntityIceZertum entityIceZertum = (EntityIceZertum) otherAnimal;
+			return !entityIceZertum.isTamed() ? false : (entityIceZertum.isSitting() ? false
+					: this.getGender() == entityIceZertum.getGender() ? false
+							: this.isInLove() && entityIceZertum.isInLove());
 		}
 	}
 }

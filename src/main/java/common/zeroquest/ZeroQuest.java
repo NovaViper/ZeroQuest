@@ -78,7 +78,6 @@ public class ZeroQuest {
 		proxy.registerStateMappings();
 		registerForgeEventBus(new FOVEvent());
 		registerForgeEventBus(new BlastResistanceEvent()); // TODO
-		// registerForgeEventBus(new GenderEvent());
 		registerFMLCommonEventBus(new ConfigEvent());
 		ZeroQuestCrafting.loadRecipes();
 		if (Constants.DEF_DARKLOAD == true) {
@@ -89,6 +88,7 @@ public class ZeroQuest {
 			ModEntities.loadDarkCreatures();
 			proxy.registerStateMappingsForDark();
 		}
+		registerForgeEventBus(new FireEventHandler());
 		LogHelper.info("Blocks, Recipes, Entites,Events and Items Loaded Successfully!");
 		LogHelper.info("-----PRE-CONTENT LOAD FINISHED-----");
 	}

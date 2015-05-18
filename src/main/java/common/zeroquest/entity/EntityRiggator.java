@@ -91,8 +91,8 @@ public class EntityRiggator extends EntityCustomMob {
 	@Override
 	protected String getLivingSound() {
 		this.openMouth();
-		return this.getHealth() <= 10 ? Sound.RiggatorWhine : (this.rand.nextInt(3) == 0
-				? (Sound.RiggatorGrowl) : Sound.RiggatorHiss);
+		return this.getHealth() <= DataValues.lowHP ? Sound.RiggatorWhine
+				: (this.rand.nextInt(3) == 0 ? (Sound.RiggatorGrowl) : Sound.RiggatorHiss);
 	}
 
 	@Override
@@ -137,7 +137,7 @@ public class EntityRiggator extends EntityCustomMob {
 	 */
 	@Override
 	public int getTalkInterval() {
-		if (this.getHealth() <= 10) {
+		if (this.getHealth() <= DataValues.lowHP) {
 			return 20;
 		}
 		else {

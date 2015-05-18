@@ -7,7 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import common.zeroquest.client.renderer.entity.layers.LayerKortorSaddle;
+import common.zeroquest.client.renderer.entity.layers.LayerKortor;
 import common.zeroquest.entity.EntityKortor;
 import common.zeroquest.lib.Constants;
 
@@ -20,7 +20,7 @@ public class RenderKortor extends RenderLiving
     public RenderKortor(RenderManager p_i46128_1_, ModelBase p_i46128_2_, float p_i46128_3_){
         
         super(p_i46128_1_, p_i46128_2_, p_i46128_3_);
-        this.addLayer(new LayerKortorSaddle(this));
+        this.addLayer(new LayerKortor(this));
     }
 
     protected ResourceLocation getEntityTexture(EntityKortor p_110775_1_)

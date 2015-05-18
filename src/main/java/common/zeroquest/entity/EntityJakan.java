@@ -170,8 +170,8 @@ public class EntityJakan extends EntityCustomTameable /* implements
 	@Override
 	protected String getLivingSound() {
 		return this.canSeeCreeper ? Sound.JakanGrowl : this.isAngry() ? Sound.JakanSnarl
-				: this.getHealth() <= 10 ? Sound.JakanWhine : (this.rand.nextInt(3) == 0
-						? (Sound.JakanBreathe) : Sound.JakanRoar);
+				: this.getHealth() <= DataValues.lowHP ? Sound.JakanWhine
+						: (this.rand.nextInt(3) == 0 ? (Sound.JakanBreathe) : Sound.JakanRoar);
 	}
 
 	@Override
@@ -217,7 +217,7 @@ public class EntityJakan extends EntityCustomTameable /* implements
 		if (this.canSeeCreeper) {
 			return 40;
 		}
-		else if (this.getHealth() <= 10) {
+		else if (this.getHealth() <= DataValues.lowHP) {
 			return 20;
 		}
 		else {
@@ -264,11 +264,11 @@ public class EntityJakan extends EntityCustomTameable /* implements
 			this.setAngry(false);
 		}
 
-		if (Constants.DEF_HEALING == true && !this.isChild() && this.getHealth() <= 10 && this.isTamed()) {
+		if (Constants.DEF_HEALING == true && !this.isChild() && this.getHealth() <= DataValues.lowHP && this.isTamed()) {
 			this.addPotionEffect(new PotionEffect(10, 200));
 		}
 		// Dying
-		if (this.getHealth() <= 10 && this.isTamed()) { // TODO
+		if (this.getHealth() <= DataValues.lowHP && this.isTamed()) { // TODO
 			double d0 = this.rand.nextGaussian() * 0.04D;
 			double d1 = this.rand.nextGaussian() * 0.04D;
 			double d2 = this.rand.nextGaussian() * 0.04D;
@@ -277,7 +277,7 @@ public class EntityJakan extends EntityCustomTameable /* implements
 		if (this.getAttackTarget() == null && isTamed() && 15 > 0) {
 			List list1 = worldObj.getEntitiesWithinAABB(EntityCreeper.class, AxisAlignedBB.fromBounds(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(sniffRange(), 4D, sniffRange()));
 
-			if (!list1.isEmpty() && !isSitting() && this.getHealth() > 1 && !this.isChild()) {
+			if (!list1.isEmpty() && !isSitting() && this.getHealth() > DataValues.lowHP && !this.isChild()) {
 				canSeeCreeper = true;
 			}
 			else {
@@ -559,20 +559,21 @@ public class EntityJakan extends EntityCustomTameable /* implements
 	 * Returns true if the mob is currently able to mate with the specified mob.
 	 */
 	@Override
-	public boolean canMateWith(EntityAnimal p_70878_1_) {
-		if (p_70878_1_ == this) {
+	public boolean canMateWith(EntityAnimal otherAnimal) {
+		if (otherAnimal == this) {
 			return false;
 		}
 		else if (!this.isTamed()) {
 			return false;
 		}
-		else if (!(p_70878_1_ instanceof EntityJakan)) {
+		else if (!(otherAnimal instanceof EntityJakan)) {
 			return false;
 		}
 		else {
-			EntityJakan entitywolf = (EntityJakan) p_70878_1_;
-			return !entitywolf.isTamed() ? false : (entitywolf.isSitting() ? false
-					: this.isInLove() && entitywolf.isInLove());
+			EntityJakan entityJakan = (EntityJakan) otherAnimal;
+			return !entityJakan.isTamed() ? false : (entityJakan.isSitting() ? false
+					: this.getGender() == entityJakan.getGender() ? false
+							: this.isInLove() && entityJakan.isInLove());
 		}
 	}
 

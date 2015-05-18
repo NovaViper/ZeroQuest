@@ -276,7 +276,7 @@ public class EntityKortor extends EntityCustomTameable {
 			this.addPotionEffect(new PotionEffect(10, 200));
 		}
 		// Dying
-		if (this.getHealth() <= 10 && this.isTamed()) { // TODO
+		if (this.getHealth() <= DataValues.lowHP && this.isTamed()) { // TODO
 			double d0 = this.rand.nextGaussian() * 0.04D;
 			double d1 = this.rand.nextGaussian() * 0.04D;
 			double d2 = this.rand.nextGaussian() * 0.04D;
@@ -285,7 +285,7 @@ public class EntityKortor extends EntityCustomTameable {
 		if (this.getAttackTarget() == null && isTamed() && 15 > 0) {
 			List list1 = worldObj.getEntitiesWithinAABB(EntityCreeper.class, AxisAlignedBB.fromBounds(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(sniffRange(), 4D, sniffRange()));
 
-			if (!list1.isEmpty() && !isSitting() && this.getHealth() > 1 && !this.isChild()) {
+			if (!list1.isEmpty() && !isSitting() && this.getHealth() > DataValues.lowHP && !this.isChild()) {
 				canSeeCreeper = true;
 			}
 			else {
@@ -624,20 +624,21 @@ public class EntityKortor extends EntityCustomTameable {
 	 * Returns true if the mob is currently able to mate with the specified mob.
 	 */
 	@Override
-	public boolean canMateWith(EntityAnimal p_70878_1_) {
-		if (p_70878_1_ == this) {
+	public boolean canMateWith(EntityAnimal otherAnimal) {
+		if (otherAnimal == this) {
 			return false;
 		}
 		else if (!this.isTamed()) {
 			return false;
 		}
-		else if (!(p_70878_1_ instanceof EntityKortor)) {
+		else if (!(otherAnimal instanceof EntityKortor)) {
 			return false;
 		}
 		else {
-			EntityKortor entitywolf = (EntityKortor) p_70878_1_;
-			return !entitywolf.isTamed() ? false : (entitywolf.isSitting() ? false
-					: this.isInLove() && entitywolf.isInLove());
+			EntityKortor entityKortor = (EntityKortor) otherAnimal;
+			return !entityKortor.isTamed() ? false : (entityKortor.isSitting() ? false
+					: this.getGender() == entityKortor.getGender() ? false
+							: this.isInLove() && entityKortor.isInLove());
 		}
 	}
 

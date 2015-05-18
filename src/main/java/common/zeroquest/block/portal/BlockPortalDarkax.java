@@ -57,45 +57,57 @@ public class BlockPortalDarkax extends BlockPortal {
 					player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0, new TeleporterDarkax(mcServer.worldServerForDimension(0)));
 				}
 			}
-			/*
-			 * else { travelToDimension(entityIn, id); } */
+			//@formatter:off
+			/*else {
+				travelToDimension(entityIn, id);
+			}*/
+			//@formatter:on
 		}
 	}
 
-	/* private void travelToDimension(Entity entity, int id) { if
-	 * (!entity.worldObj.isRemote && !entity.isDead) {
-	 * entity.worldObj.theProfiler.startSection("changeDimension");
-	 * MinecraftServer minecraftserver = MinecraftServer.getServer(); int j =
-	 * entity.dimension; WorldServer worldserver =
-	 * minecraftserver.worldServerForDimension(j); WorldServer worldserver1 =
-	 * minecraftserver.worldServerForDimension(id); entity.dimension = id;
-	 * 
-	 * if (j == 1 && id == 1) { worldserver1 =
-	 * minecraftserver.worldServerForDimension(0); entity.dimension = 0; }
-	 * 
-	 * entity.worldObj.removeEntity(entity); entity.isDead = false;
-	 * entity.worldObj.theProfiler.startSection("reposition");
-	 * entity.timeUntilPortal = 10;
-	 * minecraftserver.getConfigurationManager().transferEntityToWorld(entity,
-	 * j, worldserver, worldserver1, new TeleporterDarkax(worldserver1));
-	 * entity.worldObj.theProfiler.endStartSection("reloading"); Entity entity1
-	 * = EntityList.createEntityByName(EntityList.getEntityString(entity),
-	 * worldserver1);
-	 * 
-	 * if (entity1 != null) { entity1.copyDataFromOld(entity);
-	 * 
-	 * if (j == 1 && id == 1) { BlockPos spawnPoint =
-	 * worldserver1.getSpawnPoint(); spawnPoint =
-	 * entity.worldObj.getTopSolidOrLiquidBlock(spawnPoint);
-	 * entity1.setLocationAndAngles(spawnPoint.getX(), spawnPoint.getY(),
-	 * spawnPoint.getZ(), entity1.rotationYaw, entity1.rotationPitch); }
-	 * 
-	 * worldserver1.spawnEntityInWorld(entity1); }
-	 * 
-	 * entity.isDead = true; entity.worldObj.theProfiler.endSection();
-	 * worldserver.resetUpdateEntityTick();
-	 * worldserver1.resetUpdateEntityTick();
-	 * entity.worldObj.theProfiler.endSection(); } } */
+	//@formatter:off
+	/*private void travelToDimension(Entity entity, int id) {
+		if (!entity.worldObj.isRemote && !entity.isDead) {
+			entity.worldObj.theProfiler.startSection("changeDimension");
+			MinecraftServer minecraftserver = MinecraftServer.getServer();
+			int j = entity.dimension;
+			WorldServer worldserver = minecraftserver.worldServerForDimension(j);
+			WorldServer worldserver1 = minecraftserver.worldServerForDimension(id);
+			entity.dimension = id;
+
+			if (j == 1 && id == 1) {
+				worldserver1 = minecraftserver.worldServerForDimension(0);
+				entity.dimension = 0;
+			}
+
+			entity.worldObj.removeEntity(entity);
+			entity.isDead = false;
+			entity.worldObj.theProfiler.startSection("reposition");
+			entity.timeUntilPortal = 10;
+			minecraftserver.getConfigurationManager().transferEntityToWorld(entity, j, worldserver, worldserver1, new TeleporterNillax(worldserver1));
+			entity.worldObj.theProfiler.endStartSection("reloading");
+			Entity entity1 = EntityList.createEntityByName(EntityList.getEntityString(entity), worldserver1);
+
+			if (entity1 != null) {
+				entity1.copyDataFromOld(entity);
+
+				if (j == 1 && id == 1) {
+					BlockPos spawnPoint = worldserver1.getSpawnPoint();
+					spawnPoint = entity.worldObj.getTopSolidOrLiquidBlock(spawnPoint);
+					entity1.setLocationAndAngles(spawnPoint.getX(), spawnPoint.getY(), spawnPoint.getZ(), entity1.rotationYaw, entity1.rotationPitch);
+				}
+
+				worldserver1.spawnEntityInWorld(entity1);
+			}
+
+			entity.isDead = true;
+			entity.worldObj.theProfiler.endSection();
+			worldserver.resetUpdateEntityTick();
+			worldserver1.resetUpdateEntityTick();
+			entity.worldObj.theProfiler.endSection();
+		}
+	}*/
+	//@formatter:on
 
 	@Override
 	public boolean func_176548_d(World worldIn, BlockPos p_176548_2_) {

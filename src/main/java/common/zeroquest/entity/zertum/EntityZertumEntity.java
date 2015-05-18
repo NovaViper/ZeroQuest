@@ -37,6 +37,7 @@ import common.zeroquest.inventory.*;
 import common.zeroquest.lib.*;
 
 public abstract class EntityZertumEntity extends EntityCustomTameable {
+
 	protected EntityAILeapAtTarget aiLeap = new EntityAILeapAtTarget(this, 0.4F);
 	public EntityAIWatchClosest aiStareAtPlayer = new EntityAIWatchClosest(this, EntityPlayer.class, 8.0F);
 	public EntityAIWatchClosest aiGlareAtCreeper = new EntityAIWatchClosest(this, EntityCreeper.class, this.talents.getLevel("creeperspotter") * 6);
@@ -69,11 +70,6 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	private float mouthOpenness;
 	private float prevMouthOpenness;
 	private int openMouthCounter;
-	//@formatter:off
-	EntityPlayer owner; // Which will be direct reference to owner on both server and client.
-	String ownerUUID; // Which is used when link between owner and tamed entity can't be found - e.g owner is offline (there is no EntityPlayer owner).
-	String ownerName; // This exists for client display purposes.
-	//@formatter:on
 
 	public EntityZertumEntity(World worldIn) {
 		super(worldIn);
@@ -289,7 +285,6 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		this.dataWatcher.addObject(DataValues.dogCoordination, "-1:-1:-1:-1:-1:-1"); //Dog Coordination
 		this.dataWatcher.addObject(DataValues.mouth, Integer.valueOf(0)); //Mouth
 		this.dataWatcher.addObject(DataValues.beg, new Byte((byte) 0)); //Begging
-		this.dataWatcher.addObject(DataValues.gender, new String("")); //Gender
 	}
 	//@formatter:on
 	@Override
@@ -306,7 +301,6 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		tagCompound.setInteger("dogHunger", this.getDogHunger());
 		tagCompound.setBoolean("willObey", this.willObeyOthers());
 		tagCompound.setBoolean("dogBeg", this.isBegging());
-		tagCompound.setString("gender", this.getGender());
 
 		this.talents.writeTalentsToNBT(tagCompound);
 		this.levels.writeTalentsToNBT(tagCompound);
@@ -329,11 +323,10 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		}
 
 		String lastVersion = tagCompound.getString("version");
-		this.setZertumName(tagCompound.getString("dogName"));
+		this.setPetName(tagCompound.getString("dogName"));
 		this.setDogHunger(tagCompound.getInteger("dogHunger"));
 		this.setWillObeyOthers(tagCompound.getBoolean("willObey"));
 		this.setBegging(tagCompound.getBoolean("dogBeg"));
-		this.setGender(tagCompound.getString("gender"));
 		this.talents.readTalentsFromNBT(tagCompound);
 		this.levels.readTalentsFromNBT(tagCompound);
 		this.mode.readFromNBT(tagCompound);
@@ -358,8 +351,9 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		}
 
 		return this.isAngry() ? "mob.wolf.growl" : this.wantToHowl ? Sound.ZertumHowl
-				: (this.rand.nextInt(3) == 0 ? (this.isTamed() && this.getHealth() <= 10.0F
-						? "mob.wolf.whine" : "mob.wolf.panting") : "mob.wolf.bark");
+				: (this.rand.nextInt(3) == 0
+						? (this.isTamed() && this.getHealth() <= DataValues.lowHP
+								? "mob.wolf.whine" : "mob.wolf.panting") : "mob.wolf.bark");
 	}
 
 	/**
@@ -400,7 +394,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		else if (this.wantToHowl) {
 			return 150;
 		}
-		else if (this.getHealth() <= 10) {
+		else if (this.getHealth() <= DataValues.lowHP) {
 			return 20;
 		}
 		else {
@@ -468,11 +462,11 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 			}
 		}
 
-		if (Constants.DEF_HEALING == true && !this.isChild() && this.getHealth() <= 10 && this.isTamed()) {
+		if (Constants.DEF_HEALING == true && !this.isChild() && this.getHealth() <= DataValues.lowHP && this.isTamed()) {
 			this.addPotionEffect(new PotionEffect(Potion.regeneration.id, 200));
 		}
 
-		if (this.getHealth() != 1) {
+		if (this.getHealth() != DataValues.lowHP) {
 			this.prevHealingTick = this.healingTick;
 			this.healingTick += this.nourishment();
 
@@ -485,7 +479,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 			}
 		}
 
-		if (this.getDogHunger() == 0 && this.worldObj.getWorldInfo().getWorldTime() % 100L == 0L && this.getHealth() > 1) {
+		if (this.getDogHunger() == 0 && this.worldObj.getWorldInfo().getWorldTime() % 100L == 0L && this.getHealth() > DataValues.lowHP) {
 			this.attackEntityFrom(DamageSource.generic, 1);
 		}
 
@@ -641,15 +635,6 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 					}
 					this.setHasToy(false);
 				}
-			}
-		}
-
-		if (this.isEntityAlive()) {
-			if (this.rand.nextInt(2) == 0) {
-				this.setGender("male");
-			}
-			else {
-				this.setGender("female");
 			}
 		}
 
@@ -887,7 +872,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 
 	@Override
 	public boolean isPotionApplicable(PotionEffect potionEffect) {
-		if (this.getHealth() <= 1) {
+		if (this.getHealth() <= DataValues.lowHP) {
 			return false;
 		}
 
@@ -993,7 +978,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		return this.dataWatcher.getWatchableObjectString(DataValues.dogName);
 	}
 
-	public void setZertumName(String var1) {
+	public void setPetName(String var1) {
 		this.dataWatcher.updateObject(DataValues.dogName, var1);
 	}
 
@@ -1261,14 +1246,6 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		this.dataWatcher.updateObject(DataValues.ownerID, id);
 	}
 
-	public void setGender(String gender) {
-		this.dataWatcher.updateObject(DataValues.gender, gender);
-	}
-
-	public String getGender() {
-		return this.dataWatcher.getWatchableObjectString(DataValues.gender);
-	}
-
 	/** Custom Zertum Taming Code */
 	@Override
 	public void tamedFor(EntityPlayer player, boolean successful) { // TODO
@@ -1301,7 +1278,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		this.talents.resetTalents();
 		this.setOwnerId("");
 		this.saveOwnerName("");
-		this.setZertumName("");
+		this.setPetName("");
 		this.setWillObeyOthers(false);
 		this.mode.setMode(EnumMode.DOCILE);
 	}
@@ -1309,12 +1286,43 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	public void evolveOnClient(EntityPlayer player) {
 		this.setEvolved(true);
 		this.worldObj.playBroadcastSound(1013, new BlockPos(this), 0);
+		this.setHealth(this.getMaxHealth());
 		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + this.getPetName() + " has been evolved!"));
 	}
 
 	public void evolveOnServer(EntityZertumEntity entity, EntityPlayer player) {
 		entity.setEvolved(true);
 		entity.worldObj.playBroadcastSound(1013, new BlockPos(entity), 0);
+		entity.setHealth(entity.getMaxHealth());
 		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + entity.getPetName() + " has been evolved!"));
+	}
+
+	public void devolveOnServer(EntityZertumEntity entity, EntityPlayer player) {
+		entity.setEvolved(false);
+		entity.worldObj.playBroadcastSound(1013, new BlockPos(entity), 0);
+		entity.setHealth(entity.getMaxHealth());
+		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.DARK_RED + entity.getPetName() + " has been devolved!"));
+	}
+
+	public String genderPronoun() {
+		if (this.getGender() == true) {
+			return "him";
+		}
+		else {
+			return "her";
+		}
+	}
+
+	public String genderSubject() {
+		if (this.getGender() == true) {
+			return "he";
+		}
+		else {
+			return "she";
+		}
+	}
+
+	public void doNotOwnMessage(EntityZertumEntity zertum, EntityPlayer player) {
+		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You do not own " + zertum.getPetName() + " or " + zertum.getOwnerName() + " does not allow " + zertum.genderPronoun() + " to" + EnumChatFormatting.RED + " obey " + EnumChatFormatting.RED + "others!"));
 	}
 }

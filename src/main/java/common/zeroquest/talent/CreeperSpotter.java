@@ -7,6 +7,7 @@ import net.minecraft.entity.monster.EntityCreeper;
 import common.zeroquest.api.interfaces.ITalent;
 import common.zeroquest.entity.zertum.EntityMetalZertum;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
+import common.zeroquest.lib.DataValues;
 import common.zeroquest.lib.Sound;
 
 /**
@@ -27,8 +28,9 @@ public class CreeperSpotter extends ITalent {
 		if (dog.getAttackTarget() == null && dog.isTamed() && level > 0) {
 			List list = dog.worldObj.getEntitiesWithinAABB(EntityCreeper.class, dog.getEntityBoundingBox().expand(level * 6, level * 6, level * 6));
 
-			if (!list.isEmpty() && !dog.isSitting() && dog.getHealth() > 10 && !dog.isChild())
+			if (!list.isEmpty() && !dog.isSitting() && dog.getHealth() > DataValues.lowHP && !dog.isChild()) {
 				dog.objects.put("canseecreeper", true);
+			}
 			dog.tasks.addTask(10, dog.aiGlareAtCreeper);
 			dog.tasks.removeTask(dog.aiStareAtPlayer);
 		}
@@ -45,10 +47,12 @@ public class CreeperSpotter extends ITalent {
 
 	@Override
 	public String getLivingSound(EntityZertumEntity dog) {
-		if (!(dog instanceof EntityMetalZertum) && (Boolean) dog.objects.get("canseecreeper"))
+		if (!(dog instanceof EntityMetalZertum) && (Boolean) dog.objects.get("canseecreeper")) {
 			return "mob.wolf.growl";
-		else if ((dog instanceof EntityMetalZertum) && (Boolean) dog.objects.get("canseecreeper"))
+		}
+		else if ((dog instanceof EntityMetalZertum) && (Boolean) dog.objects.get("canseecreeper")) {
 			return Sound.MetalZertumGrowl;
+		}
 		return "";
 	}
 

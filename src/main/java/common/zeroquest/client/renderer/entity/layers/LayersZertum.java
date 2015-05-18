@@ -11,79 +11,94 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.client.renderer.entity.RenderZertum;
 import common.zeroquest.entity.zertum.EntityZertum;
 import common.zeroquest.lib.Constants;
+import common.zeroquest.lib.DataValues;
 
 @SideOnly(Side.CLIENT)
-public class LayersZertum implements LayerRenderer
-{
-    private static final ResourceLocation ZertumCollarTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum_collar.png");
-    private static final ResourceLocation ZertumDyingTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum_dying.png");
-    private static final ResourceLocation ZertumSaddleTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum_saddle.png");
-    private static final ResourceLocation EvolvedZertumCollarTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/evo/zertum_collar.png");
-    private static final ResourceLocation EvolvedZertumDyingTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/evo/zertum_dying.png");
-    private static final ResourceLocation EvolvedZertumSaddleTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/evo/zertum_saddle.png");
-    private final RenderZertum field_177146_b;
-    private static final String __OBFID = "CL_00002405";
+public class LayersZertum implements LayerRenderer {
+	private static final ResourceLocation ZertumCollarTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum_collar.png");
+	private static final ResourceLocation ZertumDyingTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum_dying.png");
+	private static final ResourceLocation ZertumSaddleTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/zertum_saddle.png");
+	private static final ResourceLocation EvolvedZertumCollarTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/evo/zertum_collar.png");
+	private static final ResourceLocation EvolvedZertumDyingTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/evo/zertum_dying.png");
+	private static final ResourceLocation EvolvedZertumSaddleTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/evo/zertum_saddle.png");
 
-    public LayersZertum(RenderZertum p_177145_1_)
-    {
-        this.field_177146_b = p_177145_1_;
-    }
+	private static final ResourceLocation ZertumMaleTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/gender/zertum_male.png");
+	private static final ResourceLocation ZertumTamedMaleTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/gender/zertum_male_tame.png");
+	private static final ResourceLocation EvolvedZertumMaleTexture = new ResourceLocation(Constants.modid + ":" + "textures/entity/zertum/evo/gender/zertum_male.png");
+	private final RenderZertum field_177146_b;
+	private static final String __OBFID = "CL_00002405";
 
-    public void func_177145_a(EntityZertum entity, float par1, float par2, float par3, float par4, float par5, float par6, float par7)
-    {
-    	if(!entity.hasEvolved()){
-    		if (entity.isTamed() && !entity.isInvisible())
-    		{
-    			this.field_177146_b.bindTexture(ZertumCollarTexture);
-    			EnumDyeColor enumdyecolor = EnumDyeColor.byMetadata(entity.getCollarColor().getMetadata());
-    			float[] afloat = EntitySheep.func_175513_a(enumdyecolor);
-    			GlStateManager.color(afloat[0], afloat[1], afloat[2]);
-    			this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
-    		}
-        
-    		if(entity.isTamed() && entity.getHealth() <=10 && !entity.isInvisible()){
-    			this.field_177146_b.bindTexture(ZertumDyingTexture);
-    			GlStateManager.color(1f, 1f, 1f);
-    			this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
-    		}
-        
-    		if(entity.isTamed() && entity.isSaddled() && !entity.isInvisible()){
-    			this.field_177146_b.bindTexture(ZertumSaddleTexture);
-    			GlStateManager.color(1f, 1f, 1f);
-    			this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
-    		}
-    	}
-    	else if(entity.hasEvolved()){
-    		if (entity.isTamed() && !entity.isInvisible())
-    		{
-    			this.field_177146_b.bindTexture(EvolvedZertumCollarTexture);
-    			EnumDyeColor enumdyecolor = EnumDyeColor.byMetadata(entity.getCollarColor().getMetadata());
-    			float[] afloat = EntitySheep.func_175513_a(enumdyecolor);
-    			GlStateManager.color(afloat[0], afloat[1], afloat[2]);
-    			this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
-    		}
-        
-    		if(entity.isTamed() && entity.getHealth() <=10 && !entity.isInvisible()){
-    			this.field_177146_b.bindTexture(EvolvedZertumDyingTexture);
-    			GlStateManager.color(1f, 1f, 1f);
-    			this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
-    		}
-    		
-    		if(entity.isTamed() && entity.isSaddled() && !entity.isInvisible()){
-    			this.field_177146_b.bindTexture(EvolvedZertumSaddleTexture);
-    			GlStateManager.color(1f, 1f, 1f);
-    			this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
-    		}
-    	}
-    }
+	public LayersZertum(RenderZertum p_177145_1_) {
+		this.field_177146_b = p_177145_1_;
+	}
 
-    public boolean shouldCombineTextures()
-    {
-        return true;
-    }
+	public void func_177145_a(EntityZertum entity, float par1, float par2, float par3, float par4, float par5, float par6, float par7) {
+		if (!entity.hasEvolved()) {
+			if (entity.isTamed() && !entity.isInvisible()) {
+				this.field_177146_b.bindTexture(ZertumCollarTexture);
+				EnumDyeColor enumdyecolor = EnumDyeColor.byMetadata(entity.getCollarColor().getMetadata());
+				float[] afloat = EntitySheep.func_175513_a(enumdyecolor);
+				GlStateManager.color(afloat[0], afloat[1], afloat[2]);
+				this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
+			}
 
-    public void doRenderLayer(EntityLivingBase entity, float par1, float par2, float par3, float par4, float par5, float par6, float par7)
-    {
-        this.func_177145_a((EntityZertum)entity, par1, par2, par3, par4, par5, par6, par7);
-    }
+			if (entity.isTamed() && entity.getHealth() <= DataValues.lowHP && !entity.isInvisible()) {
+				this.field_177146_b.bindTexture(ZertumDyingTexture);
+				GlStateManager.color(1f, 1f, 1f);
+				this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
+			}
+
+			if (entity.isTamed() && entity.isSaddled() && !entity.isInvisible()) {
+				this.field_177146_b.bindTexture(ZertumSaddleTexture);
+				GlStateManager.color(1f, 1f, 1f);
+				this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
+			}
+			if (entity.getGender() == true && !entity.isInvisible()) {
+				this.field_177146_b.bindTexture(ZertumMaleTexture);
+				GlStateManager.color(1f, 1f, 1f);
+				this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
+			}
+			if (entity.isTamed() && entity.getGender() == true && !entity.isInvisible()) {
+				this.field_177146_b.bindTexture(ZertumTamedMaleTexture);
+				GlStateManager.color(1f, 1f, 1f);
+				this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
+			}
+		}
+		else if (entity.hasEvolved()) {
+			if (entity.isTamed() && !entity.isInvisible()) {
+				this.field_177146_b.bindTexture(EvolvedZertumCollarTexture);
+				EnumDyeColor enumdyecolor = EnumDyeColor.byMetadata(entity.getCollarColor().getMetadata());
+				float[] afloat = EntitySheep.func_175513_a(enumdyecolor);
+				GlStateManager.color(afloat[0], afloat[1], afloat[2]);
+				this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
+			}
+
+			if (entity.isTamed() && entity.getHealth() <= DataValues.lowHP && !entity.isInvisible()) {
+				this.field_177146_b.bindTexture(EvolvedZertumDyingTexture);
+				GlStateManager.color(1f, 1f, 1f);
+				this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
+			}
+
+			if (entity.isTamed() && entity.isSaddled() && !entity.isInvisible()) {
+				this.field_177146_b.bindTexture(EvolvedZertumSaddleTexture);
+				GlStateManager.color(1f, 1f, 1f);
+				this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
+			}
+			if (entity.getGender() == true && !entity.isInvisible()) {
+				this.field_177146_b.bindTexture(EvolvedZertumMaleTexture);
+				GlStateManager.color(1f, 1f, 1f);
+				this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
+			}
+		}
+	}
+
+	@Override
+	public boolean shouldCombineTextures() {
+		return true;
+	}
+
+	@Override
+	public void doRenderLayer(EntityLivingBase entity, float par1, float par2, float par3, float par4, float par5, float par6, float par7) {
+		this.func_177145_a((EntityZertum) entity, par1, par2, par3, par4, par5, par6, par7);
+	}
 }

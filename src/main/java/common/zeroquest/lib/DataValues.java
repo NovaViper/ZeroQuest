@@ -32,5 +32,6 @@ public class DataValues {
 	public static final int dogCoordination = 28;
 	public static final int beg = 30;
 	public static final int gender = 31;
+	public static final int lowHP = 10;
 }
 

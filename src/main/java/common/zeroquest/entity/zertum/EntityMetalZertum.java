@@ -32,6 +32,7 @@ import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.util.ModeUtil.EnumMode;
 import common.zeroquest.entity.util.TalentHelper;
 import common.zeroquest.lib.Constants;
+import common.zeroquest.lib.DataValues;
 import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
 
@@ -70,8 +71,10 @@ public class EntityMetalZertum extends EntityZertumEntity {
 		}
 
 		return this.isAngry() ? Sound.MetalZertumGrowl : this.wantToHowl ? Sound.MetalZertumHowl
-				: (this.rand.nextInt(3) == 0 ? (this.isTamed() && this.getHealth() <= 10.0F
-						? Sound.MetalZertumWhine : Sound.MetalZertumPant) : Sound.MetalZertumBark);
+				: (this.rand.nextInt(3) == 0
+						? (this.isTamed() && this.getHealth() <= DataValues.lowHP
+								? Sound.MetalZertumWhine : Sound.MetalZertumPant)
+						: Sound.MetalZertumBark);
 	}
 
 	/**
@@ -105,7 +108,7 @@ public class EntityMetalZertum extends EntityZertumEntity {
 	{
 		super.onLivingUpdate();
 
-		if (!this.isChild() && this.getHealth() <= 10 && this.isTamed()) {
+		if (!this.isChild() && this.getHealth() <= DataValues.lowHP && this.isTamed()) {
 			this.addPotionEffect(new PotionEffect(Potion.resistance.id, 200, 2));
 		}
 	}
@@ -215,20 +218,21 @@ public class EntityMetalZertum extends EntityZertumEntity {
 	 * Returns true if the mob is currently able to mate with the specified mob.
 	 */
 	@Override
-	public boolean canMateWith(EntityAnimal p_70878_1_) {
-		if (p_70878_1_ == this) {
+	public boolean canMateWith(EntityAnimal otherAnimal) {
+		if (otherAnimal == this) {
 			return false;
 		}
 		else if (!this.isTamed()) {
 			return false;
 		}
-		else if (!(p_70878_1_ instanceof EntityMetalZertum)) {
+		else if (!(otherAnimal instanceof EntityMetalZertum)) {
 			return false;
 		}
 		else {
-			EntityMetalZertum entitywolf = (EntityMetalZertum) p_70878_1_;
-			return !entitywolf.isTamed() ? false : (entitywolf.isSitting() ? false
-					: this.isInLove() && entitywolf.isInLove());
+			EntityMetalZertum entityMetalZertum = (EntityMetalZertum) otherAnimal;
+			return !entityMetalZertum.isTamed() ? false : (entityMetalZertum.isSitting() ? false
+					: this.getGender() == entityMetalZertum.getGender() ? false
+							: this.isInLove() && entityMetalZertum.isInLove());
 		}
 	}
 }
