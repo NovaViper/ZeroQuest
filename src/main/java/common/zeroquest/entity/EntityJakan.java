@@ -68,7 +68,6 @@ public class EntityJakan extends EntityCustomTameable /* implements
 		super(worldIn);
 		this.setSize(2.6F, 2.6F);
 		this.isImmuneToFire = true;
-		((PathNavigateGround) this.getNavigator()).func_179690_a(true);
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(2, this.aiSit);
 		this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
@@ -352,60 +351,64 @@ public class EntityJakan extends EntityCustomTameable /* implements
 	 * gets into the saddle on a pig.
 	 */
 	@Override
-	public boolean interact(EntityPlayer par1EntityPlayer) {
-		ItemStack itemstack = par1EntityPlayer.inventory.getCurrentItem();
+	public boolean interact(EntityPlayer player) {
+		ItemStack stack = player.inventory.getCurrentItem();
 
 		if (this.isTamed()) {
-			if (itemstack != null) {
-				if (itemstack.getItem() instanceof ItemFood) {
+			if (!this.isChild() && ItemUtils.consumeEquipped(player, Items.saddle) && !this.getSaddled()) // TODO
+			{
+				this.setSaddled(true);
+				this.playSound("mob.horse.leather", 0.5F, 1.0F);
+			}
+			if (player.getHeldItem() == null) {
+				if (this.getSaddled() && player.ridingEntity == null && !player.onGround && this.isServer()) {
+					this.getSitAI().setSitting(false);
+					this.setSitting(false);
+					player.mountEntity(this);
+					player.triggerAchievement(ModAchievements.MountUp);
+					return true;
+				}
+			}
+			else if (stack != null && stack.getItem() == Items.stick && canInteract(player)) // TODO
+			{
+				if (isServer()) {
+					player.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
+					this.worldObj.playSoundEffect(this.posX, this.posY + 0.5D, this.posZ, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
+					return true;
+				}
+			}
+		}
+
+		if (this.isTamed()) {
+			if (stack != null) {
+				if (stack.getItem() instanceof ItemFood) {
 					ItemFood itemfood = null;
 					if (getHealthRelative() < 1) {
-						itemfood = (ItemFood) ItemUtils.consumeEquipped(par1EntityPlayer, Items.fish, Items.porkchop, Items.beef, Items.chicken, Items.rabbit, Items.mutton, Items.cooked_porkchop, Items.cooked_beef, Items.cooked_chicken, Items.cooked_fish, Items.cooked_rabbit, Items.cooked_mutton, ModItems.jakanMeatRaw, ModItems.jakanMeatCooked, ModItems.zertumMeatRaw, ModItems.zertumMeatCooked, ModItems.vitoidFruit);
+						itemfood = (ItemFood) ItemUtils.consumeEquipped(player, Items.fish, Items.porkchop, Items.beef, Items.chicken, Items.rabbit, Items.mutton, Items.cooked_porkchop, Items.cooked_beef, Items.cooked_chicken, Items.cooked_fish, Items.cooked_rabbit, Items.cooked_mutton, ModItems.jakanMeatRaw, ModItems.jakanMeatCooked, ModItems.zertumMeatRaw, ModItems.zertumMeatCooked, ModItems.vitoidFruit);
 						if (itemfood != null) {
 							float volume = getSoundVolume() * 1.0f;
 							float pitch = getPitch();
 							worldObj.playSoundAtEntity(this, "random.eat", volume, pitch);
-							this.heal(itemfood.getHealAmount(itemstack));
+							this.heal(itemfood.getHealAmount(stack));
 						}
 						return true;
 					}
 				}
-				else if (!this.isChild() && ItemUtils.hasEquipped(par1EntityPlayer, Items.saddle) && !this.getSaddled()) // TODO
-				{
-					this.setSaddled(true);
-				}
-				else if (this.getHeldItem() == null || !ItemUtils.hasEquippedUsable(par1EntityPlayer)) {
-					if (this.getSaddled() && this.ridingEntity == null && !par1EntityPlayer.onGround && !this.isChild() && !this.worldObj.isRemote) {
-						this.getSitAI().setSitting(false);
-						this.setSitting(false);
-						par1EntityPlayer.mountEntity(this);
-						par1EntityPlayer.triggerAchievement(ModAchievements.MountUp);
-					}
-				}
-				else if (itemstack.getItem() == Items.stick && canInteract(par1EntityPlayer)) // TODO
-				{
-					if (isServer()) {
-						par1EntityPlayer.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
-						this.worldObj.playSoundEffect(this.posX, this.posY + 0.5D, this.posZ, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);
-						return true;
-					}
-				}
 			}
-
-			else if (canInteract(par1EntityPlayer) && isServer() && !this.isBreedingItem(itemstack)) {
+			if (canInteract(player) && isServer() && !this.isBreedingItem(stack)) {
 				this.aiSit.setSitting(!this.isSitting());
 				this.isJumping = false;
 				this.navigator.clearPathEntity();
 				this.setAttackTarget((EntityLivingBase) null);
 			}
 		}
-		else if (ItemUtils.consumeEquipped(par1EntityPlayer, ModItems.nileBone) && !this.isAngry()) {
+		else if (ItemUtils.consumeEquipped(player, ModItems.nileBone) && !this.isAngry()) {
 			if (isServer()) {
-				tamedFor(par1EntityPlayer, rand.nextInt(3) == 0);
+				tamedFor(player, rand.nextInt(3) == 0);
 			}
 			return true;
 		}
-		return super.interact(par1EntityPlayer);
+		return super.interact(player);
 	}
 
 	@Override

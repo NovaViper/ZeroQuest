@@ -15,7 +15,7 @@ import common.zeroquest.ModItems;
 import common.zeroquest.client.gui.GuiDogInfo;
 import common.zeroquest.client.gui.GuiFoodBowl;
 import common.zeroquest.client.gui.GuiNileWorkbench;
-import common.zeroquest.client.gui.pack.GuiPack;
+import common.zeroquest.client.gui.GuiPack;
 import common.zeroquest.client.particle.EntityDarkPortalFX;
 import common.zeroquest.entity.EntityCustomTameable;
 import common.zeroquest.entity.tileentity.TileEntityFoodBowl;

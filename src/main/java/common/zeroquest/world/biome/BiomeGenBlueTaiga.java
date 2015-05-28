@@ -96,7 +96,7 @@ public class BiomeGenBlueTaiga extends BiomeGenBase
             {
                 k = p_180624_2_.nextInt(16) + 8;
                 l = p_180624_2_.nextInt(16) + 8;
-                BlockPos blockpos1 = worldIn.getHorizon(p_180624_3_.add(k, 0, l));
+                BlockPos blockpos1 = worldIn.getHeight(p_180624_3_.add(k, 0, l));
                 field_150643_aG.generate(worldIn, p_180624_2_, blockpos1);
             }
         }
@@ -107,7 +107,7 @@ public class BiomeGenBlueTaiga extends BiomeGenBase
         {
             j = p_180624_2_.nextInt(16) + 8;
             k = p_180624_2_.nextInt(16) + 8;
-            l = p_180624_2_.nextInt(worldIn.getHorizon(p_180624_3_.add(j, 0, k)).getY() + 32);
+            l = p_180624_2_.nextInt(worldIn.getHeight(p_180624_3_.add(j, 0, k)).getY() + 32);
             DOUBLE_PLANT_GENERATOR.generate(worldIn, p_180624_2_, p_180624_3_.add(j, l, k));
         }
 

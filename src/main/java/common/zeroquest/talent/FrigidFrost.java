@@ -3,7 +3,6 @@ package common.zeroquest.talent;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
-
 import common.zeroquest.api.interfaces.ITalent;
 import common.zeroquest.entity.zertum.EntityIceZertum;
 import common.zeroquest.entity.zertum.EntityZertumEntity;

@@ -57,13 +57,13 @@ public class ModVersionCheck {
 						break;
 					}
 					else if (isBeta == true && compare < 0) {
-						player.addChatMessage(ChatHelper.getChatComponent("Welcome, "+EnumChatFormatting.GREEN+player.getName()+EnumChatFormatting.RESET+", to "+EnumChatFormatting.GREEN+"Zero Quest"+EnumChatFormatting.RESET+"("+version+")"+" Beta for Minecraft "+EnumChatFormatting.GREEN+MinecraftForge.MC_VERSION+EnumChatFormatting.RESET+"!"));
+						player.addChatMessage(ChatHelper.getChatComponent("Welcome, "+EnumChatFormatting.GREEN+player.getDisplayNameString()+EnumChatFormatting.RESET+", to "+EnumChatFormatting.GREEN+"Zero Quest"+EnumChatFormatting.RESET+"("+version+")"+" Beta for Minecraft "+EnumChatFormatting.GREEN+MinecraftForge.MC_VERSION+EnumChatFormatting.RESET+"!"));
 						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN+"Thank you for beta testing!"));
 						status = BETA;
 						break;
 					}
 					else if (compare < 0) {
-						player.addChatMessage(ChatHelper.getChatComponent("Welcome, "+EnumChatFormatting.GREEN+player.getName()+EnumChatFormatting.RESET+", to "+EnumChatFormatting.GREEN+"Zero Quest"+EnumChatFormatting.RESET+"("+version+")"+" Release for Minecraft "+EnumChatFormatting.GREEN+MinecraftForge.MC_VERSION+EnumChatFormatting.RESET+"!"));
+						player.addChatMessage(ChatHelper.getChatComponent("Welcome, "+EnumChatFormatting.GREEN+player.getDisplayNameString()+EnumChatFormatting.RESET+", to "+EnumChatFormatting.GREEN+"Zero Quest"+EnumChatFormatting.RESET+"("+version+")"+" Release for Minecraft "+EnumChatFormatting.GREEN+MinecraftForge.MC_VERSION+EnumChatFormatting.RESET+"!"));
 						status = AHEAD;
 						break;
 					}

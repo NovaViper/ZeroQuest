@@ -187,7 +187,15 @@ v1.6.0 - Evolution for Zertums and Even More Fixes! Portal Revival!!
 v1.7.0 - Gender addition and Bug Fixes!
 +Added tame status
 +Added Genders to all tameable creatures
-+Added Devolve command
++Added State command (with evolve and devolve commands)
 +Added Gender command
++Added all to global parameter
++Added Mod Checker configuration
 *Nile and Dark Fire can now be extinguished!
+*Simplified more code!
+*Changed Nile Crafting Table item texture
+*^Renamed Textures:^
+    *niletable to nileTable in the gui textures
+    *nileWorktable to nileTable in the model textures
 ~Fixed Server errors relating with Darkax Portals
+~Fixed bug with mounting on Jakans and Kortors

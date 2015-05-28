@@ -4,7 +4,6 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.IRangedAttackMob;
 import net.minecraft.entity.ai.EntityAIBase;
 import net.minecraft.util.MathHelper;
-
 import common.zeroquest.entity.zertum.EntityZertumEntity;
 
 public class EntityAIIceAttack extends EntityAIBase {

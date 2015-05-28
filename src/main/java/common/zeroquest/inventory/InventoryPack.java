@@ -81,7 +81,7 @@ public class InventoryPack implements IInventory {
 	}
 
 	@Override
-	public String getName() {
+	public String getCommandSenderName() {
 		return "Pet Inventory";
 	}
 

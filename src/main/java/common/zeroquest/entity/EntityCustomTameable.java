@@ -190,8 +190,7 @@ public abstract class EntityCustomTameable extends EntityTameable {
 	}
 
 	public boolean canInteract(EntityPlayer player) {
-		if (player.getName().equalsIgnoreCase(this.getOwnerId())) {}
-		return true;
+		return this.isOwner(player);
 	}
 
 	public void dropChestItems() {

@@ -19,7 +19,7 @@ public class ConnectionHandler {
 		EntityPlayer player = event.player;
 		NBTTagCompound entityData = player.getEntityData();
 
-		if (Constants.STARTING_ITEMS && !entityData.getBoolean("gotStartingItems")) {
+		if (Constants.DEF_STARTING_ITEMS && !entityData.getBoolean("gotStartingItems")) {
             
             entityData.setBoolean("gotStartingItems", true);
             player.inventory.addItemStackToInventory(new ItemStack(ModItems.commandSeal));

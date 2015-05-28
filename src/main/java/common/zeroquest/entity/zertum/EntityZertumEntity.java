@@ -75,7 +75,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		super(worldIn);
 		this.objects = new HashMap<String, Object>();
 		this.setSize(0.6F, 1.5F);
-		((PathNavigateGround) this.getNavigator()).func_179690_a(true);
+		((PathNavigateGround) this.getNavigator()).setAvoidsWater(true);
 		this.tasks.addTask(1, new EntityAISwimming(this));
 		this.tasks.addTask(2, this.aiSit);
 		this.tasks.addTask(3, this.aiLeap);
@@ -84,7 +84,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		this.tasks.addTask(6, this.aiFetchBone = new EntityAIFetchBone(this, 1.0D, 0.5F, 20.0F));
 		this.tasks.addTask(7, new EntityAIMate(this, 1.0D));
 		this.tasks.addTask(8, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(9, new EntityCustomAIBeg(this, 8.0F));
+		this.tasks.addTask(9, new EntityAIBeg(this, 8.0F));
 		this.tasks.addTask(10, aiStareAtPlayer);
 		this.tasks.addTask(10, new EntityAILookIdle(this));
 		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
@@ -247,13 +247,13 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	@Override
-	public String getName() {
+	public String getCommandSenderName() {
 		String name = this.getPetName();
 		if (name != "" && this.isTamed()) {
 			return name;
 		}
 		else {
-			return super.getName();
+			return super.getCommandSenderName();
 		}
 	}
 
@@ -292,10 +292,10 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		super.writeEntityToNBT(tagCompound);
 		tagCompound.setString("ownerId", this.getOwnerID());
 		tagCompound.setString("ownerName", this.getOwnerName());
-		tagCompound.setBoolean("Angry", this.isAngry());
-		tagCompound.setByte("CollarColor", (byte) this.getCollarColor().getDyeDamage());
-		tagCompound.setBoolean("Saddle", this.isSaddled());
-		tagCompound.setBoolean("Evolve", this.hasEvolved());
+		tagCompound.setBoolean("angry", this.isAngry());
+		tagCompound.setByte("collarColor", (byte) this.getCollarColor().getDyeDamage());
+		tagCompound.setBoolean("saddle", this.isSaddled());
+		tagCompound.setBoolean("evolve", this.hasEvolved());
 		tagCompound.setString("version", Constants.version);
 		tagCompound.setString("dogName", this.getPetName());
 		tagCompound.setInteger("dogHunger", this.getDogHunger());
@@ -314,12 +314,12 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		super.readEntityFromNBT(tagCompound);
 		this.saveOwnerName(tagCompound.getString("ownerName"));
 		this.saveOwnerID(tagCompound.getString("ownerId"));
-		this.setAngry(tagCompound.getBoolean("Angry"));
-		this.setSaddled(tagCompound.getBoolean("Saddle"));
-		this.setEvolved(tagCompound.getBoolean("Evolve"));
+		this.setAngry(tagCompound.getBoolean("angry"));
+		this.setSaddled(tagCompound.getBoolean("saddle"));
+		this.setEvolved(tagCompound.getBoolean("evolve"));
 
-		if (tagCompound.hasKey("CollarColor", 99)) {
-			this.setCollarColor(EnumDyeColor.byDyeDamage(tagCompound.getByte("CollarColor")));
+		if (tagCompound.hasKey("collarColor", 99)) {
+			this.setCollarColor(EnumDyeColor.byDyeDamage(tagCompound.getByte("collarColor")));
 		}
 
 		String lastVersion = tagCompound.getString("version");
@@ -380,6 +380,19 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	@Override
 	public float getSoundVolume() {
 		return 1F;
+	}
+
+	/**
+	 * Gets the pitch of living sounds in living entities.
+	 */
+	@Override
+	public float getPitch() {
+		if (!this.isChild()) {
+			return super.getSoundPitch();
+		}
+		else {
+			return super.getSoundPitch() * 1;
+		}
 	}
 
 	/**
@@ -447,7 +460,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 			this.worldObj.setEntityState(this, (byte) 8);
 		}
 
-		if (Constants.IS_HUNGER_ON) {
+		if (Constants.DEF_IS_HUNGER_ON) {
 			this.prevHungerTick = this.hungerTick;
 
 			if (this.riddenByEntity == null && !this.isSitting()) {
@@ -1069,19 +1082,6 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		return this.hasToy;
 	}
 
-	/**
-	 * Gets the pitch of living sounds in living entities.
-	 */
-	@Override
-	public float getPitch() {
-		if (!this.isChild()) {
-			return super.getSoundPitch();
-		}
-		else {
-			return super.getSoundPitch() * 1;
-		}
-	}
-
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void handleHealthUpdate(byte p_70103_1_) {
@@ -1323,6 +1323,6 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	public void doNotOwnMessage(EntityZertumEntity zertum, EntityPlayer player) {
-		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You do not own " + zertum.getPetName() + " or " + zertum.getOwnerName() + " does not allow " + zertum.genderPronoun() + " to" + EnumChatFormatting.RED + " obey " + EnumChatFormatting.RED + "others!"));
+		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You do not own " + zertum.getPetName() + " and " + zertum.getOwnerName() + " doesn't allow " + zertum.genderPronoun() + EnumChatFormatting.RED + " to" + EnumChatFormatting.RED + " obey" + EnumChatFormatting.RED + "non-owners!"));
 	}
 }

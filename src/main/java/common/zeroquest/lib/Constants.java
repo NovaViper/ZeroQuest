@@ -9,8 +9,10 @@ public class Constants {
 	   public static boolean DEF_SNOWSTEP								 	= true;
 	   public static boolean DEF_GRASSSTEP								 	= true;
 	   public static boolean DEF_HOWL								 		= true;
-	   public static boolean IS_HUNGER_ON								 	= true;
-	   public static boolean STARTING_ITEMS								 	= true;
+	   public static boolean DEF_IS_HUNGER_ON								= true;
+	   public static boolean DEF_STARTING_ITEMS								= true;
+	   public static boolean DEF_MODCHECKER									= true;
+		
 	   public static final int maxLevel								 		= 120;
 	   public static final int hungerTicks								 	= 100;
 	   public static final int startingPoints							 	= 20;

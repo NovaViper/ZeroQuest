@@ -26,13 +26,13 @@ import common.zeroquest.network.imessage.ZertumJump;
  * @author ProPercivalalb
  **/
 public class KeyStateHandler {
-
+	//@formatter:off
 	public static final KeyBinding come = new KeyBinding("zeroquest.key.come", Keyboard.KEY_W, "key.categories.zeroquest");
 	public static final KeyBinding stay = new KeyBinding("zeroquest.key.stay", Keyboard.KEY_S, "key.categories.zeroquest");
 	public static final KeyBinding ok = new KeyBinding("zeroquest.key.ok", Keyboard.KEY_D, "key.categories.zeroquest");
 	public static final KeyBinding heel = new KeyBinding("zeroquest.key.heel", Keyboard.KEY_A, "key.categories.zeroquest");
-	public static final KeyBinding[] keyBindings = new KeyBinding[] { come, stay, ok, heel,
-			Minecraft.getMinecraft().gameSettings.keyBindJump };
+	public static final KeyBinding[] keyBindings = new KeyBinding[] { come, stay, ok, heel, Minecraft.getMinecraft().gameSettings.keyBindJump };
+	//@formatter:on
 
 	private final HashMap<KeyBinding, Boolean> keyState = new HashMap<KeyBinding, Boolean>();
 	private final Minecraft mc = Minecraft.getMinecraft();
@@ -82,8 +82,9 @@ public class KeyStateHandler {
 							command = 4;
 						}
 
-						if (command != -1)
+						if (command != -1) {
 							PacketHandler.sendToServer(new SealCommand(command));
+						}
 					}
 				}
 				else if (!tickEnd) {

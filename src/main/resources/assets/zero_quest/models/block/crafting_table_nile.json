@@ -2,6 +2,8 @@
     "textures": {
         "TablePart": "zero_quest:blocks/nileTable/part",
         "TableTop": "zero_quest:blocks/nileTable/top",
+        "TablePole": "zero_quest:blocks/nileTable/partPole",
+        "TableSide": "zero_quest:blocks/nileTable/side",
         "particle": "zero_quest:blocks/nileTable/particle"
     },
     "elements": [
@@ -23,12 +25,12 @@
             "to": [ 14, 10, 14 ],
             "__comment": "Pole",
             "faces": {
-                "north": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"},
-                "south": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"},
-                "east": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"},
-                "west": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"},
-                "up": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"},
-                "down": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"}
+                "north": { "uv": [ 0, 0, 14, 14 ], "texture": "#TablePole"},
+                "south": { "uv": [ 0, 0, 14, 14 ], "texture": "#TablePole"},
+                "east": { "uv": [ 0, 0, 14, 14 ], "texture": "#TablePole"},
+                "west": { "uv": [ 0, 0, 14, 14 ], "texture": "#TablePole"},
+                "up": { "uv": [ 0, 0, 14, 14 ], "texture": "#TablePole"},
+                "down": { "uv": [ 0, 0, 14, 14 ], "texture": "#TablePole"}
             }
         },
         {
@@ -36,12 +38,12 @@
             "to": [ 16, 15, 16 ],
             "__comment": "Top",
             "faces": {
-                "north": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"},
-                "south": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"},
-                "east": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"},
-                "west": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"},
-                "up": { "uv": [ 0, 0, 0, 0 ], "texture": "#TableTop"},
-                "down": { "uv": [ 0, 0, 0, 0 ], "texture": "#TablePart"}
+                "north": { "uv": [ 0, 0, 16, 6 ], "texture": "#TableSide"},
+                "south": { "uv": [ 0, 0, 16, 6 ], "texture": "#TableSide"},
+                "east": { "uv": [ 0, 0, 16, 6 ], "texture": "#TableSide"},
+                "west": { "uv": [ 0, 0, 16, 6 ], "texture": "#TableSide"},
+                "up": { "uv": [ 0, 0, 16, 16 ], "texture": "#TableTop"},
+                "down": { "uv": [ 0, 0, 16, 16 ], "texture": "#TablePart"}
             }
         }
     ]

@@ -45,9 +45,9 @@ public class ModLiquids {
 		registerWithClass(niliBlock, null, "nili");
 
 		acidBucket = new ItemAcidBucket(acidBlock).setUnlocalizedName("acidBucket").setContainerItem(Items.bucket);
-		registerItem(acidBucket, "acid_Bucket");
+		registerItem(acidBucket, "acid_bucket");
 		niliBucket = new ItemNiliBucket(niliBlock).setUnlocalizedName("niliBucket").setContainerItem(Items.bucket);
-		registerItem(niliBucket, "nili_Bucket");
+		registerItem(niliBucket, "nili_bucket");
 
 		registerFluidContainer(FluidRegistry.getFluidStack(fluidAcid.getName(), FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(acidBucket), new ItemStack(Items.bucket));
 		registerFluidContainer(FluidRegistry.getFluidStack(fluidNili.getName(), FluidContainerRegistry.BUCKET_VOLUME), new ItemStack(niliBucket), new ItemStack(Items.bucket));

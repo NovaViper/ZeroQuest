@@ -6,7 +6,6 @@ import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraftforge.fml.common.registry.EntityRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import common.zeroquest.entity.*;
 import common.zeroquest.entity.projectile.*;
 import common.zeroquest.entity.zertum.*;
@@ -33,12 +32,14 @@ public class ModEntities {
 		registerEntityEgg(EntityForisZertum.class, 0xCCCCCC, 0x33CC33);
 		registerEntity(EntityMetalZertum.class, "MetalZertum", 5);
 		registerEntityEgg(EntityMetalZertum.class, 0xCCCCCC, 0x666699);
-		registerEntity(EntityJakan.class, "Jakan", 30);
+		registerEntity(EntityJakan.class, "Jakan", 20);
 		registerEntityEgg(EntityJakan.class, 0x0033CC, 0x00CCFF);
-		registerEntity(EntityKortor.class, "Kortor", 31);
+		registerEntity(EntityKortor.class, "Kortor", 21);
 		registerEntityEgg(EntityKortor.class, 0x6699FF, 0xD1E0FF);
-		registerEntity(EntityRiggator.class, "Riggator", 32);
+		registerEntity(EntityRiggator.class, "Riggator", 22);
 		registerEntityEgg(EntityRiggator.class, 0x1D302C, 0x671734);
+		/*registerEntity(EntityRowarn.class, "Rowarn", 23);
+		registerEntityEgg(EntityRowarn.class, 0x004A7F, 0x002C4C);*/
 	}
 
 	public static void loadDarkCreatures() {
@@ -58,6 +59,7 @@ public class ModEntities {
 		addSpawn(EntityJakan.class, 100, 2, 3, EnumCreatureType.CREATURE, ModBiomes.walRockland);
 		addSpawn(EntityKortor.class, 100, 2, 3, EnumCreatureType.CREATURE, ModBiomes.nileSavanna, ModBiomes.nileSavannaPlateau, ModBiomes.nileJungle, ModBiomes.nileJungleEdge, ModBiomes.nileJungleHills);
 		addSpawn(EntityRiggator.class, 100, 2, 3, EnumCreatureType.MONSTER, ModBiomes.bioZone, ModBiomes.nileSwampland, ModBiomes.nileMesa, ModBiomes.nileMesaPlateau, ModBiomes.nileMesaPlateau_F);
+		//addSpawn(EntityRowarn.class, 100, 1, 3, EnumCreatureType.WATER_CREATURE, ModBiomes.walRockland);
 	}
 
 	public static void loadDarkSpawns() {
@@ -69,8 +71,9 @@ public class ModEntities {
 		registerTileEntity(TileEntityNileWorkbench.class, "Nile Worktable");
 		registerTileEntity(TileEntityFoodBowl.class, "Food Bowl");
 		registerProjectileEntity(EntityFlamingPoisonball.class, "FPoisonball", 400);
-		EntityRegistry.registerModEntity(EntityGrenade.class, "Grenade", 401, ZeroQuest.instance, 80, 3, true);
+		registerProjectileEntity(EntityGrenade.class, "Grenade", 401);
 		registerProjectileEntity(EntityIceball.class, "Iceball", 402);
+		registerProjectileEntity(EntityZertumBeam.class, "ZertumBeam", 403);
 	}
 
 	public static void addSpawn(Class entityClass, int weightedProb, int min, int max, EnumCreatureType typeOfCreature, BiomeGenBase... biomes) {

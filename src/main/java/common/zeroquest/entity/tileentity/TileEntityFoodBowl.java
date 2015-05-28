@@ -293,7 +293,7 @@ public class TileEntityFoodBowl extends TileEntity implements IUpdatePlayerListB
     }
 
     @Override
-	public String getName() {
+	public String getCommandSenderName() {
 		return "Food Bowl";
 	}
 
@@ -304,7 +304,7 @@ public class TileEntityFoodBowl extends TileEntity implements IUpdatePlayerListB
 
 	@Override
 	public IChatComponent getDisplayName() {
-		return (IChatComponent)(this.hasCustomName() ? new ChatComponentText(this.getName()) : new ChatComponentTranslation(this.getName(), new Object[0]));
+		return (IChatComponent)(this.hasCustomName() ? new ChatComponentText(this.getCommandSenderName()) : new ChatComponentTranslation(this.getCommandSenderName(), new Object[0]));
 	}
 
 	@Override

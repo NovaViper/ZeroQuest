@@ -80,7 +80,7 @@ public class BiomeGenNileJungle extends BiomeGenBase
         super.decorate(worldIn, p_180624_2_, p_180624_3_);
         int i = p_180624_2_.nextInt(16) + 8;
         int j = p_180624_2_.nextInt(16) + 8;
-        int height = worldIn.getHorizon(p_180624_3_.add(i, 0, j)).getY() * 2; // could == 0, which crashes nextInt
+        int height = worldIn.getHeight(p_180624_3_.add(i, 0, j)).getY() * 2; // could == 0, which crashes nextInt
         if (height < 1) height = 1;
         int k = p_180624_2_.nextInt(height);
         (new WorldGenMelon()).generate(worldIn, p_180624_2_, p_180624_3_.add(i, k, j));

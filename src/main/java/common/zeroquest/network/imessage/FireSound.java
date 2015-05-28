@@ -22,7 +22,7 @@ public class FireSound implements IMessage {
 	public FireSound() {}
 
 	public FireSound(EntityPlayer playerIn, EnumFacing faceIn, BlockPos posIn) {
-		player = playerIn.getName().toString();
+		player = playerIn.getDisplayName().toString();
 		face = faceIn.getIndex();
 		x = posIn.getX();
 		y = posIn.getY();
@@ -51,13 +51,14 @@ public class FireSound implements IMessage {
 
 		@Override
 		public IMessage onMessage(FireSound message, MessageContext ctx) {
+			//@formatter:off
 			//System.out.println(String.format("Received %s from %s", message.face, ctx.getServerHandler().playerEntity.getDisplayName()));
+			//@formatter:on
 			EnumFacing face = EnumFacing.getFront(message.face);
 			EntityPlayer player = ctx.getServerHandler().playerEntity;
 			World world = player.worldObj;
 			BlockPos pos = new BlockPos(message.x, message.y, message.z);
-
-			world.playSoundEffect(player.posX, player.posY, player.posZ, "random.fizz", 1.0F, 1.0F);
+			world.playSoundEffect(player.posX, player.posY, player.posZ, "random.fizz", 0.7F, 1.6F + (player.getRNG().nextFloat() - player.getRNG().nextFloat()) * 0.4F);
 			world.setBlockToAir(pos);
 			return null;
 		}

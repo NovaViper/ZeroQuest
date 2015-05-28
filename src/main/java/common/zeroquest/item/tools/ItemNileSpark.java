@@ -6,17 +6,16 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
-
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ZeroQuest;
+import common.zeroquest.item.ItemZQ;
 
-public class ItemNileSpark extends Item {
+public class ItemNileSpark extends ItemZQ {
 
 	public ItemNileSpark() {
 		super();
 		this.maxStackSize = 1;
 		this.setMaxDamage(25);
-		this.setCreativeTab(ZeroQuest.ZeroTab);
 	}
 
 	/**

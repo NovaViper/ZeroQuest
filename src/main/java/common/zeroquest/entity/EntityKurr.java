@@ -60,9 +60,9 @@ public class EntityKurr extends EntityCustomMob /* implements IRangedAttackMob *
 		super(p_i1696_1_);
 		this.setSize(2.6F, 2.6F);
 		this.stepHeight = 1;
-		((PathNavigateGround) this.getNavigator()).func_179688_b(true);
 		this.canBreatheUnderwater();
 		this.tasks.addTask(1, new EntityAISwimming(this));
+		this.tasks.addTask(2, this.aiAvoidExplodingCreepers);
 		this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
 		this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, true));
 		this.tasks.addTask(7, new EntityAIWander(this, 1.0D));

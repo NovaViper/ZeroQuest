@@ -24,12 +24,12 @@ import common.zeroquest.lib.Constants;
 public class CommandZeroQuest extends CommandBase {
 
 	@Override
-	public String getName() {
+	public String getCommandName() {
 		return "zeroquest";
 	}
 
 	@Override
-	public List getAliases() {
+	public List getCommandAliases() {
 		List list = new ArrayList<String>();
 		list.add("zquest");
 		list.add("zero");
@@ -55,7 +55,7 @@ public class CommandZeroQuest extends CommandBase {
 	}
 
 	@Override
-	public void execute(ICommandSender sender, String[] params) throws CommandException {
+	public void processCommand(ICommandSender sender, String[] params) throws CommandException {
 		if (params.length < 1 || params[0].isEmpty()) {
 			throw new WrongUsageException(getCommandUsage(sender));
 		}
@@ -130,8 +130,7 @@ public class CommandZeroQuest extends CommandBase {
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest help,h - " + EnumChatFormatting.RESET + "Pulls up help menu"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest version,v - " + EnumChatFormatting.RESET + "Displays mod information"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest purge,p <tamed,t|all,a|wild,w> [global,g,all,a] - " + EnumChatFormatting.RESET + "Kills off nile creatures, Tamed parameter kills only 1 tamed nile creature (unless global parameter is added), all kills EVERY nile creature without the need of the global parameter, and wild kills only 1 nontamed nile creature (unless global parameter is added)"));
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest evolve,e [global,g,all,a] - " + EnumChatFormatting.RESET + "Evolves a tamed Zertum or any subspecies"));
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest devolve,d [global,g,all,a] - " + EnumChatFormatting.RESET + "Devolves a tamed Zertum or any subspecies"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest state,st <evolve,e|devolve,d> [global,g,all,a] - " + EnumChatFormatting.RESET + "Change the state of a tamed Zertum or any subspecies. Evolve parameter evolves only 1 tamed Zertum (unless global parameter is added) and devolve parameter devolves only 1 tamed Zertum (unless global parameter is added)"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest level,l <number> [global,g,all,a] - " + EnumChatFormatting.RESET + "Adds levels to a tamed Zertum or any subspecies"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest gender,g <male,m|female,f> [global,g,all,a] - " + EnumChatFormatting.RESET + "Change the gender of any nile creature"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD + "---------------------------------------------------"));
@@ -164,25 +163,21 @@ public class CommandZeroQuest extends CommandBase {
 			}
 		}
 
-		else if (command.equalsIgnoreCase("evolve") || command.equalsIgnoreCase("e")) {
+		else if (command.equalsIgnoreCase("state") || command.equalsIgnoreCase("st")) {
 			if (sender instanceof EntityPlayerMP) {
 				EntityPlayerMP player = (EntityPlayerMP) sender;
-				appyModifier(sender, new EvolveModifier(player), global);
-			}
-			else {
-				// console can't evolve nile entities
-				throw new CommandException("commands.zeroquest.cantuse");
-			}
-		}
+				if (params.length < 2) {
+					throw new WrongUsageException(getCommandUsage(sender));
+				}
 
-		else if (command.equalsIgnoreCase("devolve") || command.equalsIgnoreCase("d")) {
-			if (sender instanceof EntityPlayerMP) {
-				EntityPlayerMP player = (EntityPlayerMP) sender;
-				appyModifier(sender, new DevolveModifier(player), global);
-			}
-			else {
-				// console can't evolve nile entities
-				throw new CommandException("commands.zeroquest.cantuse");
+				String parameter = params[1];
+
+				if (parameter.equalsIgnoreCase("evolve") || parameter.equalsIgnoreCase("e")) {
+					appyModifier(sender, new EvolveModifier(player), global);
+				}
+				else if (parameter.equalsIgnoreCase("devolve") || parameter.equalsIgnoreCase("d")) {
+					appyModifier(sender, new DevolveModifier(player), global);
+				}
 			}
 		}
 
@@ -431,7 +426,7 @@ public class CommandZeroQuest extends CommandBase {
 					}
 				}
 				else {
-					player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + entity.getName() + " cannot be evolved!!"));
+					player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + entity.getCommandSenderName() + " cannot be evolved!!"));
 				}
 			}
 			else {
@@ -457,14 +452,14 @@ public class CommandZeroQuest extends CommandBase {
 						zertum.devolveOnServer(zertum, player);
 					}
 					else if (!zertum.hasEvolved() && zertum.canInteract(player)) {
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getPetName() + " has already already or has not evolved!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getPetName() + " has already evolved or has not evolved!"));
 					}
 					else if (zertum.hasEvolved() && !zertum.canInteract(player)) {
 						zertum.doNotOwnMessage(zertum, player);
 					}
 				}
 				else {
-					player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + entity.getName() + " cannot be devolved!!"));
+					player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + entity.getCommandSenderName() + " cannot be devolved!!"));
 				}
 			}
 			else {
@@ -507,7 +502,7 @@ public class CommandZeroQuest extends CommandBase {
 					}
 				}
 				else {
-					player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + entity.getName() + " cannot gain levels!"));
+					player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + entity.getCommandSenderName() + " cannot gain levels!"));
 				}
 			}
 			else {
@@ -546,13 +541,13 @@ public class CommandZeroQuest extends CommandBase {
 				else {
 					if (entity.getGender() != gender && entity.canInteract(player)) {
 						entity.setGender(gender);
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + entity.getName() + " has been set to a " + (gender ? "Male" : "Female")));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + entity.getCommandSenderName() + " has been set to a " + (gender ? "Male" : "Female")));
 					}
 					else if (entity.getGender() == gender && entity.canInteract(player)) {
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + entity.getName() + " is already a " + (gender ? "Male" : "Female")));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + entity.getCommandSenderName() + " is already a " + (gender ? "Male" : "Female")));
 					}
 					else if (entity.getGender() != gender && !entity.canInteract(player)) {
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You do not own " + entity.getName() + "!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You do not own " + entity.getCommandSenderName() + "!"));
 					}
 				}
 			}

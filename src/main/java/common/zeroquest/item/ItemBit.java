@@ -4,7 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-
 import common.zeroquest.api.interfaces.IBits;
 import common.zeroquest.core.helper.ChatHelper;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
@@ -12,7 +11,7 @@ import common.zeroquest.entity.zertum.EntityZertumEntity;
 /**
  * @author ProPercivalalb
  **/
-public class ItemBit extends Item implements IBits {
+public class ItemBit extends ItemZQ implements IBits {
 
 	private final int maxLevel;
 

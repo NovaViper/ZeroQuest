@@ -27,6 +27,7 @@ import common.zeroquest.api.registry.TalentRegistry;
 import common.zeroquest.entity.util.ModeUtil.EnumMode;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
 import common.zeroquest.lib.Constants;
+import common.zeroquest.lib.ResourceReference;
 import common.zeroquest.network.PacketHandler;
 import common.zeroquest.network.imessage.ZertumMode;
 import common.zeroquest.network.imessage.ZertumName;
@@ -47,8 +48,6 @@ public class GuiDogInfo extends GuiScreen {
 	private int maxPages = 1;
 	public int btnPerPages = 0;
 	private final DecimalFormat dfShort = new DecimalFormat("0.00");
-	public static final ResourceLocation femaleTexture = new ResourceLocation(Constants.modid + ":" + "textures/gui/female.png");
-	public static final ResourceLocation maleTexture = new ResourceLocation(Constants.modid + ":" + "textures/gui/male.png");
 
 	public GuiDogInfo(EntityZertumEntity dog, EntityPlayer player) {
 		this.dog = dog;
@@ -136,7 +135,7 @@ public class GuiDogInfo extends GuiScreen {
 
 		String tamedString = null;
 		if (this.dog.isTamed()) {
-			if (this.dog.getOwnerName().equals(this.player.getDisplayNameString())) {
+			if (this.dog.getOwnerName().equals(this.player.getCommandSenderName()) || this.dog.getOwnerID().equals(this.player.getUniqueID().toString())) {
 				tamedString = "Yes (You)";
 			}
 			else {
@@ -170,11 +169,11 @@ public class GuiDogInfo extends GuiScreen {
 		this.fontRendererObj.drawString("Gender: ", topX+190, topY-120, 0xFFFFFF);
 		//@formatter:on
 		if (this.dog.getGender() == true) {
-			mc.renderEngine.bindTexture(maleTexture); // TODO
+			mc.renderEngine.bindTexture(ResourceReference.male); // TODO
 			this.drawModalRectWithCustomSizedTexture(topX + 230, topY - 120, 0, 0, 12, 12, 12, 12);
 		}
 		else {
-			mc.renderEngine.bindTexture(femaleTexture);
+			mc.renderEngine.bindTexture(ResourceReference.female);
 			this.drawModalRectWithCustomSizedTexture(topX + 230, topY - 120, 0, 0, 12, 12, 12, 12);
 		}
 

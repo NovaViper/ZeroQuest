@@ -97,21 +97,21 @@ public class ModItems {
 		register(dogTreat, "dog_treat");
 		nileBone = new ItemZQ().setUnlocalizedName("nileBone");
 		register(nileBone, "nile_bone");
-		commandSeal = new ItemCommandSeal().setUnlocalizedName("commandSeal").setCreativeTab(ZeroQuest.ZeroTab);
+		commandSeal = new ItemCommandSeal().setUnlocalizedName("commandSeal");
 		register(commandSeal, "command_seal");
-		toy = new ItemToy().setUnlocalizedName("toy").setCreativeTab(ZeroQuest.ZeroTab);
+		toy = new ItemToy().setUnlocalizedName("toy");
 		register(toy, "toy");
 
 		// Bits for Talents\\
-		microBit = new ItemBit(20).setUnlocalizedName("microBit").setCreativeTab(ZeroQuest.ZeroTab);
+		microBit = new ItemBit(20).setUnlocalizedName("microBit");
 		register(microBit, "micro_bit");
-		megaBit = new ItemBit(50).setUnlocalizedName("megaBit").setCreativeTab(ZeroQuest.ZeroTab);
+		megaBit = new ItemBit(50).setUnlocalizedName("megaBit");
 		register(megaBit, "mega_bit");
-		omegaBit = new ItemBit(80).setUnlocalizedName("omegaBit").setCreativeTab(ZeroQuest.ZeroTab);
+		omegaBit = new ItemBit(80).setUnlocalizedName("omegaBit");
 		register(omegaBit, "omega_bit");
-		alphaBit = new ItemAlphaBit().setUnlocalizedName("alphaBit").setCreativeTab(ZeroQuest.ZeroTab);
+		alphaBit = new ItemAlphaBit().setUnlocalizedName("alphaBit");
 		register(alphaBit, "alpha_bit");
-		evoBit = new ItemZQ().setUnlocalizedName("evoBit").setCreativeTab(ZeroQuest.ZeroTab);
+		evoBit = new ItemZQ().setUnlocalizedName("evoBit");
 		register(evoBit, "evo_bit");
 
 		// Portal Sparks//

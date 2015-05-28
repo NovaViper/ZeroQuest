@@ -41,11 +41,11 @@ public class TileEntityNileWorkbench extends TileEntity implements IInventory
 	
 	@Override
 	public IChatComponent getDisplayName() {
-		return ChatHelper.getChatComponent(getName());
+		return ChatHelper.getChatComponent(getCommandSenderName());
 	}	
 	
 	@Override
-	public String getName() {
+	public String getCommandSenderName() {
 		return "Nile Table";
 	}
 

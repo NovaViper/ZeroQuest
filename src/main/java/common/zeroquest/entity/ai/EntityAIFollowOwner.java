@@ -79,8 +79,8 @@ public class EntityAIFollowOwner extends EntityAIBase
     @Override
     public void startExecuting() {
         this.field_75343_h = 0;
-        this.preShouldAvoidWater = ((PathNavigateGround)this.theDog.getNavigator()).func_179689_e();
-        ((PathNavigateGround)this.theDog.getNavigator()).func_179690_a(false);
+        this.preShouldAvoidWater = ((PathNavigateGround)this.theDog.getNavigator()).getAvoidsWater();
+        ((PathNavigateGround)this.theDog.getNavigator()).setAvoidsWater(false);
     }
 
     /**
@@ -90,7 +90,7 @@ public class EntityAIFollowOwner extends EntityAIBase
     {
         this.theOwner = null;
         this.petPathfinder.clearPathEntity();
-        ((PathNavigateGround)this.theDog.getNavigator()).func_179690_a(this.preShouldAvoidWater);
+        ((PathNavigateGround)this.theDog.getNavigator()).setAvoidsWater(this.preShouldAvoidWater);
     }
 
     @Override

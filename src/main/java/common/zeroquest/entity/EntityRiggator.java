@@ -50,8 +50,8 @@ public class EntityRiggator extends EntityCustomMob {
 		this.setSize(0.6F, 2.6F);
 		this.stepHeight = 1;
 		this.isImmuneToFire = true;
-		((PathNavigateGround) this.getNavigator()).func_179688_b(true);
 		this.tasks.addTask(1, new EntityAISwimming(this));
+		this.tasks.addTask(1, this.aiAvoidExplodingCreepers);
 		this.tasks.addTask(3, new EntityAILeapAtTarget(this, 0.4F));
 		this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, true));
 		this.tasks.addTask(5, new EntityAIMoveThroughVillage(this, 1.0D, false));
@@ -61,8 +61,6 @@ public class EntityRiggator extends EntityCustomMob {
 		this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, true));
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityZertum.class, true));
 		this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityVillager.class, false));
-		// this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this,
-		// EntityIronGolem.class, true));
 		this.experienceValue = 5;
 	}
 

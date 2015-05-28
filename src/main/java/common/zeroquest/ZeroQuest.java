@@ -44,7 +44,7 @@ public class ZeroQuest {
 	@SidedProxy(clientSide = Constants.clientProxy, serverSide = Constants.serverProxy)
 	public static CommonProxy proxy;
 
-	// Put sounds from Sound in sounds.json //TODO
+	// Put sounds from Sound in sounds.json TODO
 
 	public static ToolMaterial nileEssence;
 	public static ToolMaterial darkEssence;
@@ -59,7 +59,9 @@ public class ZeroQuest {
 	public void preInit(FMLPreInitializationEvent event) {
 		ConfigHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + Constants.channel.toLowerCase() + File.separator + Constants.modid + ".cfg"));
 		registerFMLCommonEventBus(new ConfigEvent());
-		registerFMLCommonEventBus(new ModVersionCheck(Constants.version, "ZeroQuest", Constants.isBeta));
+		if (Constants.DEF_MODCHECKER == true) {
+			registerFMLCommonEventBus(new ModVersionCheck(Constants.version, "ZeroQuest", Constants.isBeta));
+		}
 		LogHelper.info("-----PRE-CONTENT LOAD INITATING-----");
 		LogHelper.info("Loading Main Stuff...");
 		this.ZeroTab = new ZeroQuestTab(CreativeTabs.getNextID());
@@ -88,15 +90,19 @@ public class ZeroQuest {
 			ModEntities.loadDarkCreatures();
 			proxy.registerStateMappingsForDark();
 		}
+
 		registerForgeEventBus(new FireEventHandler());
-		LogHelper.info("Blocks, Recipes, Entites,Events and Items Loaded Successfully!");
+		registerFMLCommonEventBus(new ConnectionHandler());
+		LogHelper.info("Blocks, Recipes, Entites, Events and Items Loaded Successfully!");
 		LogHelper.info("-----PRE-CONTENT LOAD FINISHED-----");
 	}
 
 	@EventHandler
 	public void load(FMLInitializationEvent event) {
-		PacketHandler.registerPackets();
 		LogHelper.info("-----CONTENT LOAD INITATING-----");
+		LogHelper.info("Loading Network Packets...");
+		PacketHandler.registerPackets();
+		LogHelper.info("Network Packets Loaded Successfully!");
 		LogHelper.info("Loading Renderers, Achievements, Biomes and Ore Dictionary...");
 		OreDic.loadOre();
 		ModAchievements.load();
@@ -110,9 +116,9 @@ public class ZeroQuest {
 				ModBlocks.loadDarkRenderers();
 			}
 		}
+		proxy.registerRenderThings();
 		LogHelper.info("Renderers, Achievements, Biomes and Ore Dictionary Loaded Successfully!");
 		LogHelper.info("Loading Crucial Stuff and Dimensions...");
-		proxy.registerRenderThings();
 		proxy.registerChestItems();
 		registerFuelHandler(new FuelHandler());
 		registerWorldGenerator(new WorldGenZQuest(), 0);
@@ -137,9 +143,6 @@ public class ZeroQuest {
 			LogHelper.info("Skipping Dark Elemental Load");
 
 		}
-		LogHelper.info("Loading Network Stuff...");
-		registerFMLCommonEventBus(new ConnectionHandler());
-		LogHelper.info("Network Stuff Loaded Successfully!");
 		LogHelper.info("-----CONTENT LOAD FINSHED-----");
 	}
 

@@ -101,8 +101,8 @@ public class EntityAIFetchBone extends EntityAIBase {
 	@Override
 	public void startExecuting() {
 		this.tenTickTimer = 0;
-		this.preShouldAvoidWater = ((PathNavigateGround) this.theDog.getNavigator()).func_179689_e();
-		((PathNavigateGround) this.theDog.getNavigator()).func_179690_a(false);
+		this.preShouldAvoidWater = ((PathNavigateGround) this.theDog.getNavigator()).getAvoidsWater();
+		((PathNavigateGround) this.theDog.getNavigator()).setAvoidsWater(false);
 	}
 
 	/**
@@ -112,7 +112,7 @@ public class EntityAIFetchBone extends EntityAIBase {
 	public void resetTask() {
 		this.theOwner = null;
 		this.petPathfinder.clearPathEntity();
-		((PathNavigateGround) this.theDog.getNavigator()).func_179690_a(this.preShouldAvoidWater);
+		((PathNavigateGround) this.theDog.getNavigator()).setAvoidsWater(this.preShouldAvoidWater);
 	}
 
 	public EntityItem getClosestsBone() {

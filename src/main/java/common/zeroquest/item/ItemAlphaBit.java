@@ -4,7 +4,6 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
-
 import common.zeroquest.api.interfaces.IBits;
 import common.zeroquest.core.helper.ChatHelper;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
@@ -13,7 +12,7 @@ import common.zeroquest.lib.Constants;
 /**
  * @author ProPercivalalb
  **/
-public class ItemAlphaBit extends Item implements IBits {
+public class ItemAlphaBit extends ItemZQ implements IBits {
 
 	public ItemAlphaBit() {
 		super();

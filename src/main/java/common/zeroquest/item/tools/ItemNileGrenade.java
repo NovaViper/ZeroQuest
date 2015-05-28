@@ -4,15 +4,14 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
-
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.entity.projectile.EntityGrenade;
+import common.zeroquest.item.ItemZQ;
 
-public class ItemNileGrenade extends Item {
+public class ItemNileGrenade extends ItemZQ {
 
 	public ItemNileGrenade() {
 		this.maxStackSize = 64;
-		this.setCreativeTab(ZeroQuest.ZeroTab);
 	}
 
 	/**

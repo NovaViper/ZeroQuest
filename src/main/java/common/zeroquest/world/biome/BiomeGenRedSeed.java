@@ -57,7 +57,7 @@ public class BiomeGenRedSeed extends BiomeGenBase {
     
     public void decorate(World worldIn, Random p_180624_2_, BlockPos p_180624_3_)
     {
-        double d0 = field_180281_af.func_151601_a((double)(p_180624_3_.getX() + 8) / 200.0D, (double)(p_180624_3_.getZ() + 8) / 200.0D);
+        double d0 = GRASS_COLOR_NOISE.func_151601_a((double)(p_180624_3_.getX() + 8) / 200.0D, (double)(p_180624_3_.getZ() + 8) / 200.0D);
         int i;
         int j;
         int k;
@@ -78,7 +78,7 @@ public class BiomeGenRedSeed extends BiomeGenBase {
             {
                 j = p_180624_2_.nextInt(16) + 8;
                 k = p_180624_2_.nextInt(16) + 8;
-                l = p_180624_2_.nextInt(worldIn.getHorizon(p_180624_3_.add(j, 0, k)).getY() + 32);
+                l = p_180624_2_.nextInt(worldIn.getHeight(p_180624_3_.add(j, 0, k)).getY() + 32);
                 DOUBLE_PLANT_GENERATOR.generate(worldIn, p_180624_2_, p_180624_3_.add(j, l, k));
             }
         }
@@ -91,7 +91,7 @@ public class BiomeGenRedSeed extends BiomeGenBase {
             {
                 j = p_180624_2_.nextInt(16) + 8;
                 k = p_180624_2_.nextInt(16) + 8;
-                l = p_180624_2_.nextInt(worldIn.getHorizon(p_180624_3_.add(j, 0, k)).getY() + 32);
+                l = p_180624_2_.nextInt(worldIn.getHeight(p_180624_3_.add(j, 0, k)).getY() + 32);
                 DOUBLE_PLANT_GENERATOR.generate(worldIn, p_180624_2_, p_180624_3_.add(j, l, k));
             }
         }

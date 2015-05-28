@@ -7,6 +7,7 @@ package common.zeroquest.lib;
  * EntityAgeable: 12
  * EntityLiving: 15
  * EntityLivingBase: 6, 7, 8, and 9 
+ * Entity: 0, 1, 2, 3, 4
  * NOTE: DataValues CANNOT go over 31!
 */
 public class DataValues {
@@ -32,6 +33,7 @@ public class DataValues {
 	public static final int dogCoordination = 28;
 	public static final int beg = 30;
 	public static final int gender = 31;
+	
+	//Values\\
 	public static final int lowHP = 10;
 }
-

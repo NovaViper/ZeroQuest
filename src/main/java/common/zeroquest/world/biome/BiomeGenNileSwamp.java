@@ -63,7 +63,7 @@ public class BiomeGenNileSwamp extends BiomeGenBase
 
     public void genTerrainBlocks(World worldIn, Random p_180622_2_, ChunkPrimer p_180622_3_, int p_180622_4_, int p_180622_5_, double p_180622_6_)
     {
-        double d1 = field_180281_af.func_151601_a((double)p_180622_4_ * 0.25D, (double)p_180622_5_ * 0.25D);
+        double d1 = GRASS_COLOR_NOISE.func_151601_a((double)p_180622_4_ * 0.25D, (double)p_180622_5_ * 0.25D);
 
         if (d1 > 0.0D)
         {
@@ -95,7 +95,7 @@ public class BiomeGenNileSwamp extends BiomeGenBase
     @SideOnly(Side.CLIENT)
     public int getGrassColorAtPos(BlockPos p_180627_1_)
     {
-        double d0 = field_180281_af.func_151601_a((double)p_180627_1_.getX() * 0.0225D, (double)p_180627_1_.getZ() * 0.0225D);
+        double d0 = GRASS_COLOR_NOISE.func_151601_a((double)p_180627_1_.getX() * 0.0225D, (double)p_180627_1_.getZ() * 0.0225D);
         return d0 < -0.1D ? 5011004 : 6975545;
     }
 

@@ -73,7 +73,7 @@ public class BiomeGenNileSavanna extends BiomeGenBase
         {
             int j = p_180624_2_.nextInt(16) + 8;
             int k = p_180624_2_.nextInt(16) + 8;
-            int l = p_180624_2_.nextInt(worldIn.getHorizon(p_180624_3_.add(j, 0, k)).getY() + 32);
+            int l = p_180624_2_.nextInt(worldIn.getHeight(p_180624_3_.add(j, 0, k)).getY() + 32);
             DOUBLE_PLANT_GENERATOR.generate(worldIn, p_180624_2_, p_180624_3_.add(j, l, k));
         }
 
