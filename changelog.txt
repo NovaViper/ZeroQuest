@@ -184,7 +184,7 @@ v1.6.0 - Evolution for Zertums and Even More Fixes! Portal Revival!!
 ~Adjusted heal cost for Life Giver talent to 40 ticks at level 5!
 -Players can no longer respawn in the Nillax Dimension
 
-v1.7.0 - Realistic Breeding and Bug Fixes!
+v1.7.0 - Realistic Breeding and Bug Fixes! (Re-Uploaded)
 +Added tame status
 +Added Genders to all tameable creatures
 +Added State command (with evolve and devolve commands)
@@ -203,3 +203,4 @@ v1.7.0 - Realistic Breeding and Bug Fixes!
 #Heal command now refills the hunger for Zertums and tells who is healed
 ~Fixed Server errors relating with Darkax Portals
 ~Fixed bug with mounting on Jakans and Kortors
+~Fixed a major bug relating with the bounding box of the player in follow AI << Reason for re-upload

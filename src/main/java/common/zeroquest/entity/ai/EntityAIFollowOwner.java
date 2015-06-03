@@ -139,7 +139,7 @@ public class EntityAIFollowOwner extends EntityAIBase {
 						if (distanceAway >= 350.0D) {
 							int i = MathHelper.floor_double(this.theOwner.posX) - 2;
 							int j = MathHelper.floor_double(this.theOwner.posZ) - 2;
-							int k = MathHelper.floor_double(this.theOwner.getBoundingBox().minY);
+							int k = MathHelper.floor_double(this.theOwner.getEntityBoundingBox().minY);
 
 							for (int l = 0; l <= 4; ++l) {
 								for (int i1 = 0; i1 <= 4; ++i1) {
@@ -161,7 +161,7 @@ public class EntityAIFollowOwner extends EntityAIBase {
 						if (distanceAway >= 350.0D) {
 							int i = MathHelper.floor_double(this.theOwner.posX) - 2;
 							int j = MathHelper.floor_double(this.theOwner.posZ) - 2;
-							int k = MathHelper.floor_double(this.theOwner.getBoundingBox().minY);
+							int k = MathHelper.floor_double(this.theOwner.getEntityBoundingBox().minY);
 
 							for (int l = 0; l <= 4; ++l) {
 								for (int i1 = 0; i1 <= 4; ++i1) {
