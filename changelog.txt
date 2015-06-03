@@ -184,7 +184,7 @@ v1.6.0 - Evolution for Zertums and Even More Fixes! Portal Revival!!
 ~Adjusted heal cost for Life Giver talent to 40 ticks at level 5!
 -Players can no longer respawn in the Nillax Dimension
 
-v1.7.0 - Realstic Breeding and Bug Fixes!
+v1.7.0 - Realistic Breeding and Bug Fixes!
 +Added tame status
 +Added Genders to all tameable creatures
 +Added State command (with evolve and devolve commands)
@@ -195,6 +195,7 @@ v1.7.0 - Realstic Breeding and Bug Fixes!
 *Nile and Dark Fire can now be extinguished!
 *Simplified code again!
 #Changed Nile Crafting Table item texture
+#^Changed the logo texture (See http://zeroquest.wikia.com/wiki/User_blog:NovaViper/-IMPORTANT-_Adding_trademarks_to_all_images_and_logos!)
 #^Renamed Textures:^
     *niletable to nileTable in the gui textures
     *nileWorktable to nileTable in the model textures
