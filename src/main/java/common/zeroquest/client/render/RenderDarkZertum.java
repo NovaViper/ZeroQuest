@@ -19,7 +19,7 @@ import org.lwjgl.opengl.GL11;
 import common.zeroquest.client.render.layers.LayersDarkZertum;
 import common.zeroquest.entity.zertum.EntityDarkZertum;
 import common.zeroquest.lib.Constants;
-import common.zeroquest.lib.ResourceReference;
+import common.zeroquest.util.ResourceReference;
 
 @SideOnly(Side.CLIENT)
 public class RenderDarkZertum extends RenderLiving {
@@ -98,7 +98,7 @@ public class RenderDarkZertum extends RenderLiving {
 
 			String tip = dog.mode.getMode().getTip();
 
-			String label = String.format("%s[%d]", tip, dog.getDogHunger());
+			String label = String.format("%s[%d]", tip, dog.getZertumHunger());
 
 			if (dog.isPlayerSleeping()) {
 				this.renderLivingLabel(dog, label, x, y - 0.5D, z, 64, 0.7F);

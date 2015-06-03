@@ -5,6 +5,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import common.zeroquest.ModItems;
+import common.zeroquest.api.ZeroQuestAPI;
 import common.zeroquest.entity.zertum.EntityDarkZertum;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
 
@@ -75,9 +76,9 @@ public class EntityAIBeg extends EntityAIBase {
 		ItemStack stack = player.inventory.getCurrentItem();
 		return stack == null
 				? false
-				: (!this.theWolf.isTamed() && !(this.theWolf instanceof EntityDarkZertum) && stack.getItem() == ModItems.nileBone
+				: (!this.theWolf.isTamed() && !(this.theWolf instanceof EntityDarkZertum) && ZeroQuestAPI.begNileList.containsItem(stack)
 						? true
-						: !this.theWolf.isTamed() && this.theWolf instanceof EntityDarkZertum && stack.getItem() == ModItems.darkBone
+						: !this.theWolf.isTamed() && this.theWolf instanceof EntityDarkZertum && ZeroQuestAPI.begDarkList.containsItem(stack)
 								? true
 								: this.theWolf.isBreedingItem(stack) || theWolf.foodValue(stack) > 0);
 	}

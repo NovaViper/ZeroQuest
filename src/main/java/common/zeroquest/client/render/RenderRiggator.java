@@ -5,7 +5,7 @@ import org.lwjgl.opengl.GL11;
 import common.zeroquest.entity.EntityRiggator;
 import common.zeroquest.entity.EntityRowarn;
 import common.zeroquest.lib.Constants;
-import common.zeroquest.lib.ResourceReference;
+import common.zeroquest.util.ResourceReference;
 import net.minecraft.client.model.ModelBase;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderLiving;

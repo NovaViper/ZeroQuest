@@ -49,26 +49,26 @@ public class ItemAlphaBit extends ItemZQ implements IBits {
 			dog.getSitAI().setSitting(true);
 			dog.worldObj.setEntityState(dog, (byte) 7);
 			dog.playTameEffect(true);
-			if (!player.worldObj.isRemote) {
+			if (isServer(player)) {
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + dog.getPetName() + " has leveled up to " + dog.levels.getLevel() + "!"));
 			}
 		}
 		else if (type == EnumFeedBack.TOOYOUNG) {
-			if (!player.worldObj.isRemote) {
+			if (isServer(player)) {
 				dog.playTameEffect(false);
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + dog.getPetName() + " is too young to be learning skills!"));
 			}
 		}
 		else if (type == EnumFeedBack.LEVELTOOHIGH) {
 			player.worldObj.setEntityState(dog, (byte) 6);
-			if (!player.worldObj.isRemote) {
+			if (isServer(player)) {
 				dog.playTameEffect(false);
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + dog.getPetName() + " can't possibly handle the power in these bits!"));
 			}
 		}
 		else if (type == EnumFeedBack.COMPLETE) {
 			player.worldObj.setEntityState(dog, (byte) 6);
-			if (!player.worldObj.isRemote) {
+			if (isServer(player)) {
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "CONGRATZ! " + dog.getPetName() + " has reached the " + EnumChatFormatting.GREEN + "Alpha Level! Evolution is ready!"));
 			}
 		}

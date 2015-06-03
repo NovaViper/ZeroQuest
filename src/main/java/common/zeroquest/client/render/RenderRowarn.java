@@ -12,7 +12,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import common.zeroquest.entity.EntityRowarn;
-import common.zeroquest.lib.ResourceReference;
+import common.zeroquest.util.ResourceReference;
 
 @SideOnly(Side.CLIENT)
 public class RenderRowarn extends RenderLiving {

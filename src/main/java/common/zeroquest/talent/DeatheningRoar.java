@@ -8,11 +8,12 @@ import net.minecraft.entity.monster.EntityMob;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
+
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.api.interfaces.ITalent;
 import common.zeroquest.entity.zertum.EntityMetalZertum;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
-import common.zeroquest.lib.DataValues;
+import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
 
 /**
@@ -27,7 +28,7 @@ public class DeatheningRoar extends ITalent {
 		int level = dog.talents.getLevel(this);
 		int masterOrder = dog.masterOrder();
 
-		if (masterOrder == 4 && dog.hasEvolved() && dog.getHealth() > DataValues.lowHP && !dog.isChild()) {
+		if (masterOrder == 4 && dog.hasEvolved() && dog.getHealth() > Constants.lowHP && !dog.isChild()) {
 			if (level >= 0) {
 				byte damage = (byte) level;
 

@@ -32,28 +32,13 @@ import common.zeroquest.client.model.ModelRiggator;
 import common.zeroquest.client.model.ModelRowarn;
 import common.zeroquest.client.model.ModelZertum;
 import common.zeroquest.client.particle.*;
-import common.zeroquest.client.render.RenderDarkZertum;
-import common.zeroquest.client.render.RenderDestroZertum;
-import common.zeroquest.client.render.RenderFoodBowl;
-import common.zeroquest.client.render.RenderForisZertum;
-import common.zeroquest.client.render.RenderIceZertum;
-import common.zeroquest.client.render.RenderJakan;
-import common.zeroquest.client.render.RenderKortor;
-import common.zeroquest.client.render.RenderKurr;
-import common.zeroquest.client.render.RenderMetalZertum;
-import common.zeroquest.client.render.RenderNileTable;
-import common.zeroquest.client.render.RenderProjectiles;
-import common.zeroquest.client.render.RenderRedZertum;
-import common.zeroquest.client.render.RenderRiggator;
-import common.zeroquest.client.render.RenderRowarn;
-import common.zeroquest.client.render.RenderZertum;
 import common.zeroquest.client.render.*;
 import common.zeroquest.core.handlers.*;
 import common.zeroquest.entity.*;
 import common.zeroquest.entity.projectile.*;
 import common.zeroquest.entity.tileentity.*;
-import common.zeroquest.entity.util.*;
 import common.zeroquest.entity.zertum.*;
+import common.zeroquest.entity.zertum.util.*;
 import common.zeroquest.lib.Constants;
 
 public class ClientProxy extends CommonProxy {
@@ -78,7 +63,8 @@ public class ClientProxy extends CommonProxy {
 		registerRender(EntityFlamingPoisonball.class, new RenderProjectiles(renderManager, ModItems.FPoisonball, renderItem));
 		registerRender(EntityIceball.class, new RenderProjectiles(renderManager, ModItems.iceBall, renderItem));
 		registerRender(EntityGrenade.class, new RenderProjectiles(renderManager, ModItems.nileGrenade, renderItem));
-
+		registerRender(EntityZertumBeam.class, new RenderProjectiles(renderManager, Items.snowball, renderItem));
+		
 		bindTileEntitySpecialRenderer(TileEntityNileWorkbench.class, new RenderNileTable());
 		bindTileEntitySpecialRenderer(TileEntityFoodBowl.class, new RenderFoodBowl());
 	}

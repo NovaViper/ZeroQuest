@@ -129,12 +129,6 @@ public class EntityJakan extends EntityCustomTameable /* implements
 	}
 
 	@Override
-	protected void entityInit() {
-		super.entityInit();
-		this.dataWatcher.addObject(DataValues.saddle, Byte.valueOf((byte) 0));
-	}
-
-	@Override
 	protected void playStepSound(BlockPos p_180429_1_, Block p_180429_2_) {
 		if (inWater) {
 			// no sounds for underwater action
@@ -149,27 +143,13 @@ public class EntityJakan extends EntityCustomTameable /* implements
 		}
 	}
 
-	@Override
-	public void writeEntityToNBT(NBTTagCompound tagCompound) {
-		super.writeEntityToNBT(tagCompound);
-		tagCompound.setBoolean("Angry", this.isAngry());
-		tagCompound.setBoolean("Saddle", this.getSaddled());
-	}
-
-	@Override
-	public void readEntityFromNBT(NBTTagCompound tagCompund) {
-		super.readEntityFromNBT(tagCompund);
-		this.setAngry(tagCompund.getBoolean("Angry"));
-		this.setSaddled(tagCompund.getBoolean("Saddle"));
-	}
-
 	/**
 	 * Returns the sound this mob makes while it's alive.
 	 */
 	@Override
 	protected String getLivingSound() {
 		return this.canSeeCreeper ? Sound.JakanGrowl : this.isAngry() ? Sound.JakanSnarl
-				: this.getHealth() <= DataValues.lowHP ? Sound.JakanWhine
+				: this.getHealth() <= Constants.lowHP ? Sound.JakanWhine
 						: (this.rand.nextInt(3) == 0 ? (Sound.JakanBreathe) : Sound.JakanRoar);
 	}
 
@@ -216,7 +196,7 @@ public class EntityJakan extends EntityCustomTameable /* implements
 		if (this.canSeeCreeper) {
 			return 40;
 		}
-		else if (this.getHealth() <= DataValues.lowHP) {
+		else if (this.getHealth() <= Constants.lowHP) {
 			return 20;
 		}
 		else {
@@ -240,7 +220,7 @@ public class EntityJakan extends EntityCustomTameable /* implements
 			if (rare <= 6 && !this.isTamed()) {
 				this.dropItem(ModItems.nileGrain, 1);
 			}
-			if (this.getSaddled()) {
+			if (this.isSaddled()) {
 				this.dropItem(Items.saddle, 1);
 			}
 			else {
@@ -263,11 +243,11 @@ public class EntityJakan extends EntityCustomTameable /* implements
 			this.setAngry(false);
 		}
 
-		if (Constants.DEF_HEALING == true && !this.isChild() && this.getHealth() <= DataValues.lowHP && this.isTamed()) {
+		if (Constants.DEF_HEALING == true && !this.isChild() && this.getHealth() <= Constants.lowHP && this.isTamed()) {
 			this.addPotionEffect(new PotionEffect(10, 200));
 		}
 		// Dying
-		if (this.getHealth() <= DataValues.lowHP && this.isTamed()) { // TODO
+		if (this.getHealth() <= Constants.lowHP && this.isTamed()) { // TODO
 			double d0 = this.rand.nextGaussian() * 0.04D;
 			double d1 = this.rand.nextGaussian() * 0.04D;
 			double d2 = this.rand.nextGaussian() * 0.04D;
@@ -276,7 +256,7 @@ public class EntityJakan extends EntityCustomTameable /* implements
 		if (this.getAttackTarget() == null && isTamed() && 15 > 0) {
 			List list1 = worldObj.getEntitiesWithinAABB(EntityCreeper.class, AxisAlignedBB.fromBounds(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(sniffRange(), 4D, sniffRange()));
 
-			if (!list1.isEmpty() && !isSitting() && this.getHealth() > DataValues.lowHP && !this.isChild()) {
+			if (!list1.isEmpty() && !isSitting() && this.getHealth() > Constants.lowHP && !this.isChild()) {
 				canSeeCreeper = true;
 			}
 			else {
@@ -355,13 +335,13 @@ public class EntityJakan extends EntityCustomTameable /* implements
 		ItemStack stack = player.inventory.getCurrentItem();
 
 		if (this.isTamed()) {
-			if (!this.isChild() && ItemUtils.consumeEquipped(player, Items.saddle) && !this.getSaddled()) // TODO
+			if (!this.isChild() && ItemUtils.consumeEquipped(player, Items.saddle) && !this.isSaddled()) // TODO
 			{
 				this.setSaddled(true);
 				this.playSound("mob.horse.leather", 0.5F, 1.0F);
 			}
 			if (player.getHeldItem() == null) {
-				if (this.getSaddled() && player.ridingEntity == null && !player.onGround && this.isServer()) {
+				if (this.isSaddled() && player.ridingEntity == null && !player.onGround && this.isServer()) {
 					this.getSitAI().setSitting(false);
 					this.setSitting(false);
 					player.mountEntity(this);
@@ -437,7 +417,7 @@ public class EntityJakan extends EntityCustomTameable /* implements
 			this.stepHeight = 1.0F;
 			this.jumpMovementFactor = this.getAIMoveSpeed() * 0.2F;
 
-			if (!this.worldObj.isRemote) {
+			if (isServer()) {
 				this.setAIMoveSpeed((float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() / 4);
 				super.moveEntityWithHeading(strafe, forward);
 			}
@@ -515,34 +495,6 @@ public class EntityJakan extends EntityCustomTameable /* implements
 	@Override
 	public int getMaxSpawnedInChunk() {
 		return 8;
-	}
-
-	public boolean isAngry() {
-		return (this.dataWatcher.getWatchableObjectByte(DataValues.tame) & 2) != 0;
-	}
-
-	public void setAngry(boolean p_70916_1_) {
-		byte b0 = this.dataWatcher.getWatchableObjectByte(DataValues.tame);
-
-		if (p_70916_1_) {
-			this.dataWatcher.updateObject(DataValues.tame, Byte.valueOf((byte) (b0 | 2)));
-		}
-		else {
-			this.dataWatcher.updateObject(DataValues.tame, Byte.valueOf((byte) (b0 & -3)));
-		}
-	}
-
-	public boolean getSaddled() {
-		return (this.dataWatcher.getWatchableObjectByte(DataValues.saddle) & 1) != 0;
-	}
-
-	public void setSaddled(boolean p_70900_1_) {
-		if (p_70900_1_) {
-			this.dataWatcher.updateObject(DataValues.saddle, Byte.valueOf((byte) 1));
-		}
-		else {
-			this.dataWatcher.updateObject(DataValues.saddle, Byte.valueOf((byte) 0));
-		}
 	}
 
 	@Override

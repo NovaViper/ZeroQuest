@@ -1,11 +1,5 @@
 package common.zeroquest.entity;
 
-import java.util.UUID;
-
-import common.zeroquest.ModItems;
-import common.zeroquest.entity.zertum.EntityZertum;
-import common.zeroquest.lib.DataValues;
-import common.zeroquest.lib.Sound;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.SharedMonsterAttributes;
@@ -18,14 +12,10 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAISwimming;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
-import net.minecraft.entity.ai.attributes.AttributeModifier;
-import net.minecraft.entity.monster.EntityIronGolem;
-import net.minecraft.entity.monster.EntityPigZombie;
 import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
-import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.DamageSource;
@@ -33,6 +23,12 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import common.zeroquest.ModItems;
+import common.zeroquest.entity.zertum.EntityZertum;
+import common.zeroquest.lib.Constants;
+import common.zeroquest.lib.DataValues;
+import common.zeroquest.lib.Sound;
 
 public class EntityRiggator extends EntityCustomMob {
 	private float mouthOpenness;
@@ -89,7 +85,7 @@ public class EntityRiggator extends EntityCustomMob {
 	@Override
 	protected String getLivingSound() {
 		this.openMouth();
-		return this.getHealth() <= DataValues.lowHP ? Sound.RiggatorWhine
+		return this.getHealth() <= Constants.lowHP ? Sound.RiggatorWhine
 				: (this.rand.nextInt(3) == 0 ? (Sound.RiggatorGrowl) : Sound.RiggatorHiss);
 	}
 
@@ -135,7 +131,7 @@ public class EntityRiggator extends EntityCustomMob {
 	 */
 	@Override
 	public int getTalkInterval() {
-		if (this.getHealth() <= DataValues.lowHP) {
+		if (this.getHealth() <= Constants.lowHP) {
 			return 20;
 		}
 		else {

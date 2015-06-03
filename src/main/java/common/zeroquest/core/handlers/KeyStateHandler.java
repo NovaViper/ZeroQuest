@@ -16,6 +16,7 @@ import common.zeroquest.ModItems;
 import common.zeroquest.entity.EntityJakan;
 import common.zeroquest.entity.EntityKortor;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
+import common.zeroquest.lib.Constants;
 import common.zeroquest.network.PacketHandler;
 import common.zeroquest.network.imessage.JakanJump;
 import common.zeroquest.network.imessage.KortorJump;
@@ -27,10 +28,10 @@ import common.zeroquest.network.imessage.ZertumJump;
  **/
 public class KeyStateHandler {
 	//@formatter:off
-	public static final KeyBinding come = new KeyBinding("zeroquest.key.come", Keyboard.KEY_W, "key.categories.zeroquest");
-	public static final KeyBinding stay = new KeyBinding("zeroquest.key.stay", Keyboard.KEY_S, "key.categories.zeroquest");
-	public static final KeyBinding ok = new KeyBinding("zeroquest.key.ok", Keyboard.KEY_D, "key.categories.zeroquest");
-	public static final KeyBinding heel = new KeyBinding("zeroquest.key.heel", Keyboard.KEY_A, "key.categories.zeroquest");
+	public static final KeyBinding come = new KeyBinding(Constants.keyDesc + "come", Keyboard.KEY_W, Constants.keyCategory);
+	public static final KeyBinding stay = new KeyBinding(Constants.keyDesc + "stay", Keyboard.KEY_S, Constants.keyCategory);
+	public static final KeyBinding ok = new KeyBinding(Constants.keyDesc + "ok", Keyboard.KEY_D, Constants.keyCategory);
+	public static final KeyBinding heel = new KeyBinding(Constants.keyDesc + "heel", Keyboard.KEY_A, Constants.keyCategory);
 	public static final KeyBinding[] keyBindings = new KeyBinding[] { come, stay, ok, heel, Minecraft.getMinecraft().gameSettings.keyBindJump };
 	//@formatter:on
 

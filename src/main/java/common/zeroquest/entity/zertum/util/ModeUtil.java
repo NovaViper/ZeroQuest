@@ -1,4 +1,4 @@
-package common.zeroquest.entity.util;
+package common.zeroquest.entity.zertum.util;
 
 import net.minecraft.nbt.NBTTagCompound;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
@@ -36,11 +36,11 @@ public class ModeUtil {
 	}
 
 	public void setMode(int mode) {
-		this.dog.getDataWatcher().updateObject(DataValues.dogMode, mode);
+		this.dog.getDataWatcher().updateObject(DataValues.zertumMode, mode);
 	}
 
 	protected int getModeID() {
-		return this.dog.getDataWatcher().getWatchableObjectInt(DataValues.dogMode);
+		return this.dog.getDataWatcher().getWatchableObjectInt(DataValues.zertumMode);
 	}
 
 	public void writeToNBT(NBTTagCompound tagCompound) {
@@ -48,7 +48,7 @@ public class ModeUtil {
 	}
 
 	public void readFromNBT(NBTTagCompound tagCompound) {
-		this.dog.getDataWatcher().updateObject(DataValues.dogMode, tagCompound.getInteger("mode"));
+		this.dog.getDataWatcher().updateObject(DataValues.zertumMode, tagCompound.getInteger("mode"));
 	}
 
 	public enum EnumMode {

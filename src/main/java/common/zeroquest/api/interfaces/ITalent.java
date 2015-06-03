@@ -13,7 +13,8 @@ import common.zeroquest.entity.zertum.EntityZertumEntity;
  * @author ProPercivalalb
  */
 public abstract class ITalent {
-	
+
+	//@formatter:off
 	public void onClassCreation(EntityZertumEntity dog) {}
 	public void writeToNBT(EntityZertumEntity dog, NBTTagCompound tagCompound) {}
 	public void readFromNBT(EntityZertumEntity dog, NBTTagCompound tagCompound) {}
@@ -21,6 +22,7 @@ public abstract class ITalent {
 	public void onUpdate(EntityZertumEntity dog) {}
 	public void onLivingUpdate(EntityZertumEntity dog) {}
 	public int onHungerTick(EntityZertumEntity dog, int totalInTick) { return totalInTick; }
+	public int getTalkInterval(EntityZertumEntity dog, int slientTime) { return slientTime; }
 	public int onRegenerationTick(EntityZertumEntity dog, int totalInTick) { return totalInTick; }
 	public int attackEntityAsMob(EntityZertumEntity dog, Entity entity, int damage) { return damage; }
 	public int changeFoodValue(EntityZertumEntity dog, ItemStack stack, int foodValue) { return foodValue; }
@@ -38,45 +40,54 @@ public abstract class ITalent {
 	public boolean setFire(EntityZertumEntity dog, int amount) { return true; }
 	
 	public int getHighestLevel(EntityZertumEntity dog) { return 5; }
-	
+	//@formatter:on
+
 	public int getCumulativeCost(EntityZertumEntity dog, int level) {
-		switch(level) {
-        case 1: return 1;
-		case 2: return 3;
-        case 3: return 5;
-        case 4: return 7;
-        case 5: return 9;
-        default: return 0;
-        }
+		switch (level) {
+			case 1:
+				return 1;
+			case 2:
+				return 3;
+			case 3:
+				return 5;
+			case 4:
+				return 7;
+			case 5:
+				return 9;
+			default:
+				return 0;
+		}
 	}
-	
+
 	public int getCost(EntityZertumEntity dog, int level) {
 		return level;
 	}
-	
+
 	public String getLocalisedName() {
 		return StatCollector.translateToLocal("gui.talentname." + this.getKey());
 	}
-	
+
 	public String getLocalisedInfo() {
 		return StatCollector.translateToLocal("gui.talentinfo." + this.getKey());
 	}
-	
+
 	/**
-	 * If you can try and keep the key as short as possible because
-	 * it has to be sent to the client and server constantly so to 
-	 * avoid packet size kept as small as possible
+	 * If you can try and keep the key as short as possible because it has to be
+	 * sent to the client and server constantly so to avoid packet size kept as
+	 * small as possible
+	 * 
 	 * @return The key that can be used to look up this talent
 	 */
 	public abstract String getKey();
-	
+
 	@Override
 	public boolean equals(Object obj) {
-		if(obj instanceof ITalent)
-			return ((ITalent)obj).getKey().equals(this.getKey());
+		if (obj instanceof ITalent) {
+			return ((ITalent) obj).getKey().equals(this.getKey());
+		}
 		return false;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return this.getKey().hashCode();

@@ -13,7 +13,7 @@ import common.zeroquest.client.render.layers.LayerJakan;
 import common.zeroquest.entity.EntityJakan;
 import common.zeroquest.entity.EntityRowarn;
 import common.zeroquest.lib.Constants;
-import common.zeroquest.lib.ResourceReference;
+import common.zeroquest.util.ResourceReference;
 
 @SideOnly(Side.CLIENT)
 public class RenderJakan extends RenderLiving {

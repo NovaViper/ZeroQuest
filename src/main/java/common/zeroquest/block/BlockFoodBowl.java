@@ -19,9 +19,11 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.world.World;
 import common.zeroquest.ZeroQuest;
+import common.zeroquest.core.helper.LogHelper;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.tileentity.TileEntityFoodBowl;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
+import common.zeroquest.entity.zertum.util.ModeUtil.EnumMode;
 
 /**
  * @author ProPercivalalb
@@ -81,18 +83,20 @@ public class BlockFoodBowl extends BlockContainer {
 
 		if (list != null && list.size() > 0) {
 			for (int l = 0; l < list.size(); l++) {
-				EntityZertumEntity entitydtdoggy = (EntityZertumEntity) list.get(l);
-				// TODO entitydtdoggy.saveposition.setBowlX(x);
-				// TODO entitydtdoggy.saveposition.setBowlY(y);
-				// TODO entitydtdoggy.saveposition.setBowlZ(z);
+				EntityZertumEntity zertum = (EntityZertumEntity) list.get(l);
+				if (zertum.mode.isMode(EnumMode.WANDERING)) {
+					zertum.setHomePosAndDistance(pos, 5);
+					System.out.println("Saved Position for " + zertum.getPetName() + " at " + zertum.getHomePosition() + " with max distance of " + zertum.getMaximumHomeDistance());
+				}
 			}
 		}
 
 		if (entity instanceof EntityItem) {
 			EntityItem entityItem = (EntityItem) entity;
 
-			if (TileEntityHopper.func_145898_a(foodBowl, entityItem))
+			if (TileEntityHopper.func_145898_a(foodBowl, entityItem)) {
 				world.playSoundEffect(pos.getX() + 0.5D, pos.getX() + 0.5D, pos.getZ() + 0.5D, "random.pop", 0.25F, ((world.rand.nextFloat() - world.rand.nextFloat()) * 0.7F + 1.0F) * 2.0F);
+			}
 
 		}
 
@@ -111,7 +115,7 @@ public class BlockFoodBowl extends BlockContainer {
 			for (int j1 = 0; j1 < list2.size(); j1++) {
 				EntityZertumEntity entitydtdoggy1 = (EntityZertumEntity) list2.get(j1);
 
-				if (entitydtdoggy1.getDogHunger() <= 60 && tileentitydogfoodbowl1.getFirstDogFoodStack(entitydtdoggy1) >= 0) {
+				if (entitydtdoggy1.getZertumHunger() <= 60 && tileentitydogfoodbowl1.getFirstDogFoodStack(entitydtdoggy1) >= 0) {
 					tileentitydogfoodbowl1.feedDog(entitydtdoggy1, tileentitydogfoodbowl1.getFirstDogFoodStack(entitydtdoggy1), 1);
 				}
 			}
@@ -136,8 +140,9 @@ public class BlockFoodBowl extends BlockContainer {
 
 	private void dropInventory(World world, int x, int y, int z) {
 		TileEntity tileEntity = world.getTileEntity(new BlockPos(x, y, z));
-		if (!(tileEntity instanceof IInventory))
+		if (!(tileEntity instanceof IInventory)) {
 			return;
+		}
 		IInventory inventory = (IInventory) tileEntity;
 		for (int i = 0; i < inventory.getSizeInventory(); i++) {
 			ItemStack itemStack = inventory.getStackInSlot(i);

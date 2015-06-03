@@ -25,6 +25,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
 import net.minecraftforge.fml.common.registry.GameRegistry;
+import common.zeroquest.api.ZeroQuestAPI;
 import common.zeroquest.command.*;
 import common.zeroquest.core.handlers.*;
 import common.zeroquest.core.helper.*;
@@ -46,14 +47,14 @@ public class ZeroQuest {
 
 	// Put sounds from Sound in sounds.json TODO
 
+	public static CreativeTabs ZeroTab;
+	public static CreativeTabs DarkTab;
+
 	public static ToolMaterial nileEssence;
 	public static ToolMaterial darkEssence;
 
 	public static final int NillaxID = 2;
 	public static final int DarkaxID = 3;
-
-	public static CreativeTabs ZeroTab;
-	public static CreativeTabs DarkTab;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
@@ -91,7 +92,6 @@ public class ZeroQuest {
 			proxy.registerStateMappingsForDark();
 		}
 
-		registerForgeEventBus(new FireEventHandler());
 		registerFMLCommonEventBus(new ConnectionHandler());
 		LogHelper.info("Blocks, Recipes, Entites, Events and Items Loaded Successfully!");
 		LogHelper.info("-----PRE-CONTENT LOAD FINISHED-----");
@@ -109,6 +109,7 @@ public class ZeroQuest {
 		registerFMLCommonEventBus(new AchievementEvents());
 		ModBiomes.loadBiomes();
 		if (event.getSide().isClient()) {
+			registerForgeEventBus(new FireEventHandler());
 			ModBlocks.loadRenderers();
 			ModItems.loadRenderers();
 			if (Constants.DEF_DARKLOAD == true) {
@@ -149,15 +150,19 @@ public class ZeroQuest {
 	@EventHandler
 	public void PostInt(FMLPostInitializationEvent event) {
 		LogHelper.info("-----POST-CONTENT LOAD INITATING-----");
-		LogHelper.info("Loading Talents...");
+		LogHelper.info("Loading Talents and Item Lists...");
+		ZeroQuestAPI.breedList.registerItem(ModItems.dogTreat);
+		ZeroQuestAPI.begNileList.registerItem(ModItems.toy);
+		ZeroQuestAPI.begNileList.registerItem(ModItems.nileBone);
+		ZeroQuestAPI.begDarkList.registerItem(ModItems.toy);
+		ZeroQuestAPI.begDarkList.registerItem(ModItems.darkBone);
 		ModTalents.loadTalents();
-		LogHelper.info("Talents Loaded Successfully!");
+		LogHelper.info("Talents and Item Lists Loaded Successfully!");
 		LogHelper.info("-----POST-CONTENT LOAD FINSHED-----");
 
 	}
 
 	@EventHandler
-	// TODO
 	public void serverStart(FMLServerStartingEvent event) {
 		LogHelper.info("-----SERVER CONTENT LOAD INITATING-----");
 		LogHelper.info("Loading Commands...");

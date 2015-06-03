@@ -24,20 +24,20 @@ import org.lwjgl.opengl.GL12;
 
 import common.zeroquest.api.interfaces.ITalent;
 import common.zeroquest.api.registry.TalentRegistry;
-import common.zeroquest.entity.util.ModeUtil.EnumMode;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
+import common.zeroquest.entity.zertum.util.ModeUtil.EnumMode;
 import common.zeroquest.lib.Constants;
-import common.zeroquest.lib.ResourceReference;
 import common.zeroquest.network.PacketHandler;
 import common.zeroquest.network.imessage.ZertumMode;
 import common.zeroquest.network.imessage.ZertumName;
 import common.zeroquest.network.imessage.ZertumObey;
 import common.zeroquest.network.imessage.ZertumTalents;
+import common.zeroquest.util.ResourceReference;
 
 /**
  * @author ProPercivalalb
  */
-public class GuiDogInfo extends GuiScreen {
+public class GuiZertumInfo extends GuiScreen {
 
 	public EntityZertumEntity dog;
 	public EntityPlayer player;
@@ -49,7 +49,7 @@ public class GuiDogInfo extends GuiScreen {
 	public int btnPerPages = 0;
 	private final DecimalFormat dfShort = new DecimalFormat("0.00");
 
-	public GuiDogInfo(EntityZertumEntity dog, EntityPlayer player) {
+	public GuiZertumInfo(EntityZertumEntity dog, EntityPlayer player) {
 		this.dog = dog;
 		this.player = player;
 	}

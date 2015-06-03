@@ -1,4 +1,4 @@
-package common.zeroquest.entity.util;
+package common.zeroquest.entity.zertum.util;
 
 import net.minecraft.nbt.NBTTagCompound;
 

@@ -1,4 +1,4 @@
-package common.zeroquest.entity.util;
+package common.zeroquest.entity.zertum.util;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
@@ -52,6 +52,14 @@ public class TalentHelper {
 		for (ITalent talent : TalentRegistry.getTalents()) {
 			talent.onLivingUpdate(dog);
 		}
+	}
+
+	public static int getTalkInterval(EntityZertumEntity dog) {
+		int slientTime = 0;
+		for (ITalent talent : TalentRegistry.getTalents()) {
+			slientTime = talent.getTalkInterval(dog, slientTime);
+		}
+		return slientTime;
 	}
 
 	public static int onHungerTick(EntityZertumEntity dog, int totalInTick) {

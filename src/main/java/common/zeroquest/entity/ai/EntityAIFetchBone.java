@@ -12,9 +12,9 @@ import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import common.zeroquest.ModItems;
-import common.zeroquest.entity.util.ModeUtil.EnumMode;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
-import common.zeroquest.lib.DataValues;
+import common.zeroquest.entity.zertum.util.ModeUtil.EnumMode;
+import common.zeroquest.lib.Constants;
 
 /**
  * @author ProPercivalalb
@@ -73,7 +73,7 @@ public class EntityAIFetchBone extends EntityAIBase {
 			this.theToy = null;
 			return false;
 		}
-		else if (this.theDog.getHealth() <= DataValues.lowHP) {
+		else if (this.theDog.getHealth() <= Constants.lowHP) {
 			this.theToy = null;
 			return false;
 		}

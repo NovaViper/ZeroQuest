@@ -20,10 +20,12 @@ public class TalentRegistry {
 	public static Map<ITalent, String> talentid = new LinkedHashMap<ITalent, String>();
 
 	public static void registerTalent(ITalent talent) {
-		if (talents.contains(talent))
-			LogHelper.warn("The talent id %s has already been registered", talent.getKey());
-		else if (talent.getKey().contains(":"))
+		if (talents.contains(talent)) {
+			LogHelper.fatal("The talent id %s has already been registered", talent.getKey());
+		}
+		else if (talent.getKey().contains(":")) {
 			LogHelper.warn("A talent id can't have the character ':' in it (%s)", talent.getKey());
+		}
 		else {
 			talents.add(talent);
 			idtalent.put(talent.getKey(), talent);

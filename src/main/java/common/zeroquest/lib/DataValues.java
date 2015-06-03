@@ -18,7 +18,8 @@ public class DataValues {
 	public static final int breed = 18;
 	public static final int collarCollar = 19;
 	public static final int saddle = 20;
-	public static final int mouth = 29;
+	public static final int mouth = 28;
+	public static final int gender = 30;
 
 	// Zertums Only \\
 	public static final int ownerName = 13;
@@ -29,11 +30,6 @@ public class DataValues {
 	public static final int levelData = 24;
 	public static final int evolve = 25;
 	public static final int obeyOthers = 26;
-	public static final int dogMode = 27;
-	public static final int dogCoordination = 28;
-	public static final int beg = 30;
-	public static final int gender = 31;
-	
-	//Values\\
-	public static final int lowHP = 10;
+	public static final int zertumMode = 27;
+	public static final int beg = 29;
 }

@@ -6,7 +6,7 @@ import org.lwjgl.opengl.GL12;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.client.model.ModelNileTable;
 import common.zeroquest.lib.Constants;
-import common.zeroquest.lib.ResourceReference;
+import common.zeroquest.util.ResourceReference;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ResourceLocation;

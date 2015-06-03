@@ -13,6 +13,21 @@ import common.zeroquest.entity.zertum.EntityZertumEntity;
 public class FlamingElemental extends ITalent {
 
 	@Override
+	public void onLivingUpdate(EntityZertumEntity dog) {
+		if (dog instanceof EntityRedZertum) {
+			int level = dog.talents.getLevel(this);
+
+			if (level != 5) {
+				if (dog.isServer()) {
+					if (dog.isWet()) {
+						dog.attackEntityFrom(DamageSource.drown, 1.0F - (level / 8));
+					}
+				}
+			}
+		}
+	}
+
+	@Override
 	public int attackEntityAsMob(EntityZertumEntity dog, Entity entity, int damage) {
 		int level = dog.talents.getLevel(this);
 		if (dog instanceof EntityRedZertum) {
@@ -38,21 +53,6 @@ public class FlamingElemental extends ITalent {
 			}
 		}
 		return true;
-	}
-
-	@Override
-	public void onLivingUpdate(EntityZertumEntity dog) {
-		if (dog instanceof EntityRedZertum) {
-			int level = dog.talents.getLevel(this);
-
-			if (level != 5) {
-				if (dog.isServer()) {
-					if (dog.isWet()) {
-						dog.attackEntityFrom(DamageSource.drown, 1.0F - (level / 8));
-					}
-				}
-			}
-		}
 	}
 
 	@Override

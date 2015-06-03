@@ -4,10 +4,11 @@ import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.monster.EntityCreeper;
+import net.minecraft.entity.player.EntityPlayer;
 import common.zeroquest.api.interfaces.ITalent;
 import common.zeroquest.entity.zertum.EntityMetalZertum;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
-import common.zeroquest.lib.DataValues;
+import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
 
 /**
@@ -28,7 +29,7 @@ public class CreeperSpotter extends ITalent {
 		if (dog.getAttackTarget() == null && dog.isTamed() && level > 0) {
 			List list = dog.worldObj.getEntitiesWithinAABB(EntityCreeper.class, dog.getEntityBoundingBox().expand(level * 6, level * 6, level * 6));
 
-			if (!list.isEmpty() && !dog.isSitting() && dog.getHealth() > DataValues.lowHP && !dog.isChild()) {
+			if (!list.isEmpty() && !dog.isSitting() && dog.getHealth() > Constants.lowHP && !dog.isChild()) {
 				dog.objects.put("canseecreeper", true);
 			}
 			dog.tasks.addTask(10, dog.aiGlareAtCreeper);
@@ -54,6 +55,14 @@ public class CreeperSpotter extends ITalent {
 			return Sound.MetalZertumGrowl;
 		}
 		return "";
+	}
+
+	@Override
+	public int getTalkInterval(EntityZertumEntity dog, int ticks) {
+		if ((Boolean) dog.objects.get("canseecreeper") == true) {
+			return ticks = 40;
+		}
+		return ticks;
 	}
 
 	@Override

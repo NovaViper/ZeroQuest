@@ -235,7 +235,10 @@ public class CommandZeroQuest extends CommandBase {
 						? getListOfStringsMatchingLastWord(args, new String[] { "baby", "adult" })
 						: (args.length == 2 && args[0].equalsIgnoreCase("purge") || args[0].equalsIgnoreCase("p")
 								? getListOfStringsMatchingLastWord(args, new String[] { "tamed",
-										"wild", "all" }) : null));
+										"wild", "all" })
+								: (args.length == 2 && args[0].equalsIgnoreCase("state") || args[0].equalsIgnoreCase("st")
+										? getListOfStringsMatchingLastWord(args, new String[] {
+												"evolve", "devolve" }) : null)));
 	}
 
 	private void appyModifier(ICommandSender sender, EntityModifier modifier, boolean global) throws CommandException {
@@ -356,9 +359,18 @@ public class CommandZeroQuest extends CommandBase {
 
 		@Override
 		public void modify(EntityCustomTameable entity) {
+
 			if (entity.isTamed()) {
-				entity.setHealth(entity.getMaxHealth());
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Healed!"));
+				if (entity instanceof EntityZertumEntity) {
+					EntityZertumEntity zertum = (EntityZertumEntity) entity;
+					zertum.setHealth(entity.getMaxHealth());
+					zertum.setZertumHunger(Constants.hungerTicks);
+					player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Healed and refilled hunger for " + zertum.getPetName() + "!"));
+				}
+				else {
+					entity.setHealth(entity.getMaxHealth());
+					player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Healed " + entity.getCommandSenderName() + "!"));
+				}
 			}
 			else {
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "You cannot heal wild creatures!"));
@@ -409,9 +421,9 @@ public class CommandZeroQuest extends CommandBase {
 
 		@Override
 		public void modify(EntityCustomTameable entity) {
-			if (entity.isTamed()) {
-				if (entity instanceof EntityZertumEntity) {
-					EntityZertumEntity zertum = (EntityZertumEntity) entity;
+			if (entity instanceof EntityZertumEntity) {
+				EntityZertumEntity zertum = (EntityZertumEntity) entity;
+				if (zertum.isTamed()) {
 					if (!zertum.hasEvolved() && !zertum.isChild() && zertum.canInteract(player)) {
 						zertum.evolveOnServer(zertum, player);
 					}
@@ -426,11 +438,11 @@ public class CommandZeroQuest extends CommandBase {
 					}
 				}
 				else {
-					player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + entity.getCommandSenderName() + " cannot be evolved!!"));
+					player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "Wild " + zertum.getCommandSenderName() + "s cannot be evolved!"));
 				}
 			}
 			else {
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "Wild creatures cannot be evolved!"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + entity.getCommandSenderName() + "s cannot be evolved!!"));
 			}
 		}
 	}
@@ -445,9 +457,9 @@ public class CommandZeroQuest extends CommandBase {
 
 		@Override
 		public void modify(EntityCustomTameable entity) {
-			if (entity.isTamed()) {
-				if (entity instanceof EntityZertumEntity) {
-					EntityZertumEntity zertum = (EntityZertumEntity) entity;
+			if (entity instanceof EntityZertumEntity) {
+				EntityZertumEntity zertum = (EntityZertumEntity) entity;
+				if (zertum.isTamed()) {
 					if (zertum.hasEvolved() && zertum.canInteract(player)) {
 						zertum.devolveOnServer(zertum, player);
 					}
@@ -459,11 +471,11 @@ public class CommandZeroQuest extends CommandBase {
 					}
 				}
 				else {
-					player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + entity.getCommandSenderName() + " cannot be devolved!!"));
+					player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "Wild " + zertum.getCommandSenderName() + "s cannot be devolved!"));
 				}
 			}
 			else {
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + "Wild creatures cannot be devolved!"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + entity.getCommandSenderName() + "s cannot be devolved!!"));
 			}
 		}
 	}

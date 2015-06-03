@@ -31,7 +31,7 @@ public class EntityIceball extends EntityThrowable {
 
 	@Override
 	public void onUpdate() {
-		if (worldObj.isRemote) {
+		if (isClient()) {
 			ClientProxy.spawnIceParticle(this);
 		}
 		super.onUpdate();
@@ -44,7 +44,7 @@ public class EntityIceball extends EntityThrowable {
 	protected void onImpact(MovingObjectPosition movingObject) {
 		if (movingObject.entityHit != null) {
 			EntityIceZertum zertum = (EntityIceZertum) entity;
-			byte b0 = (byte)zertum.talents.getLevel("frigidfrost");
+			byte b0 = (byte) zertum.talents.getLevel("frigidfrost");
 
 			movingObject.entityHit.attackEntityFrom(ModDamageSource.causeIceDamage(this, this.getThrower()), b0);
 		}
@@ -65,8 +65,30 @@ public class EntityIceball extends EntityThrowable {
 			this.worldObj.spawnParticle(EnumParticleTypes.SNOWBALL, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (isServer()) {
 			this.setDead();
 		}
+	}
+
+	/**
+	 * Checks if this entity is running on a client.
+	 * 
+	 * Required since MCP's isClientWorld returns the exact opposite...
+	 * 
+	 * @return true if the entity runs on a client or false if it runs on a
+	 *         server
+	 */
+	public boolean isClient() {
+		return worldObj.isRemote;
+	}
+
+	/**
+	 * Checks if this entity is running on a server.
+	 * 
+	 * @return true if the entity runs on a server or false if it runs on a
+	 *         client
+	 */
+	public boolean isServer() {
+		return !worldObj.isRemote;
 	}
 }

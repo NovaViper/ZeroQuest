@@ -1,6 +1,8 @@
-package common.zeroquest.lib;
+package common.zeroquest.util;
 
 import java.util.Hashtable;
+
+import common.zeroquest.lib.Constants;
 
 import net.minecraft.util.ResourceLocation;
 

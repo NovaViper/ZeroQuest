@@ -43,8 +43,9 @@ public abstract class EntityCustomTameable extends EntityTameable {
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		this.dataWatcher.addObject(DataValues.breed, new Byte((byte) 0));
+		this.dataWatcher.addObject(DataValues.breed, new Byte((byte) 0)); // Breed
 		this.dataWatcher.addObject(DataValues.gender, new Byte((byte) 0)); // Gender
+		this.dataWatcher.addObject(DataValues.saddle, Byte.valueOf((byte) 0)); // Saddle
 
 		boolean isGenderSet = false;
 
@@ -63,12 +64,17 @@ public abstract class EntityCustomTameable extends EntityTameable {
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
+		tagCompound.setBoolean("angry", this.isAngry());
+		tagCompound.setBoolean("saddle", this.isSaddled());
 		tagCompound.setBoolean("gender", this.getGender());
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompound) {
 		super.readEntityFromNBT(tagCompound);
+		this.setAngry(tagCompound.getBoolean("angry"));
+		this.setSaddled(tagCompound.getBoolean("saddle"));
+
 		if (tagCompound.hasKey("gender", 1)) {
 			this.setGender(tagCompound.getBoolean("gender"));
 		}
@@ -89,6 +95,34 @@ public abstract class EntityCustomTameable extends EntityTameable {
 		}
 		else {
 			this.dataWatcher.updateObject(DataValues.gender, Byte.valueOf((byte) 0)); // Female
+		}
+	}
+
+	public boolean isAngry() {
+		return (this.dataWatcher.getWatchableObjectByte(DataValues.tame) & 2) != 0;
+	}
+
+	public void setAngry(boolean p_70916_1_) {
+		byte b0 = this.dataWatcher.getWatchableObjectByte(DataValues.tame);
+
+		if (p_70916_1_) {
+			this.dataWatcher.updateObject(DataValues.tame, Byte.valueOf((byte) (b0 | 2)));
+		}
+		else {
+			this.dataWatcher.updateObject(DataValues.tame, Byte.valueOf((byte) (b0 & -3)));
+		}
+	}
+
+	public boolean isSaddled() {
+		return (this.dataWatcher.getWatchableObjectByte(DataValues.saddle) & 1) != 0;
+	}
+
+	public void setSaddled(boolean p_70900_1_) {
+		if (p_70900_1_) {
+			this.dataWatcher.updateObject(DataValues.saddle, Byte.valueOf((byte) 1));
+		}
+		else {
+			this.dataWatcher.updateObject(DataValues.saddle, Byte.valueOf((byte) 0));
 		}
 	}
 
@@ -198,7 +232,7 @@ public abstract class EntityCustomTameable extends EntityTameable {
 	}
 
 	private void dropItemsInChest(Entity par1Entity, InventoryPack inventory2) {
-		if (inventory2 != null && !this.worldObj.isRemote) {
+		if (inventory2 != null && isServer()) {
 			for (int i = 0; i < inventory2.getSizeInventory(); ++i) {
 				ItemStack itemstack = inventory2.getStackInSlot(i);
 
@@ -212,7 +246,7 @@ public abstract class EntityCustomTameable extends EntityTameable {
 
 	public boolean hasItemsinChest() // TODO
 	{
-		if (this.inventory != null && !this.worldObj.isRemote) {
+		if (this.inventory != null && isServer()) {
 			for (int i = 0; i < inventory.getSizeInventory(); ++i) {
 				ItemStack itemstack = inventory.getStackInSlot(i);
 

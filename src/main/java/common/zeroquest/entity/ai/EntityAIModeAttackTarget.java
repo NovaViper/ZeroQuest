@@ -6,9 +6,9 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.ai.EntityAITarget;
 import net.minecraft.entity.monster.EntityMob;
-import common.zeroquest.entity.util.ModeUtil.EnumMode;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
-import common.zeroquest.lib.DataValues;
+import common.zeroquest.entity.zertum.util.ModeUtil.EnumMode;
+import common.zeroquest.lib.Constants;
 
 /**
  * @author ProPercivalalb
@@ -27,7 +27,7 @@ public class EntityAIModeAttackTarget extends EntityAITarget {
 
 	@Override
 	public boolean shouldExecute() {
-		if (!this.dog.isTamed() || this.dog.mode.isMode(EnumMode.DOCILE) || this.dog.getHealth() <= DataValues.lowHP) {
+		if (!this.dog.isTamed() || this.dog.mode.isMode(EnumMode.DOCILE) || this.dog.getHealth() <= Constants.lowHP) {
 			return false;
 		}
 		else {
@@ -64,7 +64,7 @@ public class EntityAIModeAttackTarget extends EntityAITarget {
 
 	@Override
 	public boolean continueExecuting() {
-		return this.dog.getHealth() > DataValues.lowHP && super.continueExecuting();
+		return this.dog.getHealth() > Constants.lowHP && super.continueExecuting();
 	}
 
 	@Override

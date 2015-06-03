@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.entity.EntityKurr;
 import common.zeroquest.lib.Constants;
-import common.zeroquest.lib.ResourceReference;
+import common.zeroquest.util.ResourceReference;
 
 @SideOnly(Side.CLIENT)
 public class RenderKurr extends RenderLiving {

@@ -12,7 +12,7 @@ import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.network.IGuiHandler;
 import common.zeroquest.ModItems;
-import common.zeroquest.client.gui.GuiDogInfo;
+import common.zeroquest.client.gui.GuiZertumInfo;
 import common.zeroquest.client.gui.GuiFoodBowl;
 import common.zeroquest.client.gui.GuiNileWorkbench;
 import common.zeroquest.client.gui.GuiPack;
@@ -92,7 +92,7 @@ public class CommonProxy implements IGuiHandler {
 				return null;
 			}
 			EntityZertumEntity dog = (EntityZertumEntity) target;
-			GuiDogInfo petInfoGui = new GuiDogInfo(dog, player);
+			GuiZertumInfo petInfoGui = new GuiZertumInfo(dog, player);
 			return petInfoGui;
 		}
 		else if (ID == FoodBowl) {

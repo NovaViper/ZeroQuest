@@ -9,7 +9,7 @@ import org.lwjgl.opengl.GL11;
 import common.zeroquest.entity.tileentity.TileEntityFoodBowl;
 import common.zeroquest.inventory.ContainerFoodBowl;
 import common.zeroquest.lib.Constants;
-import common.zeroquest.lib.ResourceReference;
+import common.zeroquest.util.ResourceReference;
 
 /**
  * @author ProPercivalalb

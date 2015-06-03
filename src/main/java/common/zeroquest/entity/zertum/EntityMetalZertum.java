@@ -29,8 +29,8 @@ import common.zeroquest.ZeroQuest;
 import common.zeroquest.api.interfaces.IBits;
 import common.zeroquest.api.interfaces.IBits.EnumFeedBack;
 import common.zeroquest.core.proxy.CommonProxy;
-import common.zeroquest.entity.util.ModeUtil.EnumMode;
-import common.zeroquest.entity.util.TalentHelper;
+import common.zeroquest.entity.zertum.util.TalentHelper;
+import common.zeroquest.entity.zertum.util.ModeUtil.EnumMode;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.DataValues;
 import common.zeroquest.lib.Sound;
@@ -72,7 +72,7 @@ public class EntityMetalZertum extends EntityZertumEntity {
 
 		return this.isAngry() ? Sound.MetalZertumGrowl : this.wantToHowl ? Sound.MetalZertumHowl
 				: (this.rand.nextInt(3) == 0
-						? (this.isTamed() && this.getHealth() <= DataValues.lowHP
+						? (this.isTamed() && this.getHealth() <= Constants.lowHP
 								? Sound.MetalZertumWhine : Sound.MetalZertumPant)
 						: Sound.MetalZertumBark);
 	}
@@ -108,7 +108,7 @@ public class EntityMetalZertum extends EntityZertumEntity {
 	{
 		super.onLivingUpdate();
 
-		if (!this.isChild() && this.getHealth() <= DataValues.lowHP && this.isTamed()) {
+		if (!this.isChild() && this.getHealth() <= Constants.lowHP && this.isTamed()) {
 			this.addPotionEffect(new PotionEffect(Potion.resistance.id, 200, 2));
 		}
 	}
@@ -129,14 +129,14 @@ public class EntityMetalZertum extends EntityZertumEntity {
 			if (stack != null) {
 				int foodValue = this.foodValue(stack);
 
-				if (foodValue != 0 && this.getDogHunger() < Constants.hungerTicks && this.canInteract(player)) {
+				if (foodValue != 0 && this.getZertumHunger() < Constants.hungerTicks && this.canInteract(player)) {
 					if (!player.capabilities.isCreativeMode && --stack.stackSize <= 0) {
 						player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
 					}
 					float volume = getSoundVolume() * 1.0f;
 					float pitch = getPitch();
 					worldObj.playSoundAtEntity(this, Sound.Chew, volume, pitch);
-					this.setDogHunger(this.getDogHunger() + foodValue);
+					this.setZertumHunger(this.getZertumHunger() + foodValue);
 					return true;
 				}
 				else if (stack.getItem() == Item.getItemFromBlock(Blocks.planks) && this.canInteract(player)) {

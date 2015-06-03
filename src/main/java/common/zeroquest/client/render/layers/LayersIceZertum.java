@@ -12,7 +12,7 @@ import common.zeroquest.client.render.RenderIceZertum;
 import common.zeroquest.entity.zertum.EntityIceZertum;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.DataValues;
-import common.zeroquest.lib.ResourceReference;
+import common.zeroquest.util.ResourceReference;
 
 @SideOnly(Side.CLIENT)
 public class LayersIceZertum implements LayerRenderer {
@@ -33,7 +33,7 @@ public class LayersIceZertum implements LayerRenderer {
 					GlStateManager.color(afloat[0], afloat[1], afloat[2]);
 					this.renderer.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
 				}
-				if (entity.isTamed() && entity.getHealth() <= DataValues.lowHP) {
+				if (entity.isTamed() && entity.getHealth() <= Constants.lowHP) {
 					this.renderer.bindTexture(ResourceReference.getZLayers("dying"));
 					GlStateManager.color(1f, 1f, 1f);
 					this.renderer.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
@@ -65,7 +65,7 @@ public class LayersIceZertum implements LayerRenderer {
 					this.renderer.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
 				}
 
-				if (entity.isTamed() && entity.getHealth() <= DataValues.lowHP) {
+				if (entity.isTamed() && entity.getHealth() <= Constants.lowHP) {
 					this.renderer.bindTexture(ResourceReference.getZELayers("dying"));
 					GlStateManager.color(1f, 1f, 1f);
 					this.renderer.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);

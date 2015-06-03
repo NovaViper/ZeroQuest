@@ -73,7 +73,7 @@ public class TileEntityFoodBowl extends TileEntity implements IUpdatePlayerListB
             for (int j1 = 0; j1 < dogList.size(); j1++) {
             	EntityZertumEntity entitydtdoggy1 = (EntityZertumEntity)dogList.get(j1);
 
-                if (entitydtdoggy1.getDogHunger() < 60 && this.getFirstDogFoodStack(entitydtdoggy1) >= 0)
+                if (entitydtdoggy1.getZertumHunger() < 60 && this.getFirstDogFoodStack(entitydtdoggy1) >= 0)
                     this.feedDog(entitydtdoggy1, this.getFirstDogFoodStack(entitydtdoggy1), 1);
             }
         }
@@ -139,7 +139,7 @@ public class TileEntityFoodBowl extends TileEntity implements IUpdatePlayerListB
     public ItemStack feedDog(EntityZertumEntity dog, int i, int j) {
         if (getStackInSlot(i) != null) {
             ItemStack itemstack = getStackInSlot(i);
-            dog.setDogHunger(dog.getDogHunger() + dog.foodValue(itemstack));
+            dog.setZertumHunger(dog.getZertumHunger() + dog.foodValue(itemstack));
 
             if (getStackInSlot(i).stackSize <= j) {
                 ItemStack itemstack1 = getStackInSlot(i);

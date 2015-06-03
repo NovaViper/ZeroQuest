@@ -1,18 +1,13 @@
 package common.zeroquest.entity;
 
-import java.util.List;
 import java.util.UUID;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.material.Material;
-import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityCreature;
 import net.minecraft.entity.EntityLivingBase;
-import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAIAttackOnCollide;
-import net.minecraft.entity.ai.EntityAIBreakDoor;
 import net.minecraft.entity.ai.EntityAIHurtByTarget;
 import net.minecraft.entity.ai.EntityAILeapAtTarget;
 import net.minecraft.entity.ai.EntityAILookIdle;
@@ -22,25 +17,20 @@ import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.ai.attributes.AttributeModifier;
 import net.minecraft.entity.ai.attributes.IAttributeInstance;
-import net.minecraft.entity.monster.EntityZombie;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.init.Items;
-import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.MathHelper;
-import net.minecraft.world.DifficultyInstance;
 import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
+
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
-import common.zeroquest.lib.DataValues;
+import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
-import common.zeroquest.util.ItemUtils;
 
 public class EntityKurr extends EntityCustomMob /* implements IRangedAttackMob */
 {
@@ -108,7 +98,7 @@ public class EntityKurr extends EntityCustomMob /* implements IRangedAttackMob *
 
 	@Override
 	protected String getLivingSound() {
-		return this.getHealth() <= DataValues.lowHP ? Sound.KurrWhine : (this.rand.nextInt(3) == 0
+		return this.getHealth() <= Constants.lowHP ? Sound.KurrWhine : (this.rand.nextInt(3) == 0
 				? (Sound.KurrBreathe) : Sound.KurrRoar);
 	}
 
@@ -123,7 +113,7 @@ public class EntityKurr extends EntityCustomMob /* implements IRangedAttackMob *
 	 */
 	@Override
 	public int getTalkInterval() {
-		if (this.getHealth() <= DataValues.lowHP) {
+		if (this.getHealth() <= Constants.lowHP) {
 			return 20;
 		}
 		else {

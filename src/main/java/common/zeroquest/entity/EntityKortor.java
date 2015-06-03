@@ -136,7 +136,6 @@ public class EntityKortor extends EntityCustomTameable {
 	protected void entityInit() {
 		super.entityInit();
 		this.dataWatcher.addObject(DataValues.mouth, Integer.valueOf(0));
-		this.dataWatcher.addObject(DataValues.saddle, Byte.valueOf((byte) 0));
 	}
 
 	@Override
@@ -154,20 +153,6 @@ public class EntityKortor extends EntityCustomTameable {
 		}
 	}
 
-	@Override
-	public void writeEntityToNBT(NBTTagCompound tagCompound) {
-		super.writeEntityToNBT(tagCompound);
-		tagCompound.setBoolean("Angry", this.isAngry());
-		tagCompound.setBoolean("Saddle", this.getSaddled());
-	}
-
-	@Override
-	public void readEntityFromNBT(NBTTagCompound tagCompund) {
-		super.readEntityFromNBT(tagCompund);
-		this.setAngry(tagCompund.getBoolean("Angry"));
-		this.setSaddled(tagCompund.getBoolean("Saddle"));
-	}
-
 	/**
 	 * Returns the sound this mob makes while it's alive.
 	 */
@@ -175,8 +160,8 @@ public class EntityKortor extends EntityCustomTameable {
 	protected String getLivingSound() {
 		this.openMouth();
 		return this.canSeeCreeper ? Sound.KortorGrowl : this.isAngry() ? Sound.KortorSnarl
-				: this.getHealth() <= 10 ? Sound.KortorWhine : (this.rand.nextInt(3) == 0
-						? (Sound.KortorBreathe) : Sound.KortorScreech);
+				: this.getHealth() <= Constants.lowHP ? Sound.KortorWhine
+						: (this.rand.nextInt(3) == 0 ? (Sound.KortorBreathe) : Sound.KortorScreech);
 	}
 
 	@Override
@@ -224,7 +209,7 @@ public class EntityKortor extends EntityCustomTameable {
 		if (this.canSeeCreeper) {
 			return 40;
 		}
-		else if (this.getHealth() <= 10) {
+		else if (this.getHealth() <= Constants.lowHP) {
 			return 20;
 		}
 		else {
@@ -248,7 +233,7 @@ public class EntityKortor extends EntityCustomTameable {
 			if (rare <= 6 && !this.isTamed()) {
 				this.dropItem(ModItems.nileGrain, 1);
 			}
-			if (this.getSaddled()) {
+			if (this.isSaddled()) {
 				this.dropItem(Items.saddle, 1);
 			}
 			else {
@@ -271,11 +256,11 @@ public class EntityKortor extends EntityCustomTameable {
 			this.setAngry(false);
 		}
 
-		if (Constants.DEF_HEALING == true && !this.isChild() && this.getHealth() <= 10 && this.isTamed()) {
+		if (Constants.DEF_HEALING == true && !this.isChild() && this.getHealth() <= Constants.lowHP && this.isTamed()) {
 			this.addPotionEffect(new PotionEffect(10, 200));
 		}
 		// Dying
-		if (this.getHealth() <= DataValues.lowHP && this.isTamed()) { // TODO
+		if (this.getHealth() <= Constants.lowHP && this.isTamed()) { // TODO
 			double d0 = this.rand.nextGaussian() * 0.04D;
 			double d1 = this.rand.nextGaussian() * 0.04D;
 			double d2 = this.rand.nextGaussian() * 0.04D;
@@ -284,7 +269,7 @@ public class EntityKortor extends EntityCustomTameable {
 		if (this.getAttackTarget() == null && isTamed() && 15 > 0) {
 			List list1 = worldObj.getEntitiesWithinAABB(EntityCreeper.class, AxisAlignedBB.fromBounds(posX, posY, posZ, posX + 1.0D, posY + 1.0D, posZ + 1.0D).expand(sniffRange(), 4D, sniffRange()));
 
-			if (!list1.isEmpty() && !isSitting() && this.getHealth() > DataValues.lowHP && !this.isChild()) {
+			if (!list1.isEmpty() && !isSitting() && this.getHealth() > Constants.lowHP && !this.isChild()) {
 				canSeeCreeper = true;
 			}
 			else {
@@ -344,7 +329,7 @@ public class EntityKortor extends EntityCustomTameable {
 	}
 
 	private void openMouth() {
-		if (!this.worldObj.isRemote) {
+		if (isServer()) {
 			this.openMouthCounter = 1;
 			this.setHorseWatchableBoolean(128, true);
 		}
@@ -420,13 +405,13 @@ public class EntityKortor extends EntityCustomTameable {
 		ItemStack stack = player.inventory.getCurrentItem();
 
 		if (this.isTamed()) {
-			if (!this.isChild() && ItemUtils.consumeEquipped(player, Items.saddle) && !this.getSaddled()) // TODO
+			if (!this.isChild() && ItemUtils.consumeEquipped(player, Items.saddle) && !this.isSaddled()) // TODO
 			{
 				this.setSaddled(true);
 				this.playSound("mob.horse.leather", 0.5F, 1.0F);
 			}
 			if (player.getHeldItem() == null) {
-				if (this.getSaddled() && player.ridingEntity == null && !player.onGround && this.isServer()) {
+				if (this.isSaddled() && player.ridingEntity == null && !player.onGround && this.isServer()) {
 					this.getSitAI().setSitting(false);
 					this.setSitting(false);
 					player.mountEntity(this);
@@ -502,7 +487,7 @@ public class EntityKortor extends EntityCustomTameable {
 			this.stepHeight = 1.0F;
 			this.jumpMovementFactor = this.getAIMoveSpeed() * 0.2F;
 
-			if (!this.worldObj.isRemote) {
+			if (isServer()) {
 				this.setAIMoveSpeed((float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() / 4);
 				super.moveEntityWithHeading(strafe, forward);
 			}
@@ -580,34 +565,6 @@ public class EntityKortor extends EntityCustomTameable {
 	@Override
 	public int getMaxSpawnedInChunk() {
 		return 8;
-	}
-
-	public boolean isAngry() {
-		return (this.dataWatcher.getWatchableObjectByte(DataValues.tame) & 2) != 0;
-	}
-
-	public void setAngry(boolean p_70916_1_) {
-		byte b0 = this.dataWatcher.getWatchableObjectByte(DataValues.tame);
-
-		if (p_70916_1_) {
-			this.dataWatcher.updateObject(DataValues.tame, Byte.valueOf((byte) (b0 | 2)));
-		}
-		else {
-			this.dataWatcher.updateObject(DataValues.tame, Byte.valueOf((byte) (b0 & -3)));
-		}
-	}
-
-	public boolean getSaddled() {
-		return (this.dataWatcher.getWatchableObjectByte(DataValues.saddle) & 1) != 0;
-	}
-
-	public void setSaddled(boolean p_70900_1_) {
-		if (p_70900_1_) {
-			this.dataWatcher.updateObject(DataValues.saddle, Byte.valueOf((byte) 1));
-		}
-		else {
-			this.dataWatcher.updateObject(DataValues.saddle, Byte.valueOf((byte) 0));
-		}
 	}
 
 	@Override

@@ -10,7 +10,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.client.render.layers.LayerKortor;
 import common.zeroquest.entity.EntityKortor;
 import common.zeroquest.lib.Constants;
-import common.zeroquest.lib.ResourceReference;
+import common.zeroquest.util.ResourceReference;
 
 @SideOnly(Side.CLIENT)
 public class RenderKortor extends RenderLiving

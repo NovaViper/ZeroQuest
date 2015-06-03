@@ -4,8 +4,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.player.EntityPlayer;
 import common.zeroquest.api.interfaces.ITalent;
-import common.zeroquest.entity.util.ModeUtil.EnumMode;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
+import common.zeroquest.entity.zertum.util.ModeUtil.EnumMode;
 
 /**
  * @author ProPercivalalb

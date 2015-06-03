@@ -33,7 +33,7 @@ public class ItemToy extends ItemZQ {
 			player.worldObj.playSoundAtEntity(player, "random.bow", 0.5F, 0.4F / (itemRand.nextFloat() * 0.4F + 0.8F));
 			ItemStack itemstack1 = itemstack;
 
-			if (!player.worldObj.isRemote) {
+			if (isServer(player)) {
 				EntityItem entityitem = new EntityItem(player.worldObj, player.posX, (player.posY - 0.30000001192092896D) + player.getEyeHeight(), player.posZ, itemstack1);
 				entityitem.setPickupDelay(40);
 				float f = 1.0F;

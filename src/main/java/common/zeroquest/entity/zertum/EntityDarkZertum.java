@@ -3,6 +3,7 @@ package common.zeroquest.entity.zertum;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.EntityLivingBase;
+import net.minecraft.entity.IEntityLivingData;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAITargetNonTamed;
 import net.minecraft.entity.monster.EntityZombie;
@@ -17,9 +18,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.potion.Potion;
 import net.minecraft.potion.PotionEffect;
+import net.minecraft.util.BlockPos;
 import net.minecraft.util.DamageSource;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MathHelper;
+import net.minecraft.world.EnumDifficulty;
 import net.minecraft.world.World;
 
 import com.google.common.base.Predicate;
@@ -30,8 +33,8 @@ import common.zeroquest.ZeroQuest;
 import common.zeroquest.api.interfaces.IBits;
 import common.zeroquest.api.interfaces.IBits.EnumFeedBack;
 import common.zeroquest.core.proxy.CommonProxy;
-import common.zeroquest.entity.util.ModeUtil.EnumMode;
-import common.zeroquest.entity.util.TalentHelper;
+import common.zeroquest.entity.zertum.util.TalentHelper;
+import common.zeroquest.entity.zertum.util.ModeUtil.EnumMode;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
@@ -105,14 +108,14 @@ public class EntityDarkZertum extends EntityZertumEntity {
 			if (stack != null) {
 				int foodValue = this.foodValue(stack);
 
-				if (foodValue != 0 && this.getDogHunger() < Constants.hungerTicks && this.canInteract(player)) {
+				if (foodValue != 0 && this.getZertumHunger() < Constants.hungerTicks && this.canInteract(player)) {
 					if (!player.capabilities.isCreativeMode && --stack.stackSize <= 0) {
 						player.inventory.setInventorySlotContents(player.inventory.currentItem, (ItemStack) null);
 					}
 					float volume = getSoundVolume() * 1.0f;
 					float pitch = getPitch();
 					worldObj.playSoundAtEntity(this, Sound.Chew, volume, pitch);
-					this.setDogHunger(this.getDogHunger() + foodValue);
+					this.setZertumHunger(this.getZertumHunger() + foodValue);
 					return true;
 				}
 				else if (stack.getItem() == Item.getItemFromBlock(Blocks.planks) && this.canInteract(player)) {
@@ -171,6 +174,34 @@ public class EntityDarkZertum extends EntityZertumEntity {
 			return true;
 		}
 		return super.interact(player);
+	}
+
+	/**
+	 * This method gets called when the entity kills another one.
+	 */
+	@Override
+	public void onKillEntity(EntityLivingBase entityLivingIn) {
+		super.onKillEntity(entityLivingIn);
+
+		if ((this.worldObj.getDifficulty() == EnumDifficulty.NORMAL || this.worldObj.getDifficulty() == EnumDifficulty.HARD) && entityLivingIn instanceof EntityZertum) {
+			EntityZertum zertum = (EntityZertum) entityLivingIn;
+
+			if (this.worldObj.getDifficulty() != EnumDifficulty.HARD && this.rand.nextBoolean()) {
+				return;
+			}
+
+			EntityDarkZertum entityDarkZertum = new EntityDarkZertum(this.worldObj);
+			entityDarkZertum.copyLocationAndAnglesFrom(zertum);
+			this.worldObj.removeEntity(entityLivingIn);
+			entityDarkZertum.setGender(zertum.getGender());
+
+			if (zertum.isChild()) {
+				entityDarkZertum.setGrowingAge(-24000);
+			}
+
+			this.worldObj.spawnEntityInWorld(entityDarkZertum);
+			this.worldObj.playAuxSFXAtEntity((EntityPlayer) null, 1016, new BlockPos((int) this.posX, (int) this.posY, (int) this.posZ), 0);
+		}
 	}
 
 	/**

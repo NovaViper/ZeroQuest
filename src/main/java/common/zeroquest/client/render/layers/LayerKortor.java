@@ -8,7 +8,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import common.zeroquest.client.render.RenderKortor;
 import common.zeroquest.entity.EntityKortor;
 import common.zeroquest.lib.Constants;
-import common.zeroquest.lib.ResourceReference;
+import common.zeroquest.util.ResourceReference;
 
 @SideOnly(Side.CLIENT)
 public class LayerKortor implements LayerRenderer {
@@ -21,7 +21,7 @@ public class LayerKortor implements LayerRenderer {
 
 	public void func_177145_a(EntityKortor entity, float par1, float par2, float par3, float par4, float par5, float par6, float par7) {
 		if (!entity.isInvisible()) {
-			if (entity.getSaddled()) {
+			if (entity.isSaddled()) {
 				this.field_177146_b.bindTexture(ResourceReference.getKortorSkins("_saddle"));
 				this.field_177146_b.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
 			}

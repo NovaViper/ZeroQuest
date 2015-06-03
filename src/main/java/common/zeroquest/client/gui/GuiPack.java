@@ -17,7 +17,7 @@ import common.zeroquest.entity.zertum.EntityMetalZertum;
 import common.zeroquest.entity.zertum.EntityRedZertum;
 import common.zeroquest.inventory.ContainerPack;
 import common.zeroquest.lib.Constants;
-import common.zeroquest.lib.ResourceReference;
+import common.zeroquest.util.ResourceReference;
 
 public class GuiPack extends GuiContainer {
 	private float xSize_wolf;

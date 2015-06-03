@@ -11,8 +11,8 @@ import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
-import common.zeroquest.entity.util.ModeUtil.EnumMode;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
+import common.zeroquest.entity.zertum.util.ModeUtil.EnumMode;
 
 /**
  * @author ProPercivalalb
@@ -57,7 +57,7 @@ public class EntityZertumBeam extends EntityThrowable {
 			this.worldObj.spawnParticle(EnumParticleTypes.SNOWBALL, this.posX, this.posY, this.posZ, 0.0D, 0.0D, 0.0D);
 		}
 
-		if (!this.worldObj.isRemote) {
+		if (isServer()) {
 			this.setDead();
 		}
 	}
@@ -65,5 +65,27 @@ public class EntityZertumBeam extends EntityThrowable {
 	protected double getTargetDistance(EntityZertumEntity dog) {
 		IAttributeInstance iattributeinstance = dog.getEntityAttribute(SharedMonsterAttributes.followRange);
 		return iattributeinstance == null ? 16.0D : iattributeinstance.getAttributeValue();
+	}
+
+	/**
+	 * Checks if this entity is running on a client.
+	 * 
+	 * Required since MCP's isClientWorld returns the exact opposite...
+	 * 
+	 * @return true if the entity runs on a client or false if it runs on a
+	 *         server
+	 */
+	public boolean isClient() {
+		return worldObj.isRemote;
+	}
+
+	/**
+	 * Checks if this entity is running on a server.
+	 * 
+	 * @return true if the entity runs on a server or false if it runs on a
+	 *         client
+	 */
+	public boolean isServer() {
+		return !worldObj.isRemote;
 	}
 }

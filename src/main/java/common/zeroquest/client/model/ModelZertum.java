@@ -11,6 +11,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 import org.lwjgl.opengl.GL11;
 
 import common.zeroquest.entity.zertum.EntityZertumEntity;
+import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.DataValues;
 
 @SideOnly(Side.CLIENT)
@@ -850,7 +851,7 @@ public class ModelZertum extends ModelBase {
 			this.Ear1.rotateAngleX = -0.5948578F;
 			this.Ear2.rotateAngleX = -0.5948578F;
 		}
-		else if (entityzertum.getHealth() <= DataValues.lowHP) {
+		else if (entityzertum.getHealth() <= Constants.lowHP) {
 			this.Ear1.rotateAngleX = -0.9948578F;
 			this.Ear2.rotateAngleX = -0.9948578F;
 		}
@@ -1156,7 +1157,7 @@ public class ModelZertum extends ModelBase {
 		this.EMetal1.rotateAngleZ = entityzertum.getShakeAngle(par4, -0.16F);
 		this.EMetal2.rotateAngleZ = entityzertum.getShakeAngle(par4, -0.16F);
 
-		if ((entityzertum.isSitting() || (entityzertum.motionX == 0.0F && entityzertum.motionZ == 0.0F)) && entityzertum.getHealth() > DataValues.lowHP) { // TODO
+		if ((entityzertum.isSitting() || (entityzertum.motionX == 0.0F && entityzertum.motionZ == 0.0F)) && entityzertum.getHealth() > Constants.lowHP) { // TODO
 			float wagAngleY = entityzertum.getWagAngle(par4, 0.0F);
 			float wagAngleY2 = entityzertum.getWagAngle(par4, 0.0F);
 			float wagAngleY3 = entityzertum.getWagAngle(par4, 0.0F);
