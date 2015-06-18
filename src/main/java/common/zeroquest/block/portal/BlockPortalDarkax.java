@@ -20,6 +20,7 @@ import common.zeroquest.ModBlocks;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.client.particle.EntityDarkPortalFX;
 import common.zeroquest.core.proxy.ClientProxy;
+import common.zeroquest.lib.IDs;
 
 public class BlockPortalDarkax extends BlockPortal {
 
@@ -36,7 +37,7 @@ public class BlockPortalDarkax extends BlockPortal {
 	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		if (entityIn.ridingEntity == null && entityIn.riddenByEntity == null) {
-			int id = ZeroQuest.DarkaxID;
+			int id = IDs.Darkax;
 			if (entityIn.dimension == id) {
 				id = 0;
 			}
@@ -48,9 +49,9 @@ public class BlockPortalDarkax extends BlockPortal {
 				if (player.timeUntilPortal > 0) {
 					player.timeUntilPortal = 10;
 				}
-				else if (player.dimension != ZeroQuest.DarkaxID) {
+				else if (player.dimension != IDs.Darkax) {
 					player.timeUntilPortal = 10;
-					player.mcServer.getConfigurationManager().transferPlayerToDimension(player, ZeroQuest.DarkaxID, new TeleporterDarkax(mcServer.worldServerForDimension(ZeroQuest.DarkaxID)));
+					player.mcServer.getConfigurationManager().transferPlayerToDimension(player, IDs.Darkax, new TeleporterDarkax(mcServer.worldServerForDimension(IDs.Darkax)));
 				}
 				else {
 					player.timeUntilPortal = 10;

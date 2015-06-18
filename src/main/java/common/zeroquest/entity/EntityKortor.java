@@ -29,8 +29,6 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -42,7 +40,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.google.common.base.Predicate;
-
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
@@ -249,7 +246,7 @@ public class EntityKortor extends EntityCustomTameable {
 	 * sunlight and start to burn.
 	 */
 	@Override
-	public void onLivingUpdate() // TODO
+	public void onLivingUpdate() //NAV: Living Updates
 	{
 		super.onLivingUpdate();
 		if (isServer() && this.getAttackTarget() == null && this.isAngry()) {
@@ -260,7 +257,7 @@ public class EntityKortor extends EntityCustomTameable {
 			this.addPotionEffect(new PotionEffect(10, 200));
 		}
 		// Dying
-		if (this.getHealth() <= Constants.lowHP && this.isTamed()) { // TODO
+		if (this.getHealth() <= Constants.lowHP && this.isTamed()) {
 			double d0 = this.rand.nextGaussian() * 0.04D;
 			double d1 = this.rand.nextGaussian() * 0.04D;
 			double d2 = this.rand.nextGaussian() * 0.04D;
@@ -307,7 +304,7 @@ public class EntityKortor extends EntityCustomTameable {
 		}
 	}
 
-	private boolean getHorseWatchableBoolean(int p_110233_1_) // TODO
+	private boolean getHorseWatchableBoolean(int p_110233_1_)
 	{
 		return (this.dataWatcher.getWatchableObjectInt(DataValues.mouth) & p_110233_1_) != 0;
 	}
@@ -372,7 +369,7 @@ public class EntityKortor extends EntityCustomTameable {
 		int critChance = 5;
 		critChance += 2;
 
-		if (rand.nextInt(6) < critChance) { // TODO
+		if (rand.nextInt(6) < critChance) {
 			damage += (damage + 3) / 2;
 			double d0 = this.rand.nextGaussian() * 0.02D;
 			double d1 = this.rand.nextGaussian() * 0.02D;
@@ -405,7 +402,7 @@ public class EntityKortor extends EntityCustomTameable {
 		ItemStack stack = player.inventory.getCurrentItem();
 
 		if (this.isTamed()) {
-			if (!this.isChild() && ItemUtils.consumeEquipped(player, Items.saddle) && !this.isSaddled()) // TODO
+			if (!this.isChild() && ItemUtils.consumeEquipped(player, Items.saddle) && !this.isSaddled())
 			{
 				this.setSaddled(true);
 				this.playSound("mob.horse.leather", 0.5F, 1.0F);
@@ -419,7 +416,7 @@ public class EntityKortor extends EntityCustomTameable {
 					return true;
 				}
 			}
-			else if (stack != null && stack.getItem() == Items.stick && canInteract(player)) // TODO
+			else if (stack != null && stack.getItem() == Items.stick && canInteract(player))
 			{
 				if (isServer()) {
 					player.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));

@@ -5,11 +5,11 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.resources.model.ModelResourceLocation;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
-
 import common.zeroquest.block.*;
 import common.zeroquest.block.flora.*;
 import common.zeroquest.block.portal.*;
 import common.zeroquest.lib.Constants;
+import common.zeroquest.lib.Registers;
 
 public class ModBlocks {
 	public static Block looseBedrock;
@@ -39,92 +39,78 @@ public class ModBlocks {
 	public static void load() {
 		// Natural Blocks//
 		looseBedrock = new BlockBedRock().setUnlocalizedName("looseBedrock");
-		register(looseBedrock, "bedrock_loose");
+		Registers.registerBlock(looseBedrock, "bedrock_loose");
 
 		// Basic Blocks//
-		nileWorktable = new BlockNileWorkbench().setUnlocalizedName("nileWorktable");
-		register(nileWorktable, "crafting_table_nile");
-
-		// Doggy Talent Parts\\
+		nileWorktable = new BlockNileWorkbench().setUnlocalizedName("nileWorktable").setCreativeTab(ZeroQuest.ZeroTab);
+		Registers.registerBlock(nileWorktable, "crafting_table_nile");
 		foodBowl = new BlockFoodBowl().setUnlocalizedName("foodBowl").setCreativeTab(ZeroQuest.ZeroTab);
-		register(foodBowl, "food_bowl");
+		Registers.registerBlock(foodBowl, "food_bowl");
 
 		// Flowers/Plants//
 		nileBlueFlower = new BlockNileBlueFlower().setUnlocalizedName("nileBlueFlower");
-		register(nileBlueFlower, "nile_flower_blue");
+		Registers.registerBlock(nileBlueFlower, "nile_flower_blue");
 		nileBlackFlower = new BlockNileBlackFlower().setUnlocalizedName("nileBlackFlower");
-		register(nileBlackFlower, "nile_flower_black");
+		Registers.registerBlock(nileBlackFlower, "nile_flower_black");
 		nilePinkFlower = new BlockNilePinkFlower().setUnlocalizedName("nilePinkFlower");
-		register(nilePinkFlower, "nile_flower_pink");
+		Registers.registerBlock(nilePinkFlower, "nile_flower_pink");
 		destroFlower = new BlockDrestroFlower().setUnlocalizedName("destroFlower");
-		register(destroFlower, "destro_flower");
+		Registers.registerBlock(destroFlower, "destro_flower");
 		vitoidPlant = new BlockVitoidCrop().setUnlocalizedName("vitoidPlant");
-		register(vitoidPlant, "vitoid_plant");
+		Registers.registerBlock(vitoidPlant, "vitoid_plant");
 
 		// Ores//
 		nileCoalOre = new BlockNileOre(ZeroQuest.ZeroTab, 3.0F, 5.0F, 0.6F).setUnlocalizedName("nileCoalOre");
-		register(nileCoalOre, "nile_coal_ore");
+		Registers.registerBlock(nileCoalOre, "nile_coal_ore");
 		nileGrainOre = new BlockNileOre(ZeroQuest.ZeroTab, 3.5F, 5.2F, 0.6F).setUnlocalizedName("nileGrainOre");
-		register(nileGrainOre, "nile_grain_ore");
+		Registers.registerBlock(nileGrainOre, "nile_grain_ore");
 		blockNileEssence = new BlockNileBlock(ZeroQuest.ZeroTab, 5.0F, 30.0F, 0F).setUnlocalizedName("blockNileEssence");
-		register(blockNileEssence, "nile_essence_block");
+		Registers.registerBlock(blockNileEssence, "nile_essence_block");
 
 		// Portal Parts//
 		nillaxStone = new BlockNilePortalStone().setUnlocalizedName("nillaxStone").setCreativeTab(ZeroQuest.ZeroTab);
-		register(nillaxStone, "nillax_stone");
+		Registers.registerBlock(nillaxStone, "nillax_stone");
 		portalNillax = new BlockPortalNillax().setUnlocalizedName("portalNillax");
-		registerWithClass(portalNillax, null, "portal_nillax");
+		Registers.registerBlockWithClass(portalNillax, null, "portal_nillax");
 		nileFire = new BlockNileFire().setUnlocalizedName("nileFire");
-		registerWithClass(nileFire, null, "nile_fire");
+		Registers.registerBlockWithClass(nileFire, null, "nile_fire");
 	}
 
 	public static void loadDarkBlocks() {
 
 		darkaxStone = new BlockNilePortalStone().setUnlocalizedName("darkaxStone").setCreativeTab(ZeroQuest.DarkTab);
-		register(darkaxStone, "darkax_stone");
+		Registers.registerBlock(darkaxStone, "darkax_stone");
 		portalDarkax = new BlockPortalDarkax().setUnlocalizedName("portalDarkax");
-		registerWithClass(portalDarkax, null, "portal_darkax");
+		Registers.registerBlockWithClass(portalDarkax, null, "portal_darkax");
 		darkFire = new BlockDarkFire().setUnlocalizedName("darkFire");
-		registerWithClass(darkFire, null, "dark_fire");
+		Registers.registerBlockWithClass(darkFire, null, "dark_fire");
 
 		darkGrainOre = new BlockNileOre(ZeroQuest.DarkTab, 3.5F, 5.2F, 0.6F).setUnlocalizedName("darkGrainOre");
-		register(darkGrainOre, "dark_grain_ore");
+		Registers.registerBlock(darkGrainOre, "dark_grain_ore");
 		blockDarkEssence = new BlockNileBlock(ZeroQuest.DarkTab, 5.0F, 30.0F, 0F).setUnlocalizedName("blockDarkEssence");
-		register(blockDarkEssence, "dark_essence_block");
+		Registers.registerBlock(blockDarkEssence, "dark_essence_block");
 	}
 
 	public static void loadRenderers() {
 
-		registerRender(looseBedrock, 0, Constants.modid + ":" + "bedrock_loose", "inventory");
-		registerRender(nileWorktable, 0, Constants.modid + ":" + "crafting_table_nile", "inventory");
-		registerRender(nileBlueFlower, 0, Constants.modid + ":" + "nile_flower_blue", "inventory");
-		registerRender(nileBlackFlower, 0, Constants.modid + ":" + "nile_flower_black", "inventory");
-		registerRender(nilePinkFlower, 0, Constants.modid + ":" + "nile_flower_pink", "inventory");
-		registerRender(destroFlower, 0, Constants.modid + ":" + "destro_flower", "inventory");
-		registerRender(vitoidPlant, 0, Constants.modid + ":" + "vitoid_plant", "inventory");
-		registerRender(nileCoalOre, 0, Constants.modid + ":" + "nile_coal_ore", "inventory");
-		registerRender(nileGrainOre, 0, Constants.modid + ":" + "nile_grain_ore", "inventory");
-		registerRender(blockNileEssence, 0, Constants.modid + ":" + "nile_essence_block", "inventory");
-		registerRender(foodBowl, 0, Constants.modid + ":" + "food_bowl", "inventory");
-		registerRender(nillaxStone, 0, Constants.modid + ":" + "nillax_stone", "inventory");
+		Registers.registerBlockRender(looseBedrock, 0, Constants.modid + ":" + "bedrock_loose", "inventory");
+		Registers.registerBlockRender(nileWorktable, 0, Constants.modid + ":" + "crafting_table_nile", "inventory");
+		Registers.registerBlockRender(nileBlueFlower, 0, Constants.modid + ":" + "nile_flower_blue", "inventory");
+		Registers.registerBlockRender(nileBlackFlower, 0, Constants.modid + ":" + "nile_flower_black", "inventory");
+		Registers.registerBlockRender(nilePinkFlower, 0, Constants.modid + ":" + "nile_flower_pink", "inventory");
+		Registers.registerBlockRender(destroFlower, 0, Constants.modid + ":" + "destro_flower", "inventory");
+		Registers.registerBlockRender(vitoidPlant, 0, Constants.modid + ":" + "vitoid_plant", "inventory");
+		Registers.registerBlockRender(nileCoalOre, 0, Constants.modid + ":" + "nile_coal_ore", "inventory");
+		Registers.registerBlockRender(nileGrainOre, 0, Constants.modid + ":" + "nile_grain_ore", "inventory");
+		Registers.registerBlockRender(blockNileEssence, 0, Constants.modid + ":" + "nile_essence_block", "inventory");
+		Registers.registerBlockRender(foodBowl, 0, Constants.modid + ":" + "food_bowl", "inventory");
+		Registers.registerBlockRender(nillaxStone, 0, Constants.modid + ":" + "nillax_stone", "inventory");
 	}
 
 	public static void loadDarkRenderers() {
 
-		registerRender(darkaxStone, 0, Constants.modid + ":" + "darkax_stone", "inventory");
-		registerRender(darkGrainOre, 0, Constants.modid + ":" + "dark_grain_ore", "inventory");
-		registerRender(blockDarkEssence, 0, Constants.modid + ":" + "dark_essence_block", "inventory");
-	}
-
-	public static void register(Block block, String name) {
-		GameRegistry.registerBlock(block, name);
-	}
-
-	public static void registerWithClass(Block block, Class itemClass, String name) {
-		GameRegistry.registerBlock(block, itemClass, name);
-	}
-
-	public static void registerRender(Block block, int metadata, String blockString, String location) {
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(Item.getItemFromBlock(block), metadata, new ModelResourceLocation(blockString, location));
+		Registers.registerBlockRender(darkaxStone, 0, Constants.modid + ":" + "darkax_stone", "inventory");
+		Registers.registerBlockRender(darkGrainOre, 0, Constants.modid + ":" + "dark_grain_ore", "inventory");
+		Registers.registerBlockRender(blockDarkEssence, 0, Constants.modid + ":" + "dark_essence_block", "inventory");
 	}
 }

@@ -4,7 +4,7 @@ import net.minecraft.world.WorldProvider;
 import net.minecraft.world.chunk.IChunkProvider;
 import net.minecraftforge.common.DimensionManager;
 
-import common.zeroquest.ZeroQuest;
+import common.zeroquest.lib.IDs;
 import common.zeroquest.world.gen.ChunkProviderNillax;
 
 public class WorldProviderNillax extends WorldProvider {
@@ -16,7 +16,7 @@ public class WorldProviderNillax extends WorldProvider {
 		/** tells Minecraft to use our new WorldChunkManager **/
 		this.worldChunkMgr = new WorldChunkMangerNillax(worldObj.getSeed(), worldObj.getWorldInfo().getTerrainType());
 		this.hasNoSky = false;
-		this.dimensionId = ZeroQuest.NillaxID;
+		this.dimensionId = IDs.Nillax;
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class WorldProviderNillax extends WorldProvider {
 
 	/** Get Provider for dimension **/
 	public static WorldProvider getProviderForDimension(int p_76570_0_) {
-		return DimensionManager.createProviderFor(ZeroQuest.NillaxID);
+		return DimensionManager.createProviderFor(IDs.Nillax);
 	}
 
 	@Override
@@ -54,7 +54,6 @@ public class WorldProviderNillax extends WorldProvider {
 
 	@Override
 	public String getInternalNameSuffix() {
-		// TODO Auto-generated method stub
 		return "_nillax";
 	}
 

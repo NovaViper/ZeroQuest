@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import common.zeroquest.api.interfaces.IBits;
+import common.zeroquest.api.interfaces.IBits.EnumFeedBack;
 import common.zeroquest.core.helper.ChatHelper;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
 
@@ -14,17 +15,23 @@ import common.zeroquest.entity.zertum.EntityZertumEntity;
 public class ItemBit extends ItemZQ implements IBits {
 
 	private final int maxLevel;
+	private final int minLevel;
 
-	public ItemBit(int maxLevel) {
+	public ItemBit(int minLevel, int maxLevel) {
 		super();
+		this.minLevel = minLevel;
 		this.maxLevel = maxLevel;
 	}
 
 	@Override
 	public EnumFeedBack canGiveToDog(EntityPlayer player, EntityZertumEntity dog, int level) {
-		if (level < this.maxLevel && dog.getGrowingAge() >= 0) {
+		if (level > this.minLevel && level < this.maxLevel && dog.getGrowingAge() >= 0) {
 			return EnumFeedBack.JUSTRIGHT;
 		}
+		else if (level < this.minLevel) {
+			return EnumFeedBack.LEVELTOOLOW;
+		}
+
 		else if (dog.getGrowingAge() < 0) {
 			return EnumFeedBack.TOOYOUNG;
 		}
@@ -55,6 +62,13 @@ public class ItemBit extends ItemZQ implements IBits {
 			if (isServer(player)) {
 				dog.playTameEffect(false);
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + dog.getPetName() + " is too young to be learning skills!"));
+			}
+		}
+		else if (type == EnumFeedBack.LEVELTOOLOW) {
+			player.worldObj.setEntityState(dog, (byte) 6);
+			if (isServer(player)) {
+				dog.playTameEffect(false);
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + dog.getPetName() + " can't possibly handle the power in these bits!"));
 			}
 		}
 		else if (type == EnumFeedBack.LEVELTOOHIGH) {

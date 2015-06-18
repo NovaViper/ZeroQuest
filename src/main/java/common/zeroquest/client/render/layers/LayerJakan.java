@@ -8,7 +8,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import common.zeroquest.client.render.RenderJakan;
+import common.zeroquest.client.render.entity.RenderJakan;
 import common.zeroquest.entity.EntityJakan;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.util.ResourceReference;

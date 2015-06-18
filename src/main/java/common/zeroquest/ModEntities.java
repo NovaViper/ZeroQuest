@@ -10,6 +10,7 @@ import common.zeroquest.entity.*;
 import common.zeroquest.entity.projectile.*;
 import common.zeroquest.entity.zertum.*;
 import common.zeroquest.entity.tileentity.*;
+import common.zeroquest.lib.Registers;
 
 public class ModEntities {
 
@@ -20,90 +21,60 @@ public class ModEntities {
 	// Put Guis in CommonProxy//
 	// Put Creature SFX in Sound and sounds.json//
 	public static void loadCreatures() {
-		registerEntity(EntityZertum.class, "Zertum", 0);
-		registerEntityEgg(EntityZertum.class, 0xCCCCCC, 0x33FFFF);
-		registerEntity(EntityRedZertum.class, "RedZertum", 1);
-		registerEntityEgg(EntityRedZertum.class, 0xCCCCCC, 0xFF0000);
-		registerEntity(EntityDestroZertum.class, "DestroZertum", 2);
-		registerEntityEgg(EntityDestroZertum.class, 0xCCCCCC, 0xE6CC80);
-		registerEntity(EntityIceZertum.class, "IceZertum", 3);
-		registerEntityEgg(EntityIceZertum.class, 0xCCCCCC, 0x6699FF);
-		registerEntity(EntityForisZertum.class, "ForisZertum", 4);
-		registerEntityEgg(EntityForisZertum.class, 0xCCCCCC, 0x33CC33);
-		registerEntity(EntityMetalZertum.class, "MetalZertum", 5);
-		registerEntityEgg(EntityMetalZertum.class, 0xCCCCCC, 0x666699);
-		registerEntity(EntityJakan.class, "Jakan", 20);
-		registerEntityEgg(EntityJakan.class, 0x0033CC, 0x00CCFF);
-		registerEntity(EntityKortor.class, "Kortor", 21);
-		registerEntityEgg(EntityKortor.class, 0x6699FF, 0xD1E0FF);
-		registerEntity(EntityRiggator.class, "Riggator", 22);
-		registerEntityEgg(EntityRiggator.class, 0x1D302C, 0x671734);
-		/*registerEntity(EntityRowarn.class, "Rowarn", 23);
-		registerEntityEgg(EntityRowarn.class, 0x004A7F, 0x002C4C);*/
+		Registers.registerEntity(EntityZertum.class, "Zertum", 0);
+		Registers.registerEntityEgg(EntityZertum.class, 0xCCCCCC, 0x33FFFF);
+		Registers.registerEntity(EntityRedZertum.class, "RedZertum", 1);
+		Registers.registerEntityEgg(EntityRedZertum.class, 0xCCCCCC, 0xFF0000);
+		Registers.registerEntity(EntityDestroZertum.class, "DestroZertum", 2);
+		Registers.registerEntityEgg(EntityDestroZertum.class, 0xCCCCCC, 0xE6CC80);
+		Registers.registerEntity(EntityIceZertum.class, "IceZertum", 3);
+		Registers.registerEntityEgg(EntityIceZertum.class, 0xCCCCCC, 0x6699FF);
+		Registers.registerEntity(EntityForisZertum.class, "ForisZertum", 4);
+		Registers.registerEntityEgg(EntityForisZertum.class, 0xCCCCCC, 0x33CC33);
+		Registers.registerEntity(EntityMetalZertum.class, "MetalZertum", 5);
+		Registers.registerEntityEgg(EntityMetalZertum.class, 0xCCCCCC, 0x666699);
+		Registers.registerEntity(EntityJakan.class, "Jakan", 20);
+		Registers.registerEntityEgg(EntityJakan.class, 0x0033CC, 0x00CCFF);
+		Registers.registerEntity(EntityKortor.class, "Kortor", 21);
+		Registers.registerEntityEgg(EntityKortor.class, 0x6699FF, 0xD1E0FF);
+		Registers.registerEntity(EntityRiggator.class, "Riggator", 22);
+		Registers.registerEntityEgg(EntityRiggator.class, 0x1D302C, 0x671734);
+		/* registerEntity(EntityRowarn.class, "Rowarn", 23);
+		 * registerEntityEgg(EntityRowarn.class, 0x004A7F, 0x002C4C); */
 	}
 
 	public static void loadDarkCreatures() {
-		registerEntity(EntityDarkZertum.class, "DarkZertum", 40);
-		registerEntityEgg(EntityDarkZertum.class, 0xCCCCCC, 0x470047);
-		registerEntity(EntityKurr.class, "Kurr", 41);
-		registerEntityEgg(EntityKurr.class, 0xFF0000, 0x660000);
+		Registers.registerEntity(EntityDarkZertum.class, "DarkZertum", 40);
+		Registers.registerEntityEgg(EntityDarkZertum.class, 0xCCCCCC, 0x470047);
+		Registers.registerEntity(EntityKurr.class, "Kurr", 41);
+		Registers.registerEntityEgg(EntityKurr.class, 0xFF0000, 0x660000);
 	}
 
 	public static void loadSpawns() {
-		addSpawn(EntityZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.bioZone, ModBiomes.nileSavanna, ModBiomes.nileSavannaPlateau, ModBiomes.nileSwampland, ModBiomes.pinkZone);
-		addSpawn(EntityRedZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.redSeed);
-		addSpawn(EntityDestroZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.destroZone, ModBiomes.destroZoneHills);
-		addSpawn(EntityIceZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.blueTaiga, ModBiomes.blueTaigaHills, ModBiomes.blueColdTaiga, ModBiomes.blueColdTaigaHills);
-		addSpawn(EntityForisZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.nileJungle, ModBiomes.nileJungleHills, ModBiomes.nileJungleEdge, ModBiomes.nileSwampland);
-		addSpawn(EntityMetalZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.walRockland);
-		addSpawn(EntityJakan.class, 100, 2, 3, EnumCreatureType.CREATURE, ModBiomes.walRockland);
-		addSpawn(EntityKortor.class, 100, 2, 3, EnumCreatureType.CREATURE, ModBiomes.nileSavanna, ModBiomes.nileSavannaPlateau, ModBiomes.nileJungle, ModBiomes.nileJungleEdge, ModBiomes.nileJungleHills);
-		addSpawn(EntityRiggator.class, 100, 2, 3, EnumCreatureType.MONSTER, ModBiomes.bioZone, ModBiomes.nileSwampland, ModBiomes.nileMesa, ModBiomes.nileMesaPlateau, ModBiomes.nileMesaPlateau_F);
-		//addSpawn(EntityRowarn.class, 100, 1, 3, EnumCreatureType.WATER_CREATURE, ModBiomes.walRockland);
+		Registers.addEntitySpawn(EntityZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.bioZone, ModBiomes.nileSavanna, ModBiomes.nileSavannaPlateau, ModBiomes.nileSwampland, ModBiomes.pinkZone);
+		Registers.addEntitySpawn(EntityRedZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.redSeed);
+		Registers.addEntitySpawn(EntityDestroZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.destroZone, ModBiomes.destroZoneHills);
+		Registers.addEntitySpawn(EntityIceZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.blueTaiga, ModBiomes.blueTaigaHills, ModBiomes.blueColdTaiga, ModBiomes.blueColdTaigaHills);
+		Registers.addEntitySpawn(EntityForisZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.nileJungle, ModBiomes.nileJungleHills, ModBiomes.nileJungleEdge, ModBiomes.nileSwampland);
+		Registers.addEntitySpawn(EntityMetalZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.walRockland);
+		Registers.addEntitySpawn(EntityJakan.class, 100, 2, 3, EnumCreatureType.CREATURE, ModBiomes.walRockland);
+		Registers.addEntitySpawn(EntityKortor.class, 100, 2, 3, EnumCreatureType.CREATURE, ModBiomes.nileSavanna, ModBiomes.nileSavannaPlateau, ModBiomes.nileJungle, ModBiomes.nileJungleEdge, ModBiomes.nileJungleHills);
+		Registers.addEntitySpawn(EntityRiggator.class, 100, 2, 3, EnumCreatureType.MONSTER, ModBiomes.bioZone, ModBiomes.nileSwampland, ModBiomes.nileMesa, ModBiomes.nileMesaPlateau, ModBiomes.nileMesaPlateau_F);
+		// addSpawn(EntityRowarn.class, 100, 1, 3,
+		// EnumCreatureType.WATER_CREATURE, ModBiomes.walRockland);
 	}
 
 	public static void loadDarkSpawns() {
-		addSpawn(EntityDarkZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.darkWasteland);
-		addSpawn(EntityKurr.class, 100, 2, 3, EnumCreatureType.MONSTER, ModBiomes.darkWasteland);
+		Registers.addEntitySpawn(EntityDarkZertum.class, 100, 4, 5, EnumCreatureType.CREATURE, ModBiomes.darkWasteland);
+		Registers.addEntitySpawn(EntityKurr.class, 100, 2, 3, EnumCreatureType.MONSTER, ModBiomes.darkWasteland);
 	}
 
 	public static void loadOthers() {
-		registerTileEntity(TileEntityNileWorkbench.class, "Nile Worktable");
-		registerTileEntity(TileEntityFoodBowl.class, "Food Bowl");
-		registerProjectileEntity(EntityFlamingPoisonball.class, "FPoisonball", 400);
-		registerProjectileEntity(EntityGrenade.class, "Grenade", 401);
-		registerProjectileEntity(EntityIceball.class, "Iceball", 402);
-		registerProjectileEntity(EntityZertumBeam.class, "ZertumBeam", 403);
-	}
-
-	public static void addSpawn(Class entityClass, int weightedProb, int min, int max, EnumCreatureType typeOfCreature, BiomeGenBase... biomes) {
-		EntityRegistry.addSpawn(entityClass, weightedProb, min, max, typeOfCreature, biomes);
-	}
-
-	public static void registerEntity(Class entityClass, String saveName, int id) {
-		EntityRegistry.registerModEntity(entityClass, saveName, id, ZeroQuest.instance, 120, 1, true);
-	}
-
-	public static void registerEntityEgg(Class<? extends Entity> entity, int main, int spots) {
-		int id = getUniqueEntityId();
-		EntityList.idToClassMapping.put(id, entity);
-		EntityList.entityEggs.put(id, new EntityList.EntityEggInfo(id, main, spots));
-	}
-
-	public static void registerTileEntity(Class entityTileClass, String saveName) {
-		GameRegistry.registerTileEntity(entityTileClass, saveName);
-	}
-
-	public static void registerProjectileEntity(Class entityClass, String saveName, int id) {
-		EntityRegistry.registerModEntity(entityClass, saveName, id, ZeroQuest.instance, 128, 1, true);
-	}
-
-	public static int getUniqueEntityId() {
-		do {
-			startEntityId++;
-		}
-		while (EntityList.getStringFromID(startEntityId) != null);
-
-		return startEntityId;
+		Registers.registerTileEntity(TileEntityNileWorkbench.class, "Nile Worktable");
+		Registers.registerTileEntity(TileEntityFoodBowl.class, "Food Bowl");
+		Registers.registerProjectileEntity(EntityFlamingPoisonball.class, "FPoisonball", 400);
+		Registers.registerProjectileEntity(EntityGrenade.class, "Grenade", 401);
+		Registers.registerProjectileEntity(EntityIceball.class, "Iceball", 402);
+		Registers.registerProjectileEntity(EntityZertumBeam.class, "ZertumBeam", 403);
 	}
 }

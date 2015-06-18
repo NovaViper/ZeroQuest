@@ -8,18 +8,20 @@ import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.WrongUsageException;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.player.EntityPlayerMP;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.EnumChatFormatting;
 import net.minecraft.world.WorldServer;
+import net.minecraftforge.common.ForgeVersion;
 import net.minecraftforge.common.MinecraftForge;
+
 import common.zeroquest.core.helper.ChatHelper;
 import common.zeroquest.entity.EntityCustomTameable;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
 import common.zeroquest.lib.Constants;
+import common.zeroquest.lib.Strings;
 
 public class CommandZeroQuest extends CommandBase {
 
@@ -43,7 +45,7 @@ public class CommandZeroQuest extends CommandBase {
 
 	@Override
 	public String getCommandUsage(ICommandSender sender) {
-		return String.format("/zeroquest,zquest,zq,zero,ZEROQUEST,ZQUEST,ZQ,ZERO help,h");
+		return String.format("/zeroquest,zquest,zq,zero help,h");
 	}
 
 	/**
@@ -107,12 +109,13 @@ public class CommandZeroQuest extends CommandBase {
 		else if (command.equalsIgnoreCase("version") || command.equalsIgnoreCase("v")) {
 			if (sender instanceof EntityPlayerMP) {
 				EntityPlayerMP player = (EntityPlayerMP) sender;
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD + "---------------------------------------------------"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD + Strings.commandSepartor));
 				player.addChatMessage(ChatHelper.getChatComponent("Zero Quest - " + EnumChatFormatting.GREEN + Constants.version));
 				player.addChatMessage(ChatHelper.getChatComponent("Release Type: " + EnumChatFormatting.AQUA + Constants.releaseType));
 				player.addChatMessage(ChatHelper.getChatComponent("Minecraft Version: " + EnumChatFormatting.RED + MinecraftForge.MC_VERSION));
+				player.addChatMessage(ChatHelper.getChatComponent("Minecraft Forge Version: " + EnumChatFormatting.LIGHT_PURPLE + ForgeVersion.getVersion()));
 				player.addChatMessage(ChatHelper.getChatComponent("Java Version: " + EnumChatFormatting.BLUE + Constants.java));
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD + "---------------------------------------------------"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD + Strings.commandSepartor));
 			}
 			else {
 				// console can't tame nile entities
@@ -120,20 +123,20 @@ public class CommandZeroQuest extends CommandBase {
 			}
 		}
 
-		else if (command.equalsIgnoreCase("help") || command.equalsIgnoreCase("h")) { // TODO
+		else if (command.equalsIgnoreCase("help") || command.equalsIgnoreCase("h")) { // NAV: Commands Help List
 			if (sender instanceof EntityPlayerMP) {
 				EntityPlayerMP player = (EntityPlayerMP) sender;
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD + "----------------- " + EnumChatFormatting.GREEN + "ZeroQuest - " + Constants.version + EnumChatFormatting.GOLD + " -----------------"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD + Strings.commandSepartorHalf + EnumChatFormatting.GREEN + "ZeroQuest - " + Constants.version + EnumChatFormatting.GOLD + Strings.commandSepartorHalf));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest tame,t [global,g,all,a] - " + EnumChatFormatting.RESET + "Tames a nile tameable creature"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest stage,s <baby,b|adult,a> [global,g,all,a] - " + EnumChatFormatting.RESET + "Sets the stage of a tamed nile creature"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest heal,hp, [global,g,all,a] - " + EnumChatFormatting.RESET + "Heals a tamed nile creature"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest help,h - " + EnumChatFormatting.RESET + "Pulls up help menu"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest version,v - " + EnumChatFormatting.RESET + "Displays mod information"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest purge,p <tamed,t|all,a|wild,w> [global,g,all,a] - " + EnumChatFormatting.RESET + "Kills off nile creatures, Tamed parameter kills only 1 tamed nile creature (unless global parameter is added), all kills EVERY nile creature without the need of the global parameter, and wild kills only 1 nontamed nile creature (unless global parameter is added)"));
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest state,st <evolve,e|devolve,d> [global,g,all,a] - " + EnumChatFormatting.RESET + "Change the state of a tamed Zertum or any subspecies. Evolve parameter evolves only 1 tamed Zertum (unless global parameter is added) and devolve parameter devolves only 1 tamed Zertum (unless global parameter is added)"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest state,st <evolve,e|devolve,d> [global,g,all,a] - " + EnumChatFormatting.RESET + "Change the stage of a tamed Zertum or any subspecies, use multiple to either evolve to stage 3 or revert back to stage 1. Evolve parameter evolves only 1 tamed Zertum (unless global parameter is added) and devolve parameter devolves only 1 tamed Zertum (unless global parameter is added)"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest level,l <number> [global,g,all,a] - " + EnumChatFormatting.RESET + "Adds levels to a tamed Zertum or any subspecies"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest gender,g <male,m|female,f> [global,g,all,a] - " + EnumChatFormatting.RESET + "Change the gender of any nile creature"));
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD + "---------------------------------------------------"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD + Strings.commandSepartor));
 
 			}
 			else {
@@ -173,6 +176,7 @@ public class CommandZeroQuest extends CommandBase {
 				String parameter = params[1];
 
 				if (parameter.equalsIgnoreCase("evolve") || parameter.equalsIgnoreCase("e")) {
+
 					appyModifier(sender, new EvolveModifier(player), global);
 				}
 				else if (parameter.equalsIgnoreCase("devolve") || parameter.equalsIgnoreCase("d")) {
@@ -231,12 +235,12 @@ public class CommandZeroQuest extends CommandBase {
 	public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		return args.length == 1
 				? getListOfStringsMatchingLastWord(args, new String[] {})
-				: (args.length == 2 && args[0].equalsIgnoreCase("stage") || args[0].equalsIgnoreCase("s")
+						: (args.length == 2 && args[0].equalsIgnoreCase("stage") || args[0].equalsIgnoreCase("s")
 						? getListOfStringsMatchingLastWord(args, new String[] { "baby", "adult" })
-						: (args.length == 2 && args[0].equalsIgnoreCase("purge") || args[0].equalsIgnoreCase("p")
+								: (args.length == 2 && args[0].equalsIgnoreCase("purge") || args[0].equalsIgnoreCase("p")
 								? getListOfStringsMatchingLastWord(args, new String[] { "tamed",
 										"wild", "all" })
-								: (args.length == 2 && args[0].equalsIgnoreCase("state") || args[0].equalsIgnoreCase("st")
+										: (args.length == 2 && args[0].equalsIgnoreCase("state") || args[0].equalsIgnoreCase("st")
 										? getListOfStringsMatchingLastWord(args, new String[] {
 												"evolve", "devolve" }) : null)));
 	}
@@ -314,7 +318,7 @@ public class CommandZeroQuest extends CommandBase {
 		}
 	}
 
-	private class AgeModifier implements EntityModifier { // TODO
+	private class AgeModifier implements EntityModifier {
 
 		private final int age;
 		private final EntityPlayerMP player;
@@ -424,10 +428,13 @@ public class CommandZeroQuest extends CommandBase {
 			if (entity instanceof EntityZertumEntity) {
 				EntityZertumEntity zertum = (EntityZertumEntity) entity;
 				if (zertum.isTamed()) {
-					if (!zertum.hasEvolved() && !zertum.isChild() && zertum.canInteract(player)) {
+					if (!zertum.hasEvolved() && !zertum.inFinalStage() && !zertum.isChild() && zertum.canInteract(player)) {
 						zertum.evolveOnServer(zertum, player);
 					}
-					else if (zertum.hasEvolved() && !zertum.isChild() && zertum.canInteract(player)) {
+					else if (zertum.hasEvolved() && !zertum.inFinalStage() && !zertum.isChild() && zertum.canInteract(player)) {
+						zertum.finaEvolveOnServer(zertum, player);
+					}
+					else if ((zertum.hasEvolved() || !zertum.inFinalStage()) && !zertum.isChild() && zertum.canInteract(player)) {
 						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getPetName() + " has already evolved!"));
 					}
 					else if (!zertum.hasEvolved() && zertum.isChild() && zertum.canInteract(player)) {
@@ -460,10 +467,13 @@ public class CommandZeroQuest extends CommandBase {
 			if (entity instanceof EntityZertumEntity) {
 				EntityZertumEntity zertum = (EntityZertumEntity) entity;
 				if (zertum.isTamed()) {
-					if (zertum.hasEvolved() && zertum.canInteract(player)) {
+					if (zertum.hasEvolved() && !zertum.inFinalStage() && zertum.canInteract(player)) {
 						zertum.devolveOnServer(zertum, player);
 					}
-					else if (!zertum.hasEvolved() && zertum.canInteract(player)) {
+					else if (zertum.hasEvolved() && zertum.inFinalStage() && zertum.canInteract(player)) {
+						zertum.devolveOnServer(zertum, player);
+					}
+					else if ((!zertum.hasEvolved() || !zertum.inFinalStage()) && zertum.canInteract(player)) {
 						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + zertum.getPetName() + " has already evolved or has not evolved!"));
 					}
 					else if (zertum.hasEvolved() && !zertum.canInteract(player)) {

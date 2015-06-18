@@ -1,45 +1,62 @@
 package common.zeroquest.core.proxy;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.statemap.StateMap;
-import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
-import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
-import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
-import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumParticleTypes;
-import net.minecraft.util.ResourceLocation;
 import net.minecraft.world.World;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.FMLClientHandler;
-import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.client.registry.RenderingRegistry;
-import net.minecraftforge.fml.common.FMLCommonHandler;
+
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ModItems;
-import common.zeroquest.block.portal.*;
+import common.zeroquest.block.portal.BlockDarkFire;
+import common.zeroquest.block.portal.BlockNileFire;
 import common.zeroquest.client.model.ModelJakan;
 import common.zeroquest.client.model.ModelKortor;
 import common.zeroquest.client.model.ModelKurr;
 import common.zeroquest.client.model.ModelRiggator;
-import common.zeroquest.client.model.ModelRowarn;
 import common.zeroquest.client.model.ModelZertum;
-import common.zeroquest.client.particle.*;
-import common.zeroquest.client.render.*;
-import common.zeroquest.core.handlers.*;
-import common.zeroquest.entity.*;
-import common.zeroquest.entity.projectile.*;
-import common.zeroquest.entity.tileentity.*;
-import common.zeroquest.entity.zertum.*;
-import common.zeroquest.entity.zertum.util.*;
-import common.zeroquest.lib.Constants;
+import common.zeroquest.client.particle.EntityDarkPortalFX;
+import common.zeroquest.client.particle.EntityForisDustFX;
+import common.zeroquest.client.particle.EntityIceDustFX;
+import common.zeroquest.client.render.entity.RenderJakan;
+import common.zeroquest.client.render.entity.RenderKortor;
+import common.zeroquest.client.render.entity.RenderKurr;
+import common.zeroquest.client.render.entity.RenderProjectiles;
+import common.zeroquest.client.render.entity.RenderRiggator;
+import common.zeroquest.client.render.tileentity.RenderFoodBowl;
+import common.zeroquest.client.render.tileentity.RenderNileTable;
+import common.zeroquest.client.render.zertum.RenderDarkZertum;
+import common.zeroquest.client.render.zertum.RenderDestroZertum;
+import common.zeroquest.client.render.zertum.RenderForisZertum;
+import common.zeroquest.client.render.zertum.RenderIceZertum;
+import common.zeroquest.client.render.zertum.RenderMetalZertum;
+import common.zeroquest.client.render.zertum.RenderRedZertum;
+import common.zeroquest.client.render.zertum.RenderZertum;
+import common.zeroquest.core.handlers.KeyStateHandler;
+import common.zeroquest.entity.EntityCustomTameable;
+import common.zeroquest.entity.EntityJakan;
+import common.zeroquest.entity.EntityKortor;
+import common.zeroquest.entity.EntityKurr;
+import common.zeroquest.entity.EntityRiggator;
+import common.zeroquest.entity.projectile.EntityFlamingPoisonball;
+import common.zeroquest.entity.projectile.EntityGrenade;
+import common.zeroquest.entity.projectile.EntityIceball;
+import common.zeroquest.entity.projectile.EntityZertumBeam;
+import common.zeroquest.entity.tileentity.TileEntityFoodBowl;
+import common.zeroquest.entity.tileentity.TileEntityNileWorkbench;
+import common.zeroquest.entity.zertum.EntityDarkZertum;
+import common.zeroquest.entity.zertum.EntityDestroZertum;
+import common.zeroquest.entity.zertum.EntityForisZertum;
+import common.zeroquest.entity.zertum.EntityIceZertum;
+import common.zeroquest.entity.zertum.EntityMetalZertum;
+import common.zeroquest.entity.zertum.EntityRedZertum;
+import common.zeroquest.entity.zertum.EntityZertum;
+import common.zeroquest.lib.Registers;
 
 public class ClientProxy extends CommonProxy {
 
@@ -47,69 +64,47 @@ public class ClientProxy extends CommonProxy {
 	public void registerRenderThings() {
 		RenderManager renderManager = Minecraft.getMinecraft().getRenderManager();
 		RenderItem renderItem = Minecraft.getMinecraft().getRenderItem();
-		registerRender(EntityZertum.class, new RenderZertum(renderManager, new ModelZertum(), 0.5F));
-		registerRender(EntityRedZertum.class, new RenderRedZertum(renderManager, new ModelZertum(), 0.5F));
-		registerRender(EntityDarkZertum.class, new RenderDarkZertum(renderManager, new ModelZertum(), 0.5F));
-		registerRender(EntityDestroZertum.class, new RenderDestroZertum(renderManager, new ModelZertum(), 0.5F));
-		registerRender(EntityIceZertum.class, new RenderIceZertum(renderManager, new ModelZertum(), 0.5F));
-		registerRender(EntityForisZertum.class, new RenderForisZertum(renderManager, new ModelZertum(), 0.5F));
-		registerRender(EntityMetalZertum.class, new RenderMetalZertum(renderManager, new ModelZertum(), 0.5F));
-		registerRender(EntityJakan.class, new RenderJakan(renderManager, new ModelJakan(), 1.0F));
-		registerRender(EntityKurr.class, new RenderKurr(renderManager, new ModelKurr(), 1.0F));
-		registerRender(EntityKortor.class, new RenderKortor(renderManager, new ModelKortor(), 1.0F));
-		registerRender(EntityRiggator.class, new RenderRiggator(renderManager, new ModelRiggator(), 1.0F));
-		// registerRender(EntityRowarn.class, new RenderRowarn(renderManager, new ModelRowarn(), 1.0F));
+		Registers.registerEntityRender(EntityZertum.class, new RenderZertum(renderManager, new ModelZertum(), 0.5F));
+		Registers.registerEntityRender(EntityRedZertum.class, new RenderRedZertum(renderManager, new ModelZertum(), 0.5F));
+		Registers.registerEntityRender(EntityDarkZertum.class, new RenderDarkZertum(renderManager, new ModelZertum(), 0.5F));
+		Registers.registerEntityRender(EntityDestroZertum.class, new RenderDestroZertum(renderManager, new ModelZertum(), 0.5F));
+		Registers.registerEntityRender(EntityIceZertum.class, new RenderIceZertum(renderManager, new ModelZertum(), 0.5F));
+		Registers.registerEntityRender(EntityForisZertum.class, new RenderForisZertum(renderManager, new ModelZertum(), 0.5F));
+		Registers.registerEntityRender(EntityMetalZertum.class, new RenderMetalZertum(renderManager, new ModelZertum(), 0.5F));
+		Registers.registerEntityRender(EntityJakan.class, new RenderJakan(renderManager, new ModelJakan(), 1.0F));
+		Registers.registerEntityRender(EntityKurr.class, new RenderKurr(renderManager, new ModelKurr(), 1.0F));
+		Registers.registerEntityRender(EntityKortor.class, new RenderKortor(renderManager, new ModelKortor(), 1.0F));
+		Registers.registerEntityRender(EntityRiggator.class, new RenderRiggator(renderManager, new ModelRiggator(), 1.0F));
 
-		registerRender(EntityFlamingPoisonball.class, new RenderProjectiles(renderManager, ModItems.FPoisonball, renderItem));
-		registerRender(EntityIceball.class, new RenderProjectiles(renderManager, ModItems.iceBall, renderItem));
-		registerRender(EntityGrenade.class, new RenderProjectiles(renderManager, ModItems.nileGrenade, renderItem));
-		registerRender(EntityZertumBeam.class, new RenderProjectiles(renderManager, Items.snowball, renderItem));
-		
-		bindTileEntitySpecialRenderer(TileEntityNileWorkbench.class, new RenderNileTable());
-		bindTileEntitySpecialRenderer(TileEntityFoodBowl.class, new RenderFoodBowl());
+		Registers.registerEntityRender(EntityFlamingPoisonball.class, new RenderProjectiles(renderManager, ModItems.FPoisonball, renderItem));
+		Registers.registerEntityRender(EntityIceball.class, new RenderProjectiles(renderManager, ModItems.iceBall, renderItem));
+		Registers.registerEntityRender(EntityGrenade.class, new RenderProjectiles(renderManager, ModItems.nileGrenade, renderItem));
+		Registers.registerEntityRender(EntityZertumBeam.class, new RenderProjectiles(renderManager, Items.snowball, renderItem));
+
+		Registers.bindTileEntitySpecialRenderer(TileEntityNileWorkbench.class, new RenderNileTable());
+		Registers.bindTileEntitySpecialRenderer(TileEntityFoodBowl.class, new RenderFoodBowl());
 	}
 
 	@Override
 	public void registerMoreThings() {
 
-		registerKeyBinding(KeyStateHandler.come);
-		registerKeyBinding(KeyStateHandler.stay);
-		registerKeyBinding(KeyStateHandler.ok);
-		registerKeyBinding(KeyStateHandler.heel);
-		registerFMLCommonEventBus(new KeyStateHandler());
+		Registers.registerKeyBinding(KeyStateHandler.come);
+		Registers.registerKeyBinding(KeyStateHandler.stay);
+		Registers.registerKeyBinding(KeyStateHandler.ok);
+		Registers.registerKeyBinding(KeyStateHandler.heel);
+		Registers.registerFMLCommonEventBus(new KeyStateHandler());
 	}
 
 	@Override
 	public void registerStateMappings() {
-		addStateMapperToIgnore(ModBlocks.nileFire, BlockNileFire.AGE);
-		addStateMapperToIgnore(ModBlocks.nileFire, BlockFire.AGE);
+		Registers.addStateMapperToIgnore(ModBlocks.nileFire, BlockNileFire.AGE);
+		Registers.addStateMapperToIgnore(ModBlocks.nileFire, BlockFire.AGE);
 	}
 
 	@Override
 	public void registerStateMappingsForDark() {
-		addStateMapperToIgnore(ModBlocks.darkFire, BlockDarkFire.AGE);
-		addStateMapperToIgnore(ModBlocks.darkFire, BlockFire.AGE);
-	}
-
-	// Registers\\
-	public void registerFMLCommonEventBus(Object target) {
-		FMLCommonHandler.instance().bus().register(target);
-	}
-
-	public void registerKeyBinding(KeyBinding key) {
-		ClientRegistry.registerKeyBinding(key);
-	}
-
-	public void bindTileEntitySpecialRenderer(Class<? extends TileEntity> tileentity, TileEntitySpecialRenderer render) {
-		ClientRegistry.bindTileEntitySpecialRenderer(tileentity, render);
-	}
-
-	public void registerRender(Class entityClass, Render render) {
-		RenderingRegistry.registerEntityRenderingHandler(entityClass, render);
-	}
-
-	public static void addStateMapperToIgnore(Block block, IProperty property) {
-		ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).addPropertiesToIgnore(new IProperty[] { property }).build());
+		Registers.addStateMapperToIgnore(ModBlocks.darkFire, BlockDarkFire.AGE);
+		Registers.addStateMapperToIgnore(ModBlocks.darkFire, BlockFire.AGE);
 	}
 
 	// Client Objects\\
@@ -130,7 +125,7 @@ public class ClientProxy extends CommonProxy {
 	}
 
 	public static void spawnForisParticle(EntityCustomTameable entity) {
-		double d0 = entity.getRNG().nextGaussian() * 0.04D; // TODO
+		double d0 = entity.getRNG().nextGaussian() * 0.04D;
 		double d1 = entity.getRNG().nextGaussian() * 0.04D;
 		double d2 = entity.getRNG().nextGaussian() * 0.04D;
 		EntityForisDustFX var20 = new EntityForisDustFX(entity.worldObj, entity.posX + entity.getRNG().nextFloat() * entity.width * 2.0F - entity.width, entity.posY + 0.5D + entity.getRNG().nextFloat() * entity.height, entity.posZ + entity.getRNG().nextFloat() * entity.width * 2.0F - entity.width, d0, d1, d2);

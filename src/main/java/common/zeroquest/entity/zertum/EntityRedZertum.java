@@ -18,8 +18,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.google.common.base.Predicate;
-
-import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.api.interfaces.IBits;
@@ -27,7 +25,6 @@ import common.zeroquest.api.interfaces.IBits.EnumFeedBack;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.entity.EntityCustomTameable;
 import common.zeroquest.entity.zertum.util.TalentHelper;
-import common.zeroquest.entity.zertum.util.ModeUtil.EnumMode;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
@@ -37,15 +34,13 @@ public class EntityRedZertum extends EntityZertumEntity {
 	public EntityRedZertum(World worldIn) {
 		super(worldIn);
 		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, false, new Predicate() {
-			private static final String __OBFID = "CL_00002229";
-
-			public boolean func_180094_a(Entity p_180094_1_) {
-				return p_180094_1_ instanceof EntitySheep || p_180094_1_ instanceof EntityRabbit;
+			public boolean isApplicable(Entity entityIn) {
+				return entityIn instanceof EntitySheep || entityIn instanceof EntityRabbit;
 			}
 
 			@Override
 			public boolean apply(Object p_apply_1_) {
-				return this.func_180094_a((Entity) p_apply_1_);
+				return this.isApplicable((Entity) p_apply_1_);
 			}
 		}));
 	}
@@ -56,7 +51,7 @@ public class EntityRedZertum extends EntityZertumEntity {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		double a = 0; // Front and Back //TODO
+		double a = 0; // Front and Back
 		double b = 1; // Up and Down
 		double c = 20; // Not sure about this
 		double x = posX + Math.sin((-renderYawOffset + c) / 360 * Math.PI * 2) * a;
@@ -109,8 +104,12 @@ public class EntityRedZertum extends EntityZertumEntity {
 					treat.giveTreat(type, player, this);
 					return true;
 				}
-				else if (stack != null && stack.getItem() == ModItems.evoBit && this.levels.getLevel() == Constants.maxLevel && !this.hasEvolved() && isServer() && this.canInteract(player)) { // TODO
+				//IMPRT: Evolve Logic
+				else if (stack != null && stack.getItem() == ModItems.evoBit && this.levels.getLevel() == Constants.stage2Level && !this.hasEvolved() && !this.inFinalStage() && isServer() && this.canInteract(player)) {
 					this.evolveOnClient(player);
+				}
+				else if (stack != null && stack.getItem() == ModItems.pettraBit && this.levels.getLevel() == Constants.stage3Level && this.hasEvolved() && !this.inFinalStage() && isServer() && this.canInteract(player)) {
+					this.finaEvolveOnClient(player);
 				}
 				else if (stack.getItem() == Items.shears && this.isOwner(player)) {
 					if (isServer()) {
@@ -118,7 +117,7 @@ public class EntityRedZertum extends EntityZertumEntity {
 					}
 					return true;
 				}
-				else if (stack.getItem() == Items.stick && canInteract(player)) // TODO
+				else if (stack.getItem() == Items.stick && canInteract(player))
 				{
 					if (isServer()) {
 						player.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));

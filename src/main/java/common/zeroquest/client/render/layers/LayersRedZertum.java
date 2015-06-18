@@ -8,7 +8,7 @@ import net.minecraft.item.EnumDyeColor;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import common.zeroquest.client.render.RenderRedZertum;
+import common.zeroquest.client.render.zertum.RenderRedZertum;
 import common.zeroquest.entity.zertum.EntityRedZertum;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.DataValues;
@@ -45,18 +45,18 @@ public class LayersRedZertum implements LayerRenderer {
 				}
 				if (entity.getGender() == true) {
 					if (entity.isTamed()) {
-						this.renderer.bindTexture(ResourceReference.getZMaleTameLayers("r"));
+						this.renderer.bindTexture(ResourceReference.getZMaleTameLayers(""));
 						GlStateManager.color(1f, 1f, 1f);
 						this.renderer.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
 					}
 					else {
-						this.renderer.bindTexture(ResourceReference.getZMaleLayers("r"));
+						this.renderer.bindTexture(ResourceReference.getZMaleLayers(""));
 						GlStateManager.color(1f, 1f, 1f);
 						this.renderer.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
 					}
 				}
 			}
-			else if (entity.hasEvolved()) {
+			else if (entity.hasEvolved() && !entity.inFinalStage()) {
 				if (entity.isTamed()) {
 					this.renderer.bindTexture(ResourceReference.getZELayers("collar"));
 					EnumDyeColor enumdyecolor = EnumDyeColor.byMetadata(entity.getCollarColor().getMetadata());
@@ -82,6 +82,32 @@ public class LayersRedZertum implements LayerRenderer {
 						GlStateManager.color(1f, 1f, 1f);
 						this.renderer.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
 					}
+				}
+			}
+			else if (entity.hasEvolved() && entity.inFinalStage()) {
+				if (entity.isTamed()) {
+					this.renderer.bindTexture(ResourceReference.getZFinalLayers("collar"));
+					EnumDyeColor enumdyecolor = EnumDyeColor.byMetadata(entity.getCollarColor().getMetadata());
+					float[] afloat = EntitySheep.func_175513_a(enumdyecolor);
+					GlStateManager.color(afloat[0], afloat[1], afloat[2]);
+					this.renderer.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
+				}
+
+				if (entity.isTamed() && entity.getHealth() <= Constants.lowHP) {
+					this.renderer.bindTexture(ResourceReference.getZFinalLayers("dying"));
+					GlStateManager.color(1f, 1f, 1f);
+					this.renderer.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
+				}
+
+				if (entity.isTamed() && entity.isSaddled()) {
+					this.renderer.bindTexture(ResourceReference.getZFinalLayers("saddle"));
+					GlStateManager.color(1f, 1f, 1f);
+					this.renderer.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
+				}
+				if (entity.getGender() == true) {
+					this.renderer.bindTexture(ResourceReference.getZFinalMaleLayers("r"));
+					GlStateManager.color(1f, 1f, 1f);
+					this.renderer.getMainModel().render(entity, par1, par2, par4, par5, par6, par7);
 				}
 			}
 		}

@@ -22,8 +22,6 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.google.common.base.Predicate;
-
-import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.api.interfaces.IBits;
@@ -33,7 +31,6 @@ import common.zeroquest.entity.ai.targeting.EntityAICustomLeapAtTarget;
 import common.zeroquest.entity.ai.targeting.EntityAIIceAttack;
 import common.zeroquest.entity.projectile.EntityIceball;
 import common.zeroquest.entity.zertum.util.TalentHelper;
-import common.zeroquest.entity.zertum.util.ModeUtil.EnumMode;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
@@ -48,15 +45,13 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
 		this.tasks.addTask(3, new EntityAICustomLeapAtTarget(this, 0.4F));
 		this.tasks.addTask(4, new EntityAIIceAttack(this, 1.0D, 10, 30, 15.0F));
 		this.targetTasks.addTask(4, new EntityAITargetNonTamed(this, EntityAnimal.class, false, new Predicate() {
-			private static final String __OBFID = "CL_00002229";
-
-			public boolean func_180094_a(Entity p_180094_1_) {
-				return p_180094_1_ instanceof EntitySheep || p_180094_1_ instanceof EntityRabbit;
+			public boolean isApplicable(Entity entityIn) {
+				return entityIn instanceof EntitySheep || entityIn instanceof EntityRabbit;
 			}
 
 			@Override
 			public boolean apply(Object p_apply_1_) {
-				return this.func_180094_a((Entity) p_apply_1_);
+				return this.isApplicable((Entity) p_apply_1_);
 			}
 		}));
 	}
@@ -67,7 +62,7 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
 	 * sunlight and start to burn.
 	 */
 	@Override
-	public void onLivingUpdate() // TODO
+	public void onLivingUpdate() //NAV: Living Updates
 	{
 		if (isServer()) {
 			if (this.cooldown > 0) {
@@ -103,7 +98,7 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
 	}
 
 	@Override
-	public void attackEntityWithRangedAttack(EntityLivingBase p_82196_1_, float p_82196_2_) {// TODO
+	public void attackEntityWithRangedAttack(EntityLivingBase p_82196_1_, float p_82196_2_) {
 		if (this.isTamed() && this.talents.getLevel("frigidfrost") >= 0) {
 			if (this.getAttackTarget() != null) {
 				if (cooldown == 0) {
@@ -161,8 +156,12 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
 					treat.giveTreat(type, player, this);
 					return true;
 				}
-				else if (stack != null && stack.getItem() == ModItems.evoBit && this.levels.getLevel() == Constants.maxLevel && !this.hasEvolved() && isServer() && this.canInteract(player)) { // TODO
+				//IMPRT: Evolve Logic
+				else if (stack != null && stack.getItem() == ModItems.evoBit && this.levels.getLevel() == Constants.stage2Level && !this.hasEvolved() && !this.inFinalStage() && isServer() && this.canInteract(player)) {
 					this.evolveOnClient(player);
+				}
+				else if (stack != null && stack.getItem() == ModItems.pettraBit && this.levels.getLevel() == Constants.stage3Level && this.hasEvolved() && !this.inFinalStage() && isServer() && this.canInteract(player)) {
+					this.finaEvolveOnClient(player);
 				}
 				else if (stack.getItem() == Items.shears && this.isOwner(player)) {
 					if (isServer()) {
@@ -170,7 +169,7 @@ public class EntityIceZertum extends EntityZertumEntity implements IRangedAttack
 					}
 					return true;
 				}
-				else if (stack.getItem() == Items.stick && canInteract(player)) // TODO
+				else if (stack.getItem() == Items.stick && canInteract(player))
 				{
 					if (isServer()) {
 						player.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));

@@ -177,14 +177,14 @@ public class EntityKurr extends EntityCustomMob /* implements IRangedAttackMob *
 			if (!this.isChild() && !iattributeinstance.func_180374_a(field_110190_br)) {
 				iattributeinstance.applyModifier(field_110190_br);
 				this.addPotionEffect(new PotionEffect(Potion.resistance.id, 9999999, 2)); // 100
-																							// =
-																							// 5
-																							// Seconds
-																							// ,
-																							// 20
-																							// =
-																							// 1
-																							// Second
+				// =
+				// 5
+				// Seconds
+				// ,
+				// 20
+				// =
+				// 1
+				// Second
 			}
 
 			--this.angerLevel;
@@ -212,7 +212,7 @@ public class EntityKurr extends EntityCustomMob /* implements IRangedAttackMob *
 	 * Called when the mob's health reaches 0.
 	 */
 	@Override
-	public void onDeath(DamageSource par1DamageSource) // TODO
+	public void onDeath(DamageSource par1DamageSource)
 	{
 		super.onDeath(par1DamageSource);
 		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
@@ -281,7 +281,7 @@ public class EntityKurr extends EntityCustomMob /* implements IRangedAttackMob *
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity) // TODO
+	public boolean attackEntityAsMob(Entity par1Entity)
 	{
 		float damage = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
 		int knockback = 5;

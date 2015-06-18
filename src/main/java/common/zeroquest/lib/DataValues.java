@@ -6,16 +6,15 @@ package common.zeroquest.lib;
  * EntityTameable: 16, 17
  * EntityAgeable: 12
  * EntityLiving: 15
- * EntityLivingBase: 6, 7, 8, and 9 
+ * EntityLivingBase: 6, 7, 8, and 9
  * Entity: 0, 1, 2, 3, 4
  * NOTE: DataValues CANNOT go over 31!
-*/
+ */
 public class DataValues {
-	
+
 	// Universal Data Values \\
 	/** DO NOT CHANGE! DEFAULT TAMEABLE VALUE**/
 	public static final int tame = 16;
-	public static final int breed = 18;
 	public static final int collarCollar = 19;
 	public static final int saddle = 20;
 	public static final int mouth = 28;

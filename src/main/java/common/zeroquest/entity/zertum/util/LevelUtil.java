@@ -59,4 +59,8 @@ public class LevelUtil {
 		this.dog.getDataWatcher().updateObject(DataValues.levelData, level + ":" + 0);
 		this.dog.updateEntityAttributes();
 	}
+
+	public void resetLevel() {
+		this.dog.getDataWatcher().updateObject(DataValues.levelData, "0:0");
+	}
 }

@@ -10,7 +10,7 @@ public class PlayerEvents {
 
 	}
 
-	/* ===============UNUSED============== */// TODO
+	/* ===============UNUSED============== */
 	public void onPlayerLogout(PlayerEvent.PlayerLoggedOutEvent event) {}
 
 	public void onPlayerChangedDimension(PlayerEvent.PlayerChangedDimensionEvent event) {}

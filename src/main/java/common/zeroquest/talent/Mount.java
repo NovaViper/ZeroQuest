@@ -2,6 +2,7 @@ package common.zeroquest.talent;
 
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
+
 import common.zeroquest.api.interfaces.ITalent;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
 import common.zeroquest.util.ItemUtils;
@@ -14,7 +15,7 @@ public class Mount extends ITalent {
 	@Override
 	public boolean interactWithPlayer(EntityZertumEntity dog, EntityPlayer player) {
 		if (dog.talents.getLevel(this) > 0) {
-			if (!dog.isChild() && ItemUtils.consumeEquipped(player, Items.saddle) && !dog.isSaddled()) // TODO
+			if (!dog.isChild() && ItemUtils.consumeEquipped(player, Items.saddle) && !dog.isSaddled())
 			{
 				dog.setSaddled(true);
 				dog.playSound("mob.horse.leather", 0.5F, 1.0F);
@@ -35,7 +36,7 @@ public class Mount extends ITalent {
 	@Override
 	public int onHungerTick(EntityZertumEntity dog, int totalInTick) {
 		if (dog.riddenByEntity instanceof EntityPlayer) {
-			if (dog.talents.getLevel(this) >= 3) {
+			if (dog.talents.getLevel(this) == 5) {
 				totalInTick += 1;
 			}
 			else {
@@ -43,11 +44,6 @@ public class Mount extends ITalent {
 			}
 		}
 		return totalInTick;
-	}
-
-	@Override
-	public int getHighestLevel(EntityZertumEntity dog) {
-		return 3;
 	}
 
 	@Override

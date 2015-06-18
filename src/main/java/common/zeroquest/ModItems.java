@@ -9,6 +9,7 @@ import net.minecraftforge.fml.common.registry.GameRegistry;
 import common.zeroquest.item.*;
 import common.zeroquest.item.tools.*;
 import common.zeroquest.lib.Constants;
+import common.zeroquest.lib.Registers;
 
 public class ModItems {
 
@@ -46,7 +47,11 @@ public class ModItems {
 	/** High Class Bit **/
 	public static Item alphaBit;
 	/** Highest Class Bit **/
+	public static Item deltaBit;
+	/** First Stage Evolution Bit **/
 	public static Item evoBit;
+	/** Final Stage Evolution Bit **/
+	public static Item pettraBit;
 
 	public static Item FPoisonball;
 	public static Item iceBall;
@@ -66,173 +71,169 @@ public class ModItems {
 	public static Item kurrSeeds;
 
 	public static Item darkSpark;
+	private static Item petraBtye;
 
 	public static void load() {
 		// Tools/Weapons//
 		nileSword = new ItemNileSword(ZeroQuest.nileEssence).setUnlocalizedName("nileSword").setCreativeTab(ZeroQuest.ZeroTab);
-		register(nileSword, "nile_sword");
+		Registers.registerItem(nileSword, "nile_sword");
 		nileAxe = new ItemNileAxe(ZeroQuest.nileEssence).setUnlocalizedName("nileAxe").setCreativeTab(ZeroQuest.ZeroTab);
-		register(nileAxe, "nile_axe");
+		Registers.registerItem(nileAxe, "nile_axe");
 		nilePickaxe = new ItemNilePickaxe(ZeroQuest.nileEssence).setUnlocalizedName("nilePickaxe").setCreativeTab(ZeroQuest.ZeroTab);
-		register(nilePickaxe, "nile_pickaxe");
+		Registers.registerItem(nilePickaxe, "nile_pickaxe");
 		nileSpade = new ItemNileSpade(ZeroQuest.nileEssence).setUnlocalizedName("nileShovel").setCreativeTab(ZeroQuest.ZeroTab);
-		register(nileSpade, "nile_shovel");
+		Registers.registerItem(nileSpade, "nile_shovel");
 		nileHoe = new ItemNileHoe(ZeroQuest.nileEssence).setUnlocalizedName("nileHoe").setCreativeTab(ZeroQuest.ZeroTab);
-		register(nileHoe, "nile_hoe");
+		Registers.registerItem(nileHoe, "nile_hoe");
 		nileBow = new ItemNileBow("nile", 484).setUnlocalizedName("nileBow").setCreativeTab(ZeroQuest.ZeroTab);
-		register(nileBow, "nile_bow");
+		Registers.registerItem(nileBow, "nile_bow");
 		nileGrenade = new ItemNileGrenade().setUnlocalizedName("nileGrenade");
-		register(nileGrenade, "nile_grenade");
+		Registers.registerItem(nileGrenade, "nile_grenade");
 
 		// Basics//
 		nileEssence = new ItemZQ().setUnlocalizedName("nileEssence");
-		register(nileEssence, "nile_essence");
+		Registers.registerItem(nileEssence, "nile_essence");
 		nileDust = new ItemZQ().setUnlocalizedName("nileDust");
-		register(nileDust, "nile_dust");
+		Registers.registerItem(nileDust, "nile_dust");
 		nileGrain = new ItemZQ().setUnlocalizedName("nileGrain");
-		register(nileGrain, "nile_grain");
+		Registers.registerItem(nileGrain, "nile_grain");
 		nileCoal = new ItemZQ().setUnlocalizedName("nileCoal");
-		register(nileCoal, "nile_coal");
+		Registers.registerItem(nileCoal, "nile_coal");
 		dogTreat = new ItemZQ().setUnlocalizedName("dogTreat");
-		register(dogTreat, "dog_treat");
+		Registers.registerItem(dogTreat, "dog_treat");
 		nileBone = new ItemZQ().setUnlocalizedName("nileBone");
-		register(nileBone, "nile_bone");
+		Registers.registerItem(nileBone, "nile_bone");
 		commandSeal = new ItemCommandSeal().setUnlocalizedName("commandSeal");
-		register(commandSeal, "command_seal");
+		Registers.registerItem(commandSeal, "command_seal");
 		toy = new ItemToy().setUnlocalizedName("toy");
-		register(toy, "toy");
+		Registers.registerItem(toy, "toy");
 
 		// Bits for Talents\\
-		microBit = new ItemBit(20).setUnlocalizedName("microBit");
-		register(microBit, "micro_bit");
-		megaBit = new ItemBit(50).setUnlocalizedName("megaBit");
-		register(megaBit, "mega_bit");
-		omegaBit = new ItemBit(80).setUnlocalizedName("omegaBit");
-		register(omegaBit, "omega_bit");
+		microBit = new ItemBit(0, 20).setUnlocalizedName("microBit");
+		Registers.registerItem(microBit, "micro_bit");
+		megaBit = new ItemBit(20, 50).setUnlocalizedName("megaBit");
+		Registers.registerItem(megaBit, "mega_bit");
+		omegaBit = new ItemBit(50, 80).setUnlocalizedName("omegaBit");
+		Registers.registerItem(omegaBit, "omega_bit");
 		alphaBit = new ItemAlphaBit().setUnlocalizedName("alphaBit");
-		register(alphaBit, "alpha_bit");
+		Registers.registerItem(alphaBit, "alpha_bit");
+		deltaBit = new ItemDeltaBit().setUnlocalizedName("deltaBit");
+		Registers.registerItem(deltaBit, "delta_bit");
 		evoBit = new ItemZQ().setUnlocalizedName("evoBit");
-		register(evoBit, "evo_bit");
+		Registers.registerItem(evoBit, "evo_bit");
+		pettraBit = new ItemZQ().setUnlocalizedName("pettraBit");
+		Registers.registerItem(pettraBit, "pettra_bit");
 
 		// Portal Sparks//
 		nileSpark = new ItemNileSpark().setUnlocalizedName("nileSpark");
-		register(nileSpark, "nile_spark");
+		Registers.registerItem(nileSpark, "nile_spark");
 
 		// Projectiles//
 		FPoisonball = new ItemProjectile().setUnlocalizedName("FPoisonball");
-		register(FPoisonball, "flaming_poisonball");
+		Registers.registerItem(FPoisonball, "flaming_poisonball");
 		iceBall = new ItemProjectile().setUnlocalizedName("iceBall");
-		register(iceBall, "ice_ball");
+		Registers.registerItem(iceBall, "ice_ball");
 
 		// Food/Crops//
 		zertumMeatRaw = new ZQFood(3, 1.5F, true, ZeroQuest.ZeroTab).setUnlocalizedName("zertumMeatRaw");
-		register(zertumMeatRaw, "zertum_meat_raw");
+		Registers.registerItem(zertumMeatRaw, "zertum_meat_raw");
 		zertumMeatCooked = new ZQFood(5, 2.5F, true, ZeroQuest.ZeroTab).setUnlocalizedName("zertumMeatCooked");
-		register(zertumMeatCooked, "zertum_meat_cooked");
+		Registers.registerItem(zertumMeatCooked, "zertum_meat_cooked");
 		vitoidSeed = new ItemNileSeed(ModBlocks.vitoidPlant, Blocks.farmland).setUnlocalizedName("vitoidSeed");
-		register(vitoidSeed, "vitoid_seed");
+		Registers.registerItem(vitoidSeed, "vitoid_seed");
 		vitoidFruit = new VitoidFruit(2, 0.5F, false).setUnlocalizedName("vitoidFruit");
-		register(vitoidFruit, "vitoid_fruit");
+		Registers.registerItem(vitoidFruit, "vitoid_fruit");
 		jakanMeatRaw = new ZQFood(4, 1.7F, true, ZeroQuest.ZeroTab).setUnlocalizedName("jakanMeatRaw");
-		register(jakanMeatRaw, "jakan_meat_raw");
+		Registers.registerItem(jakanMeatRaw, "jakan_meat_raw");
 		jakanMeatCooked = new ZQFood(5, 2.7F, true, ZeroQuest.ZeroTab).setUnlocalizedName("jakanMeatCooked");
-		register(jakanMeatCooked, "jakan_meat_cooked");
+		Registers.registerItem(jakanMeatCooked, "jakan_meat_cooked");
 	}
 
 	public static void loadDarkItems() {
 
 		darkSword = new ItemNileSword(ZeroQuest.darkEssence).setUnlocalizedName("darkSword").setCreativeTab(ZeroQuest.DarkTab);
-		register(darkSword, "dark_sword");
+		Registers.registerItem(darkSword, "dark_sword");
 		darkAxe = new ItemNileAxe(ZeroQuest.darkEssence).setUnlocalizedName("darkAxe").setCreativeTab(ZeroQuest.DarkTab);
-		register(darkAxe, "dark_axe");
+		Registers.registerItem(darkAxe, "dark_axe");
 		darkPickaxe = new ItemNilePickaxe(ZeroQuest.darkEssence).setUnlocalizedName("darkPickaxe").setCreativeTab(ZeroQuest.DarkTab);
-		register(darkPickaxe, "dark_pickaxe");
+		Registers.registerItem(darkPickaxe, "dark_pickaxe");
 		darkShovel = new ItemNileSpade(ZeroQuest.darkEssence).setUnlocalizedName("darkShovel").setCreativeTab(ZeroQuest.DarkTab);
-		register(darkShovel, "dark_shovel");
+		Registers.registerItem(darkShovel, "dark_shovel");
 		darkHoe = new ItemNileHoe(ZeroQuest.darkEssence).setUnlocalizedName("darkHoe").setCreativeTab(ZeroQuest.DarkTab);
-		register(darkHoe, "dark_hoe");
+		Registers.registerItem(darkHoe, "dark_hoe");
 		darkBow = new ItemNileBow("dark", 584).setUnlocalizedName("darkBow").setCreativeTab(ZeroQuest.DarkTab);
-		register(darkBow, "dark_bow");
+		Registers.registerItem(darkBow, "dark_bow");
 		darkSpark = new ItemDarkSpark().setUnlocalizedName("darkSpark");
-		register(darkSpark, "dark_spark");
+		Registers.registerItem(darkSpark, "dark_spark");
 
 		darkEssence = new ItemDQ().setUnlocalizedName("darkEssence");
-		register(darkEssence, "dark_essence");
+		Registers.registerItem(darkEssence, "dark_essence");
 		darkDust = new ItemDQ().setUnlocalizedName("darkDust");
-		register(darkDust, "dark_dust");
+		Registers.registerItem(darkDust, "dark_dust");
 		darkGrain = new ItemDQ().setUnlocalizedName("darkGrain");
-		register(darkGrain, "dark_grain");
+		Registers.registerItem(darkGrain, "dark_grain");
 		darkBone = new ItemDQ().setUnlocalizedName("darkBone");
-		register(darkBone, "dark_bone");
+		Registers.registerItem(darkBone, "dark_bone");
 		kurrSeeds = new KurrSeed(4, 1.2F, false).setUnlocalizedName("kurrSeeds");
-		register(kurrSeeds, "kurr_seeds");
+		Registers.registerItem(kurrSeeds, "kurr_seeds");
 	}
 
 	public static void loadRenderers() {
 
-		registerRender(nileSword, 0, Constants.modid + ":" + "nile_sword", "inventory");
-		registerRender(nileAxe, 0, Constants.modid + ":" + "nile_axe", "inventory");
-		registerRender(nilePickaxe, 0, Constants.modid + ":" + "nile_pickaxe", "inventory");
-		registerRender(nileSpade, 0, Constants.modid + ":" + "nile_shovel", "inventory");
-		registerRender(nileHoe, 0, Constants.modid + ":" + "nile_hoe", "inventory");
-		addVariant(nileBow, new String[] { Constants.modid + ":nile_bow",
+		Registers.registerItemRender(nileSword, 0, Constants.modid + ":" + "nile_sword", "inventory");
+		Registers.registerItemRender(nileAxe, 0, Constants.modid + ":" + "nile_axe", "inventory");
+		Registers.registerItemRender(nilePickaxe, 0, Constants.modid + ":" + "nile_pickaxe", "inventory");
+		Registers.registerItemRender(nileSpade, 0, Constants.modid + ":" + "nile_shovel", "inventory");
+		Registers.registerItemRender(nileHoe, 0, Constants.modid + ":" + "nile_hoe", "inventory");
+		Registers.addItemVariant(nileBow, new String[] { Constants.modid + ":nile_bow",
 				Constants.modid + ":nile_bow_pulling_0", Constants.modid + ":nile_bow_pulling_1",
 				Constants.modid + ":nile_bow_pulling_2" });
-		registerRender(nileBow, 0, Constants.modid + ":nile_bow", "inventory");
-		registerRender(nileGrenade, 0, Constants.modid + ":" + "nile_grenade", "inventory");
-		registerRender(nileEssence, 0, Constants.modid + ":" + "nile_essence", "inventory");
-		registerRender(nileDust, 0, Constants.modid + ":" + "nile_dust", "inventory");
-		registerRender(nileGrain, 0, Constants.modid + ":" + "nile_grain", "inventory");
-		registerRender(nileCoal, 0, Constants.modid + ":" + "nile_coal", "inventory");
-		registerRender(dogTreat, 0, Constants.modid + ":" + "dog_treat", "inventory");
-		registerRender(nileBone, 0, Constants.modid + ":" + "nile_bone", "inventory");
-		registerRender(nileSpark, 0, Constants.modid + ":" + "nile_spark", "inventory");
-		registerRender(FPoisonball, 0, Constants.modid + ":" + "flaming_poisonball", "inventory");
-		registerRender(iceBall, 0, Constants.modid + ":" + "ice_ball", "inventory");
-		registerRender(zertumMeatRaw, 0, Constants.modid + ":" + "zertum_meat_raw", "inventory");
-		registerRender(zertumMeatCooked, 0, Constants.modid + ":" + "zertum_meat_cooked", "inventory");
-		registerRender(vitoidSeed, 0, Constants.modid + ":" + "vitoid_seed", "inventory");
-		registerRender(vitoidFruit, 0, Constants.modid + ":" + "vitoid_fruit", "inventory");
-		registerRender(jakanMeatRaw, 0, Constants.modid + ":" + "jakan_meat_raw", "inventory");
-		registerRender(jakanMeatCooked, 0, Constants.modid + ":" + "jakan_meat_cooked", "inventory");
-		registerRender(commandSeal, 0, Constants.modid + ":" + "command_seal", "inventory");
-		registerRender(toy, 0, Constants.modid + ":" + "toy", "inventory");
-		registerRender(toy, 1, Constants.modid + ":" + "toy_wet", "inventory");
-		addVariant(toy, new String[] { Constants.modid + ":toy", Constants.modid + ":toy_wet" });
-		registerRender(microBit, 0, Constants.modid + ":" + "micro_bit", "inventory");
-		registerRender(megaBit, 0, Constants.modid + ":" + "mega_bit", "inventory");
-		registerRender(omegaBit, 0, Constants.modid + ":" + "omega_bit", "inventory");
-		registerRender(alphaBit, 0, Constants.modid + ":" + "alpha_bit", "inventory");
-		registerRender(evoBit, 0, Constants.modid + ":" + "evo_bit", "inventory");
+		Registers.registerItemRender(nileBow, 0, Constants.modid + ":nile_bow", "inventory");
+		Registers.registerItemRender(nileGrenade, 0, Constants.modid + ":" + "nile_grenade", "inventory");
+		Registers.registerItemRender(nileEssence, 0, Constants.modid + ":" + "nile_essence", "inventory");
+		Registers.registerItemRender(nileDust, 0, Constants.modid + ":" + "nile_dust", "inventory");
+		Registers.registerItemRender(nileGrain, 0, Constants.modid + ":" + "nile_grain", "inventory");
+		Registers.registerItemRender(nileCoal, 0, Constants.modid + ":" + "nile_coal", "inventory");
+		Registers.registerItemRender(dogTreat, 0, Constants.modid + ":" + "dog_treat", "inventory");
+		Registers.registerItemRender(nileBone, 0, Constants.modid + ":" + "nile_bone", "inventory");
+		Registers.registerItemRender(nileSpark, 0, Constants.modid + ":" + "nile_spark", "inventory");
+		Registers.registerItemRender(FPoisonball, 0, Constants.modid + ":" + "flaming_poisonball", "inventory");
+		Registers.registerItemRender(iceBall, 0, Constants.modid + ":" + "ice_ball", "inventory");
+		Registers.registerItemRender(zertumMeatRaw, 0, Constants.modid + ":" + "zertum_meat_raw", "inventory");
+		Registers.registerItemRender(zertumMeatCooked, 0, Constants.modid + ":" + "zertum_meat_cooked", "inventory");
+		Registers.registerItemRender(vitoidSeed, 0, Constants.modid + ":" + "vitoid_seed", "inventory");
+		Registers.registerItemRender(vitoidFruit, 0, Constants.modid + ":" + "vitoid_fruit", "inventory");
+		Registers.registerItemRender(jakanMeatRaw, 0, Constants.modid + ":" + "jakan_meat_raw", "inventory");
+		Registers.registerItemRender(jakanMeatCooked, 0, Constants.modid + ":" + "jakan_meat_cooked", "inventory");
+		Registers.registerItemRender(commandSeal, 0, Constants.modid + ":" + "command_seal", "inventory");
+		Registers.registerItemRender(toy, 0, Constants.modid + ":" + "toy", "inventory");
+		Registers.registerItemRender(toy, 1, Constants.modid + ":" + "toy_wet", "inventory");
+		Registers.addItemVariant(toy, new String[] { Constants.modid + ":toy",
+				Constants.modid + ":toy_wet" });
+		Registers.registerItemRender(microBit, 0, Constants.modid + ":" + "micro_bit", "inventory");
+		Registers.registerItemRender(megaBit, 0, Constants.modid + ":" + "mega_bit", "inventory");
+		Registers.registerItemRender(omegaBit, 0, Constants.modid + ":" + "omega_bit", "inventory");
+		Registers.registerItemRender(alphaBit, 0, Constants.modid + ":" + "alpha_bit", "inventory");
+		Registers.registerItemRender(deltaBit, 0, Constants.modid + ":" + "delta_bit", "inventory");
+		Registers.registerItemRender(evoBit, 0, Constants.modid + ":" + "evo_bit", "inventory");
+		Registers.registerItemRender(pettraBit, 0, Constants.modid + ":" + "pettra_bit", "inventory");
 	}
 
 	public static void loadDarkRenderers() {
-		registerRender(darkSword, 0, Constants.modid + ":" + "dark_sword", "inventory");
-		registerRender(darkAxe, 0, Constants.modid + ":" + "dark_axe", "inventory");
-		registerRender(darkPickaxe, 0, Constants.modid + ":" + "dark_pickaxe", "inventory");
-		registerRender(darkShovel, 0, Constants.modid + ":" + "dark_shovel", "inventory");
-		registerRender(darkHoe, 0, Constants.modid + ":" + "dark_hoe", "inventory");
-		addVariant(darkBow, new String[] { Constants.modid + ":dark_bow",
+		Registers.registerItemRender(darkSword, 0, Constants.modid + ":" + "dark_sword", "inventory");
+		Registers.registerItemRender(darkAxe, 0, Constants.modid + ":" + "dark_axe", "inventory");
+		Registers.registerItemRender(darkPickaxe, 0, Constants.modid + ":" + "dark_pickaxe", "inventory");
+		Registers.registerItemRender(darkShovel, 0, Constants.modid + ":" + "dark_shovel", "inventory");
+		Registers.registerItemRender(darkHoe, 0, Constants.modid + ":" + "dark_hoe", "inventory");
+		Registers.addItemVariant(darkBow, new String[] { Constants.modid + ":dark_bow",
 				Constants.modid + ":dark_bow_pulling_0", Constants.modid + ":dark_bow_pulling_1",
 				Constants.modid + ":dark_bow_pulling_2" });
-		registerRender(darkBow, 0, Constants.modid + ":" + "dark_bow", "inventory");
-		registerRender(darkSpark, 0, Constants.modid + ":" + "dark_spark", "inventory");
-		registerRender(darkEssence, 0, Constants.modid + ":" + "dark_essence", "inventory");
-		registerRender(darkDust, 0, Constants.modid + ":" + "dark_dust", "inventory");
-		registerRender(darkGrain, 0, Constants.modid + ":" + "dark_grain", "inventory");
-		registerRender(darkBone, 0, Constants.modid + ":" + "dark_bone", "inventory");
-		registerRender(kurrSeeds, 0, Constants.modid + ":" + "kurr_seeds", "inventory");
-	}
-
-	public static void register(Item item, String name) {
-		GameRegistry.registerItem(item, name);
-	}
-
-	public static void registerRender(Item item, int metadata, String itemString, String location) {
-		Minecraft.getMinecraft().getRenderItem().getItemModelMesher().register(item, metadata, new ModelResourceLocation(itemString, location));
-	}
-
-	public static void addVariant(Item item, String... names) {
-		ModelBakery.addVariantName(item, names);
+		Registers.registerItemRender(darkBow, 0, Constants.modid + ":" + "dark_bow", "inventory");
+		Registers.registerItemRender(darkSpark, 0, Constants.modid + ":" + "dark_spark", "inventory");
+		Registers.registerItemRender(darkEssence, 0, Constants.modid + ":" + "dark_essence", "inventory");
+		Registers.registerItemRender(darkDust, 0, Constants.modid + ":" + "dark_dust", "inventory");
+		Registers.registerItemRender(darkGrain, 0, Constants.modid + ":" + "dark_grain", "inventory");
+		Registers.registerItemRender(darkBone, 0, Constants.modid + ":" + "dark_bone", "inventory");
+		Registers.registerItemRender(kurrSeeds, 0, Constants.modid + ":" + "kurr_seeds", "inventory");
 	}
 }

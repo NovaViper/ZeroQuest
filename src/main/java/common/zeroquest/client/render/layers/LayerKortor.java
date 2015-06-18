@@ -5,7 +5,7 @@ import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import common.zeroquest.client.render.RenderKortor;
+import common.zeroquest.client.render.entity.RenderKortor;
 import common.zeroquest.entity.EntityKortor;
 import common.zeroquest.lib.Constants;
 import common.zeroquest.util.ResourceReference;

@@ -10,13 +10,13 @@ import common.zeroquest.lib.Constants;
 import common.zeroquest.network.imessage.*;
 
 /**
- * 
+ *
  * This class will house the SimpleNetworkWrapper instance, which I will name
  * 'dispatcher', as well as give us a logical place from which to register our
  * packets. These two things could be done anywhere, however, even in your Main
  * class, but I will be adding other functionality (see below) that gives this
  * class a bit more utility.
- * 
+ *
  * While unnecessary, I'm going to turn this class into a 'wrapper' for
  * SimpleNetworkWrapper so that instead of writing
  * "PacketDispatcher.dispatcher.{method}" I can simply write
@@ -25,10 +25,10 @@ import common.zeroquest.network.imessage.*;
  * field public instead of private, or, if you do not want to add a new class
  * just for one field and one static method that you could put anywhere, feel
  * free to put them wherever.
- * 
+ *
  * For further convenience, I have also added two extra sendToAllAround methods:
  * one which takes an EntityPlayer and one which takes coordinates.
- * 
+ *
  */
 public class PacketHandler {
 	// a simple counter will allow us to get rid of 'magic' numbers used during
@@ -63,6 +63,7 @@ public class PacketHandler {
 		registerMessage(ZertumMode.Handler.class, ZertumMode.class, Side.SERVER);
 		registerMessage(ZertumTalents.Handler.class, ZertumTalents.class, Side.SERVER);
 		registerMessage(FireSound.Handler.class, FireSound.class, Side.SERVER);
+		//registerMessage(ZertumBoundingBox.Handler.class, ZertumBoundingBox.class, Side.CLIENT);
 	}
 
 	/**
@@ -109,7 +110,7 @@ public class PacketHandler {
 	public static final void sendToAllAround(IMessage message, EntityPlayer player, double range) {
 		PacketHandler.sendToAllAround(message, player.worldObj.provider.getDimensionId(), player.posX,
 
-		player.posY, player.posZ, range);
+				player.posY, player.posZ, range);
 	}
 
 	/**

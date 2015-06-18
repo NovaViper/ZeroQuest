@@ -24,8 +24,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.google.common.collect.Maps;
+
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ZeroQuest;
+import common.zeroquest.lib.IDs;
 
 public class BlockDarkFire extends BlockFire {
 	public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
@@ -113,8 +115,9 @@ public class BlockDarkFire extends BlockFire {
 
 	@Override
 	public void setFireInfo(Block blockIn, int encouragement, int flammability) {
-		if (blockIn == Blocks.air)
+		if (blockIn == Blocks.air) {
 			throw new IllegalArgumentException("Tried to set air on fire... This is bad.");
+		}
 		this.encouragements.put(blockIn, Integer.valueOf(encouragement));
 		this.flammabilities.put(blockIn, Integer.valueOf(flammability));
 	}
@@ -365,7 +368,7 @@ public class BlockDarkFire extends BlockFire {
 
 	@Override
 	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-		if (worldIn.provider.getDimensionId() > ZeroQuest.DarkaxID || !((BlockPortalDarkax) ModBlocks.portalDarkax).func_176548_d(worldIn, pos)) {
+		if (worldIn.provider.getDimensionId() > IDs.Darkax || !((BlockPortalDarkax) ModBlocks.portalDarkax).func_176548_d(worldIn, pos)) {
 			if (!World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && !this.canNeighborCatchFire(worldIn, pos)) {
 				worldIn.setBlockToAir(pos);
 			}

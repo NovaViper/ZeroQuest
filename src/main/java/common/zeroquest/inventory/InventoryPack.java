@@ -98,14 +98,16 @@ public class InventoryPack implements IInventory {
 	public boolean insertStackFromEntity(EntityItem entityItem) {
 		boolean succesful = false;
 
-		if (entityItem == null || entityItem.isDead)
+		if (entityItem == null || entityItem.isDead) {
 			return false;
+		}
 		else {
 			ItemStack itemstack = entityItem.getEntityItem().copy();
 			ItemStack itemstack1 = this.insertStack(itemstack);
 
-			if (itemstack1 != null && itemstack1.stackSize != 0)
+			if (itemstack1 != null && itemstack1.stackSize != 0) {
 				entityItem.setEntityItemStack(itemstack1);
+			}
 			else {
 				succesful = true;
 				entityItem.setDead();
@@ -118,11 +120,13 @@ public class InventoryPack implements IInventory {
 	public ItemStack insertStack(ItemStack stack) {
 		int j = this.getSizeInventory();
 
-		for (int k = 0; k < j && stack != null && stack.stackSize > 0; ++k)
+		for (int k = 0; k < j && stack != null && stack.stackSize > 0; ++k) {
 			stack = tryInsertStackToSlot(stack, k);
+		}
 
-		if (stack != null && stack.stackSize == 0)
+		if (stack != null && stack.stackSize == 0) {
 			stack = null;
+		}
 
 		return stack;
 	}
@@ -139,8 +143,9 @@ public class InventoryPack implements IInventory {
 					this.setInventorySlotContents(slot, stack);
 					stack = null;
 				}
-				else
+				else {
 					this.setInventorySlotContents(slot, stack.splitStack(max));
+				}
 				changed = true;
 			}
 			else if (this.areItemStacksEqualItem(slotStack, stack)) {
@@ -153,8 +158,9 @@ public class InventoryPack implements IInventory {
 				}
 			}
 
-			if (changed)
+			if (changed) {
 				this.markDirty();
+			}
 		}
 
 		return stack;
@@ -241,7 +247,6 @@ public class InventoryPack implements IInventory {
 
 	@Override
 	public void clear() {
-		// TODO Auto-generated method stub
 
 	}
 }

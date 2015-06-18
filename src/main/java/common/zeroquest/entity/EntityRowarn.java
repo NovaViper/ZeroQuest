@@ -3,7 +3,6 @@ package common.zeroquest.entity;
 import net.minecraft.entity.EntityAgeable;
 import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAILookIdle;
-import net.minecraft.entity.ai.EntityAIMoveTowardsRestriction;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.passive.EntityAnimal;
@@ -34,7 +33,6 @@ public class EntityRowarn extends EntityAnimal {
 
 	@Override
 	public EntityAgeable createChild(EntityAgeable ageable) {
-		// TODO Auto-generated method stub
 		return null;
 	}
 }

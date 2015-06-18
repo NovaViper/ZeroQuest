@@ -121,6 +121,10 @@ public class GuiZertumInfo extends GuiScreen {
 	@Override
 	public void drawScreen(int xMouse, int yMouse, float partialTickTime) {
 		this.drawDefaultBackground();
+		int level = this.dog.levels.getLevel();
+		boolean isBaby = this.dog.isChild();
+		boolean hasEvolved = this.dog.hasEvolved();
+		boolean inFinalForm = this.dog.inFinalStage();
 		// Background
 		int topX = this.width / 2;
 		int topY = this.height / 2;
@@ -144,17 +148,40 @@ public class GuiZertumInfo extends GuiScreen {
 		}
 
 		String evoString = null;
-		if (!this.dog.hasEvolved() && !this.dog.isChild() && this.dog.levels.getLevel() < Constants.maxLevel) {
+		if (!hasEvolved && !isBaby && level < Constants.stage2Level) {
 			evoString = "Not at Alpha Level!";
 		}
-		else if (!this.dog.hasEvolved() && this.dog.isChild() && this.dog.levels.getLevel() < Constants.maxLevel) {
+		else if (!hasEvolved && isBaby && level < Constants.stage2Level) {
 			evoString = "Too Young!";
 		}
-		else if (!this.dog.hasEvolved() && !this.dog.isChild() && this.dog.levels.getLevel() >= Constants.maxLevel) {
-			evoString = "Ready!";
+		else if (!hasEvolved && !isBaby && level >= Constants.stage2Level) {
+			evoString = "Ready for Stage 2!";
 		}
-		else if (this.dog.hasEvolved() && !this.dog.isChild()) {
-			evoString = "Already Evolved!";
+		else if (hasEvolved && !isBaby) {
+			evoString = "Already at Stage 2!";
+		}
+		else if (hasEvolved && !inFinalForm && !isBaby && level < Constants.stage3Level) {
+			evoString = "Not at Delta Level!";
+		}
+		else if (hasEvolved && !inFinalForm && isBaby && level < Constants.stage3Level) {
+			evoString = "Too Young!";
+		}
+		else if (hasEvolved && !inFinalForm && !isBaby && level >= Constants.stage3Level) {
+			evoString = "Ready for Stage 3!";
+		}
+		else if (hasEvolved && inFinalForm && !isBaby) {
+			evoString = "Already at Stage 3!";
+		}
+
+		String stageString = null;
+		if (!hasEvolved && !inFinalForm) {
+			stageString = "Stage 1";
+		}
+		else if (hasEvolved && !inFinalForm) {
+			stageString = "Stage 2";
+		}
+		else if (hasEvolved && inFinalForm) {
+			stageString = "Stage 3";
 		}
 
 		//@formatter:off
@@ -165,12 +192,13 @@ public class GuiZertumInfo extends GuiScreen {
 		this.fontRendererObj.drawString("Damage: " + damageState, topX+190, topY-160, 0xFFFFFF);
 		this.fontRendererObj.drawString("Speed: " + speedState, topX+190, topY-150, 0xFFFFFF);
 		this.fontRendererObj.drawString("Tamed: " + tamedString, topX+190, topY-140, 0xFFFFFF);
-		this.fontRendererObj.drawString("State: " + evoString, topX+190, topY-130, 0xFFFFFF);
-		this.fontRendererObj.drawString("Gender: ", topX+190, topY-120, 0xFFFFFF);
+		this.fontRendererObj.drawString("Evo Avlbl: " + evoString, topX+190, topY-130, 0xFFFFFF);
+		this.fontRendererObj.drawString("Stage: " + stageString, topX+190, topY-120, 0xFFFFFF);
+		this.fontRendererObj.drawString("Gender: ", topX+190, topY-110, 0xFFFFFF);
 		//@formatter:on
 		if (this.dog.getGender() == true) {
-			mc.renderEngine.bindTexture(ResourceReference.male); // TODO
-			this.drawModalRectWithCustomSizedTexture(topX + 230, topY - 120, 0, 0, 12, 12, 12, 12);
+			mc.renderEngine.bindTexture(ResourceReference.male);
+			this.drawModalRectWithCustomSizedTexture(topX + 230, topY - 110, 0, 0, 12, 12, 12, 12);
 		}
 		else {
 			mc.renderEngine.bindTexture(ResourceReference.female);

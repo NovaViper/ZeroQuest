@@ -52,24 +52,24 @@ public class ModVersionCheck {
 				int compare = pairedString[1].compareTo(version);
 				if (pairedString[0].equals(name)) {
 					if (compare == 0) {
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN+"Zero Quest "+version+EnumChatFormatting.RESET+" is up to date!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Zero Quest " + version + EnumChatFormatting.RESET + " is up to date!"));
 						status = UP_TO_DATE;
 						break;
 					}
 					else if (isBeta == true && compare < 0) {
-						player.addChatMessage(ChatHelper.getChatComponent("Welcome, "+EnumChatFormatting.GREEN+player.getDisplayNameString()+EnumChatFormatting.RESET+", to "+EnumChatFormatting.GREEN+"Zero Quest"+EnumChatFormatting.RESET+"("+version+")"+" Beta for Minecraft "+EnumChatFormatting.GREEN+MinecraftForge.MC_VERSION+EnumChatFormatting.RESET+"!"));
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN+"Thank you for beta testing!"));
+						player.addChatMessage(ChatHelper.getChatComponent("Welcome, " + EnumChatFormatting.GREEN + player.getDisplayNameString() + EnumChatFormatting.RESET + ", to " + EnumChatFormatting.GREEN + "Zero Quest" + EnumChatFormatting.RESET + "(" + version + ")" + " Beta for Minecraft " + EnumChatFormatting.GREEN + MinecraftForge.MC_VERSION + EnumChatFormatting.RESET + "!"));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Thank you for beta testing!"));
 						status = BETA;
 						break;
 					}
 					else if (compare < 0) {
-						player.addChatMessage(ChatHelper.getChatComponent("Welcome, "+EnumChatFormatting.GREEN+player.getDisplayNameString()+EnumChatFormatting.RESET+", to "+EnumChatFormatting.GREEN+"Zero Quest"+EnumChatFormatting.RESET+"("+version+")"+" Release for Minecraft "+EnumChatFormatting.GREEN+MinecraftForge.MC_VERSION+EnumChatFormatting.RESET+"!"));
+						player.addChatMessage(ChatHelper.getChatComponent("Welcome, " + EnumChatFormatting.GREEN + player.getDisplayNameString() + EnumChatFormatting.RESET + ", to " + EnumChatFormatting.GREEN + "Zero Quest" + EnumChatFormatting.RESET + "(" + version + ")" + " Release for Minecraft " + EnumChatFormatting.GREEN + MinecraftForge.MC_VERSION + EnumChatFormatting.RESET + "!"));
 						status = AHEAD;
 						break;
 					}
 					else {
-						player.addChatMessage(ChatHelper.getChatComponent("A new update: "+EnumChatFormatting.GREEN+"Zero Quest"+EnumChatFormatting.RESET+"("+pairedString[1]+")"+", is available for Minecraft "+EnumChatFormatting.GREEN+MinecraftForge.MC_VERSION+EnumChatFormatting.RESET+"!"));
-						player.addChatMessage(ChatHelper.getChatComponent("Download newest version at: "+link));
+						player.addChatMessage(ChatHelper.getChatComponent("A new update: " + EnumChatFormatting.GREEN + "Zero Quest" + EnumChatFormatting.RESET + "(" + pairedString[1] + ")" + ", is available for Minecraft " + EnumChatFormatting.GREEN + MinecraftForge.MC_VERSION + EnumChatFormatting.RESET + "!"));
+						player.addChatMessage(ChatHelper.getChatComponent("Download newest version at: " + link));
 						if (isBeta == false) {
 							status = OUTDATED;
 						}
@@ -91,7 +91,7 @@ public class ModVersionCheck {
 
 		LogHelper.info("Received version data: %s", status);
 		String chat = String.format("A new %s version exists: %s. Get it here: %s", Constants.name, version, link);
-		String chat2 = String.format("A new %s beta version exists: %s. Get it here: %s", Constants.name, version, link);
+		String chat2 = String.format("A new %s beta version or non beta version exists: %s. Get it here: %s", Constants.name, version, link);
 		if (status == OUTDATED) {
 			LogHelper.info(chat);
 		}

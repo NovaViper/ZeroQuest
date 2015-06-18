@@ -1,8 +1,5 @@
 package common.zeroquest.entity;
 
-import java.util.Random;
-import java.util.UUID;
-
 import net.minecraft.client.particle.EntityFX;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
@@ -10,19 +7,17 @@ import net.minecraft.entity.SharedMonsterAttributes;
 import net.minecraft.entity.ai.EntityAISit;
 import net.minecraft.entity.passive.EntityTameable;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.item.EnumDyeColor;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.util.DamageSource;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
 import common.zeroquest.client.particle.EntityDustFX;
 import common.zeroquest.client.particle.EntityHeartFX;
 import common.zeroquest.inventory.InventoryPack;
-import common.zeroquest.lib.Constants;
 import common.zeroquest.lib.DataValues;
 
 //For NBT Types, look in NBTBase.createNewByType()\\
@@ -43,7 +38,6 @@ public abstract class EntityCustomTameable extends EntityTameable {
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		this.dataWatcher.addObject(DataValues.breed, new Byte((byte) 0)); // Breed
 		this.dataWatcher.addObject(DataValues.gender, new Byte((byte) 0)); // Gender
 		this.dataWatcher.addObject(DataValues.saddle, Byte.valueOf((byte) 0)); // Saddle
 
@@ -83,7 +77,7 @@ public abstract class EntityCustomTameable extends EntityTameable {
 	/* =======================UNIVERSAL======================= */
 
 	/** Gets the gender of an entity. true = male, false = female */
-	public boolean getGender() // TODO
+	public boolean getGender()
 	{
 		return (this.dataWatcher.getWatchableObjectByte(DataValues.gender) & 1) != 0;
 	}
@@ -152,14 +146,14 @@ public abstract class EntityCustomTameable extends EntityTameable {
 
 	/**
 	 * Returns the entity's health relative to the maximum health.
-	 * 
+	 *
 	 * @return health normalized between 0 and 1
 	 */
 	public double getHealthRelative() {
 		return getHealth() / (double) getMaxHealth();
 	}
 
-	public void tamedFor(EntityPlayer player, boolean successful) { // TODO
+	public void tamedFor(EntityPlayer player, boolean successful) { //NAV: For tame command and taming
 		if (successful) {
 			this.setTamed(true);
 			this.navigator.clearPathEntity();
@@ -183,9 +177,9 @@ public abstract class EntityCustomTameable extends EntityTameable {
 
 	/**
 	 * Checks if this entity is running on a client.
-	 * 
+	 *
 	 * Required since MCP's isClientWorld returns the exact opposite...
-	 * 
+	 *
 	 * @return true if the entity runs on a client or false if it runs on a
 	 *         server
 	 */
@@ -195,7 +189,7 @@ public abstract class EntityCustomTameable extends EntityTameable {
 
 	/**
 	 * Checks if this entity is running on a server.
-	 * 
+	 *
 	 * @return true if the entity runs on a server or false if it runs on a
 	 *         client
 	 */
@@ -244,7 +238,7 @@ public abstract class EntityCustomTameable extends EntityTameable {
 		}
 	}
 
-	public boolean hasItemsinChest() // TODO
+	public boolean hasItemsinChest()
 	{
 		if (this.inventory != null && isServer()) {
 			for (int i = 0; i < inventory.getSizeInventory(); ++i) {
@@ -262,7 +256,7 @@ public abstract class EntityCustomTameable extends EntityTameable {
 	 * Called when the mob's health reaches 0.
 	 */
 	@Override
-	public void onDeath(DamageSource par1DamageSource) // TODO
+	public void onDeath(DamageSource par1DamageSource)
 	{
 		super.onDeath(par1DamageSource);
 
@@ -281,16 +275,4 @@ public abstract class EntityCustomTameable extends EntityTameable {
 	}
 
 	/* =======================FOR ZERTUMS ONLY======================= */
-	public void func_70918_i(boolean p_70918_1_) {
-		if (p_70918_1_) {
-			this.dataWatcher.updateObject(DataValues.breed, Byte.valueOf((byte) 1));
-		}
-		else {
-			this.dataWatcher.updateObject(DataValues.breed, Byte.valueOf((byte) 0));
-		}
-	}
-
-	public boolean func_70922_bv() {
-		return this.dataWatcher.getWatchableObjectByte(DataValues.breed) == 1;
-	}
 }

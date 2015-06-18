@@ -31,6 +31,7 @@ public interface IBits {
 	public enum EnumFeedBack {
 		
 		LEVELTOOHIGH(),
+		LEVELTOOLOW(),
 		TOOYOUNG(),
 		JUSTRIGHT(),
 		COMPLETE();

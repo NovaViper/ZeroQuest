@@ -9,7 +9,7 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import common.zeroquest.ModBiomes;
-import common.zeroquest.ZeroQuest;
+import common.zeroquest.lib.IDs;
 import common.zeroquest.world.gen.ChunkProviderDarkax;
 
 public class WorldProviderDarkax extends WorldProvider {
@@ -19,7 +19,7 @@ public class WorldProviderDarkax extends WorldProvider {
 		this.worldChunkMgr = new WorldChunkManagerHell(ModBiomes.darkWasteland, 0F);
 		this.isHellWorld = true;
 		this.hasNoSky = false;
-		this.dimensionId = ZeroQuest.DarkaxID;
+		this.dimensionId = IDs.Darkax;
 	}
 
 	@Override
@@ -108,7 +108,6 @@ public class WorldProviderDarkax extends WorldProvider {
 
 	@Override
 	public String getInternalNameSuffix() {
-		// TODO Auto-generated method stub
 		return "_darkax";
 	}
 }

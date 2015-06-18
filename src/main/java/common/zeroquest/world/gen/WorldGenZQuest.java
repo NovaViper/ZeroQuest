@@ -12,25 +12,27 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.lib.Constants;
+import common.zeroquest.lib.IDs;
 
 public class WorldGenZQuest implements IWorldGenerator {
 
 	@Override
 	public void generate(Random random, int chunkX, int chunkZ, World world, IChunkProvider chunkGenerator, IChunkProvider chunkProvider) {
 
-		switch (world.provider.getDimensionId()) {
-			case -1:
-				generateNether(world, random, chunkX * 16, chunkZ * 16);
-			case 0:
-				generateSurface(world, random, chunkX * 16, chunkZ * 16);
-			case 1:
-				generateEnd(world, random, chunkX * 16, chunkZ * 16);
-			case ZeroQuest.NillaxID:
-				generateNillaxDimension(world, random, chunkX * 16, chunkZ * 16);
-			case ZeroQuest.DarkaxID:
-				if (Constants.DEF_DARKLOAD == true) {
-					generateDarkaxDimension(world, random, chunkX * 16, chunkZ * 16);
-				}
+		if (world.provider.getDimensionId() == -1) { // Nether
+			generateNether(world, random, chunkX * 16, chunkZ * 16);
+		}
+		else if (world.provider.getDimensionId() == 0) { // Overworld
+			generateSurface(world, random, chunkX * 16, chunkZ * 16);
+		}
+		else if (world.provider.getDimensionId() == 1) { // End
+			generateEnd(world, random, chunkX * 16, chunkZ * 16);
+		}
+		else if (world.provider.getDimensionId() == IDs.Nillax) { // Nillax
+			generateNillaxDimension(world, random, chunkX * 16, chunkZ * 16);
+		}
+		else if (world.provider.getDimensionId() == IDs.Darkax) { // Darkax
+			generateDarkaxDimension(world, random, chunkX * 16, chunkZ * 16);
 		}
 	}
 

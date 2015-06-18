@@ -30,8 +30,6 @@ import net.minecraft.entity.projectile.EntityArrow;
 import net.minecraft.init.Items;
 import net.minecraft.item.ItemFood;
 import net.minecraft.item.ItemStack;
-import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.pathfinding.PathNavigateGround;
 import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.AxisAlignedBB;
 import net.minecraft.util.BlockPos;
@@ -41,19 +39,17 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 
 import com.google.common.base.Predicate;
-
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.core.proxy.CommonProxy;
 import common.zeroquest.inventory.InventoryPack;
 import common.zeroquest.lib.Constants;
-import common.zeroquest.lib.DataValues;
 import common.zeroquest.lib.Sound;
 import common.zeroquest.util.ItemUtils;
 
 public class EntityJakan extends EntityCustomTameable /* implements
-													 * IRangedAttackMob */
+ * IRangedAttackMob */
 {
 
 	public static final double maxHealth = 50;
@@ -236,7 +232,7 @@ public class EntityJakan extends EntityCustomTameable /* implements
 	 * sunlight and start to burn.
 	 */
 	@Override
-	public void onLivingUpdate() // TODO
+	public void onLivingUpdate() //NAV:Living Updates
 	{
 		super.onLivingUpdate();
 		if (isServer() && this.getAttackTarget() == null && this.isAngry()) {
@@ -247,7 +243,7 @@ public class EntityJakan extends EntityCustomTameable /* implements
 			this.addPotionEffect(new PotionEffect(10, 200));
 		}
 		// Dying
-		if (this.getHealth() <= Constants.lowHP && this.isTamed()) { // TODO
+		if (this.getHealth() <= Constants.lowHP && this.isTamed()) {
 			double d0 = this.rand.nextGaussian() * 0.04D;
 			double d1 = this.rand.nextGaussian() * 0.04D;
 			double d2 = this.rand.nextGaussian() * 0.04D;
@@ -302,7 +298,7 @@ public class EntityJakan extends EntityCustomTameable /* implements
 		int critChance = 5;
 		critChance += 2;
 
-		if (rand.nextInt(6) < critChance) { // TODO
+		if (rand.nextInt(6) < critChance) {
 			damage += (damage + 3) / 2;
 			double d0 = this.rand.nextGaussian() * 0.02D;
 			double d1 = this.rand.nextGaussian() * 0.02D;
@@ -335,7 +331,7 @@ public class EntityJakan extends EntityCustomTameable /* implements
 		ItemStack stack = player.inventory.getCurrentItem();
 
 		if (this.isTamed()) {
-			if (!this.isChild() && ItemUtils.consumeEquipped(player, Items.saddle) && !this.isSaddled()) // TODO
+			if (!this.isChild() && ItemUtils.consumeEquipped(player, Items.saddle) && !this.isSaddled())
 			{
 				this.setSaddled(true);
 				this.playSound("mob.horse.leather", 0.5F, 1.0F);
@@ -349,7 +345,7 @@ public class EntityJakan extends EntityCustomTameable /* implements
 					return true;
 				}
 			}
-			else if (stack != null && stack.getItem() == Items.stick && canInteract(player)) // TODO
+			else if (stack != null && stack.getItem() == Items.stick && canInteract(player))
 			{
 				if (isServer()) {
 					player.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));

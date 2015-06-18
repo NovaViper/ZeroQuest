@@ -17,9 +17,9 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 import net.minecraft.world.WorldServer;
-
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ZeroQuest;
+import common.zeroquest.lib.IDs;
 
 public class BlockPortalNillax extends BlockPortal {
 
@@ -36,7 +36,7 @@ public class BlockPortalNillax extends BlockPortal {
 	@Override
 	public void onEntityCollidedWithBlock(World worldIn, BlockPos pos, IBlockState state, Entity entityIn) {
 		if (entityIn.ridingEntity == null && entityIn.riddenByEntity == null) {
-			int id = ZeroQuest.NillaxID;
+			int id = IDs.Nillax;
 			if (entityIn.dimension == id) {
 				id = 0;
 			}
@@ -46,28 +46,27 @@ public class BlockPortalNillax extends BlockPortal {
 				MinecraftServer mcServer = player.mcServer;
 
 				if (player.timeUntilPortal > 0) {
-					player.timeUntilPortal = 10;
+					player.timeUntilPortal = 400;
+					player.setInPortal();
 				}
-				else if (player.dimension != ZeroQuest.NillaxID) {
-					player.timeUntilPortal = 10;
-					player.mcServer.getConfigurationManager().transferPlayerToDimension(player, ZeroQuest.NillaxID, new TeleporterNillax(mcServer.worldServerForDimension(ZeroQuest.NillaxID)));
+				else if (player.dimension != IDs.Nillax) {
+					player.timeUntilPortal = 400;
+					player.mcServer.getConfigurationManager().transferPlayerToDimension(player, IDs.Nillax, new TeleporterNillax(mcServer.worldServerForDimension(IDs.Nillax)));
 				}
 				else {
-					player.timeUntilPortal = 10;
+					player.timeUntilPortal = 400;
 					player.mcServer.getConfigurationManager().transferPlayerToDimension(player, 0, new TeleporterNillax(mcServer.worldServerForDimension(0)));
 				}
 			}
-			//@formatter:off
-			/*else {
+			else {
 				travelToDimension(entityIn, id);
-			}*/
-			//@formatter:on
+			}
 		}
 	}
 
-	//@formatter:off
-	/*private void travelToDimension(Entity entity, int id) {
+	private void travelToDimension(Entity entity, int id) {
 		if (!entity.worldObj.isRemote && !entity.isDead) {
+			entity.timeUntilPortal = 10;
 			entity.worldObj.theProfiler.startSection("changeDimension");
 			MinecraftServer minecraftserver = MinecraftServer.getServer();
 			int j = entity.dimension;
@@ -83,7 +82,6 @@ public class BlockPortalNillax extends BlockPortal {
 			entity.worldObj.removeEntity(entity);
 			entity.isDead = false;
 			entity.worldObj.theProfiler.startSection("reposition");
-			entity.timeUntilPortal = 10;
 			minecraftserver.getConfigurationManager().transferEntityToWorld(entity, j, worldserver, worldserver1, new TeleporterNillax(worldserver1));
 			entity.worldObj.theProfiler.endStartSection("reloading");
 			Entity entity1 = EntityList.createEntityByName(EntityList.getEntityString(entity), worldserver1);
@@ -105,9 +103,9 @@ public class BlockPortalNillax extends BlockPortal {
 			worldserver.resetUpdateEntityTick();
 			worldserver1.resetUpdateEntityTick();
 			entity.worldObj.theProfiler.endSection();
+			entity.getPortalCooldown();
 		}
-	}*/
-	//@formatter:on
+	}
 
 	@Override
 	public boolean func_176548_d(World worldIn, BlockPos p_176548_2_) {

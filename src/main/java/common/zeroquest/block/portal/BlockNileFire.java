@@ -24,8 +24,10 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
 import com.google.common.collect.Maps;
+
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ZeroQuest;
+import common.zeroquest.lib.IDs;
 
 public class BlockNileFire extends BlockFire {
 	public static final PropertyInteger AGE = PropertyInteger.create("age", 0, 15);
@@ -371,7 +373,7 @@ public class BlockNileFire extends BlockFire {
 
 	@Override
 	public void onBlockAdded(World worldIn, BlockPos pos, IBlockState state) {
-		if (worldIn.provider.getDimensionId() > ZeroQuest.NillaxID || !((BlockPortalNillax) ModBlocks.portalNillax).func_176548_d(worldIn, pos)) {
+		if (worldIn.provider.getDimensionId() > IDs.Nillax || !((BlockPortalNillax) ModBlocks.portalNillax).func_176548_d(worldIn, pos)) {
 			if (!World.doesBlockHaveSolidTopSurface(worldIn, pos.down()) && !this.canNeighborCatchFire(worldIn, pos)) {
 				worldIn.setBlockToAir(pos);
 			}

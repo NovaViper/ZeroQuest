@@ -3,12 +3,12 @@ package common.zeroquest.events;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
-
 import common.zeroquest.ModAchievements;
 import common.zeroquest.ModBlocks;
 import common.zeroquest.ModItems;
 import common.zeroquest.ZeroQuest;
 import common.zeroquest.lib.Constants;
+import common.zeroquest.lib.IDs;
 
 public class AchievementEvents {
 	// Get Achievements in ModAchievements\\
@@ -55,11 +55,11 @@ public class AchievementEvents {
 
 	@SubscribeEvent
 	public void TravelEvent(PlayerEvent.PlayerChangedDimensionEvent event) {
-		if (event.toDim == ZeroQuest.NillaxID) {
+		if (event.toDim == IDs.Nillax) {
 			event.player.addStat(ModAchievements.TraveltoNillax, 1);
 		}
 		if (Constants.DEF_DARKLOAD == true) {
-			if (event.toDim == ZeroQuest.DarkaxID) {
+			if (event.toDim == IDs.Darkax) {
 				event.player.addStat(ModAchievements.TraveltoDarkax, 1);
 			}
 		}

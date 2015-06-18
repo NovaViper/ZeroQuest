@@ -1,188 +1,26 @@
-ZERO QUEST CHANGE LOG
+ZERO QUEST™ OFFICAL CHANGE LOG
 
 |===SYMBOL KEY===|
 |+ = Addition    |
 |- = Deletion    |
-|~ = Bug Fix     |
 |* = Enhancement |
 |# = Changed     |
+|~ = Bug Fix     |
 |^ = Important   |
 |================|
 
-Alpha 0.0.1
-+Initial Alpha Release
+################################################ Minecraft 1.8 ################################################
 
-Beta 0.0.2
-+Initial Beta Release
-+Added inventory to Jakan
-+Added Kurr - mob
-+Added Kortor - tameable creature
-#Altered taming code for passive/tameable Nile creatures
-#Changed Jakan Prime code
-*Altered Darkax Dimension to spawn like Nillax/Overworld
-*Rearranged code
-~Fixed most code and errors
-
-v1.0.0 Release - Official Release
-+Added new Biomes to Nillax Dimension (Nile Mesa, Nile Jungles, Niles Swamplands, Nile Mountains/Extreme Hills)
-+Added Nile Grenade
-+Added Acid and Nili fluids and buckets!
-+Added Nile rivers and oceans (Unused for now)
-+Added vanilla mobs to Nillax Dimension!
-#Changed lots of stuff!
--Removed Jakan Prime
-~Fixed Client console info for mod
-~Fixed "Bound Not Positive" bug!
-
-v1.0.5 (Re-Uploaded) - TIME FOR THE KURR TO STRIKE!
-+Added Kurr seeds
-#Altered Kurr for even HARDER difficulty!
-#Kurrs now drop around 50 EXP
-~Fixed Biome Code Mix-up
-
-V1.1.0 - Pet Splash!
-+Added Ice Zertum
-+Added Foris Zertum
-+Added Changelog file
-+Added Inventory to Kortor
-~Fixed commands healing and changing age of non-tamed nile creatures
-#Changed Ids for Jakan
-*When using heal and aging commands, particles now spawn to indicate the command has been sent (not)
-#Adjusted how much Jakan Meat and Zertum Meat heals
-#Increased Inventory space for All Zertums
-#Changed BiomeGenBlueNile file to BiomeGenBlueTaiga
-
-V1.1.5 - Re-designer!
-#Redesigned all Zertums!
-
-V1.2.0 - Waves of change
-+Added help command
-+Added version command
-+Added purge command
-+Added Aliases for commands
-+Added Beta version checker(Currently not used)
-+Given Zertums fetching AI
-+Added Toy ball
-+Addded Travel To Nillax and Travel to Darkax Achievements
--Removed Dark Particles toggle
--Removed Nile Stone
--Removed Nile Cobblestone
-~Fixed Fire immunity bug from v1.1.5
-~Fixed occasional particle crash
-#Adjusted size that allows Zertums to fit through doors and narrow spaces (not physical/rendering size)
-#Switched methods to main class
-#Rearranged Tab complete commands
-#Now tameable nile creatures extend to the class file EntityTameable
-#Now nile mobs extend to the class file EntityMob
-*Now integrated for the new Forge Configurations GUI
-#Changed Dog Treat texture
-
-V1.2.5 - Someone's saying goodbye!
-+Added Snow Footprints configuration for Ice Zertum
--Removed Nili and Acid
--Removed Nili Bucket and Acid Bucket
--Removed Localization handler (was not being used since 1.7)
--Removed Custom Elemental Inventory skins (all tameable entities now use the same inventory class)
-~Custom liquid bug fixed because of deletion
-~Fixed Server errors relating to entities!
-#Altered the Nillax and Darkax Dimension
-#Inventory classes reduced for more memory!
-*Commands now ignore cases
-
-V1.2.8 - Beta: Stepping over for 1.8!
-+Added version tag for update checking
-*Improved version checker
-^Beginning of conversion to Minecraft 1.8^
-
-v1.3.0 - The 1.8 Crossover
-+Added more command aliases
-+Added Dark Bow
-+Added Grass Footprints configuration for Foris Zertum
-+Added Block of Dark Essence
-+Added Block of Nile Essence
-+Added FOV zoom on bows
-#*^Due to major updates, Nile and Dark sparks are now used for traveling to the Nillax/Darkax Dimensions^
--Removed Toy
--Removed unused code
-*Renamed Dark Nile Bone to Dark Bone
-#Altered textures for Nile Bow, Nile Bone, Nile Sword, Dark Sword, and Dark Bone
-#Dark Bone can now be with using Dark Dust and regular bones
-#Nile Essence and Nile Dust can now appear in Bonus Chests
-#Rewritted everything for 1.8
-#Kortor now drops mutton
-#Foris Zertums can now make dirt into grass in light AND darkness
-#Moved certain elements to the Constants file
-#Ores now use a super class!
-*Made ores glow again!
-
-v1.4.0 - Fixes and New Stuff!
-+Added Riggator
-+Added Metal Zertum
-+Added Howling function and configurations
-*All types of Zertums can now howl at night!
-#*Dimmed down some biome colors
-#Made Nile Coal burn longer
-#Made Nile Coal Ore and Nile Grain Ore spawn less often
-#Rearranged some code again
-#Zertums all now use a super class file!
-#Altered Nile Coal Ore texture
-#^The author's name has changed from NViper21/QueenViper21 to NovaViper! See details on http://zeroquest.wikia.com/wiki/User_blog:NovaViper/Switching_Names_on_Websites^
-~Fixed a simple, but possibly problematic error when registering the Nillax and Darkax Stone
-
-v1.5.0 - More Fixes and Doggy Talent Implementations!
-^Doggy Talents Features Now Avaiable! (Credit goes to ProPercivalalb, author of Doggy Talents for originally creating these!)^
-    +Added Talents
-    +Added Food Bowl
-    +Added Command Seal
-    +Added Bits (Micro, Mega, Omega and Alpha)
-    *Zertums can now fetch toys again!
-    *Zertums can now be ridden
-+Added Wild parameter for Purge command
-+Added another aliases for the Zero Quest command
-+Added crafting recipes for dog treat that uses Mutton and Rabbit
-+Added custom elemental Inventory skins once again!
-+Added saddles to Zertums
-#Altered Zertum Model again!
-#Made Riggators stronger
-#Metal Zertums will now attack Zombies and Skeletons instead of Wolves when not tamed
-#Modified Version Checker
--Removed Roar Sound from Metal Zertums
-*Jakans and Kortors can now jump when riding on them
-~Fixed Wither skulls aren't spawning when the Wither attacks
-~Fixed crashing when loading achievements WITHOUT Dark Load enabled
-~Fixed a bug where Baby Zertums howl at any time
-
-v1.6.0 - Evolution for Zertums and Even More Fixes! Portal Revival!!
-*^Portals to the Nillax/Darkax Dimensions are now functional again!^
--^Nile/Dark Sparks are no longer used to travel to the Nillax/Darkax Dimensions!^
-+Added Evo Bits
-+Added Evolve commands
-+Added Level Up commands
-+Added an evolutionary form for Zertums!
-+Added Deathening Roar Talent
-+Added Frigid Frost Talen
-+Added Flaming Elemental Talent
-+Added Sharpened Weapons Talent
-+Added Entity stats in Zertum GUI
-#Metal Zertums growl instead of roaring when a creeper is near
-#Rasied maximum level to 120!
-#Altered Metal Zertum spawn egg color
-#Baby Zertums do not howl at all
-#Talent points dedecutions count by odd numbers now
-#Altered some text in lang file
-#Renamed Guardian talent to Hardened Skin
-*^Merged Fire Zertum to the Flaming Elemental Talent^
-*Simplified coding
-*When untaming a Zertum, they will revert back to their normal state
-*Most commands now have certain requirements before they can be used
-*You can now mount on Kortors and Jakans by jumping first then right-click and with an non-usable item in hand
-*Ice and Red Zertums now have evironmental weaknesses: Ice Zertums are weak to hot biomes and Red Zertums are weak to water
-*Moved registeration orders of blocks and items
-~Fixed bug where Dark Zertums can only be tamed with nile bones instead of dark bones
-~Fixed potential memory leaks!
-~Fixed bug where the model for the food bowl cannot be found!
-~Adjusted heal cost for Life Giver talent to 40 ticks at level 5!
--Players can no longer respawn in the Nillax Dimension
+v1.8.0 - Evolution Stages
++Added ID Configurations for biomes and dimensions
++Added Minecraft Forge version details in Version command
++Added configuration version
+-Zertums no longer have emergency healing (have periodic healing)
+*Adjusted Mount level to 5 and adjusted jumping strength
+*Organized configurations
+#Changed IDs of biomes and dimensions!
+#Changed arrangement of the change log! (From newest to oldest version)
+~Fixed crash when Dark Load is off
 
 v1.7.0 - Realistic Breeding and Bug Fixes! (Re-Uploaded)
 +Added tame status
@@ -196,7 +34,7 @@ v1.7.0 - Realistic Breeding and Bug Fixes! (Re-Uploaded)
 *Simplified code again!
 #Changed Nile Crafting Table item texture
 #^Changed the logo texture (See http://zeroquest.wikia.com/wiki/User_blog:NovaViper/-IMPORTANT-_Adding_trademarks_to_all_images_and_logos!)
-#^Renamed Textures:^
+#*^Renamed Textures:
     *niletable to nileTable in the gui textures
     *nileWorktable to nileTable in the model textures
 #Life Giver heal costs is now 95
@@ -204,3 +42,182 @@ v1.7.0 - Realistic Breeding and Bug Fixes! (Re-Uploaded)
 ~Fixed Server errors relating with Darkax Portals
 ~Fixed bug with mounting on Jakans and Kortors
 ~Fixed a major bug relating with the bounding box of the player in follow AI << Reason for re-upload
+
+v1.6.0 - Evolution for Zertums and Even More Fixes! Portal Revival!!
++Added Evo Bits
++Added Evolve commands
++Added Level Up commands
++Added an evolutionary form for Zertums!
++Added Deathening Roar Talent
++Added Frigid Frost Talen
++Added Flaming Elemental Talent
++Added Sharpened Weapons Talent
++Added Entity stats in Zertum GUI
+-^Nile/Dark Sparks are no longer used to travel to the Nillax/Darkax Dimensions!
+-Players can no longer respawn in the Nillax Dimension
+*^Portals to the Nillax/Darkax Dimensions are now functional again!^
+*^Merged Fire Zertum to the Flaming Elemental Talent
+*Simplified coding
+*When untaming a Zertum, they will revert back to their normal state
+*Most commands now have certain requirements before they can be used
+*You can now mount on Kortors and Jakans by jumping first then right-click and with an non-usable item in hand
+*Ice and Red Zertums now have evironmental weaknesses: Ice Zertums are weak to hot biomes and Red Zertums are weak to water
+#Metal Zertums growl instead of roaring when a creeper is near
+#Rasied maximum level to 120!
+#Altered Metal Zertum spawn egg color
+#Baby Zertums do not howl at all
+#Talent points dedecutions count by odd numbers now
+#Altered some text in lang file
+#Renamed Guardian talent to Hardened Skin
+*Moved registeration orders of blocks and items
+~Fixed bug where Dark Zertums can only be tamed with nile bones instead of dark bones
+~Fixed potential memory leaks!
+~Fixed bug where the model for the food bowl cannot be found!
+~Adjusted heal cost for Life Giver talent to 40 ticks at level 5!
+
+v1.5.0 - More Fixes and Doggy Talent Implementations!
++Doggy Talents Features Now Avaiable! (Credit goes to ProPercivalalb, author of Doggy Talents for originally creating these!)
+    +Added Talents
+    +Added Food Bowl
+    +Added Command Seal
+    +Added Bits (Micro, Mega, Omega and Alpha)
+    *Zertums can now fetch toys again!
+    *Zertums can now be ridden
++Added Wild parameter for Purge command
++Added another aliases for the Zero Quest command
++Added crafting recipes for dog treat that uses Mutton and Rabbit
++Added custom elemental Inventory skins once again!
++Added saddles to Zertums
+*Jakans and Kortors can now jump when riding on them
+#Altered Zertum Model again!
+#Made Riggators stronger
+#Metal Zertums will now attack Zombies and Skeletons instead of Wolves when not tamed
+#Modified Version Checker
+-Removed Roar Sound from Metal Zertums
+~Fixed Wither skulls aren't spawning when the Wither attacks
+~Fixed crashing when loading achievements WITHOUT Dark Load enabled
+~Fixed a bug where Baby Zertums howl at any time
+
+v1.4.0 - Fixes and New Stuff!
++Added Riggator
++Added Metal Zertum
++Added Howling function and configurations
+*All types of Zertums can now howl at night!
+#*Dimmed down some biome colors
+#Made Nile Coal burn longer
+#Made Nile Coal Ore and Nile Grain Ore spawn less often
+#Rearranged some code again
+#Zertums all now use a super class file!
+#Altered Nile Coal Ore texture
+#^The author's name has changed from NViper21/QueenViper21 to NovaViper! See details on http://zeroquest.wikia.com/wiki/User_blog:NovaViper/Switching_Names_on_Websites
+~Fixed a simple, but possibly problematic error when registering the Nillax and Darkax Stone
+
+v1.3.0 - The 1.8 Crossover
++Added more command aliases
++Added Dark Bow
++Added Grass Footprints configuration for Foris Zertum
++Added Block of Dark Essence
++Added Block of Nile Essence
++Added FOV zoom on bows
+-Removed Toy
+-Removed unused code
+*Renamed Dark Nile Bone to Dark Bone
+#*^Due to major updates, Nile and Dark sparks are now used for traveling to the Nillax/Darkax Dimensions
+*Made ores glow again!
+#Altered textures for Nile Bow, Nile Bone, Nile Sword, Dark Sword, and Dark Bone
+#Dark Bone can now be with using Dark Dust and regular bones
+#Nile Essence and Nile Dust can now appear in Bonus Chests
+#Rewritted everything for 1.8
+#Kortor now drops mutton
+#Foris Zertums can now make dirt into grass in light AND darkness
+#Moved certain elements to the Constants file
+#Ores now use a super class!
+
+################################################ Minecraft 1.7 ################################################
+
+V1.2.8 - Beta: Stepping over for 1.8!
++Added version tag for update checking
+*Improved version checker
+^Beginning of conversion to Minecraft 1.8
+
+V1.2.5 - Someone's saying goodbye!
++Added Snow Footprints configuration for Ice Zertum
+-Removed Nili and Acid
+-Removed Nili Bucket and Acid Bucket
+-Removed Localization handler (was not being used since 1.7)
+-Removed Custom Elemental Inventory skins (all tameable entities now use the same inventory class)
+*Commands now ignore cases
+#Altered the Nillax and Darkax Dimension
+#Inventory classes reduced for more memory!
+~Custom liquid bug fixed because of deletion
+~Fixed Server errors relating to entities!
+
+v1.2.0 - Waves of change
++Added help command
++Added version command
++Added purge command
++Added Aliases for commands
++Added Beta version checker(Currently not used)
++Given Zertums fetching AI
++Added Toy ball
++Addded Travel To Nillax and Travel to Darkax Achievements
+-Removed Dark Particles toggle
+-Removed Nile Stone
+-Removed Nile Cobblestone
+*Now integrated for the new Forge Configurations GUI
+#Adjusted size that allows Zertums to fit through doors and narrow spaces (not physical/rendering size)
+#Switched methods to main class
+#Rearranged Tab complete commands
+#Now tameable nile creatures extend to the class file EntityTameable
+#Now nile mobs extend to the class file EntityMob
+#Changed Dog Treat texture
+~Fixed Fire immunity bug from v1.1.5
+~Fixed occasional particle crash
+
+v1.1.5 - Re-designer!
+#Redesigned all Zertums!
+
+v1.1.0 - Pet Splash!
++Added Ice Zertum
++Added Foris Zertum
++Added Changelog file
++Added Inventory to Kortor
+*When using heal and aging commands, particles now spawn to indicate the command has been sent (not)
+#Changed Ids for Jakan
+#Adjusted how much Jakan Meat and Zertum Meat heals
+#Increased Inventory space for All Zertums
+#Changed BiomeGenBlueNile file to BiomeGenBlueTaiga
+~Fixed commands healing and changing age of non-tamed nile creatures
+
+v1.0.5 (Re-Uploaded) - TIME FOR THE KURR TO STRIKE!
++Added Kurr seeds
+#Altered Kurr for even HARDER difficulty!
+#Kurrs now drop around 50 EXP
+~Fixed Biome Code Mix-up
+
+v1.0.0 Release - Official Release
++Added new Biomes to Nillax Dimension (Nile Mesa, Nile Jungles, Niles Swamplands, Nile Mountains/Extreme Hills)
++Added Nile Grenade
++Added Acid and Nili fluids and buckets!
++Added Nile rivers and oceans (Unused for now)
++Added vanilla mobs to Nillax Dimension!
+-Removed Jakan Prime
+#Changed lots of stuff!
+~Fixed Client console info for mod
+~Fixed "Bound Not Positive" bug!
+
+Beta 0.0.2
++Initial Beta Release
++Added inventory to Jakan
++Added Kurr - mob
++Added Kortor - tameable creature
+*Altered Darkax Dimension to spawn like Nillax/Overworld
+*Rearranged code
+#Altered taming code for passive/tameable Nile creatures
+#Changed Jakan Prime code
+~Fixed most code and errors
+
+################################################ Minecraft 1.6 ################################################
+
+Alpha 0.0.1
++Initial Alpha Release

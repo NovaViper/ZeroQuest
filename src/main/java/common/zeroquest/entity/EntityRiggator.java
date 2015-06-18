@@ -179,7 +179,7 @@ public class EntityRiggator extends EntityCustomMob {
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity) // TODO
+	public boolean attackEntityAsMob(Entity par1Entity)
 	{
 		float damage = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
 		int knockback = 2;
@@ -233,7 +233,7 @@ public class EntityRiggator extends EntityCustomMob {
 		}
 	}
 
-	private boolean getWatchableBoolean(int p_110233_1_) // TODO
+	private boolean getWatchableBoolean(int p_110233_1_)
 	{
 		return (this.dataWatcher.getWatchableObjectInt(DataValues.mouth) & p_110233_1_) != 0;
 	}
@@ -254,7 +254,7 @@ public class EntityRiggator extends EntityCustomMob {
 		return this.prevMouthOpenness + (this.mouthOpenness - this.prevMouthOpenness) * p_110201_1_;
 	}
 
-	private void openMouth() // TODO
+	private void openMouth()
 	{
 		if (this.isServer()) {
 			this.openMouthCounter = 1;

@@ -5,6 +5,7 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
 import common.zeroquest.api.interfaces.IBits;
+import common.zeroquest.api.interfaces.IBits.EnumFeedBack;
 import common.zeroquest.core.helper.ChatHelper;
 import common.zeroquest.entity.zertum.EntityZertumEntity;
 import common.zeroquest.lib.Constants;
@@ -20,14 +21,17 @@ public class ItemAlphaBit extends ItemZQ implements IBits {
 
 	@Override
 	public EnumFeedBack canGiveToDog(EntityPlayer player, EntityZertumEntity dog, int level) {
-		if (level >= 70 && level < Constants.maxLevel && dog.getGrowingAge() >= 0) {
+		if (level > 70 && level < Constants.stage2Level && dog.getGrowingAge() >= 0) {
 			return EnumFeedBack.JUSTRIGHT;
 		}
 		else if (dog.getGrowingAge() < 0) {
 			return EnumFeedBack.TOOYOUNG;
 		}
-		else if (level < 70) {
+		else if (level > Constants.stage2Level) {
 			return EnumFeedBack.LEVELTOOHIGH;
+		}
+		else if (level < 70) {
+			return EnumFeedBack.LEVELTOOLOW;
 		}
 		else {
 			return EnumFeedBack.COMPLETE;
@@ -59,11 +63,18 @@ public class ItemAlphaBit extends ItemZQ implements IBits {
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + dog.getPetName() + " is too young to be learning skills!"));
 			}
 		}
-		else if (type == EnumFeedBack.LEVELTOOHIGH) {
+		else if (type == EnumFeedBack.LEVELTOOLOW) {
 			player.worldObj.setEntityState(dog, (byte) 6);
 			if (isServer(player)) {
 				dog.playTameEffect(false);
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + dog.getPetName() + " can't possibly handle the power in these bits!"));
+			}
+		}
+		else if (type == EnumFeedBack.LEVELTOOHIGH) {
+			player.worldObj.setEntityState(dog, (byte) 6);
+			if (isServer(player)) {
+				dog.playTameEffect(false);
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.RED + dog.getPetName() + " cannot gain anything from these bits anymore!"));
 			}
 		}
 		else if (type == EnumFeedBack.COMPLETE) {
