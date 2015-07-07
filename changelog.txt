@@ -24,6 +24,7 @@ v1.8.0 - Evolution Stages
 #Changed IDs of biomes and dimensions!
 #Changed arrangement of the change log! (From newest to oldest version)
 #Changed all packages to latest package setup
+#Raised Zertum max level to 140!
 ~Fixed crash when Dark Load is off
 
 v1.7.0 - Realistic Breeding and Bug Fixes! (Re-Uploaded)
