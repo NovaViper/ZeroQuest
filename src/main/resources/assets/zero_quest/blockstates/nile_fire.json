@@ -80,7 +80,7 @@
         "alt=true,east=false,flip=false,north=true,south=true,upper=1,west=true": { "model": "zero_quest:nile_fire_nseu1_alt", "y": 180 },
         "alt=true,east=true,flip=false,north=true,south=false,upper=1,west=true": { "model": "zero_quest:nile_fire_nseu1_alt", "y": 270 },
         "alt=true,east=true,flip=false,north=true,south=true,upper=1,west=true": { "model": "zero_quest:nile_fire_nsewu1_alt" },
-        "alt=true,east=false,flip=false,north=false,south=false,upper=2,west=false": { "model": "zero_quest:fire_u2_main" },
+        "alt=true,east=false,flip=false,north=false,south=false,upper=2,west=false": { "model": "zero_quest:nile_fire_u2_main" },
         "alt=true,east=false,flip=false,north=false,south=true,upper=2,west=false": { "model": "zero_quest:nile_fire_nu2_alt", "y": 180 },
         "alt=true,east=false,flip=false,north=false,south=false,upper=2,west=true": { "model": "zero_quest:nile_fire_nu2_alt", "y": 270 },
         "alt=true,east=false,flip=false,north=true,south=false,upper=2,west=false": { "model": "zero_quest:nile_fire_nu2_alt" },

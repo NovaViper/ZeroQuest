@@ -12,14 +12,18 @@ ZERO QUEST™ OFFICAL CHANGE LOG
 ################################################ Minecraft 1.8 ################################################
 
 v1.8.0 - Evolution Stages
++Added Pettra Bit - Stage 3 Evolution Bit
++Added Delta Bit - 120+ level bit
 +Added ID Configurations for biomes and dimensions
 +Added Minecraft Forge version details in Version command
 +Added configuration version
 -Zertums no longer have emergency healing (have periodic healing)
 *Adjusted Mount level to 5 and adjusted jumping strength
 *Organized configurations
+*Moved Mod Check configuration under the function category
 #Changed IDs of biomes and dimensions!
 #Changed arrangement of the change log! (From newest to oldest version)
+#Changed all packages to latest package setup
 ~Fixed crash when Dark Load is off
 
 v1.7.0 - Realistic Breeding and Bug Fixes! (Re-Uploaded)
