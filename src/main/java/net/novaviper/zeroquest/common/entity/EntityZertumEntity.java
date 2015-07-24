@@ -429,7 +429,12 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	 */
 	@Override
 	public float getSoundVolume() {
-		return 1F;
+		if (!this.inFinalStage()) {
+			return 1F;
+		}
+		else {
+			return 2F;
+		}
 	}
 
 	/**
@@ -549,10 +554,10 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 
 		if (Constants.DEF_HOWL == true) {
 			if (this.isServer()) {
-				if (this.worldObj.isDaytime() && this.isChild()) {
+				if (this.rand.nextInt(10) == 4 && this.worldObj.isDaytime() && this.isChild()) {
 					wantToHowl = false;
 				}
-				else if (!this.isChild()) {
+				else {
 					wantToHowl = true;
 				}
 			}
@@ -931,7 +936,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
 			EntityPlayer entityplayer = (EntityPlayer) par1DamageSource.getEntity();
 			{
-				entityplayer.triggerAchievement(ModAchievements.ZertKill);
+				entityplayer.triggerAchievement(ModAchievements.zertumKill);
 				this.dropChestItems();
 
 			}
@@ -1274,8 +1279,9 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 			this.worldObj.setEntityState(this, (byte) 7);
 			this.saveOwnerName(player.getDisplayNameString());
 			this.saveOwnerID(player.getUniqueID().toString());
-			player.triggerAchievement(ModAchievements.ZertTame);
+			player.triggerAchievement(ModAchievements.zertumTame);
 			//@formatter:off
+			//Debuging Owner name and ID
 			//System.out.println("ID: " + zertum.getOwnerID() + ", Name: " + zertum.getOwnerName());
 			//@formatter:on
 		}

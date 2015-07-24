@@ -10,6 +10,7 @@ package net.novaviper.zeroquest.common.lib;
  * Entity: 0, 1, 2, 3, 4
  * NOTE: DataValues CANNOT go over 31!
  */
+
 public class DataValues {
 
 	// Universal Data Values \\

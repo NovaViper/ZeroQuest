@@ -247,7 +247,7 @@ public class EntityKortor extends EntityCustomTameable {
 	 * sunlight and start to burn.
 	 */
 	@Override
-	public void onLivingUpdate() //NAV: Living Updates
+	public void onLivingUpdate() // NAV: Living Updates
 	{
 		super.onLivingUpdate();
 		if (isServer() && this.getAttackTarget() == null && this.isAngry()) {
@@ -305,8 +305,7 @@ public class EntityKortor extends EntityCustomTameable {
 		}
 	}
 
-	private boolean getHorseWatchableBoolean(int p_110233_1_)
-	{
+	private boolean getHorseWatchableBoolean(int p_110233_1_) {
 		return (this.dataWatcher.getWatchableObjectInt(DataValues.mouth) & p_110233_1_) != 0;
 	}
 
@@ -403,8 +402,7 @@ public class EntityKortor extends EntityCustomTameable {
 		ItemStack stack = player.inventory.getCurrentItem();
 
 		if (this.isTamed()) {
-			if (!this.isChild() && ItemUtils.consumeEquipped(player, Items.saddle) && !this.isSaddled())
-			{
+			if (!this.isChild() && ItemUtils.consumeEquipped(player, Items.saddle) && !this.isSaddled()) {
 				this.setSaddled(true);
 				this.playSound("mob.horse.leather", 0.5F, 1.0F);
 			}
@@ -413,12 +411,11 @@ public class EntityKortor extends EntityCustomTameable {
 					this.getSitAI().setSitting(false);
 					this.setSitting(false);
 					player.mountEntity(this);
-					player.triggerAchievement(ModAchievements.MountUp);
+					player.triggerAchievement(ModAchievements.mountUp);
 					return true;
 				}
 			}
-			else if (stack != null && stack.getItem() == Items.stick && canInteract(player))
-			{
+			else if (stack != null && stack.getItem() == Items.stick && canInteract(player)) {
 				if (isServer()) {
 					player.openGui(ZeroQuest.instance, CommonProxy.PetPack, this.worldObj, this.getEntityId(), MathHelper.floor_double(this.posY), MathHelper.floor_double(this.posZ));
 					this.worldObj.playSoundEffect(this.posX, this.posY + 0.5D, this.posZ, "random.chestopen", 0.5F, this.worldObj.rand.nextFloat() * 0.1F + 0.9F);

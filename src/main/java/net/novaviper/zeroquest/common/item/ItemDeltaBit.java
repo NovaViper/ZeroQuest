@@ -3,6 +3,7 @@ package net.novaviper.zeroquest.common.item;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.EnumChatFormatting;
+import net.novaviper.zeroquest.ModAchievements;
 import net.novaviper.zeroquest.common.api.interfaces.IBits;
 import net.novaviper.zeroquest.common.entity.EntityZertumEntity;
 import net.novaviper.zeroquest.common.helper.ChatHelper;

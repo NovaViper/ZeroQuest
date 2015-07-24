@@ -212,13 +212,12 @@ public class EntityKurr extends EntityCustomMob /* implements IRangedAttackMob *
 	 * Called when the mob's health reaches 0.
 	 */
 	@Override
-	public void onDeath(DamageSource par1DamageSource)
-	{
+	public void onDeath(DamageSource par1DamageSource) {
 		super.onDeath(par1DamageSource);
 		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
 			EntityPlayer entityplayer = (EntityPlayer) par1DamageSource.getEntity();
 			{
-				entityplayer.triggerAchievement(ModAchievements.DragonSlayer);
+				entityplayer.triggerAchievement(ModAchievements.dragonSlayer);
 			}
 		}
 	}
@@ -281,8 +280,7 @@ public class EntityKurr extends EntityCustomMob /* implements IRangedAttackMob *
 	}
 
 	@Override
-	public boolean attackEntityAsMob(Entity par1Entity)
-	{
+	public boolean attackEntityAsMob(Entity par1Entity) {
 		float damage = (float) this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
 		int knockback = 5;
 

@@ -1,7 +1,10 @@
 package net.novaviper.zeroquest.client;
 
+import net.minecraft.block.Block;
 import net.minecraft.block.BlockFire;
+import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.Minecraft;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.entity.RenderItem;
 import net.minecraft.client.renderer.entity.RenderManager;
 import net.minecraft.entity.Entity;
@@ -9,6 +12,7 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Items;
 import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.novaviper.zeroquest.ModBlocks;
 import net.novaviper.zeroquest.ModItems;
@@ -97,20 +101,24 @@ public class ClientProxy extends CommonProxy {
 
 	@Override
 	public void registerStateMappings() {
-		Registers.addStateMapperToIgnore(ModBlocks.nileFire, BlockNileFire.AGE);
-		Registers.addStateMapperToIgnore(ModBlocks.nileFire, BlockFire.AGE);
+		addStateMapperToIgnore(ModBlocks.nileFire, BlockNileFire.AGE);
+		addStateMapperToIgnore(ModBlocks.nileFire, BlockFire.AGE);
 	}
 
 	@Override
 	public void registerStateMappingsForDark() {
-		Registers.addStateMapperToIgnore(ModBlocks.darkFire, BlockDarkFire.AGE);
-		Registers.addStateMapperToIgnore(ModBlocks.darkFire, BlockFire.AGE);
+		addStateMapperToIgnore(ModBlocks.darkFire, BlockDarkFire.AGE);
+		addStateMapperToIgnore(ModBlocks.darkFire, BlockFire.AGE);
 	}
 
 	// Client Objects\\
 	@Override
 	public EntityPlayer getClientPlayer() {
 		return FMLClientHandler.instance().getClientPlayerEntity();
+	}
+
+	public void addStateMapperToIgnore(Block block, IProperty property) {
+		ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).addPropertiesToIgnore(new IProperty[] { property }).build());
 	}
 
 	@Override

@@ -46,7 +46,7 @@ public class ConfigHandler {
 		orderFunc.add("GrassStep");
 
 		config.setCategoryPropertyOrder(CATEGORY_FUNCTION, orderFunc);
-		
+
 		//@formatter:off
 		/*=================================Load Configurations==========================================*/
 		//@formatter:on

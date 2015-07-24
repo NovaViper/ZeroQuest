@@ -1,9 +1,7 @@
 package net.novaviper.zeroquest.common.lib;
 
 import net.minecraft.block.Block;
-import net.minecraft.block.properties.IProperty;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.client.renderer.entity.Render;
 import net.minecraft.client.renderer.tileentity.TileEntitySpecialRenderer;
 import net.minecraft.client.resources.model.ModelBakery;
@@ -20,7 +18,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.world.WorldProvider;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.common.DimensionManager;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fluids.Fluid;
@@ -137,17 +134,18 @@ public class Registers {
 	public static void addItemVariant(Item item, String... names) {
 		ModelBakery.addVariantName(item, names);
 	}
+
 	// Liquids Registers\\
 	public static void putLiquidsInBuckets(Block liquid, Item liquidBucket) {
 		BucketHandler.INSTANCE.buckets.put(liquid, liquidBucket);
 	}
-	
+
 	// Talent Registers\\
 	public static void registerTalent(ITalent talent) {
 		TalentRegistry.registerTalent(talent);
 	}
 
-	//Fluid Registers\\
+	// Fluid Registers\\
 	public static void addFluidContainer(FluidStack stack, ItemStack filledContainer, ItemStack emptyContainer) {
 		FluidContainerRegistry.registerFluidContainer(stack, filledContainer, emptyContainer);
 	}
@@ -184,9 +182,5 @@ public class Registers {
 
 	public static void addEntityRender(Class entityClass, Render render) {
 		RenderingRegistry.registerEntityRenderingHandler(entityClass, render);
-	}
-
-	public static void addStateMapperToIgnore(Block block, IProperty property) {
-		ModelLoader.setCustomStateMapper(block, (new StateMap.Builder()).addPropertiesToIgnore(new IProperty[] { property }).build());
 	}
 }

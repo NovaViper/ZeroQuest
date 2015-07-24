@@ -16,10 +16,10 @@ public class AchievementEvents {
 	@SubscribeEvent
 	public void CraftingEvent(PlayerEvent.ItemCraftedEvent event) {
 		if (event.crafting.getItem() == ModItems.nileEssence) {
-			event.player.addStat(ModAchievements.NileStart, 1);
+			event.player.addStat(ModAchievements.nileStart, 1);
 		}
 		if (event.crafting.getItem() == ModItems.nileDust) {
-			event.player.addStat(ModAchievements.NileStart, 1);
+			event.player.addStat(ModAchievements.nileStart, 1);
 		}
 		if (event.crafting.getItem() == ModItems.nileSword) {
 			event.player.addStat(ModAchievements.buildNileSword, 1);
@@ -28,15 +28,15 @@ public class AchievementEvents {
 			event.player.addStat(ModAchievements.buildNWorkBench, 1);
 		}
 		if (event.crafting.getItem() == ModItems.nileBone) {
-			event.player.addStat(ModAchievements.buildBone, 1);
+			event.player.addStat(ModAchievements.buildNileBone, 1);
 		}
 
 		if (Constants.DEF_DARKLOAD == true) {
 			if (event.crafting.getItem() == ModItems.darkEssence) {
-				event.player.addStat(ModAchievements.DarkStart, 1);
+				event.player.addStat(ModAchievements.darkStart, 1);
 			}
 			if (event.crafting.getItem() == ModItems.darkDust) {
-				event.player.addStat(ModAchievements.DarkStart, 1);
+				event.player.addStat(ModAchievements.darkStart, 1);
 			}
 		}
 	}
@@ -44,11 +44,11 @@ public class AchievementEvents {
 	@SubscribeEvent
 	public void PickupEvent(PlayerEvent.ItemPickupEvent event) {
 		if (event.pickedUp.getEntityItem().getItem() == ModItems.nileGrain) {
-			event.player.addStat(ModAchievements.NileStart, 1);
+			event.player.addStat(ModAchievements.nileStart, 1);
 		}
 		if (Constants.DEF_DARKLOAD == true) {
 			if (event.pickedUp.getEntityItem().getItem() == ModItems.darkGrain) {
-				event.player.addStat(ModAchievements.DarkStart, 1);
+				event.player.addStat(ModAchievements.darkStart, 1);
 			}
 		}
 	}
@@ -56,11 +56,11 @@ public class AchievementEvents {
 	@SubscribeEvent
 	public void TravelEvent(PlayerEvent.PlayerChangedDimensionEvent event) {
 		if (event.toDim == IDs.Nillax) {
-			event.player.addStat(ModAchievements.TraveltoNillax, 1);
+			event.player.addStat(ModAchievements.travelToNillax, 1);
 		}
 		if (Constants.DEF_DARKLOAD == true) {
 			if (event.toDim == IDs.Darkax) {
-				event.player.addStat(ModAchievements.TraveltoDarkax, 1);
+				event.player.addStat(ModAchievements.travelToDarkax, 1);
 			}
 		}
 	}

@@ -149,7 +149,6 @@ public class ZeroQuest {
 		ZeroQuestAPI.breedList.registerItem(ModItems.dogTreat);
 		ZeroQuestAPI.begNileList.registerItem(ModItems.toy);
 		ZeroQuestAPI.begNileList.registerItem(ModItems.nileBone);
-		ZeroQuestAPI.begNileList.registerItem(ModItems.toy);
 		if (Constants.DEF_DARKLOAD == true) {
 			ZeroQuestAPI.begDarkList.registerItem(ModItems.darkBone);
 		}

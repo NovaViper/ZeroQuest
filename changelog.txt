@@ -11,6 +11,21 @@ ZERO QUEST™ OFFICAL CHANGE LOG
 
 ################################################ Minecraft 1.8 ################################################
 
+v1.8.5 - Server crash fixed and changed some achievements
+~Fixed major server error that has been occurring since v1.6.0
+~Finally fixed bug with Zertums howling
+#*^Renamed Achievements
+    NileStart to nileStart
+    TraveltoNillax to travelToNillax
+    ZertKill to zertumKill
+    buildBone to buildNileBone
+    ZertTame to zertumTame
+    MountUp to mountUp
+    DarkStart to darkStart
+    TraveltoDarkax to travelToDarkax
+    DragonSlayer to dragonSlayer
+*Added some color to some achievements
+
 v1.8.0 - Evolution Stages
 +Added Pettra Bit - Stage 3 Evolution Bit
 +Added Delta Bit - 120+ level bit
