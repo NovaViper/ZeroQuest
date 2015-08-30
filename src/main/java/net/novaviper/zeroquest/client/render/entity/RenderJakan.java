@@ -11,7 +11,6 @@ import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 import net.novaviper.zeroquest.client.render.entity.layers.LayerJakan;
 import net.novaviper.zeroquest.common.entity.creature.EntityJakan;
-import net.novaviper.zeroquest.common.entity.creature.EntityRowarn;
 import net.novaviper.zeroquest.common.lib.Constants;
 import net.novaviper.zeroquest.common.util.ResourceReference;
 

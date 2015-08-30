@@ -10,7 +10,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.novaviper.zeroquest.common.entity.creature.EntityRowarn;
 import net.novaviper.zeroquest.common.entity.mob.EntityRiggator;
 import net.novaviper.zeroquest.common.lib.Constants;
 import net.novaviper.zeroquest.common.util.ResourceReference;

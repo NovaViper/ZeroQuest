@@ -38,6 +38,13 @@ public class AchievementEvents {
 			if (event.crafting.getItem() == ModItems.darkDust) {
 				event.player.addStat(ModAchievements.darkStart, 1);
 			}
+
+			if (event.crafting.getItem() == ModItems.darkSword) {
+				event.player.addStat(ModAchievements.buildDarkSword, 1);
+			}
+			if (event.crafting.getItem() == ModItems.darkBone) {
+				event.player.addStat(ModAchievements.buildDarkBone, 1);
+			}
 		}
 	}
 

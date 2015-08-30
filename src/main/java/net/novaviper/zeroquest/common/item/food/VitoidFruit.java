@@ -1,4 +1,4 @@
-package net.novaviper.zeroquest.common.item;
+package net.novaviper.zeroquest.common.item.food;
 
 import java.util.List;
 

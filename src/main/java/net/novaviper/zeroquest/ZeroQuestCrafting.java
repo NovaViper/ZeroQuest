@@ -210,6 +210,10 @@ public class ZeroQuestCrafting {
 			" X ",
 			'Z', new ItemStack(Items.emerald), 'X', new ItemStack(ModItems.deltaBit) });
 
+		Registers.addSmelting(new ItemStack(ModItems.jakanMeatRaw), new ItemStack(ModItems.jakanMeatCooked), 2);
+		Registers.addSmelting(new ItemStack(ModItems.kortorMeatRaw), new ItemStack(ModItems.kortorMeatCooked), 2);
+		Registers.addSmelting(new ItemStack(ModItems.riggatorMeatRaw), new ItemStack(ModItems.riggatorMeatCooked), 2);
+		Registers.addSmelting(new ItemStack(ModItems.zertumMeatRaw), new ItemStack(ModItems.zertumMeatCooked), 2);
 		Registers.addShapelessRecipe(new ItemStack(Items.dye, 4, 15), ModItems.nileBone);
 		Registers.addShapelessRecipe(new ItemStack(ModItems.nileGrenade), ModItems.nileGrain, Items.gunpowder);
 		Registers.addShapelessRecipe(new ItemStack(ModItems.nileSpark), ModItems.nileDust, Items.fire_charge);
@@ -294,6 +298,7 @@ public class ZeroQuestCrafting {
 			"XXX",
 			'Z', new ItemStack(ModItems.darkBone), 'X', new ItemStack(Items.iron_ingot) });
 
+		Registers.addSmelting(new ItemStack(ModItems.kurrMeatRaw), new ItemStack(ModItems.kurrMeatCooked), 2);
 		Registers.addShapelessRecipe(new ItemStack(Items.dye, 4, 15), ModItems.darkBone);
 		Registers.addShapelessRecipe(new ItemStack(ModItems.nileGrenade), ModItems.darkGrain, Items.gunpowder);
 		Registers.addShapelessRecipe(new ItemStack(ModItems.darkSpark), ModItems.darkDust, Items.fire_charge);

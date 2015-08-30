@@ -14,6 +14,7 @@ import net.minecraft.util.EnumParticleTypes;
 import net.minecraft.world.World;
 import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.client.FMLClientHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.novaviper.zeroquest.ModBlocks;
 import net.novaviper.zeroquest.ModItems;
 import net.novaviper.zeroquest.client.model.ModelJakan;
@@ -113,8 +114,14 @@ public class ClientProxy extends CommonProxy {
 
 	// Client Objects\\
 	@Override
-	public EntityPlayer getClientPlayer() {
-		return FMLClientHandler.instance().getClientPlayerEntity();
+	public EntityPlayer getPlayerEntity(MessageContext ctx) {
+		return (ctx.side.isClient() ? Minecraft.getMinecraft().thePlayer
+				: super.getPlayerEntity(ctx));
+	}
+
+	@Override
+	public EntityPlayer getPlayerEntity() {
+		return Minecraft.getMinecraft().thePlayer;
 	}
 
 	public void addStateMapperToIgnore(Block block, IProperty property) {

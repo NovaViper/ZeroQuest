@@ -501,6 +501,21 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	/**
+	 * Called when the mob's health reaches 0.
+	 */
+	@Override
+	public void onDeath(DamageSource par1DamageSource) {
+		super.onDeath(par1DamageSource);
+		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
+			EntityPlayer entityplayer = (EntityPlayer) par1DamageSource.getEntity();
+			{
+				entityplayer.triggerAchievement(ModAchievements.zertumKill);
+				this.dropChestItems();
+			}
+		}
+	}
+
+	/**
 	 * Called frequently so the entity can update its state every tick as
 	 * required. For example, zombies and skeletons use this to react to
 	 * sunlight and start to burn.
@@ -926,23 +941,6 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		return entity.attackEntityFrom(DamageSource.causeMobDamage(this), damage);
 	}
 
-	/**
-	 * Called when the mob's health reaches 0.
-	 */
-	@Override
-	public void onDeath(DamageSource par1DamageSource) {
-		super.onDeath(par1DamageSource);
-
-		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
-			EntityPlayer entityplayer = (EntityPlayer) par1DamageSource.getEntity();
-			{
-				entityplayer.triggerAchievement(ModAchievements.zertumKill);
-				this.dropChestItems();
-
-			}
-		}
-	}
-
 	@Override
 	protected boolean isMovementBlocked() {
 		return this.isPlayerSleeping() || this.ridingEntity != null || this.riddenByEntity instanceof EntityPlayer || super.isMovementBlocked();
@@ -1279,7 +1277,12 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 			this.worldObj.setEntityState(this, (byte) 7);
 			this.saveOwnerName(player.getDisplayNameString());
 			this.saveOwnerID(player.getUniqueID().toString());
-			player.triggerAchievement(ModAchievements.zertumTame);
+			if (!(this instanceof EntityDarkZertum)) {
+				player.triggerAchievement(ModAchievements.zertumTame);
+			}
+			else if (this instanceof EntityDarkZertum) {
+				player.triggerAchievement(ModAchievements.darkZertumTame);
+			}
 			//@formatter:off
 			//Debuging Owner name and ID
 			//System.out.println("ID: " + zertum.getOwnerID() + ", Name: " + zertum.getOwnerName());

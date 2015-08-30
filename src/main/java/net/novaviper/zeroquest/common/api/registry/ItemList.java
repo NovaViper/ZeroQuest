@@ -14,7 +14,12 @@ import net.novaviper.zeroquest.common.helper.LogHelper;
  */
 public class ItemList {
 
+	private String name;
 	private final List<List<Object>> itemlist = new ArrayList<List<Object>>();
+
+	public ItemList(String name) {
+		this.name = name;
+	}
 
 	public void registerItem(Item item) {
 		this.registerItem(item, OreDictionary.WILDCARD_VALUE);
@@ -23,11 +28,11 @@ public class ItemList {
 	public void registerItem(Item item, int meta) {
 		List array = Arrays.asList(new Object[] { item, meta });
 		if (this.itemlist.contains(array)) {
-			LogHelper.warn("The item %s meta %d is already registered in this item list", item.getUnlocalizedName(), meta);
+			LogHelper.warn("The item %s meta %s is already registered in the %s item list", item.getUnlocalizedName(), meta, name);
 		}
 		else {
 			this.itemlist.add(array);
-			LogHelper.info("The item %s meta %d was register to an item list", item.getUnlocalizedName(), meta);
+			LogHelper.info("The item %s meta %s was register to the %s item list", item.getUnlocalizedName(), meta, name);
 		}
 	}
 

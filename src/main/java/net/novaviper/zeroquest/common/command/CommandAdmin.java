@@ -22,7 +22,7 @@ import net.novaviper.zeroquest.common.helper.ChatHelper;
 import net.novaviper.zeroquest.common.lib.Constants;
 import net.novaviper.zeroquest.common.lib.Strings;
 
-public class CommandZeroQuest extends CommandBase {
+public class CommandAdmin extends CommandBase {
 
 	@Override
 	public String getCommandName() {
@@ -122,7 +122,10 @@ public class CommandZeroQuest extends CommandBase {
 			}
 		}
 
-		else if (command.equalsIgnoreCase("help") || command.equalsIgnoreCase("h")) { // NAV: Commands Help List
+		else if (command.equalsIgnoreCase("help") || command.equalsIgnoreCase("h")) { // NAV:
+			// Commands
+			// Help
+			// List
 			if (sender instanceof EntityPlayerMP) {
 				EntityPlayerMP player = (EntityPlayerMP) sender;
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD + Strings.commandSepartorHalf + EnumChatFormatting.GREEN + "ZeroQuest - " + Constants.version + EnumChatFormatting.GOLD + Strings.commandSepartorHalf));
@@ -506,7 +509,8 @@ public class CommandZeroQuest extends CommandBase {
 					EntityZertumEntity zertum = (EntityZertumEntity) entity;
 					if (level <= Constants.maxLevel && zertum.levels.getLevel() < Constants.maxLevel && !zertum.isChild() && zertum.canInteract(player)) {
 						zertum.levels.addLevel(level);
-						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + Integer.toString(level) +(level > 1 ? " levels " : " level ")+"has been added to " + zertum.getPetName()));
+						player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + Integer.toString(level) + (level > 1
+								? " levels " : " level ") + "has been added to " + zertum.getPetName()));
 					}
 					else if (level <= Constants.maxLevel && zertum.levels.getLevel() >= Constants.maxLevel && !zertum.isChild() && zertum.canInteract(player)) {
 						zertum.levels.setLevel(Constants.maxLevel);

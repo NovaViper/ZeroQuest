@@ -11,9 +11,25 @@ ZERO QUEST™ OFFICAL CHANGE LOG
 
 ################################################ Minecraft 1.8 ################################################
 
+v1.9.0 - More bug fixes and meat!
++Added more Achievements!
++Added Kortor Meat
++Added Riggator Meat
++Added Kurr Meat
++Added smelting recipes for all meats!
+*Raw meat can be cooked!
+#*Kortors, Riggators and Kurrs drop their own meat!
+#Changed Dark Zertum id to 6 instead of 40
+#Changed default command seal keys to arrow keys (for those who use WASD for their character movement)
+#Changed textures of the following food:
+    Jakan Meat
+    Zertum Meat
+#*^Completely rewritten the mod version checker! (NO LONGER USING update.txt on Github!)
+
 v1.8.5 - Server crash fixed and changed some achievements
 ~Fixed major server error that has been occurring since v1.6.0
 ~Finally fixed bug with Zertums howling
+*Added some color to some achievements
 #*^Renamed Achievements
     NileStart to nileStart
     TraveltoNillax to travelToNillax
@@ -24,7 +40,6 @@ v1.8.5 - Server crash fixed and changed some achievements
     DarkStart to darkStart
     TraveltoDarkax to travelToDarkax
     DragonSlayer to dragonSlayer
-*Added some color to some achievements
 
 v1.8.0 - Evolution Stages
 +Added Pettra Bit - Stage 3 Evolution Bit

@@ -119,6 +119,22 @@ public abstract class EntityCustomTameable extends EntityTameable {
 	}
 
 	/**
+	 * Called when the mob's health reaches 0.
+	 */
+	@Override
+	public void onDeath(DamageSource par1DamageSource) {
+		super.onDeath(par1DamageSource);
+		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
+			EntityPlayer entityplayer = (EntityPlayer) par1DamageSource.getEntity();
+			{
+				if (isServer()) {
+					this.dropChestItems();
+				}
+			}
+		}
+	}
+
+	/**
 	 * Play the taming effect, will either be hearts or smoke depending on
 	 * status
 	 */
@@ -251,23 +267,6 @@ public abstract class EntityCustomTameable extends EntityTameable {
 			}
 		}
 		return false;
-	}
-
-	/**
-	 * Called when the mob's health reaches 0.
-	 */
-	@Override
-	public void onDeath(DamageSource par1DamageSource) {
-		super.onDeath(par1DamageSource);
-
-		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
-			EntityPlayer entityplayer = (EntityPlayer) par1DamageSource.getEntity();
-			{
-				if (isServer()) {
-					this.dropChestItems();
-				}
-			}
-		}
 	}
 
 	public EntityAISit getSitAI() {

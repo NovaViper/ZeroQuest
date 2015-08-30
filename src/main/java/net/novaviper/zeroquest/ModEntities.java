@@ -28,7 +28,7 @@ public class ModEntities {
 		Registers.addEntityEgg(EntityIceZertum.class, 0xCCCCCC, 0x6699FF);
 		Registers.addEntity(EntityForisZertum.class, "ForisZertum", 4, ZeroQuest.instance);
 		Registers.addEntityEgg(EntityForisZertum.class, 0xCCCCCC, 0x33CC33);
-		Registers.addEntity(EntityMetalZertum.class, "MetalZertum", 5 ,ZeroQuest.instance);
+		Registers.addEntity(EntityMetalZertum.class, "MetalZertum", 5, ZeroQuest.instance);
 		Registers.addEntityEgg(EntityMetalZertum.class, 0xCCCCCC, 0x666699);
 		Registers.addEntity(EntityJakan.class, "Jakan", 20, ZeroQuest.instance);
 		Registers.addEntityEgg(EntityJakan.class, 0x0033CC, 0x00CCFF);
@@ -36,12 +36,10 @@ public class ModEntities {
 		Registers.addEntityEgg(EntityKortor.class, 0x6699FF, 0xD1E0FF);
 		Registers.addEntity(EntityRiggator.class, "Riggator", 22, ZeroQuest.instance);
 		Registers.addEntityEgg(EntityRiggator.class, 0x1D302C, 0x671734);
-		/* registerEntity(EntityRowarn.class, "Rowarn", 23);
-		 * registerEntityEgg(EntityRowarn.class, 0x004A7F, 0x002C4C); */
 	}
 
 	public static void loadDarkCreatures() {
-		Registers.addEntity(EntityDarkZertum.class, "DarkZertum", 40, ZeroQuest.instance);
+		Registers.addEntity(EntityDarkZertum.class, "DarkZertum", 6, ZeroQuest.instance);
 		Registers.addEntityEgg(EntityDarkZertum.class, 0xCCCCCC, 0x470047);
 		Registers.addEntity(EntityKurr.class, "Kurr", 41, ZeroQuest.instance);
 		Registers.addEntityEgg(EntityKurr.class, 0xFF0000, 0x660000);
@@ -57,8 +55,6 @@ public class ModEntities {
 		Registers.addEntitySpawn(EntityJakan.class, 100, 2, 3, EnumCreatureType.CREATURE, ModBiomes.walRockland);
 		Registers.addEntitySpawn(EntityKortor.class, 100, 2, 3, EnumCreatureType.CREATURE, ModBiomes.nileSavanna, ModBiomes.nileSavannaPlateau, ModBiomes.nileJungle, ModBiomes.nileJungleEdge, ModBiomes.nileJungleHills);
 		Registers.addEntitySpawn(EntityRiggator.class, 100, 2, 3, EnumCreatureType.MONSTER, ModBiomes.bioZone, ModBiomes.nileSwampland, ModBiomes.nileMesa, ModBiomes.nileMesaPlateau, ModBiomes.nileMesaPlateau_F);
-		// addSpawn(EntityRowarn.class, 100, 1, 3,
-		// EnumCreatureType.WATER_CREATURE, ModBiomes.walRockland);
 	}
 
 	public static void loadDarkSpawns() {

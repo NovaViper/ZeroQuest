@@ -23,6 +23,7 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.world.World;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.novaviper.zeroquest.ModAchievements;
 import net.novaviper.zeroquest.ModItems;
 import net.novaviper.zeroquest.common.entity.EntityCustomMob;
 import net.novaviper.zeroquest.common.entity.creature.EntityZertum;
@@ -147,10 +148,10 @@ public class EntityRiggator extends EntityCustomMob {
 		rare = rand.nextInt(20);
 		{
 			if (this.isBurning()) {
-				this.dropItem(Items.cooked_beef, 1);
+				this.dropItem(ModItems.riggatorMeatCooked, 1);
 			}
 			else if (rare <= 12) {
-				this.dropItem(Items.beef, 1);
+				this.dropItem(ModItems.riggatorMeatRaw, 1);
 			}
 			if (rare <= 6) {
 				this.dropItem(ModItems.nileGrain, 1);
@@ -158,7 +159,20 @@ public class EntityRiggator extends EntityCustomMob {
 			else {
 
 			}
+		}
+	}
 
+	/**
+	 * Called when the mob's health reaches 0.
+	 */
+	@Override
+	public void onDeath(DamageSource par1DamageSource) {
+		super.onDeath(par1DamageSource);
+		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
+			EntityPlayer entityplayer = (EntityPlayer) par1DamageSource.getEntity();
+			{
+				entityplayer.triggerAchievement(ModAchievements.skinningRiggator);
+			}
 		}
 	}
 

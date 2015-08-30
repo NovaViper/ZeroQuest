@@ -13,28 +13,18 @@ import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
-import net.novaviper.zeroquest.common.CommonProxy;
+import net.novaviper.zeroquest.common.*;
 import net.novaviper.zeroquest.common.api.ZeroQuestAPI;
-import net.novaviper.zeroquest.common.command.CommandZeroQuest;
-import net.novaviper.zeroquest.common.config.ConfigEvent;
-import net.novaviper.zeroquest.common.config.ConfigHandler;
-import net.novaviper.zeroquest.common.creativetab.DarkQuestTab;
-import net.novaviper.zeroquest.common.creativetab.ZeroQuestTab;
-import net.novaviper.zeroquest.common.events.AchievementEvents;
-import net.novaviper.zeroquest.common.events.BlastResistanceEvent;
-import net.novaviper.zeroquest.common.events.FOVEvent;
-import net.novaviper.zeroquest.common.events.FireEventHandler;
-import net.novaviper.zeroquest.common.handlers.ConnectionHandler;
-import net.novaviper.zeroquest.common.handlers.FuelHandler;
-import net.novaviper.zeroquest.common.helper.LogHelper;
-import net.novaviper.zeroquest.common.lib.Constants;
-import net.novaviper.zeroquest.common.lib.IDs;
-import net.novaviper.zeroquest.common.lib.OreDic;
-import net.novaviper.zeroquest.common.lib.Registers;
-import net.novaviper.zeroquest.common.message.PacketHandler;
-import net.novaviper.zeroquest.common.world.WorldProviderDarkax;
-import net.novaviper.zeroquest.common.world.WorldProviderNillax;
-import net.novaviper.zeroquest.common.world.gen.WorldGenZQuest;
+import net.novaviper.zeroquest.common.command.*;
+import net.novaviper.zeroquest.common.config.*;
+import net.novaviper.zeroquest.common.creativetab.*;
+import net.novaviper.zeroquest.common.events.*;
+import net.novaviper.zeroquest.common.handlers.*;
+import net.novaviper.zeroquest.common.helper.*;
+import net.novaviper.zeroquest.common.lib.*;
+import net.novaviper.zeroquest.common.message.*;
+import net.novaviper.zeroquest.common.world.*;
+import net.novaviper.zeroquest.common.world.gen.*;
 
 @Mod(modid = Constants.modid, name = Constants.name, version = Constants.version, useMetadata = true, guiFactory = Constants.guiFactory)
 public class ZeroQuest {
@@ -55,9 +45,7 @@ public class ZeroQuest {
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		ConfigHandler.init(new File(event.getModConfigurationDirectory().getAbsolutePath() + File.separator + Constants.modid + File.separator + Constants.modid + ".cfg"));
-		if (Constants.DEF_MODCHECKER == true) {
-			Registers.addFMLCommonEventBus(new ModVersionCheck(Constants.version, "ZeroQuest", Constants.isBeta));
-		}
+		ModVersionCheck.startVersionCheck();
 		LogHelper.info("-----PRE-CONTENT LOAD INITATING-----");
 		LogHelper.info("Loading Main Stuff...");
 		this.ZeroTab = new ZeroQuestTab(CreativeTabs.getNextID());
@@ -67,7 +55,7 @@ public class ZeroQuest {
 		Registers.addGuiHandler(Constants.modid, proxy);
 		proxy.registerMoreThings();
 		LogHelper.info("Load Stuff Loaded Successfully!");
-		LogHelper.info("Loading Block, Liquids, Recipes, Events and Items...");
+		LogHelper.info("Loading Block, Recipes, Events and Items...");
 		nileEssence = EnumHelper.addToolMaterial("NileEssence", 4, 4000, 20.0F, 4.0F, 30);
 		ModBlocks.load();
 		ModItems.load();
@@ -76,7 +64,6 @@ public class ZeroQuest {
 		proxy.registerStateMappings();
 		Registers.addForgeEventBus(new FOVEvent());
 		Registers.addForgeEventBus(new BlastResistanceEvent());
-		Registers.addFMLCommonEventBus(new ConfigEvent());
 		ZeroQuestCrafting.loadRecipes();
 		if (Constants.DEF_DARKLOAD == true) {
 			darkEssence = EnumHelper.addToolMaterial("DarkEssence", 4, 5000, 21.0F, 5.0F, 40);
@@ -162,7 +149,7 @@ public class ZeroQuest {
 	public void serverStart(FMLServerStartingEvent event) {
 		LogHelper.info("-----SERVER CONTENT LOAD INITATING-----");
 		LogHelper.info("Loading Commands...");
-		Registers.addCommand(new CommandZeroQuest());
+		Registers.addCommand(new CommandAdmin());
 		LogHelper.info("Commands Loaded Successfully!");
 		LogHelper.info("-----SERVER CONTENT LOAD FINSHED-----");
 

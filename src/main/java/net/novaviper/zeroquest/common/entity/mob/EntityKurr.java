@@ -129,10 +129,10 @@ public class EntityKurr extends EntityCustomMob /* implements IRangedAttackMob *
 		rare = rand.nextInt(20);
 		{
 			if (this.isBurning()) {
-				this.dropItem(ModItems.jakanMeatCooked, 1);
+				this.dropItem(ModItems.kurrMeatCooked, 1);
 			}
 			else if (rare <= 12) {
-				this.dropItem(ModItems.jakanMeatRaw, 1);
+				this.dropItem(ModItems.kurrMeatRaw, 1);
 			}
 			else if (rare <= 18) {
 				this.dropItem(ModItems.kurrSeeds, 1);
@@ -147,6 +147,20 @@ public class EntityKurr extends EntityCustomMob /* implements IRangedAttackMob *
 
 			}
 
+		}
+	}
+
+	/**
+	 * Called when the mob's health reaches 0.
+	 */
+	@Override
+	public void onDeath(DamageSource par1DamageSource) {
+		super.onDeath(par1DamageSource);
+		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
+			EntityPlayer entityplayer = (EntityPlayer) par1DamageSource.getEntity();
+			{
+				entityplayer.triggerAchievement(ModAchievements.dragonSlayer);
+			}
 		}
 	}
 
@@ -176,15 +190,8 @@ public class EntityKurr extends EntityCustomMob /* implements IRangedAttackMob *
 		if (this.func_175457_ck()) {
 			if (!this.isChild() && !iattributeinstance.func_180374_a(field_110190_br)) {
 				iattributeinstance.applyModifier(field_110190_br);
-				this.addPotionEffect(new PotionEffect(Potion.resistance.id, 9999999, 2)); // 100
-				// =
-				// 5
-				// Seconds
-				// ,
-				// 20
-				// =
-				// 1
-				// Second
+				this.addPotionEffect(new PotionEffect(Potion.resistance.id, 9999999, 2));// @formatter:off 100 = 5 Seconds, 20 = 1 Second
+				//@formatter:on
 			}
 
 			--this.angerLevel;
@@ -206,20 +213,6 @@ public class EntityKurr extends EntityCustomMob /* implements IRangedAttackMob *
 		}
 
 		super.updateAITasks();
-	}
-
-	/**
-	 * Called when the mob's health reaches 0.
-	 */
-	@Override
-	public void onDeath(DamageSource par1DamageSource) {
-		super.onDeath(par1DamageSource);
-		if (par1DamageSource.getEntity() instanceof EntityPlayer) {
-			EntityPlayer entityplayer = (EntityPlayer) par1DamageSource.getEntity();
-			{
-				entityplayer.triggerAchievement(ModAchievements.dragonSlayer);
-			}
-		}
 	}
 
 	@Override

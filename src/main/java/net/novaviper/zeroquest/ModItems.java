@@ -7,6 +7,11 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 import net.novaviper.zeroquest.common.item.*;
+import net.novaviper.zeroquest.common.item.food.Food;
+import net.novaviper.zeroquest.common.item.food.ItemNileSeed;
+import net.novaviper.zeroquest.common.item.food.KurrSeed;
+import net.novaviper.zeroquest.common.item.food.RawMeat;
+import net.novaviper.zeroquest.common.item.food.VitoidFruit;
 import net.novaviper.zeroquest.common.item.tools.*;
 import net.novaviper.zeroquest.common.lib.Constants;
 import net.novaviper.zeroquest.common.lib.Registers;
@@ -25,6 +30,11 @@ public class ModItems {
 	public static Item zertumMeatCooked;
 	public static Item jakanMeatRaw;
 	public static Item jakanMeatCooked;
+	public static Item riggatorMeatRaw;
+	public static Item riggatorMeatCooked;
+	public static Item kortorMeatRaw;
+	public static Item kortorMeatCooked;
+
 	public static Item vitoidSeed;
 	public static Item vitoidFruit;
 
@@ -69,9 +79,10 @@ public class ModItems {
 	public static Item darkGrain;
 	public static Item darkBone;
 	public static Item kurrSeeds;
+	public static Item kurrMeatRaw;
+	public static Item kurrMeatCooked;
 
 	public static Item darkSpark;
-	private static Item petraBtye;
 
 	public static void load() {
 		// Tools/Weapons//
@@ -135,18 +146,26 @@ public class ModItems {
 		Registers.addItem(iceBall, "ice_ball");
 
 		// Food/Crops//
-		zertumMeatRaw = new ZQFood(3, 1.5F, true, ZeroQuest.ZeroTab).setUnlocalizedName("zertumMeatRaw");
+		zertumMeatRaw = new RawMeat(1, 3F, true, ZeroQuest.ZeroTab).setUnlocalizedName("zertumMeatRaw");
 		Registers.addItem(zertumMeatRaw, "zertum_meat_raw");
-		zertumMeatCooked = new ZQFood(5, 2.5F, true, ZeroQuest.ZeroTab).setUnlocalizedName("zertumMeatCooked");
+		zertumMeatCooked = new Food(5, 2.5F, true, ZeroQuest.ZeroTab).setUnlocalizedName("zertumMeatCooked");
 		Registers.addItem(zertumMeatCooked, "zertum_meat_cooked");
+		jakanMeatRaw = new RawMeat(1, 1.7F, true, ZeroQuest.ZeroTab).setUnlocalizedName("jakanMeatRaw");
+		Registers.addItem(jakanMeatRaw, "jakan_meat_raw");
+		jakanMeatCooked = new Food(5, 2.7F, true, ZeroQuest.ZeroTab).setUnlocalizedName("jakanMeatCooked");
+		Registers.addItem(jakanMeatCooked, "jakan_meat_cooked");
+		kortorMeatRaw = new RawMeat(1, 1.5F, true, ZeroQuest.ZeroTab).setUnlocalizedName("kortorMeatRaw");
+		Registers.addItem(kortorMeatRaw, "kortor_meat_raw");
+		kortorMeatCooked = new Food(4, 2.7F, true, ZeroQuest.ZeroTab).setUnlocalizedName("kortorMeatCooked");
+		Registers.addItem(kortorMeatCooked, "kortor_meat_cooked");
+		riggatorMeatRaw = new RawMeat(1, 1.1F, true, ZeroQuest.ZeroTab).setUnlocalizedName("riggatorMeatRaw");
+		Registers.addItem(riggatorMeatRaw, "riggator_meat_raw");
+		riggatorMeatCooked = new Food(4, 1.7F, true, ZeroQuest.ZeroTab).setUnlocalizedName("riggatorMeatCooked");
+		Registers.addItem(riggatorMeatCooked, "riggator_meat_cooked");
 		vitoidSeed = new ItemNileSeed(ModBlocks.vitoidPlant, Blocks.farmland).setUnlocalizedName("vitoidSeed");
 		Registers.addItem(vitoidSeed, "vitoid_seed");
 		vitoidFruit = new VitoidFruit(2, 0.5F, false).setUnlocalizedName("vitoidFruit");
 		Registers.addItem(vitoidFruit, "vitoid_fruit");
-		jakanMeatRaw = new ZQFood(4, 1.7F, true, ZeroQuest.ZeroTab).setUnlocalizedName("jakanMeatRaw");
-		Registers.addItem(jakanMeatRaw, "jakan_meat_raw");
-		jakanMeatCooked = new ZQFood(5, 2.7F, true, ZeroQuest.ZeroTab).setUnlocalizedName("jakanMeatCooked");
-		Registers.addItem(jakanMeatCooked, "jakan_meat_cooked");
 	}
 
 	public static void loadDarkItems() {
@@ -174,8 +193,13 @@ public class ModItems {
 		Registers.addItem(darkGrain, "dark_grain");
 		darkBone = new ItemDQ().setUnlocalizedName("darkBone");
 		Registers.addItem(darkBone, "dark_bone");
+
 		kurrSeeds = new KurrSeed(4, 1.2F, false).setUnlocalizedName("kurrSeeds");
 		Registers.addItem(kurrSeeds, "kurr_seeds");
+		kurrMeatRaw = new RawMeat(1, 1.1F, true, ZeroQuest.DarkTab).setUnlocalizedName("kurrMeatRaw");
+		Registers.addItem(kurrMeatRaw, "kurr_meat_raw");
+		kurrMeatCooked = new Food(6, 1.7F, true, ZeroQuest.DarkTab).setUnlocalizedName("kurrMeatCooked");
+		Registers.addItem(kurrMeatCooked, "kurr_meat_cooked");
 	}
 
 	public static void loadRenderers() {
@@ -201,10 +225,14 @@ public class ModItems {
 		Registers.addItemRender(iceBall, 0, Constants.modid + ":" + "ice_ball", "inventory");
 		Registers.addItemRender(zertumMeatRaw, 0, Constants.modid + ":" + "zertum_meat_raw", "inventory");
 		Registers.addItemRender(zertumMeatCooked, 0, Constants.modid + ":" + "zertum_meat_cooked", "inventory");
-		Registers.addItemRender(vitoidSeed, 0, Constants.modid + ":" + "vitoid_seed", "inventory");
-		Registers.addItemRender(vitoidFruit, 0, Constants.modid + ":" + "vitoid_fruit", "inventory");
 		Registers.addItemRender(jakanMeatRaw, 0, Constants.modid + ":" + "jakan_meat_raw", "inventory");
 		Registers.addItemRender(jakanMeatCooked, 0, Constants.modid + ":" + "jakan_meat_cooked", "inventory");
+		Registers.addItemRender(kortorMeatRaw, 0, Constants.modid + ":" + "kortor_meat_raw", "inventory");
+		Registers.addItemRender(kortorMeatCooked, 0, Constants.modid + ":" + "kortor_meat_cooked", "inventory");
+		Registers.addItemRender(riggatorMeatRaw, 0, Constants.modid + ":" + "riggator_meat_raw", "inventory");
+		Registers.addItemRender(riggatorMeatCooked, 0, Constants.modid + ":" + "riggator_meat_cooked", "inventory");
+		Registers.addItemRender(vitoidSeed, 0, Constants.modid + ":" + "vitoid_seed", "inventory");
+		Registers.addItemRender(vitoidFruit, 0, Constants.modid + ":" + "vitoid_fruit", "inventory");
 		Registers.addItemRender(commandSeal, 0, Constants.modid + ":" + "command_seal", "inventory");
 		Registers.addItemRender(toy, 0, Constants.modid + ":" + "toy", "inventory");
 		Registers.addItemRender(toy, 1, Constants.modid + ":" + "toy_wet", "inventory");
@@ -235,5 +263,7 @@ public class ModItems {
 		Registers.addItemRender(darkGrain, 0, Constants.modid + ":" + "dark_grain", "inventory");
 		Registers.addItemRender(darkBone, 0, Constants.modid + ":" + "dark_bone", "inventory");
 		Registers.addItemRender(kurrSeeds, 0, Constants.modid + ":" + "kurr_seeds", "inventory");
+		Registers.addItemRender(kurrMeatRaw, 0, Constants.modid + ":" + "kurr_meat_raw", "inventory");
+		Registers.addItemRender(kurrMeatCooked, 0, Constants.modid + ":" + "kurr_meat_cooked", "inventory");
 	}
 }

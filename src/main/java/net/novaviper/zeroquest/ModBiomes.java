@@ -20,8 +20,7 @@ public class ModBiomes {
 	protected static final BiomeGenBase.Height height_RockyWaters = new BiomeGenBase.Height(0.1F, 0.8F);
 	protected static final BiomeGenBase.Height height_LowIslands = new BiomeGenBase.Height(0.2F, 0.3F);
 	protected static final BiomeGenBase.Height height_PartiallySubmerged = new BiomeGenBase.Height(-0.2F, 0.1F);
-	protected static final BiomeGenBase.Height height_High = new BiomeGenBase.Height(0.2F, 0.4F);
-	protected static final BiomeGenBase.Height height_HighDefault2 = new BiomeGenBase.Height(0.1F, 0.2F);
+
 	public static BiomeGenBase bioZone;
 	public static BiomeGenBase redSeed;
 	public static BiomeGenBase blueTaiga;
@@ -48,13 +47,6 @@ public class ModBiomes {
 	public static BiomeGenBase nileMountainsEdge;
 	public static BiomeGenBase nileMountainsPlus;
 
-	/* public static BiomeGenBase[] biomes = {bioZone, redSeed, blueTaiga,
-	 * blueTaigaHills, blueColdTaiga, blueColdTaigaHills, blueMegaTaiga,
-	 * blueMegaTaigaHills, pinkZone, destroZone, destroZoneHills, walRockland,
-	 * nileSavanna, nileSavannaPlateau, nileJungle, nileJungleHills,
-	 * nileJungleEdge, nileSwampland, nileMesa, nileMesaPlateau_F,
-	 * nileMesaPlateau, nileMountains, nileMountainsEdge, nileMountainsPlus}; */
-
 	public static void loadBiomes() {
 		// Put biomes in biomes list//
 		bioZone = new BiomeGenBioZone(IDs.bioZone).setBiomeName("Bio Zone").setHeight(height_MidHills).setTemperatureRainfall(0.8F, 0.4F);
@@ -65,7 +57,7 @@ public class ModBiomes {
 		blueColdTaigaHills = new BiomeGenBlueTaiga(IDs.blueColdTaigaHills, 0).setBiomeName("Cold Blue Taiga Hills").setFillerBlockMetadata(5159473).setEnableSnow().setTemperatureRainfall(-0.5F, 0.4F).setHeight(height_LowHills).func_150563_c(16777215);
 		blueMegaTaiga = new BiomeGenBlueTaiga(IDs.blueMegaTaiga, 1).setBiomeName("Mega Blue Taiga").setFillerBlockMetadata(5159473).setTemperatureRainfall(0.3F, 0.8F).setHeight(height_MidPlains);
 		blueMegaTaigaHills = new BiomeGenBlueTaiga(IDs.blueMegaTaigaHills, 1).setBiomeName("Mega Blue Taiga Hills").setFillerBlockMetadata(5159473).setTemperatureRainfall(0.3F, 0.8F).setHeight(height_LowHills);
-		pinkZone = new BiomeGenPinkZone(IDs.pinkZone).setBiomeName("Pink Zone").setHeight(height_HighDefault2).setTemperatureRainfall(0.8F, 0.4F);
+		pinkZone = new BiomeGenPinkZone(IDs.pinkZone).setBiomeName("Pink Zone").setHeight(height_Default).setTemperatureRainfall(0.8F, 0.4F);
 		destroZone = new BiomeGenDestroZone(IDs.destroZone).setBiomeName("Destro Zone").setDisableRain().setTemperatureRainfall(2.0F, 0.0F);
 		destroZoneHills = new BiomeGenDestroZone(IDs.destroZoneHills).setBiomeName("Destro Zone Hills").setDisableRain().setTemperatureRainfall(2.0F, 0.0F).setHeight(height_LowHills);
 		walRockland = new BiomeGenWalRockland(IDs.walRockland).setBiomeName("Wal Rocklands").setHeight(height_Default).setDisableRain().setTemperatureRainfall(1.0F, 0F);

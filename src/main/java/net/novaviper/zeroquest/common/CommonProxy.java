@@ -11,6 +11,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.ChestGenHooks;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.network.IGuiHandler;
+import net.minecraftforge.fml.common.network.simpleimpl.MessageContext;
 import net.novaviper.zeroquest.ModItems;
 import net.novaviper.zeroquest.client.gui.GuiFoodBowl;
 import net.novaviper.zeroquest.client.gui.GuiNileWorkbench;
@@ -112,6 +113,7 @@ public class CommonProxy implements IGuiHandler {
 		ChestGenHooks chestGenHooksDungeon = ChestGenHooks.getInfo(ChestGenHooks.DUNGEON_CHEST);
 		addItemtoChestHooks(chestGenHooksDungeon, ModItems.nileEssence, 1, 1, 30);
 		addItemtoChestHooks(chestGenHooksDungeon, ModItems.microBit, 1, 3, 10);
+		addItemtoChestHooks(chestGenHooksDungeon, ModItems.pettraBit, 1, 4, 1);
 		// chance < saddle (1/16, ca. 6%, in max 8 slots -> 40% at least 1 egg,
 		// 0.48 eggs per chest): I think that's okay
 
@@ -119,6 +121,7 @@ public class CommonProxy implements IGuiHandler {
 		addItemtoChestHooks(chestGenHooksMineshaft, ModItems.nileEssence, 1, 1, 5);
 		addItemtoChestHooks(chestGenHooksMineshaft, ModItems.megaBit, 1, 1, 3);
 		// chance == gold ingot (1/18, ca. 6%, in 3-6 slots -> 23% at least 1
+		addItemtoChestHooks(chestGenHooksDungeon, ModItems.deltaBit, 1, 4, 1);
 		// egg, 0.27 eggs per chest):
 		// exploring a random mine shaft in creative mode yielded 2 eggs out of
 		// about 10 chests in 1 hour
@@ -158,12 +161,16 @@ public class CommonProxy implements IGuiHandler {
 
 	public void registerStateMappingsForDark() {}
 
-	public EntityPlayer getClientPlayer() {
-		return null;
-	}
-
 	public void spawnCrit(World world, Entity entity) {}
 
 	public void spawnRoar(World world, Entity entity) {}
+
+	public EntityPlayer getPlayerEntity(MessageContext ctx) {
+		return ctx.getServerHandler().playerEntity;
+	}
+
+	public EntityPlayer getPlayerEntity() {
+		return null;
+	}
 
 }

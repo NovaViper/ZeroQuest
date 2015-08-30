@@ -223,10 +223,10 @@ public class EntityKortor extends EntityCustomTameable {
 		rare = rand.nextInt(20);
 		{
 			if (this.isBurning()) {
-				this.dropItem(Items.cooked_mutton, 1);
+				this.dropItem(ModItems.kortorMeatCooked, 1);
 			}
 			else if (rare <= 12) {
-				this.dropItem(Items.mutton, 1);
+				this.dropItem(ModItems.kortorMeatRaw, 1);
 			}
 			if (rare <= 6 && !this.isTamed()) {
 				this.dropItem(ModItems.nileGrain, 1);

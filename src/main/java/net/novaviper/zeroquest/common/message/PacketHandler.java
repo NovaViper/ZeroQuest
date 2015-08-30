@@ -62,7 +62,6 @@ public class PacketHandler {
 		registerMessage(ZertumMode.Handler.class, ZertumMode.class, Side.SERVER);
 		registerMessage(ZertumTalents.Handler.class, ZertumTalents.class, Side.SERVER);
 		registerMessage(FireSound.Handler.class, FireSound.class, Side.SERVER);
-		//registerMessage(ZertumBoundingBox.Handler.class, ZertumBoundingBox.class, Side.CLIENT);
 	}
 
 	/**
@@ -109,7 +108,7 @@ public class PacketHandler {
 	public static final void sendToAllAround(IMessage message, EntityPlayer player, double range) {
 		PacketHandler.sendToAllAround(message, player.worldObj.provider.getDimensionId(), player.posX,
 
-				player.posY, player.posZ, range);
+		player.posY, player.posZ, range);
 	}
 
 	/**

@@ -80,6 +80,7 @@ public class ItemAlphaBit extends ItemZQ implements IBits {
 			player.worldObj.setEntityState(dog, (byte) 6);
 			if (isServer(player)) {
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "CONGRATZ! " + dog.getPetName() + " has reached the " + EnumChatFormatting.GREEN + "Alpha Level! Evolution is ready!"));
+				player.triggerAchievement(ModAchievements.alphaLevelUp);
 			}
 		}
 	}

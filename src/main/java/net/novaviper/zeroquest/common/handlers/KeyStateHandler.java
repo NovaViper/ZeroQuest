@@ -5,6 +5,7 @@ import java.util.HashMap;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.settings.KeyBinding;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.util.EnumChatFormatting;
 import net.minecraftforge.fml.client.FMLClientHandler;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
@@ -27,10 +28,10 @@ import org.lwjgl.input.Keyboard;
  **/
 public class KeyStateHandler {
 	//@formatter:off
-	public static final KeyBinding come = new KeyBinding(Constants.keyDesc + "come", Keyboard.KEY_W, Constants.keyCategory);
-	public static final KeyBinding stay = new KeyBinding(Constants.keyDesc + "stay", Keyboard.KEY_S, Constants.keyCategory);
-	public static final KeyBinding ok = new KeyBinding(Constants.keyDesc + "ok", Keyboard.KEY_D, Constants.keyCategory);
-	public static final KeyBinding heel = new KeyBinding(Constants.keyDesc + "heel", Keyboard.KEY_A, Constants.keyCategory);
+	public static final KeyBinding come = new KeyBinding(Constants.keyDesc + "come", Keyboard.KEY_UP, Constants.keyCategory);
+	public static final KeyBinding stay = new KeyBinding(Constants.keyDesc + "stay", Keyboard.KEY_DOWN, Constants.keyCategory);
+	public static final KeyBinding ok = new KeyBinding(Constants.keyDesc + "ok", Keyboard.KEY_RIGHT, Constants.keyCategory);
+	public static final KeyBinding heel = new KeyBinding(Constants.keyDesc + "heel", Keyboard.KEY_LEFT, Constants.keyCategory);
 	public static final KeyBinding[] keyBindings = new KeyBinding[] { come, stay, ok, heel, Minecraft.getMinecraft().gameSettings.keyBindJump };
 	//@formatter:on
 
@@ -49,7 +50,6 @@ public class KeyStateHandler {
 					this.keyState.put(kb, true);
 					// Key Pressed
 					EntityPlayer player = FMLClientHandler.instance().getClientPlayerEntity();
-
 					if (kb == mc.gameSettings.keyBindJump) {
 						if (player.ridingEntity instanceof EntityZertumEntity && mc.currentScreen == null) {
 							EntityZertumEntity dog = (EntityZertumEntity) player.ridingEntity;
