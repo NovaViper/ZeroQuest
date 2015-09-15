@@ -108,70 +108,70 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 
 	public EntityZertumEntity(World worldIn) {
 		super(worldIn);
-		this.objects = new HashMap<String, Object>();
-		((PathNavigateGround) this.getNavigator()).setAvoidsWater(true);
-		this.tasks.addTask(1, new EntityAISwimming(this));
-		this.tasks.addTask(2, this.aiSit);
-		this.tasks.addTask(3, this.aiLeap);
-		this.tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, true));
-		this.tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
-		this.tasks.addTask(6, this.aiFetchBone = new EntityAIFetchToy(this, 1.0D, 0.5F, 20.0F));
-		this.tasks.addTask(7, new EntityAIMate(this, 1.0D));
-		this.tasks.addTask(8, new EntityAIWander(this, 1.0D));
-		this.tasks.addTask(9, new EntityAIBeg(this, 8.0F));
-		this.tasks.addTask(10, aiStareAtPlayer);
-		this.tasks.addTask(10, new EntityAILookIdle(this));
-		this.targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
-		this.targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
-		this.targetTasks.addTask(3, new EntityAIModeAttackTarget(this));
-		this.targetTasks.addTask(4, new EntityAIHurtByTarget(this, true));
-		this.setTamed(false);
-		this.setEvolved(false);
-		this.setFinalStage(false);
-		this.inventory = new InventoryPack(this);
-		this.targetTasks.addTask(6, new EntityAIRoundUp(this, EntityAnimal.class, 0, false));
+		objects = new HashMap<String, Object>();
+		((PathNavigateGround) getNavigator()).setAvoidsWater(true);
+		tasks.addTask(1, new EntityAISwimming(this));
+		tasks.addTask(2, aiSit);
+		tasks.addTask(3, aiLeap);
+		tasks.addTask(4, new EntityAIAttackOnCollide(this, 1.0D, true));
+		tasks.addTask(5, new EntityAIFollowOwner(this, 1.0D, 10.0F, 2.0F));
+		tasks.addTask(6, aiFetchBone = new EntityAIFetchToy(this, 1.0D, 0.5F, 20.0F));
+		tasks.addTask(7, new EntityAIMate(this, 1.0D));
+		tasks.addTask(8, new EntityAIWander(this, 1.0D));
+		tasks.addTask(9, new EntityAIBeg(this, 8.0F));
+		tasks.addTask(10, aiStareAtPlayer);
+		tasks.addTask(10, new EntityAILookIdle(this));
+		targetTasks.addTask(1, new EntityAIOwnerHurtByTarget(this));
+		targetTasks.addTask(2, new EntityAIOwnerHurtTarget(this));
+		targetTasks.addTask(3, new EntityAIModeAttackTarget(this));
+		targetTasks.addTask(4, new EntityAIHurtByTarget(this, true));
+		setTamed(false);
+		setEvolved(false);
+		setFinalStage(false);
+		inventory = new InventoryPack(this);
+		targetTasks.addTask(6, new EntityAIRoundUp(this, EntityAnimal.class, 0, false));
 		TalentHelper.onClassCreation(this);
 
-		if (!this.hasEvolved() && !this.inFinalStage()) {
-			this.setSize(0.6F, 1.5F);
+		if (!hasEvolved() && !inFinalStage()) {
+			setSize(0.6F, 1.5F);
 		}
-		else if (this.hasEvolved() && this.inFinalStage()) {
-			this.setSize(2F, 3F);
+		else if (hasEvolved() && inFinalStage()) {
+			setSize(2F, 3F);
 		}
 	}
 
 	@Override
 	public void applyEntityAttributes() {
 		super.applyEntityAttributes();
-		this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.30000001192092896);
-		this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.wildHealth());
-		this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(this.wildDamage());
-		this.updateEntityAttributes();
+		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.30000001192092896);
+		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(wildHealth());
+		getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(wildDamage());
+		updateEntityAttributes();
 	}
 
 	public void updateEntityAttributes() {
-		if (this.isTamed()) {
-			if (!this.isChild() && !this.hasEvolved() && !this.inFinalStage()) {
-				this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.tamedHealth() + this.effectiveLevel());
-				this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(this.tamedDamage());
+		if (isTamed()) {
+			if (!isChild() && !hasEvolved() && !inFinalStage()) {
+				getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(tamedHealth() + effectiveLevel());
+				getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(tamedDamage());
 			}
-			else if (!this.isChild() && this.hasEvolved() && !this.inFinalStage()) {
-				this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.evoHealth() + this.effectiveLevel());
-				this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(this.tamedDamage());
+			else if (!isChild() && hasEvolved() && !inFinalStage()) {
+				getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(evoHealth() + effectiveLevel());
+				getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(tamedDamage());
 			}
-			else if (!this.isChild() && this.hasEvolved() && this.inFinalStage()) {
-				this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.finalEvoHealth() + this.effectiveLevel());
-				this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(this.finalEvoDamage());
+			else if (!isChild() && hasEvolved() && inFinalStage()) {
+				getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(finalEvoHealth() + effectiveLevel());
+				getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(finalEvoDamage());
 			}
 			else {
-				this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.babyHealth());
-				this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(this.babyDamage());
+				getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(babyHealth());
+				getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(babyDamage());
 			}
 		}
 		else {
-			if (this.isChild()) {
-				this.getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(this.babyHealth());
-				this.getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(this.babyDamage());
+			if (isChild()) {
+				getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(babyHealth());
+				getEntityAttribute(SharedMonsterAttributes.attackDamage).setBaseValue(babyDamage());
 			}
 		}
 	}
@@ -179,7 +179,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	@Override
 	public void setTamed(boolean p_70903_1_) {
 		super.setTamed(p_70903_1_);
-		this.updateEntityAttributes();
+		updateEntityAttributes();
 	}
 
 	public double tamedHealth() {
@@ -294,17 +294,17 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	public void setAttackTarget(EntityLivingBase p_70624_1_) {
 		super.setAttackTarget(p_70624_1_);
 		if (p_70624_1_ == null) {
-			this.setAngry(false);
+			setAngry(false);
 		}
-		else if (!this.isTamed()) {
-			this.setAngry(true);
+		else if (!isTamed()) {
+			setAngry(true);
 		}
 	}
 
 	@Override
 	public String getCommandSenderName() {
-		String name = this.getPetName();
-		if (name != "" && this.isTamed()) {
+		String name = getPetName();
+		if (name != "" && isTamed()) {
 			return name;
 		}
 		else {
@@ -322,69 +322,69 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	@Override
 	protected void entityInit() {
 		super.entityInit();
-		this.talents = new TalentUtil(this);
-		this.levels = new LevelUtil(this);
-		this.mode = new ModeUtil(this);
-		this.dataWatcher.addObject(DataValues.ownerName, new String("")); //Owner Name
-		this.dataWatcher.addObject(DataValues.ownerID, new String("")); //Owner Id
-		this.dataWatcher.addObject(DataValues.collarCollar, new Byte((byte) EnumDyeColor.RED.getMetadata())); //Collar
-		this.dataWatcher.addObject(DataValues.dogName, new String("")); //Dog Name
-		this.dataWatcher.addObject(DataValues.talentData, new String("")); //Talent Data
-		this.dataWatcher.addObject(DataValues.hungerTicks, new Integer(Constants.hungerTicks)); //Dog Hunger
-		this.dataWatcher.addObject(DataValues.levelData, new String("0:0")); //Level Data
-		this.dataWatcher.addObject(DataValues.evolve, Byte.valueOf((byte)0)); //Evolution
-		this.dataWatcher.addObject(DataValues.obeyOthers, new Integer(0)); //Obey Others
-		this.dataWatcher.addObject(DataValues.zertumMode, new Integer(0)); //Zertum Mode
-		this.dataWatcher.addObject(DataValues.mouth, Integer.valueOf(0)); //Mouth
-		this.dataWatcher.addObject(DataValues.beg, new Byte((byte) 0)); //Begging
+		talents = new TalentUtil(this);
+		levels = new LevelUtil(this);
+		mode = new ModeUtil(this);
+		dataWatcher.addObject(DataValues.ownerName, new String("")); //Owner Name
+		dataWatcher.addObject(DataValues.ownerID, new String("")); //Owner Id
+		dataWatcher.addObject(DataValues.collarCollar, new Byte((byte) EnumDyeColor.RED.getMetadata())); //Collar
+		dataWatcher.addObject(DataValues.dogName, new String("")); //Dog Name
+		dataWatcher.addObject(DataValues.talentData, new String("")); //Talent Data
+		dataWatcher.addObject(DataValues.hungerTicks, new Integer(Constants.hungerTicks)); //Dog Hunger
+		dataWatcher.addObject(DataValues.levelData, new String("0:0")); //Level Data
+		dataWatcher.addObject(DataValues.evolve, Byte.valueOf((byte)0)); //Evolution
+		dataWatcher.addObject(DataValues.obeyOthers, new Integer(0)); //Obey Others
+		dataWatcher.addObject(DataValues.zertumMode, new Integer(0)); //Zertum Mode
+		dataWatcher.addObject(DataValues.mouth, Integer.valueOf(0)); //Mouth
+		dataWatcher.addObject(DataValues.beg, new Byte((byte) 0)); //Begging
 	}
 	//@formatter:on
 	@Override
 	public void writeEntityToNBT(NBTTagCompound tagCompound) {
 		super.writeEntityToNBT(tagCompound);
-		tagCompound.setString("ownerId", this.getOwnerID());
-		tagCompound.setString("ownerName", this.getOwnerName());
-		tagCompound.setByte("collarColor", (byte) this.getCollarColor().getDyeDamage());
-		tagCompound.setBoolean("evolve", this.hasEvolved());
-		tagCompound.setBoolean("finalEvolve", this.inFinalStage());
+		tagCompound.setString("ownerId", getOwnerID());
+		tagCompound.setString("ownerName", getOwnerName());
+		tagCompound.setByte("collarColor", (byte) getCollarColor().getDyeDamage());
+		tagCompound.setBoolean("evolve", hasEvolved());
+		tagCompound.setBoolean("finalEvolve", inFinalStage());
 		tagCompound.setString("version", Constants.version);
-		tagCompound.setString("dogName", this.getPetName());
-		tagCompound.setInteger("dogHunger", this.getZertumHunger());
-		tagCompound.setBoolean("willObey", this.willObeyOthers());
-		tagCompound.setBoolean("dogBeg", this.isBegging());
+		tagCompound.setString("dogName", getPetName());
+		tagCompound.setInteger("dogHunger", getZertumHunger());
+		tagCompound.setBoolean("willObey", willObeyOthers());
+		tagCompound.setBoolean("dogBeg", isBegging());
 
-		this.talents.writeTalentsToNBT(tagCompound);
-		this.levels.writeTalentsToNBT(tagCompound);
-		this.mode.writeToNBT(tagCompound);
+		talents.writeTalentsToNBT(tagCompound);
+		levels.writeTalentsToNBT(tagCompound);
+		mode.writeToNBT(tagCompound);
 		TalentHelper.writeToNBT(this, tagCompound);
 	}
 
 	@Override
 	public void readEntityFromNBT(NBTTagCompound tagCompound) {
 		super.readEntityFromNBT(tagCompound);
-		this.saveOwnerName(tagCompound.getString("ownerName"));
-		this.saveOwnerID(tagCompound.getString("ownerId"));
-		this.setEvolved(tagCompound.getBoolean("evolve"));
-		this.setFinalStage(tagCompound.getBoolean("finalEvolve"));
+		saveOwnerName(tagCompound.getString("ownerName"));
+		saveOwnerID(tagCompound.getString("ownerId"));
+		setEvolved(tagCompound.getBoolean("evolve"));
+		setFinalStage(tagCompound.getBoolean("finalEvolve"));
 
 		if (tagCompound.hasKey("collarColor", 99)) {
-			this.setCollarColor(EnumDyeColor.byDyeDamage(tagCompound.getByte("collarColor")));
+			setCollarColor(EnumDyeColor.byDyeDamage(tagCompound.getByte("collarColor")));
 		}
 
 		String lastVersion = tagCompound.getString("version");
-		this.setPetName(tagCompound.getString("dogName"));
-		this.setZertumHunger(tagCompound.getInteger("dogHunger"));
-		this.setWillObeyOthers(tagCompound.getBoolean("willObey"));
-		this.setBegging(tagCompound.getBoolean("dogBeg"));
-		this.talents.readTalentsFromNBT(tagCompound);
-		this.levels.readTalentsFromNBT(tagCompound);
-		this.mode.readFromNBT(tagCompound);
+		setPetName(tagCompound.getString("dogName"));
+		setZertumHunger(tagCompound.getInteger("dogHunger"));
+		setWillObeyOthers(tagCompound.getBoolean("willObey"));
+		setBegging(tagCompound.getBoolean("dogBeg"));
+		talents.readTalentsFromNBT(tagCompound);
+		levels.readTalentsFromNBT(tagCompound);
+		mode.readFromNBT(tagCompound);
 		TalentHelper.readFromNBT(this, tagCompound);
 	}
 
 	@Override
 	protected void playStepSound(BlockPos p_180429_1_, Block p_180429_2_) {
-		this.playSound("mob.wolf.step", 0.15F, 1.0F);
+		playSound("mob.wolf.step", 0.15F, 1.0F);
 	}
 
 	/**
@@ -392,17 +392,16 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	 */
 	@Override
 	protected String getLivingSound() {
-		this.openMouth();
+		openMouth();
 		String sound = TalentHelper.getLivingSound(this);
 		if (!"".equals(sound)) {
 			return sound;
 		}
 
 		// if(!this.inFinalStage()){
-		return this.isAngry() ? "mob.wolf.growl" : this.wantToHowl ? Sound.ZertumHowl
-				: (this.rand.nextInt(3) == 0
-				? (this.isTamed() && this.getHealth() <= Constants.lowHP ? "mob.wolf.whine"
-						: "mob.wolf.panting") : "mob.wolf.bark");
+		return isAngry() ? "mob.wolf.growl" : wantToHowl ? Sound.ZertumHowl : rand.nextInt(3) == 0
+				? isTamed() && getHealth() <= Constants.lowHP ? "mob.wolf.whine"
+						: "mob.wolf.panting" : "mob.wolf.bark";
 		/* }else{ return Sound.; } */
 	}
 
@@ -411,7 +410,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	 */
 	@Override
 	protected String getHurtSound() {
-		this.openMouth();
+		openMouth();
 		return "mob.wolf.hurt";
 	}
 
@@ -420,7 +419,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	 */
 	@Override
 	protected String getDeathSound() {
-		this.openMouth();
+		openMouth();
 		return "mob.wolf.death";
 	}
 
@@ -429,7 +428,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	 */
 	@Override
 	public float getSoundVolume() {
-		if (!this.inFinalStage()) {
+		if (!inFinalStage()) {
 			return 1F;
 		}
 		else {
@@ -442,7 +441,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	 */
 	@Override
 	public float getPitch() {
-		if (!this.isChild()) {
+		if (!isChild()) {
 			return super.getSoundPitch();
 		}
 		else {
@@ -460,10 +459,10 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 		if (ticks != 0) {
 			return ticks;
 		}
-		else if (this.wantToHowl) {
+		else if (wantToHowl) {
 			return 150;
 		}
-		else if (this.getHealth() <= Constants.lowHP) {
+		else if (getHealth() <= Constants.lowHP) {
 			return 20;
 		}
 		else {
@@ -478,20 +477,20 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	protected void dropFewItems(boolean par1, int par2) {
 		rare = rand.nextInt(20);
 		{
-			if (this.isBurning()) {
-				this.dropItem(ModItems.zertumMeatCooked, 1);
+			if (isBurning()) {
+				dropItem(ModItems.zertumMeatCooked, 1);
 			}
 			else if (rare <= 12) {
-				this.dropItem(ModItems.zertumMeatRaw, 1);
+				dropItem(ModItems.zertumMeatRaw, 1);
 			}
-			if (rare <= 6 && !this.isTamed() && !(this instanceof EntityDarkZertum)) {
-				this.dropItem(ModItems.nileGrain, 1);
+			if (rare <= 6 && !isTamed() && !(this instanceof EntityDarkZertum)) {
+				dropItem(ModItems.nileGrain, 1);
 			}
-			if (rare <= 6 && !this.isTamed() && (this instanceof EntityDarkZertum)) {
-				this.dropItem(ModItems.darkGrain, 1);
+			if (rare <= 6 && !isTamed() && this instanceof EntityDarkZertum) {
+				dropItem(ModItems.darkGrain, 1);
 			}
-			if (this.isSaddled()) {
-				this.dropItem(Items.saddle, 1);
+			if (isSaddled()) {
+				dropItem(Items.saddle, 1);
 			}
 			else {
 
@@ -510,7 +509,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 			EntityPlayer entityplayer = (EntityPlayer) par1DamageSource.getEntity();
 			{
 				entityplayer.triggerAchievement(ModAchievements.zertumKill);
-				this.dropChestItems();
+				dropChestItems();
 			}
 		}
 	}
@@ -524,56 +523,58 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	public void onLivingUpdate() // NAV: Living Updates
 	{
 		super.onLivingUpdate();
-		if (isServer() && this.isWet && !this.isShaking && !this.hasPath() && this.onGround) {
-			this.isShaking = true;
-			this.timeWolfIsShaking = 0.0F;
-			this.prevTimeWolfIsShaking = 0.0F;
-			this.worldObj.setEntityState(this, (byte) 8);
+		if (isServer() && isWet && !isShaking && !hasPath() && onGround) {
+			isShaking = true;
+			timeWolfIsShaking = 0.0F;
+			prevTimeWolfIsShaking = 0.0F;
+			worldObj.setEntityState(this, (byte) 8);
 		}
 
 		if (Constants.DEF_IS_HUNGER_ON) {
-			this.prevHungerTick = this.hungerTick;
+			prevHungerTick = hungerTick;
 
-			if (this.riddenByEntity == null && !this.isSitting()) {
-				this.hungerTick += 1;
+			if (riddenByEntity == null && !isSitting()) {
+				hungerTick += 1;
 			}
 
-			this.hungerTick += TalentHelper.onHungerTick(this, this.hungerTick - this.prevHungerTick);
+			hungerTick += TalentHelper.onHungerTick(this, hungerTick - prevHungerTick);
 
-			if (this.hungerTick > 400) {
-				this.setZertumHunger(this.getZertumHunger() - 1);
-				this.hungerTick -= 400;
+			if (hungerTick > 400) {
+				setZertumHunger(getZertumHunger() - 1);
+				hungerTick -= 400;
 			}
 		}
 
-		if (this.getHealth() != Constants.lowHP) {
-			this.prevHealingTick = this.healingTick;
-			this.healingTick += this.nourishment();
+		if (getHealth() != Constants.lowHP) {
+			prevHealingTick = healingTick;
+			healingTick += nourishment();
 
-			if (this.healingTick >= 6000) {
-				if (this.getHealth() < this.getMaxHealth()) {
-					this.setHealth(this.getHealth() + 1);
+			if (healingTick >= 6000) {
+				if (getHealth() < getMaxHealth()) {
+					setHealth(getHealth() + 1);
 				}
 
-				this.healingTick = 0;
+				healingTick = 0;
 			}
 		}
 
-		if (this.getZertumHunger() == 0 && this.worldObj.getWorldInfo().getWorldTime() % 100L == 0L && this.getHealth() > Constants.lowHP) {
-			this.attackEntityFrom(DamageSource.generic, 1);
+		if (getZertumHunger() == 0 && worldObj.getWorldInfo().getWorldTime() % 100L == 0L && getHealth() > Constants.lowHP) {
+			attackEntityFrom(DamageSource.generic, 1);
 		}
 
-		if (isServer() && (this.getAttackTarget() == null || this.getAttackTarget().isDead) && this.isAngry()) {
-			this.setAngry(false);
+		if (isServer() && (getAttackTarget() == null || getAttackTarget().isDead) && isAngry()) {
+			setAngry(false);
 		}
 
 		if (Constants.DEF_HOWL == true) {
-			if (this.isServer()) {
-				if (this.rand.nextInt(10) == 4 && this.worldObj.isDaytime() && this.isChild()) {
-					wantToHowl = false;
-				}
-				else {
-					wantToHowl = true;
+			if (isServer()) {
+				if (rand.nextInt(10) == 4) {
+					if (!worldObj.isDaytime() && !isChild()) {
+						wantToHowl = true;
+					}
+					else {
+						wantToHowl = false;
+					}
 				}
 			}
 		}
@@ -586,62 +587,62 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	@Override
 	public void onUpdate() {
 		super.onUpdate();
-		this.prevTimeDogBegging = this.timeDogBegging;
+		prevTimeDogBegging = timeDogBegging;
 
-		if (this.isBegging()) {
-			this.timeDogBegging += (1.0F - this.timeDogBegging) * 0.4F;
+		if (isBegging()) {
+			timeDogBegging += (1.0F - timeDogBegging) * 0.4F;
 		}
 		else {
-			this.timeDogBegging += (0.0F - this.timeDogBegging) * 0.4F;
+			timeDogBegging += (0.0F - timeDogBegging) * 0.4F;
 		}
 
-		if (this.openMouthCounter > 0 && ++this.openMouthCounter > 30) {
-			this.openMouthCounter = 0;
-			this.setHorseWatchableBoolean(128, false);
+		if (openMouthCounter > 0 && ++openMouthCounter > 30) {
+			openMouthCounter = 0;
+			setHorseWatchableBoolean(128, false);
 		}
 
-		this.prevMouthOpenness = this.mouthOpenness;
+		prevMouthOpenness = mouthOpenness;
 
-		if (this.getHorseWatchableBoolean(128)) {
-			this.mouthOpenness += (1.0F - this.mouthOpenness) * 0.7F + 0.05F;
+		if (getHorseWatchableBoolean(128)) {
+			mouthOpenness += (1.0F - mouthOpenness) * 0.7F + 0.05F;
 
-			if (this.mouthOpenness > 1.0F) {
-				this.mouthOpenness = 1.0F;
+			if (mouthOpenness > 1.0F) {
+				mouthOpenness = 1.0F;
 			}
 		}
 		else {
-			this.mouthOpenness += (0.0F - this.mouthOpenness) * 0.7F - 0.05F;
+			mouthOpenness += (0.0F - mouthOpenness) * 0.7F - 0.05F;
 
-			if (this.mouthOpenness < 0.0F) {
-				this.mouthOpenness = 0.0F;
+			if (mouthOpenness < 0.0F) {
+				mouthOpenness = 0.0F;
 			}
 		}
-		this.headRotationCourseOld = this.headRotationCourse;
+		headRotationCourseOld = headRotationCourse;
 
-		if (this.isBegging()) {
-			this.headRotationCourse += (1.0F - this.headRotationCourse) * 0.4F;
+		if (isBegging()) {
+			headRotationCourse += (1.0F - headRotationCourse) * 0.4F;
 		}
 		else {
-			this.headRotationCourse += (0.0F - this.headRotationCourse) * 0.4F;
+			headRotationCourse += (0.0F - headRotationCourse) * 0.4F;
 		}
 
-		if (this.isWet()) {
-			this.isWet = true;
-			this.isShaking = false;
-			this.timeWolfIsShaking = 0.0F;
-			this.prevTimeWolfIsShaking = 0.0F;
+		if (isWet()) {
+			isWet = true;
+			isShaking = false;
+			timeWolfIsShaking = 0.0F;
+			prevTimeWolfIsShaking = 0.0F;
 		}
-		else if ((this.isWet || this.isShaking) && this.isShaking) {
-			if (this.timeWolfIsShaking == 0.0F) {
-				this.playSound("mob.wolf.shake", this.getSoundVolume(), (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+		else if ((isWet || isShaking) && isShaking) {
+			if (timeWolfIsShaking == 0.0F) {
+				playSound("mob.wolf.shake", getSoundVolume(), (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
 			}
 
-			this.prevTimeWolfIsShaking = this.timeWolfIsShaking;
-			this.timeWolfIsShaking += 0.05F;
+			prevTimeWolfIsShaking = timeWolfIsShaking;
+			timeWolfIsShaking += 0.05F;
 
-			if (this.prevTimeWolfIsShaking >= 2.0F) {
-				if (this.rand.nextInt(15) < this.talents.getLevel("fishing") * 2) {
-					if (this.rand.nextInt(15) < this.talents.getLevel("flamingelemental") * 2 && this instanceof EntityRedZertum) {
+			if (prevTimeWolfIsShaking >= 2.0F) {
+				if (rand.nextInt(15) < talents.getLevel("fishing") * 2) {
+					if (rand.nextInt(15) < talents.getLevel("flamingelemental") * 2 && this instanceof EntityRedZertum) {
 						if (isServer()) {
 							dropItem(Items.cooked_fish, 1);
 						}
@@ -652,67 +653,67 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 						}
 					}
 				}
-				this.isWet = false;
-				this.isShaking = false;
-				this.prevTimeWolfIsShaking = 0.0F;
-				this.timeWolfIsShaking = 0.0F;
+				isWet = false;
+				isShaking = false;
+				prevTimeWolfIsShaking = 0.0F;
+				timeWolfIsShaking = 0.0F;
 			}
 
-			if (this.timeWolfIsShaking > 0.4F) {
-				float f = (float) this.getEntityBoundingBox().minY;
-				int i = (int) (MathHelper.sin((this.timeWolfIsShaking - 0.4F) * (float) Math.PI) * 7.0F);
+			if (timeWolfIsShaking > 0.4F) {
+				float f = (float) getEntityBoundingBox().minY;
+				int i = (int) (MathHelper.sin((timeWolfIsShaking - 0.4F) * (float) Math.PI) * 7.0F);
 
 				for (int j = 0; j < i; ++j) {
-					float f1 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-					float f2 = (this.rand.nextFloat() * 2.0F - 1.0F) * this.width * 0.5F;
-					this.worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, this.posX + f1, f + 0.8F, this.posZ + f2, this.motionX, this.motionY, this.motionZ, new int[0]);
+					float f1 = (rand.nextFloat() * 2.0F - 1.0F) * width * 0.5F;
+					float f2 = (rand.nextFloat() * 2.0F - 1.0F) * width * 0.5F;
+					worldObj.spawnParticle(EnumParticleTypes.WATER_SPLASH, posX + f1, f + 0.8F, posZ + f2, motionX, motionY, motionZ, new int[0]);
 				}
 			}
 		}
 
-		if (this.rand.nextInt(200) == 0 && this.hasEvolved()) {
-			this.hiyaMaster = true;
+		if (rand.nextInt(200) == 0 && hasEvolved()) {
+			hiyaMaster = true;
 		}
 
-		if (((this.isBegging()) || (this.hiyaMaster)) && (!this.isWolfHappy) && this.hasEvolved()) {
-			this.isWolfHappy = true;
-			this.timeWolfIsHappy = 0.0F;
-			this.prevTimeWolfIsHappy = 0.0F;
+		if ((isBegging() || hiyaMaster) && !isWolfHappy && hasEvolved()) {
+			isWolfHappy = true;
+			timeWolfIsHappy = 0.0F;
+			prevTimeWolfIsHappy = 0.0F;
 		}
 		else {
 			hiyaMaster = false;
 		}
-		if (this.isWolfHappy) {
-			if (this.timeWolfIsHappy % 1.0F == 0.0F) {
+		if (isWolfHappy) {
+			if (timeWolfIsHappy % 1.0F == 0.0F) {
 				if (!(this instanceof EntityMetalZertum)) {
-					this.openMouth();
-					this.worldObj.playSoundAtEntity(this, "mob.wolf.panting", this.getSoundVolume(), (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+					openMouth();
+					worldObj.playSoundAtEntity(this, "mob.wolf.panting", getSoundVolume(), (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
 				}
 				else if (this instanceof EntityMetalZertum) {
-					this.openMouth();
-					this.worldObj.playSoundAtEntity(this, Sound.MetalZertumPant, this.getSoundVolume(), (this.rand.nextFloat() - this.rand.nextFloat()) * 0.2F + 1.0F);
+					openMouth();
+					worldObj.playSoundAtEntity(this, Sound.MetalZertumPant, getSoundVolume(), (rand.nextFloat() - rand.nextFloat()) * 0.2F + 1.0F);
 				}
 			}
-			this.prevTimeWolfIsHappy = this.timeWolfIsHappy;
-			this.timeWolfIsHappy += 0.05F;
-			if (this.prevTimeWolfIsHappy >= 8.0F) {
-				this.isWolfHappy = false;
-				this.prevTimeWolfIsHappy = 0.0F;
-				this.timeWolfIsHappy = 0.0F;
+			prevTimeWolfIsHappy = timeWolfIsHappy;
+			timeWolfIsHappy += 0.05F;
+			if (prevTimeWolfIsHappy >= 8.0F) {
+				isWolfHappy = false;
+				prevTimeWolfIsHappy = 0.0F;
+				timeWolfIsHappy = 0.0F;
 			}
 		}
 
-		if (this.isTamed()) {
-			EntityPlayer player = (EntityPlayer) this.getOwner();
+		if (isTamed()) {
+			EntityPlayer player = (EntityPlayer) getOwner();
 
 			if (player != null) {
 				float distanceToOwner = player.getDistanceToEntity(this);
 
-				if (distanceToOwner <= 2F && this.hasToy()) {
+				if (distanceToOwner <= 2F && hasToy()) {
 					if (isServer()) {
-						this.entityDropItem(new ItemStack(ModItems.toy, 1, 1), 0.0F);
+						entityDropItem(new ItemStack(ModItems.toy, 1, 1), 0.0F);
 					}
-					this.setHasToy(false);
+					setHasToy(false);
 				}
 			}
 		}
@@ -721,7 +722,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	public float getWagAngle(float f, float f1) {
-		float f2 = (this.prevTimeWolfIsHappy + (this.timeWolfIsHappy - this.prevTimeWolfIsHappy) * f + f1) / 2.0F;
+		float f2 = (prevTimeWolfIsHappy + (timeWolfIsHappy - prevTimeWolfIsHappy) * f + f1) / 2.0F;
 		if (f2 < 0.0F) {
 			f2 = 0.0F;
 		}
@@ -733,74 +734,74 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 
 	@Override
 	public void moveEntityWithHeading(float strafe, float forward) {
-		if (this.riddenByEntity instanceof EntityPlayer) {
-			this.prevRotationYaw = this.rotationYaw = this.riddenByEntity.rotationYaw;
-			this.rotationPitch = this.riddenByEntity.rotationPitch * 0.5F;
-			this.setRotation(this.rotationYaw, this.rotationPitch);
-			this.rotationYawHead = this.renderYawOffset = this.rotationYaw;
-			strafe = ((EntityPlayer) this.riddenByEntity).moveStrafing * 0.5F;
-			forward = ((EntityPlayer) this.riddenByEntity).moveForward;
+		if (riddenByEntity instanceof EntityPlayer) {
+			prevRotationYaw = rotationYaw = riddenByEntity.rotationYaw;
+			rotationPitch = riddenByEntity.rotationPitch * 0.5F;
+			setRotation(rotationYaw, rotationPitch);
+			rotationYawHead = renderYawOffset = rotationYaw;
+			strafe = ((EntityPlayer) riddenByEntity).moveStrafing * 0.5F;
+			forward = ((EntityPlayer) riddenByEntity).moveForward;
 
 			if (forward <= 0.0F) {
 				forward *= 0.25F;
 			}
 
-			if (this.onGround) {
+			if (onGround) {
 				if (forward > 0.0F) {
-					float f2 = MathHelper.sin(this.rotationYaw * (float) Math.PI / 180.0F);
-					float f3 = MathHelper.cos(this.rotationYaw * (float) Math.PI / 180.0F);
-					this.motionX += -0.4F * f2 * 0.15F; // May change
-					this.motionZ += 0.4F * f3 * 0.15F;
+					float f2 = MathHelper.sin(rotationYaw * (float) Math.PI / 180.0F);
+					float f3 = MathHelper.cos(rotationYaw * (float) Math.PI / 180.0F);
+					motionX += -0.4F * f2 * 0.15F; // May change
+					motionZ += 0.4F * f3 * 0.15F;
 				}
 			}
 
-			this.stepHeight = 1.0F;
-			this.jumpMovementFactor = this.getAIMoveSpeed() * 0.2F;
+			stepHeight = 1.0F;
+			jumpMovementFactor = getAIMoveSpeed() * 0.2F;
 
 			if (isServer()) {
-				this.setAIMoveSpeed((float) this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() / 4);
+				setAIMoveSpeed((float) getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue() / 4);
 				super.moveEntityWithHeading(strafe, forward);
 			}
 
-			if (this.onGround) {
+			if (onGround) {
 				// this.jumpPower = 0.0F;
 				// this.setHorseJumping(false);
 			}
 
-			this.prevLimbSwingAmount = this.limbSwingAmount;
-			double d0 = this.posX - this.prevPosX;
-			double d1 = this.posZ - this.prevPosZ;
+			prevLimbSwingAmount = limbSwingAmount;
+			double d0 = posX - prevPosX;
+			double d1 = posZ - prevPosZ;
 			float f4 = MathHelper.sqrt_double(d0 * d0 + d1 * d1) * 4.0F;
 
 			if (f4 > 1.0F) {
 				f4 = 1.0F;
 			}
 
-			this.limbSwingAmount += (f4 - this.limbSwingAmount) * 0.4F;
-			this.limbSwing += this.limbSwingAmount;
+			limbSwingAmount += (f4 - limbSwingAmount) * 0.4F;
+			limbSwing += limbSwingAmount;
 		}
 		else {
-			this.stepHeight = 0.5F;
-			this.jumpMovementFactor = 0.02F;
+			stepHeight = 0.5F;
+			jumpMovementFactor = 0.02F;
 			super.moveEntityWithHeading(strafe, forward);
 		}
 	}
 
 	@Override
 	public float getAIMoveSpeed() {
-		double speed = this.getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
+		double speed = getEntityAttribute(SharedMonsterAttributes.movementSpeed).getAttributeValue();
 		speed += TalentHelper.addToMoveSpeed(this);
 
-		if ((!(this.getAttackTarget() instanceof EntityZertumEntity) && !(this.getAttackTarget() instanceof EntityPlayer)) || this.riddenByEntity instanceof EntityPlayer) {
-			if (this.levels.getLevel() == Constants.stage2Level && this.hasEvolved()) {
+		if (!(getAttackTarget() instanceof EntityZertumEntity) && !(getAttackTarget() instanceof EntityPlayer) || riddenByEntity instanceof EntityPlayer) {
+			if (levels.getLevel() == Constants.stage2Level && hasEvolved()) {
 				speed += 0.3D;
 			}
-			else if (this.hasEvolved() && this.levels.getLevel() != Constants.stage2Level) {
+			else if (hasEvolved() && levels.getLevel() != Constants.stage2Level) {
 				speed += 0.3D;
 			}
 		}
 
-		if (this.riddenByEntity instanceof EntityPlayer) {
+		if (riddenByEntity instanceof EntityPlayer) {
 			speed /= 4;
 		}
 
@@ -808,14 +809,14 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	public float getAIAttackDamage() {
-		double damage = this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
+		double damage = getEntityAttribute(SharedMonsterAttributes.attackDamage).getAttributeValue();
 		damage += TalentHelper.addToAttackDamage(this);
 
-		if ((!(this.getAttackTarget() instanceof EntityZertumEntity) && !(this.getAttackTarget() instanceof EntityPlayer))) {
-			if (this.levels.getLevel() == Constants.stage2Level && this.hasEvolved() && !this.inFinalStage()) {
+		if (!(getAttackTarget() instanceof EntityZertumEntity) && !(getAttackTarget() instanceof EntityPlayer)) {
+			if (levels.getLevel() == Constants.stage2Level && hasEvolved() && !inFinalStage()) {
 				damage += 1.0D;
 			}
-			else if (this.levels.getLevel() == Constants.maxLevel && this.hasEvolved() && this.inFinalStage()) {
+			else if (levels.getLevel() == Constants.maxLevel && hasEvolved() && inFinalStage()) {
 				damage += 3.0D;
 			}
 		}
@@ -825,59 +826,59 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	@Override
 	public void fall(float distance, float damageMultiplier) {
 		if (distance > 1.0F) {
-			if (!this.inFinalStage()) {
-				this.playSound("game.neutral.hurt.fall.small", 0.4F, 1.0F);
+			if (!inFinalStage()) {
+				playSound("game.neutral.hurt.fall.small", 0.4F, 1.0F);
 			}
 			else {
-				this.playSound(Sound.Land, 0.4F, 1.0F);
+				playSound(Sound.Land, 0.4F, 1.0F);
 			}
 		}
 
-		int i = MathHelper.ceiling_float_int(((distance * 0.5F - 3.0F) - TalentHelper.fallProtection(this)) * damageMultiplier);
+		int i = MathHelper.ceiling_float_int((distance * 0.5F - 3.0F - TalentHelper.fallProtection(this)) * damageMultiplier);
 
-		if (i > 0 && !TalentHelper.isImmuneToFalls(this) && !this.inFinalStage()) {
-			this.attackEntityFrom(DamageSource.fall, i);
+		if (i > 0 && !TalentHelper.isImmuneToFalls(this) && !inFinalStage()) {
+			attackEntityFrom(DamageSource.fall, i);
 
-			if (this.riddenByEntity != null) {
-				this.riddenByEntity.attackEntityFrom(DamageSource.fall, i);
+			if (riddenByEntity != null) {
+				riddenByEntity.attackEntityFrom(DamageSource.fall, i);
 			}
 
-			Block block = this.worldObj.getBlockState(new BlockPos(this.posX, this.posY - 0.2D - this.prevRotationYaw, this.posZ)).getBlock();
+			Block block = worldObj.getBlockState(new BlockPos(posX, posY - 0.2D - prevRotationYaw, posZ)).getBlock();
 
-			if (block.getMaterial() != Material.air && !this.isSilent()) {
+			if (block.getMaterial() != Material.air && !isSilent()) {
 				Block.SoundType soundtype = block.stepSound;
-				this.worldObj.playSoundAtEntity(this, soundtype.getStepSound(), soundtype.getVolume() * 0.5F, soundtype.getFrequency() * 0.75F);
+				worldObj.playSoundAtEntity(this, soundtype.getStepSound(), soundtype.getVolume() * 0.5F, soundtype.getFrequency() * 0.75F);
 			}
 		}
-		else if (i > 3 && !TalentHelper.isImmuneToFalls(this) && this.inFinalStage()) {
-			this.attackEntityFrom(DamageSource.fall, i);
+		else if (i > 3 && !TalentHelper.isImmuneToFalls(this) && inFinalStage()) {
+			attackEntityFrom(DamageSource.fall, i);
 
-			if (this.riddenByEntity != null) {
-				this.riddenByEntity.attackEntityFrom(DamageSource.fall, i);
+			if (riddenByEntity != null) {
+				riddenByEntity.attackEntityFrom(DamageSource.fall, i);
 			}
 
-			Block block = this.worldObj.getBlockState(new BlockPos(this.posX, this.posY - 0.2D - this.prevRotationYaw, this.posZ)).getBlock();
+			Block block = worldObj.getBlockState(new BlockPos(posX, posY - 0.2D - prevRotationYaw, posZ)).getBlock();
 
-			if (block.getMaterial() != Material.air && !this.isSilent()) {
+			if (block.getMaterial() != Material.air && !isSilent()) {
 				Block.SoundType soundtype = block.stepSound;
-				this.worldObj.playSoundAtEntity(this, soundtype.getStepSound(), soundtype.getVolume() * 0.5F, soundtype.getFrequency() * 0.75F);
+				worldObj.playSoundAtEntity(this, soundtype.getStepSound(), soundtype.getVolume() * 0.5F, soundtype.getFrequency() * 0.75F);
 			}
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
 	public boolean isWolfWet() {
-		return this.isWet;
+		return isWet;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public float getShadingWhileWet(float p_70915_1_) {
-		return 0.75F + (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70915_1_) / 2.0F * 0.25F;
+		return 0.75F + (prevTimeWolfIsShaking + (timeWolfIsShaking - prevTimeWolfIsShaking) * p_70915_1_) / 2.0F * 0.25F;
 	}
 
 	@SideOnly(Side.CLIENT)
 	public float getShakeAngle(float p_70923_1_, float p_70923_2_) {
-		float f2 = (this.prevTimeWolfIsShaking + (this.timeWolfIsShaking - this.prevTimeWolfIsShaking) * p_70923_1_ + p_70923_2_) / 1.8F;
+		float f2 = (prevTimeWolfIsShaking + (timeWolfIsShaking - prevTimeWolfIsShaking) * p_70923_1_ + p_70923_2_) / 1.8F;
 
 		if (f2 < 0.0F) {
 			f2 = 0.0F;
@@ -891,22 +892,22 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 
 	@SideOnly(Side.CLIENT)
 	public float getInterestedAngle(float partialTickTime) {
-		return (this.prevTimeDogBegging + (this.timeDogBegging - this.prevTimeDogBegging) * partialTickTime) * 0.15F * (float) Math.PI;
+		return (prevTimeDogBegging + (timeDogBegging - prevTimeDogBegging) * partialTickTime) * 0.15F * (float) Math.PI;
 	}
 
 	@Override
 	public float getEyeHeight() { // NAV
-		return this.height;
+		return height;
 	}
 
 	@Override
 	public int getVerticalFaceSpeed() {
-		return this.isSitting() ? 20 : super.getVerticalFaceSpeed();
+		return isSitting() ? 20 : super.getVerticalFaceSpeed();
 	}
 
 	@Override
 	public boolean attackEntityFrom(DamageSource damageSource, float damage) {
-		if (this.isEntityInvulnerable(damageSource)) {
+		if (isEntityInvulnerable(damageSource)) {
 			return false;
 		}
 		else {
@@ -915,7 +916,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 			}
 
 			Entity entity = damageSource.getEntity();
-			this.aiSit.setSitting(false);
+			aiSit.setSitting(false);
 
 			if (entity != null && !(entity instanceof EntityPlayer) && !(entity instanceof EntityArrow)) {
 				damage = (damage + 1.0F) / 2.0F;
@@ -931,7 +932,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 			return false;
 		}
 
-		int damage = (int) (4 + (this.getEntityAttribute(SharedMonsterAttributes.attackDamage).getBaseValue()) / 2);
+		int damage = (int) (4 + getEntityAttribute(SharedMonsterAttributes.attackDamage).getBaseValue() / 2);
 		damage = TalentHelper.attackEntityAsMob(this, entity, damage);
 
 		if (entity instanceof EntityZombie) {
@@ -943,17 +944,17 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 
 	@Override
 	protected boolean isMovementBlocked() {
-		return this.isPlayerSleeping() || this.ridingEntity != null || this.riddenByEntity instanceof EntityPlayer || super.isMovementBlocked();
+		return isPlayerSleeping() || ridingEntity != null || riddenByEntity instanceof EntityPlayer || super.isMovementBlocked();
 	}
 
 	@Override
 	public double getYOffset() {
-		return this.ridingEntity instanceof EntityPlayer ? 0.5D : 0.0D;
+		return ridingEntity instanceof EntityPlayer ? 0.5D : 0.0D;
 	}
 
 	@Override
 	public boolean isPotionApplicable(PotionEffect potionEffect) {
-		if (this.getHealth() <= Constants.lowHP) {
+		if (getHealth() <= Constants.lowHP) {
 			return false;
 		}
 
@@ -995,18 +996,18 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 
 	public int masterOrder() { // NAV: Master Order
 		int order = 0;
-		EntityPlayer player = (EntityPlayer) this.getOwner();
+		EntityPlayer player = (EntityPlayer) getOwner();
 
 		if (player != null) {
 
 			float distanceAway = player.getDistanceToEntity(this);
 			ItemStack itemstack = player.inventory.getCurrentItem();
 
-			if (itemstack != null && (itemstack.getItem() instanceof ItemTool) && distanceAway <= 20F) {
+			if (itemstack != null && itemstack.getItem() instanceof ItemTool && distanceAway <= 20F) {
 				order = 1;
 			}
 
-			if (itemstack != null && ((itemstack.getItem() instanceof ItemSword) || (itemstack.getItem() instanceof ItemBow))) {
+			if (itemstack != null && (itemstack.getItem() instanceof ItemSword || itemstack.getItem() instanceof ItemBow)) {
 				order = 2;
 			}
 
@@ -1029,21 +1030,21 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 
 	@Override
 	public boolean canInteract(EntityPlayer player) {
-		return this.isOwner(player) || this.willObeyOthers();
+		return isOwner(player) || willObeyOthers();
 	}
 
 	public int nourishment() {
 		int amount = 0;
 
-		if (this.getZertumHunger() > 0) {
-			amount = 40 + 4 * (this.effectiveLevel() + 1);
+		if (getZertumHunger() > 0) {
+			amount = 40 + 4 * (effectiveLevel() + 1);
 
-			if (isSitting() && this.talents.getLevel("rapidregen") == 5) {
-				amount += 20 + 2 * (this.effectiveLevel() + 1);
+			if (isSitting() && talents.getLevel("rapidregen") == 5) {
+				amount += 20 + 2 * (effectiveLevel() + 1);
 			}
 
-			if (!this.isSitting()) {
-				amount *= 5 + this.talents.getLevel("rapidregen");
+			if (!isSitting()) {
+				amount *= 5 + talents.getLevel("rapidregen");
 				amount /= 10;
 			}
 		}
@@ -1052,31 +1053,31 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	public int effectiveLevel() {
-		return (this.levels.getLevel()) / 10;
+		return levels.getLevel() / 10;
 	}
 
 	public String getPetName() {
-		return this.dataWatcher.getWatchableObjectString(DataValues.dogName);
+		return dataWatcher.getWatchableObjectString(DataValues.dogName);
 	}
 
 	public void setPetName(String var1) {
-		this.dataWatcher.updateObject(DataValues.dogName, var1);
+		dataWatcher.updateObject(DataValues.dogName, var1);
 	}
 
 	public void setWillObeyOthers(boolean flag) {
-		this.dataWatcher.updateObject(DataValues.obeyOthers, flag ? 1 : 0);
+		dataWatcher.updateObject(DataValues.obeyOthers, flag ? 1 : 0);
 	}
 
 	public boolean willObeyOthers() {
-		return this.dataWatcher.getWatchableObjectInt(DataValues.obeyOthers) != 0;
+		return dataWatcher.getWatchableObjectInt(DataValues.obeyOthers) != 0;
 	}
 
 	public int points() {
-		return this.levels.getLevel() + (this.getGrowingAge() < 0 ? 0 : Constants.startingPoints);
+		return levels.getLevel() + (getGrowingAge() < 0 ? 0 : Constants.startingPoints);
 	}
 
 	public int spendablePoints() {
-		return this.points() - this.usedPoints();
+		return points() - usedPoints();
 	}
 
 	public int usedPoints() {
@@ -1084,11 +1085,11 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	public int getZertumHunger() {
-		return this.dataWatcher.getWatchableObjectInt(DataValues.hungerTicks);
+		return dataWatcher.getWatchableObjectInt(DataValues.hungerTicks);
 	}
 
 	public void setZertumHunger(int par1) {
-		this.dataWatcher.updateObject(DataValues.hungerTicks, MathHelper.clamp_int(par1, 0, Constants.hungerTicks));
+		dataWatcher.updateObject(DataValues.hungerTicks, MathHelper.clamp_int(par1, 0, Constants.hungerTicks));
 	}
 
 	@Override
@@ -1108,7 +1109,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 
 			return entityToAttack instanceof EntityPlayer && owner instanceof EntityPlayer && !((EntityPlayer) owner).canAttackPlayer((EntityPlayer) entityToAttack)
 					? false
-							: !(entityToAttack instanceof EntityHorse) || !((EntityHorse) entityToAttack).isTame();
+					: !(entityToAttack instanceof EntityHorse) || !((EntityHorse) entityToAttack).isTame();
 		}
 		else {
 			return false;
@@ -1129,16 +1130,16 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	public boolean hasToy() {
-		return this.hasToy;
+		return hasToy;
 	}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void handleHealthUpdate(byte p_70103_1_) {
 		if (p_70103_1_ == 8) {
-			this.isShaking = true;
-			this.timeWolfIsShaking = 0.0F;
-			this.prevTimeWolfIsShaking = 0.0F;
+			isShaking = true;
+			timeWolfIsShaking = 0.0F;
+			prevTimeWolfIsShaking = 0.0F;
 		}
 		else {
 			super.handleHealthUpdate(p_70103_1_);
@@ -1160,37 +1161,37 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	public EnumDyeColor getCollarColor() {
-		return EnumDyeColor.byDyeDamage(this.dataWatcher.getWatchableObjectByte(DataValues.collarCollar) & 15);
+		return EnumDyeColor.byDyeDamage(dataWatcher.getWatchableObjectByte(DataValues.collarCollar) & 15);
 	}
 
 	public void setCollarColor(EnumDyeColor collarcolor) {
-		this.dataWatcher.updateObject(DataValues.collarCollar, Byte.valueOf((byte) (collarcolor.getDyeDamage() & 15)));
+		dataWatcher.updateObject(DataValues.collarCollar, Byte.valueOf((byte) (collarcolor.getDyeDamage() & 15)));
 	}
 
 	private boolean getHorseWatchableBoolean(int p_110233_1_) {
-		return (this.dataWatcher.getWatchableObjectInt(DataValues.mouth) & p_110233_1_) != 0;
+		return (dataWatcher.getWatchableObjectInt(DataValues.mouth) & p_110233_1_) != 0;
 	}
 
 	private void setHorseWatchableBoolean(int p_110208_1_, boolean p_110208_2_) {
-		int j = this.dataWatcher.getWatchableObjectInt(DataValues.mouth);
+		int j = dataWatcher.getWatchableObjectInt(DataValues.mouth);
 
 		if (p_110208_2_) {
-			this.dataWatcher.updateObject(DataValues.mouth, Integer.valueOf(j | p_110208_1_));
+			dataWatcher.updateObject(DataValues.mouth, Integer.valueOf(j | p_110208_1_));
 		}
 		else {
-			this.dataWatcher.updateObject(DataValues.mouth, Integer.valueOf(j & ~p_110208_1_));
+			dataWatcher.updateObject(DataValues.mouth, Integer.valueOf(j & ~p_110208_1_));
 		}
 	}
 
 	@SideOnly(Side.CLIENT)
 	public float getMouthOpennessAngle(float p_110201_1_) {
-		return this.prevMouthOpenness + (this.mouthOpenness - this.prevMouthOpenness) * p_110201_1_;
+		return prevMouthOpenness + (mouthOpenness - prevMouthOpenness) * p_110201_1_;
 	}
 
 	public void openMouth() {
 		if (isServer()) {
-			this.openMouthCounter = 1;
-			this.setHorseWatchableBoolean(128, true);
+			openMouthCounter = 1;
+			setHorseWatchableBoolean(128, true);
 		}
 	}
 
@@ -1199,84 +1200,84 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	 */
 	@Override
 	protected boolean canDespawn() {
-		return !this.isTamed() && this.ticksExisted > 2400;
+		return !isTamed() && ticksExisted > 2400;
 	}
 
 	@Override
 	public boolean allowLeashing() {
-		return !this.isAngry() && super.allowLeashing();
+		return !isAngry() && super.allowLeashing();
 	}
 
 	public void setBegging(boolean flag) {
-		this.dataWatcher.updateObject(DataValues.beg, Byte.valueOf((byte) (flag ? 1 : 0)));
+		dataWatcher.updateObject(DataValues.beg, Byte.valueOf((byte) (flag ? 1 : 0)));
 	}
 
 	public boolean isBegging() {
-		return this.dataWatcher.getWatchableObjectByte(DataValues.beg) == 1;
+		return dataWatcher.getWatchableObjectByte(DataValues.beg) == 1;
 	}
 
 	public boolean hasEvolved() {
-		return (this.dataWatcher.getWatchableObjectByte(DataValues.evolve) & 4) != 0;
+		return (dataWatcher.getWatchableObjectByte(DataValues.evolve) & 4) != 0;
 	}
 
 	public void setEvolved(boolean evolved) {
-		byte b0 = this.dataWatcher.getWatchableObjectByte(DataValues.evolve);
+		byte b0 = dataWatcher.getWatchableObjectByte(DataValues.evolve);
 
 		if (evolved) {
-			this.dataWatcher.updateObject(DataValues.evolve, Byte.valueOf((byte) (b0 | 4)));
+			dataWatcher.updateObject(DataValues.evolve, Byte.valueOf((byte) (b0 | 4)));
 		}
 		else {
-			this.dataWatcher.updateObject(DataValues.evolve, Byte.valueOf((byte) (b0 & -5)));
+			dataWatcher.updateObject(DataValues.evolve, Byte.valueOf((byte) (b0 & -5)));
 		}
-		this.updateEntityAttributes();
+		updateEntityAttributes();
 	}
 
 	public boolean inFinalStage() {
-		return (this.dataWatcher.getWatchableObjectByte(DataValues.evolve) & 2) != 0;
+		return (dataWatcher.getWatchableObjectByte(DataValues.evolve) & 2) != 0;
 	}
 
 	public void setFinalStage(boolean finalStage) {
-		byte b0 = this.dataWatcher.getWatchableObjectByte(DataValues.evolve);
+		byte b0 = dataWatcher.getWatchableObjectByte(DataValues.evolve);
 
 		if (finalStage) {
-			this.dataWatcher.updateObject(DataValues.evolve, Byte.valueOf((byte) (b0 | 2)));
+			dataWatcher.updateObject(DataValues.evolve, Byte.valueOf((byte) (b0 | 2)));
 		}
 		else {
-			this.dataWatcher.updateObject(DataValues.evolve, Byte.valueOf((byte) (b0 & -3)));
+			dataWatcher.updateObject(DataValues.evolve, Byte.valueOf((byte) (b0 & -3)));
 		}
-		this.updateEntityAttributes();
+		updateEntityAttributes();
 	}
 
 	public String getOwnerName() {
-		return this.dataWatcher.getWatchableObjectString(DataValues.ownerName);
+		return dataWatcher.getWatchableObjectString(DataValues.ownerName);
 	}
 
 	public void saveOwnerName(String name) {
-		this.dataWatcher.updateObject(DataValues.ownerName, name);
+		dataWatcher.updateObject(DataValues.ownerName, name);
 	}
 
 	public String getOwnerID() {
-		return this.dataWatcher.getWatchableObjectString(DataValues.ownerID);
+		return dataWatcher.getWatchableObjectString(DataValues.ownerID);
 	}
 
 	public void saveOwnerID(String id) {
-		this.dataWatcher.updateObject(DataValues.ownerID, id);
+		dataWatcher.updateObject(DataValues.ownerID, id);
 	}
 
 	/** Custom Zertum Taming Code */
 	@Override
 	public void tamedFor(EntityPlayer player, boolean successful) {
 		if (successful) {
-			this.setTamed(true);
-			this.updateEntityAttributes();
-			this.navigator.clearPathEntity();
-			this.setAttackTarget((EntityLivingBase) null);
-			this.aiSit.setSitting(false);
-			this.setOwnerId(player.getUniqueID().toString());
-			this.playTameEffect(true);
-			this.worldObj.setEntityState(this, (byte) 7);
-			this.saveOwnerName(player.getDisplayNameString());
-			this.saveOwnerID(player.getUniqueID().toString());
+			setTamed(true);
+			updateEntityAttributes();
+			navigator.clearPathEntity();
+			setAttackTarget((EntityLivingBase) null);
+			aiSit.setSitting(false);
+			setOwnerId(player.getUniqueID().toString());
+			playTameEffect(true);
+			worldObj.setEntityState(this, (byte) 7);
+			saveOwnerName(player.getDisplayNameString());
+			saveOwnerID(player.getUniqueID().toString());
 			if (!(this instanceof EntityDarkZertum)) {
 				player.triggerAchievement(ModAchievements.zertumTame);
 			}
@@ -1289,56 +1290,56 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 			//@formatter:on
 		}
 		else {
-			this.playTameEffect(false);
-			this.worldObj.setEntityState(this, (byte) 6);
+			playTameEffect(false);
+			worldObj.setEntityState(this, (byte) 6);
 		}
 	}
 
 	public void unTame() {
-		this.setTamed(false);
-		this.setEvolved(false);
-		this.setFinalStage(false);
-		this.navigator.clearPathEntity();
-		this.setSitting(false);
-		this.talents.resetTalents();
-		this.levels.resetLevel();
-		this.setOwnerId("");
-		this.saveOwnerName("");
-		this.saveOwnerID("");
-		this.setPetName("");
-		this.setWillObeyOthers(false);
-		this.mode.setMode(EnumMode.DOCILE);
-		this.updateEntityAttributes();
+		setTamed(false);
+		setEvolved(false);
+		setFinalStage(false);
+		navigator.clearPathEntity();
+		setSitting(false);
+		talents.resetTalents();
+		levels.resetLevel();
+		setOwnerId("");
+		saveOwnerName("");
+		saveOwnerID("");
+		setPetName("");
+		setWillObeyOthers(false);
+		mode.setMode(EnumMode.DOCILE);
+		updateEntityAttributes();
 	}
 
 	public void evolveOnClient(EntityPlayer player) {
-		this.setEvolved(true);
-		this.worldObj.playBroadcastSound(1013, new BlockPos(this), 0);
-		this.updateEntityAttributes();
-		this.setHealth(this.getMaxHealth());
-		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + this.getPetName() + " has been evolved!"));
+		setEvolved(true);
+		worldObj.playBroadcastSound(1013, new BlockPos(this), 0);
+		updateEntityAttributes();
+		setHealth(getMaxHealth());
+		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + getPetName() + " has been evolved!"));
 	}
 
 	public void evolveOnServer(EntityZertumEntity entity, EntityPlayer player) {
 		entity.setEvolved(true);
 		entity.worldObj.playBroadcastSound(1013, new BlockPos(entity), 0);
-		this.updateEntityAttributes();
+		updateEntityAttributes();
 		entity.setHealth(entity.getMaxHealth());
 		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + entity.getPetName() + " has been evolved!"));
 	}
 
 	public void finaEvolveOnClient(EntityPlayer player) {
-		this.setFinalStage(true);
-		this.worldObj.playBroadcastSound(1013, new BlockPos(this), 0);
-		this.updateEntityAttributes();
-		this.setHealth(this.getMaxHealth());
-		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + this.getPetName() + " has been evolved to the final stage!"));
+		setFinalStage(true);
+		worldObj.playBroadcastSound(1013, new BlockPos(this), 0);
+		updateEntityAttributes();
+		setHealth(getMaxHealth());
+		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + getPetName() + " has been evolved to the final stage!"));
 	}
 
 	public void finaEvolveOnServer(EntityZertumEntity entity, EntityPlayer player) {
 		entity.setFinalStage(true);
 		entity.worldObj.playBroadcastSound(1013, new BlockPos(entity), 0);
-		this.updateEntityAttributes();
+		updateEntityAttributes();
 		entity.setHealth(entity.getMaxHealth());
 		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + entity.getPetName() + " has been evolved to the final stage!"));
 	}
@@ -1351,13 +1352,13 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 			entity.setFinalStage(false);
 		}
 		entity.worldObj.playBroadcastSound(1013, new BlockPos(entity), 0);
-		this.updateEntityAttributes();
+		updateEntityAttributes();
 		entity.setHealth(entity.getMaxHealth());
 		player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.DARK_RED + entity.getPetName() + " has been devolved!"));
 	}
 
 	public String genderPronoun() {
-		if (this.getGender() == true) {
+		if (getGender() == true) {
 			return "him";
 		}
 		else {
@@ -1366,7 +1367,7 @@ public abstract class EntityZertumEntity extends EntityCustomTameable {
 	}
 
 	public String genderSubject() {
-		if (this.getGender() == true) {
+		if (getGender() == true) {
 			return "he";
 		}
 		else {

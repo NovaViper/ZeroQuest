@@ -135,7 +135,7 @@ public class CommandAdmin extends CommandBase {
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest help,h - " + EnumChatFormatting.RESET + "Pulls up help menu"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest version,v - " + EnumChatFormatting.RESET + "Displays mod information"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest purge,p <tamed,t|all,a|wild,w> [global,g,all,a] - " + EnumChatFormatting.RESET + "Kills off nile creatures, Tamed parameter kills only 1 tamed nile creature (unless global parameter is added), all kills EVERY nile creature without the need of the global parameter, and wild kills only 1 nontamed nile creature (unless global parameter is added)"));
-				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest state,st <evolve,e|devolve,d> [global,g,all,a] - " + EnumChatFormatting.RESET + "Change the stage of a tamed Zertum or any subspecies, use multiple to either evolve to stage 3 or revert back to stage 1. Evolve parameter evolves only 1 tamed Zertum (unless global parameter is added) and devolve parameter devolves only 1 tamed Zertum (unless global parameter is added)"));
+				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest state,st <evolve,e,ev,evo|devolve,d,de,dev,devo> [global,g,all,a] - " + EnumChatFormatting.RESET + "Change the stage of a tamed Zertum or any subspecies, use multiple to either evolve to stage 3 or revert back to stage 1. Evolve parameter evolves only 1 tamed Zertum (unless global parameter is added) and devolve parameter devolves only 1 tamed Zertum (unless global parameter is added)"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest level,l <number> [global,g,all,a] - " + EnumChatFormatting.RESET + "Adds levels to a tamed Zertum or any subspecies"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.AQUA + "/zeroquest gender,g <male,m|female,f> [global,g,all,a] - " + EnumChatFormatting.RESET + "Change the gender of any nile creature"));
 				player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GOLD + Strings.commandSepartor));
@@ -177,11 +177,11 @@ public class CommandAdmin extends CommandBase {
 
 				String parameter = params[1];
 
-				if (parameter.equalsIgnoreCase("evolve") || parameter.equalsIgnoreCase("e")) {
+				if (parameter.equalsIgnoreCase("evolve") || parameter.equalsIgnoreCase("e") || parameter.equalsIgnoreCase("ev") || parameter.equalsIgnoreCase("evo")) {
 
 					appyModifier(sender, new EvolveModifier(player), global);
 				}
-				else if (parameter.equalsIgnoreCase("devolve") || parameter.equalsIgnoreCase("d")) {
+				else if (parameter.equalsIgnoreCase("devolve") || parameter.equalsIgnoreCase("d") || parameter.equalsIgnoreCase("de") || parameter.equalsIgnoreCase("dev") || parameter.equalsIgnoreCase("devo")) {
 					appyModifier(sender, new DevolveModifier(player), global);
 				}
 			}
@@ -237,12 +237,12 @@ public class CommandAdmin extends CommandBase {
 	public List addTabCompletionOptions(ICommandSender sender, String[] args, BlockPos pos) {
 		return args.length == 1
 				? getListOfStringsMatchingLastWord(args, new String[] {})
-						: (args.length == 2 && args[0].equalsIgnoreCase("stage") || args[0].equalsIgnoreCase("s")
+				: (args.length == 2 && args[0].equalsIgnoreCase("stage") || args[0].equalsIgnoreCase("s")
 						? getListOfStringsMatchingLastWord(args, new String[] { "baby", "adult" })
-								: (args.length == 2 && args[0].equalsIgnoreCase("purge") || args[0].equalsIgnoreCase("p")
+						: (args.length == 2 && args[0].equalsIgnoreCase("purge") || args[0].equalsIgnoreCase("p")
 								? getListOfStringsMatchingLastWord(args, new String[] { "tamed",
 										"wild", "all" })
-										: (args.length == 2 && args[0].equalsIgnoreCase("state") || args[0].equalsIgnoreCase("st")
+								: (args.length == 2 && args[0].equalsIgnoreCase("state") || args[0].equalsIgnoreCase("st")
 										? getListOfStringsMatchingLastWord(args, new String[] {
 												"evolve", "devolve" }) : null)));
 	}

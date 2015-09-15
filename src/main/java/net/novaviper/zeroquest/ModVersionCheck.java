@@ -107,7 +107,7 @@ public class ModVersionCheck {
 								player.addChatMessage(ChatHelper.getChatComponent("Welcome, " + EnumChatFormatting.GREEN + player.getDisplayNameString() + EnumChatFormatting.RESET + ", to " + EnumChatFormatting.GREEN + "Zero Quest" + EnumChatFormatting.RESET + "(" + Constants.version + ")" + " Release for Minecraft " + EnumChatFormatting.GREEN + MinecraftForge.MC_VERSION + EnumChatFormatting.RESET + "!"));
 								ModVersionCheck.checkedVersion = true;
 							}
-							else if (ModVersionCheck.isLatestVersion && ModVersionCheck.status == BETA) {
+							else if (ModVersionCheck.isLatestVersion() && ModVersionCheck.status == BETA) {
 								player.addChatMessage(ChatHelper.getChatComponent("Welcome, " + EnumChatFormatting.GREEN + player.getDisplayNameString() + EnumChatFormatting.RESET + ", to " + EnumChatFormatting.GREEN + "Zero Quest" + EnumChatFormatting.RESET + "(" + Constants.version + ")" + " Beta for Minecraft " + EnumChatFormatting.GREEN + MinecraftForge.MC_VERSION + EnumChatFormatting.RESET + "!"));
 								player.addChatMessage(ChatHelper.getChatComponent(EnumChatFormatting.GREEN + "Thank you for beta testing!"));
 								ModVersionCheck.checkedVersion = true;

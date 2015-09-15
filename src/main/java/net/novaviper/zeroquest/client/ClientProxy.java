@@ -93,10 +93,10 @@ public class ClientProxy extends CommonProxy {
 	@Override
 	public void registerMoreThings() {
 
+		Registers.addKeyBinding(KeyStateHandler.stand);
+		Registers.addKeyBinding(KeyStateHandler.sit);
+		Registers.addKeyBinding(KeyStateHandler.attention);
 		Registers.addKeyBinding(KeyStateHandler.come);
-		Registers.addKeyBinding(KeyStateHandler.stay);
-		Registers.addKeyBinding(KeyStateHandler.ok);
-		Registers.addKeyBinding(KeyStateHandler.heel);
 		Registers.addFMLCommonEventBus(new KeyStateHandler());
 	}
 

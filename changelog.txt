@@ -10,6 +10,14 @@ ZERO QUEST™ OFFICAL CHANGE LOG
 |================|
 
 ################################################ Minecraft 1.8 ################################################
+v1.9.5 - Bug fixes and some changes
+#Added ev, evo pameters for evolution command and de, dev, devo for devolution command!
+#Changed key state names
+    Come(Stand Up) to Stand
+    Stay(Stay) to Sit
+    Ok(Ok) to Attention
+    Heel(Standby) to Come
+~FINALLY fixed bug with Zertums howling during the day instead of night
 
 v1.9.0 - More bug fixes and meat!
 +Added more Achievements!

@@ -217,14 +217,14 @@ item.FPoisonball.name=Flaming Poisonball
 item.iceBall.name=Ice Ball
 
 key.categories.zeroquest=Zero Quest
-command.come=Stand Up!
-command.stay=Stay Here!
-command.ok=Okay!
-command.heel=Stay Close!
-zeroquest.key.come=Stand Up
-zeroquest.key.stay=Stay
-zeroquest.key.ok=Ok
-zeroquest.key.heel=Standby
+command.stand=Stand!
+command.sit=Sit!
+command.attention=Attention!
+command.come=Come here!
+zeroquest.key.stand=Stand Up
+zeroquest.key.sit=Sit
+zeroquest.key.attention=Attention
+zeroquest.key.come=Come
 
 commands.zeroquest.notameable=There are no nile creatures nearby!
 commands.zeroquest.canttame=Consoles cannot tame these creatures!

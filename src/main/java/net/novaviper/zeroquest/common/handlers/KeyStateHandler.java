@@ -28,11 +28,11 @@ import org.lwjgl.input.Keyboard;
  **/
 public class KeyStateHandler {
 	//@formatter:off
-	public static final KeyBinding come = new KeyBinding(Constants.keyDesc + "come", Keyboard.KEY_UP, Constants.keyCategory);
-	public static final KeyBinding stay = new KeyBinding(Constants.keyDesc + "stay", Keyboard.KEY_DOWN, Constants.keyCategory);
-	public static final KeyBinding ok = new KeyBinding(Constants.keyDesc + "ok", Keyboard.KEY_RIGHT, Constants.keyCategory);
-	public static final KeyBinding heel = new KeyBinding(Constants.keyDesc + "heel", Keyboard.KEY_LEFT, Constants.keyCategory);
-	public static final KeyBinding[] keyBindings = new KeyBinding[] { come, stay, ok, heel, Minecraft.getMinecraft().gameSettings.keyBindJump };
+	public static final KeyBinding stand = new KeyBinding(Constants.keyDesc + "stand", Keyboard.KEY_UP, Constants.keyCategory);
+	public static final KeyBinding sit = new KeyBinding(Constants.keyDesc + "sit", Keyboard.KEY_DOWN, Constants.keyCategory);
+	public static final KeyBinding attention = new KeyBinding(Constants.keyDesc + "attention", Keyboard.KEY_RIGHT, Constants.keyCategory);
+	public static final KeyBinding come = new KeyBinding(Constants.keyDesc + "come", Keyboard.KEY_LEFT, Constants.keyCategory);
+	public static final KeyBinding[] keyBindings = new KeyBinding[] { stand, sit, attention, come, Minecraft.getMinecraft().gameSettings.keyBindJump };
 	//@formatter:on
 
 	private final HashMap<KeyBinding, Boolean> keyState = new HashMap<KeyBinding, Boolean>();
@@ -69,16 +69,16 @@ public class KeyStateHandler {
 					else if (FMLClientHandler.instance().getClient().inGameHasFocus && player != null && player.getCurrentEquippedItem() != null && player.getCurrentEquippedItem().getItem() == ModItems.commandSeal) {
 						int command = -1;
 
-						if (kb == come) {
+						if (kb == stand) {
 							command = 1;
 						}
-						else if (kb == stay) {
+						else if (kb == sit) {
 							command = 2;
 						}
-						else if (kb == ok) {
+						else if (kb == attention) {
 							command = 3;
 						}
-						else if (kb == heel) {
+						else if (kb == come) {
 							command = 4;
 						}
 

@@ -154,7 +154,7 @@ public class GuiZertumInfo extends GuiScreen {
 		else if (!hasEvolved && !isBaby && level >= Constants.stage2Level) {
 			evoString = "Ready for Stage 2!";
 		}
-		else if (hasEvolved && !inFinalForm && !isBaby) {
+		else if (hasEvolved && !inFinalForm && !isBaby && level == Constants.stage2Level) {
 			evoString = "Already at Stage 2!";
 		}
 		else if (hasEvolved && !inFinalForm && !isBaby && level < Constants.maxLevel) {
@@ -166,7 +166,7 @@ public class GuiZertumInfo extends GuiScreen {
 		else if (hasEvolved && !inFinalForm && !isBaby && level >= Constants.maxLevel) {
 			evoString = "Ready for Stage 3!";
 		}
-		else if (hasEvolved && inFinalForm && !isBaby) {
+		else if (hasEvolved && inFinalForm && !isBaby && level == Constants.maxLevel) {
 			evoString = "Already at Stage 3!";
 		}
 

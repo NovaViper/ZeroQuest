@@ -12,7 +12,7 @@ public class Constants {
 	public static final String name										= "Zero Quest";
 	public static final String channel									= "ZERO_QUEST";
 	public static final String modid									= "zero_quest";
-	public static final String version									= "v1.9.0";
+	public static final String version									= "v1.9.5";
 	public static final String configVersion							= "2.0";
 	public static final String java										= "8";
 	public static final String releaseType 								= "Release";
