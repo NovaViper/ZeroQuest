@@ -11,7 +11,7 @@ ZERO QUEST™ OFFICAL CHANGE LOG
 
 ################################################ Minecraft 1.8 ################################################
 v1.9.5 - Bug fixes and some changes
-#Added ev, evo pameters for evolution command and de, dev, devo for devolution command!
+#Added ev, evo parameters for evolution command and de, dev, devo parameters for devolution command!
 #Changed key state names
     Come(Stand Up) to Stand
     Stay(Stay) to Sit
